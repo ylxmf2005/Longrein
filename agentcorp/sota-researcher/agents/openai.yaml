@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sota Researcher"
+  short_description: "Research current best practices"
+  default_prompt: "Use $sota-researcher to perform the AgentCorp Sota Researcher role."

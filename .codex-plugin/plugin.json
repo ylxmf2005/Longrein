@@ -21,7 +21,7 @@
   "interface": {
     "displayName": "AgentCorp",
     "shortDescription": "Multi-agent software-delivery pipeline: orchestration, planning, implementation, review, and verification.",
-    "longDescription": "AgentCorp is a suite of specialized Agent Skills that run a full software-delivery pipeline. A Delivery Orchestrator classifies the task and routes each phase to the right role — planning, implementation, multiple independent code reviewers, and layered verification. On Codex the skills run in single-agent workflow (Codex has no subagents); the subagents workflow is a Claude-only enhancement.",
+    "longDescription": "AgentCorp is a suite of specialized Agent Skills that run a full software-delivery pipeline. A Delivery Orchestrator classifies the task and routes each phase to the right role — planning, implementation, multiple independent code reviewers, and layered verification — with explicit gates and an assignment/receipt evidence trail between phases.",
     "developerName": "ylxmf2005",
     "category": "Coding",
     "capabilities": [

@@ -53,8 +53,8 @@ then judged against the phase's *quality gate* — the two are kept separate.
 
 | Mode | Default | How it runs | When |
 |------|---------|-------------|------|
-| `single-agent` | yes | Orchestrator runs non-review phases itself; reviews are still delegated | regular / small–medium tasks — and the only mode on Codex |
-| `subagents` | no | Every phase is delegated to its owner via assignment/receipt | large or parallel work, or when independent authorship is needed (Claude Code only) |
+| `single-agent` | yes | Orchestrator runs non-review phases itself; reviews are still delegated | regular / small–medium tasks |
+| `subagents` | no | Every phase is delegated to its owner via assignment/receipt | large or parallel work, or when independent authorship is needed |
 
 ## Artifacts a run produces
 
@@ -135,14 +135,6 @@ use skill-installer to install the skill at repo ylxmf2005/AgentCorp path agentc
 ```
 
 This lands the skill in `~/.codex/skills/`.
-
-### Codex note: single-agent workflow
-
-Codex has no subagents. The orchestrator **defaults to single-agent workflow** — it
-runs each non-review phase itself while still delegating reviews to independent
-review roles — so the suite works on Codex out of the box. The **subagents
-workflow** (parallel fan-out to dispatched agents) is a Claude Code-only
-enhancement and is simply unavailable on Codex.
 
 ## What's inside
 

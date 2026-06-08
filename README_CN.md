@@ -48,8 +48,8 @@ AgentCorp 的招牌:code-review 的 findings 绝不盲目修。一个独立的 `
 
 | Mode | 默认 | 如何运作 | 何时 |
 |------|------|---------|------|
-| `single-agent` | 是 | 编排者亲自跑非 review phase;review 仍委派 | 常规 / 中小任务——也是 Codex 上唯一的 mode |
-| `subagents` | 否 | 每个 phase 都经 assignment/receipt 委派给 owner | 大型或可并行的工作,或需要独立 authorship 时(仅 Claude Code) |
+| `single-agent` | 是 | 编排者亲自跑非 review phase;review 仍委派 | 常规 / 中小任务 |
+| `subagents` | 否 | 每个 phase 都经 assignment/receipt 委派给 owner | 大型或可并行的工作,或需要独立 authorship 时 |
 
 ## 一次运行会产出什么
 
@@ -126,13 +126,6 @@ use skill-installer to install the skill at repo ylxmf2005/AgentCorp path agentc
 ```
 
 这会把 skill 装到 `~/.codex/skills/`。
-
-### Codex 说明:单 agent workflow
-
-Codex 没有 subagent。编排者**默认走 single-agent workflow**——它亲自跑每个非 review
-phase,同时仍把评审委派给独立的 review 角色——所以这套 skill 在 Codex 上开箱即用。
-**subagents workflow**(并行 fan-out 到被派的 agent)是 Claude Code 专属增强,在 Codex
-上不可用。
 
 ## 包含哪些 skill
 

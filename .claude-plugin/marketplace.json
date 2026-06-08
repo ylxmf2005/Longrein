@@ -1,0 +1,18 @@
+{
+  "name": "agentcorp",
+  "owner": {
+    "name": "ylxmf2005",
+    "url": "https://github.com/ylxmf2005"
+  },
+  "metadata": {
+    "description": "AgentCorp multi-agent delivery skills",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "agentcorp",
+      "source": "./",
+      "description": "AgentCorp multi-agent delivery pipeline: orchestration, planning, implementation, review, and verification skills."
+    }
+  ]
+}

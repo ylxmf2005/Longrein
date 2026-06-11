@@ -12,6 +12,7 @@ artifact_path: review/example-output.md
 ## 说明
 
 - 一句话完成说明。
+- 设计产物：逐条列出相对 task root 的路径。
 
 ## 阻塞项
 

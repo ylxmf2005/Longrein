@@ -1,6 +1,6 @@
 # 计划与设计产物评审参考
 
-在实现之前评审 architecture、impact analysis、diagnosis 或 API contract 时用这份参考。核心问题始终一致：这份产物有没有给 Implementation Engineer 足够的上下文，让他不必自行发明架构就能开工。下面按产物类型说明各自要让你信任什么。
+在实现之前评审 architecture、impact analysis、diagnosis 或 API contract 时用这份参考。核心问题始终一致：这组设计产物有没有给 Implementation Engineer 足够的上下文，让他不必自行发明架构就能开工。设计产物可以组合：逐份检查结构决策、delta 影响、根因证据或契约边界是否讲清；不要因为存在多份产物而要求合并，也不要因为只有一份产物就默认足够。下面按产物类型说明各自要让你信任什么。
 
 ## Architecture
 
@@ -10,7 +10,7 @@
 
 ## Impact Analysis
 
-用于对既有代码的增强。它要让你看清：改动摘要、受影响的模块/文件、接口改动（没有就显式写 `none`）、集成点、必须保留的既有行为、新引入的行为、风险评估和复杂度估计。值得信任的 impact analysis：所有受影响模块都被点到，接口改动显式，风险具体，当前/目标行为和集成点可理解，复杂度落在 S/M。复杂度到 L 及以上的工作应升级为 architecture。前后对比的视图在能直接讲清改动时值得画。
+用于对既有代码的增强。它要让你看清：改动摘要、受影响的模块/文件、接口改动（没有就显式写 `none`）、集成点、必须保留的既有行为、新引入的行为、风险评估和复杂度估计。值得信任的 impact analysis：所有受影响模块都被点到，接口改动显式，风险具体，当前/目标行为和集成点可理解，复杂度落在 S/M；当复杂度、结构决策或接口边界超出它的承载范围时，能配套引用 architecture 或 api-contract，而不是把所有内容塞进同一份文档。前后对比的视图在能直接讲清改动时值得画。
 
 ## Diagnosis
 
@@ -22,4 +22,4 @@
 
 ## 下判断
 
-只有当所选产物给了 Implementation Engineer 足够上下文、让他不必发明架构就能开工时，才 `approve`。存在具体缺陷时 `request_changes`。当产物也许是对的、但缺证据或源上下文时，用 `needs_more_evidence`。
+只有当设计产物组合给了 Implementation Engineer 足够上下文、让他不必发明架构就能开工时，才 `approve`。存在具体缺陷时 `request_changes`。当产物也许是对的、但缺证据或源上下文时，用 `needs_more_evidence`。

@@ -1,6 +1,6 @@
 ---
 name: implementation-planner
-description: "扮演 AgentCorp 实现规划师：把已批准的需求、TestPlan 和设计，转化成一份 Implementation Story Spec，让 Implementation Engineer 据此直接动手。当设计已经定稿、需要把工作切成有序、可独立验证的 story，并为每个 story 写清范围、acceptance criteria 和工程师所需上下文时使用。"
+description: "扮演 AgentCorp 实现规划师：把已批准的需求、TestPlan 和设计，转化成一份 Implementation Story Spec。当设计已经定稿、需要把实现工作切成工程师可直接动手的 story 时使用。"
 ---
 
 # implementation-planner
@@ -23,7 +23,7 @@ description: "扮演 AgentCorp 实现规划师：把已批准的需求、TestPla
 
 使用本角色本地协议 `references/handoff-protocol.md`，以及 `references/templates/` 里的 demo 模板——assignment / receipt 的结构，以及 Implementation Story Spec 的形态，都以它们为准。
 
-- 输入：`requirements/validated-requirements.md`（必需）与 Solution Architect 的设计产物（architecture / impact-analysis / diagnosis / api-contract，必需）；另有 `test/test-plan.md`、`test/test-plan-review.md`、项目约束、现有代码上下文、既往 story 经验时一并使用。上游产物的名字和路径即视为足够，除非某个规划判断确实需要更深入地查看。
+- 输入：`requirements/validated-requirements.md`（必需）与 Solution Architect 的设计产物（architecture / impact-analysis / diagnosis / api-contract 中按任务需要产生的一份或多份，必需）；另有 `test/test-plan.md`、`test/test-plan-review.md`、项目约束、现有代码上下文、既往 story 经验时一并使用。上游产物的名字和路径即视为足够，除非某个规划判断确实需要更深入地查看；若存在多份设计产物，把其中约束合并进 story。
 - 输出：默认写到 `implementation/implementation-story.md`，形态遵循 `references/templates/implementation-story-spec.demo.md`。
 - `artifact_type`：`ImplementationStorySpec`。`author_agent`：`implementation-planner`。receipt：`from_agent: implementation-planner`，`phase: implementation-plan`。
 

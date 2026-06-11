@@ -9,8 +9,8 @@
 - 被 Delivery Orchestrator 指派时，把 assignment 文件当作任务输入。
 - 将 `output_path` 相对 `task_root` 解析。
 - 如果 assignment 没有 `task_root`，从 assignment 文件位置推导：找到父级 `handoffs/` 目录，并把它的父目录作为 task root。
-- 在 `output_path` 写入本 phase 的主要持久产物；除非本角色说明需要创建 tester assignment、子结果或 acceptance package，否则不要额外散落产物。
-- 返回一份 receipt；receipt 的 `artifact_path` 必须与主要产物路径一致，或在本角色明确产生多个产物时指向最终汇总产物。
+- 在 `output_path` 写入本 phase 产物。若本次设计需要多份产物，assignment 的 `output_path` 应指向 `design/` 目录；在该目录下按需要创建 `architecture.md`、`impact-analysis.md`、`diagnosis.md`、`api-contract.md`。
+- 返回一份 receipt；receipt 的 `artifact_path` 必须与 assignment 的 `output_path` 一致，或在 `output_path` 是目录时指向该目录下的一份实际设计产物。若产生多份设计产物，在 receipt 正文的「说明」里列出全部路径。
 
 ## 本角色可用模板
 

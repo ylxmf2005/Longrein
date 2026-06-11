@@ -18,6 +18,7 @@
     "multi-agent"
   ],
   "skills": "./agentcorp",
+  "hooks": "./hooks.json",
   "interface": {
     "displayName": "AgentCorp",
     "shortDescription": "Multi-agent software-delivery pipeline: orchestration, planning, implementation, review, and verification.",

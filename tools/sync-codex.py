@@ -46,6 +46,7 @@ def write(path: Path, data: dict) -> None:
 
 def build_plugin(claude: dict, overrides: dict) -> dict:
     out = {k: claude[k] for k in COPY_FIELDS if k in claude}
+    out.update(overrides.get("plugin_fields", {}))
     interface = dict(overrides.get("plugin_interface", {}))
     interface.setdefault("shortDescription", claude.get("description", ""))
     if claude.get("homepage"):

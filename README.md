@@ -28,8 +28,8 @@ artifact never approves it.
 
 ### 1. Delivery lifecycle
 
-Each paradigm runs a subset of the same phases. Review phases (red) and the human gate
-(yellow) sit between work phases; `request changes` and `reject` return work to an
+Each paradigm runs a subset of the same phases. Review phases (red) and human gates
+(orange) sit between work phases; `request changes` and `reject` return work to an
 earlier phase.
 
 ![Delivery lifecycle](docs/diagrams/01-lifecycle.png)
@@ -153,7 +153,7 @@ This installs the skill into `~/.codex/skills/`.
 27 skills cover the full pipeline:
 
 - **Orchestration** — `delivery-orchestrator`
-- **Planning and design** — `solution-architect`, `implementation-planner`, `test-planner`, `sota-researcher`
+- **Planning and design** — `solution-architect`, `implementation-planner`, `test-planner`, `parallel-researcher`
 - **Implementation** — `implementation-engineer`, `review-fixer`
 - **Plan and test-plan review** — `plan-review-lead`, `test-plan-reviewer`, `adversarial-reviewer`
 - **Code review** — `code-review-lead`, plus the specialist reviewers `correctness-reviewer`, `security-reviewer`, `performance-reviewer`, `reliability-reviewer`, `simplicity-reviewer`, `change-hygiene-reviewer`, `standards-reviewer`, `project-steward-reviewer`, `api-contract-reviewer`

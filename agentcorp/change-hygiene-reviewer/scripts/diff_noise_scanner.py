@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Scan a unified diff for mechanical MR/PR noise.
+"""Scan a unified diff for mechanical MR/PR noise and review chunks.
 
 The scanner is intentionally conservative: it reports formatting-like signals
 that need human review, not definitive correctness findings.
@@ -50,14 +50,41 @@ def run_git_diff(args: argparse.Namespace) -> tuple[str, str]:
     if args.file:
         return Path(args.file).read_text(encoding="utf-8", errors="replace"), f"file:{args.file}"
 
+    diff_options = []
+    if args.unified is not None:
+        diff_options.append(f"--unified={args.unified}")
+    if args.inter_hunk_context is not None:
+        diff_options.append(f"--inter-hunk-context={args.inter_hunk_context}")
+
     if args.diff:
-        cmd = ["git", "diff", args.diff]
+        cmd = ["git", "diff", *diff_options, args.diff]
         source = f"git diff {args.diff}"
+    elif args.base:
+        merge_base_cmd = ["git", "merge-base", args.base, args.head]
+        try:
+            merge_base_result = subprocess.run(
+                merge_base_cmd,
+                capture_output=True,
+                text=True,
+                timeout=args.timeout,
+                check=False,
+            )
+        except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
+            raise SystemExit(f"failed to run {' '.join(merge_base_cmd)}: {exc}") from exc
+        if merge_base_result.returncode != 0:
+            message = merge_base_result.stderr.strip() or (
+                f"git merge-base failed with exit code {merge_base_result.returncode}"
+            )
+            raise SystemExit(message)
+        merge_base = merge_base_result.stdout.strip()
+        diff_range = f"{merge_base}..{args.head}"
+        cmd = ["git", "diff", *diff_options, diff_range]
+        source = f"git diff merge-base({args.base}, {args.head})..{args.head}"
     elif args.worktree:
-        cmd = ["git", "diff"]
+        cmd = ["git", "diff", *diff_options]
         source = "git diff"
     else:
-        cmd = ["git", "diff", "--staged"]
+        cmd = ["git", "diff", "--staged", *diff_options]
         source = "git diff --staged"
 
     if args.paths:
@@ -71,8 +98,8 @@ def run_git_diff(args: argparse.Namespace) -> tuple[str, str]:
     if result.returncode not in (0, 1):
         raise SystemExit(result.stderr.strip() or f"git diff failed with exit code {result.returncode}")
 
-    if not result.stdout and not args.diff and not args.worktree:
-        fallback = ["git", "diff"]
+    if not result.stdout and not args.diff and not args.base and not args.worktree:
+        fallback = ["git", "diff", *diff_options]
         if args.paths:
             fallback.extend(["--", *args.paths])
         fallback_result = subprocess.run(fallback, capture_output=True, text=True, timeout=args.timeout, check=False)
@@ -175,6 +202,165 @@ def changed_groups(hunk: Hunk) -> list[list[ChangeLine]]:
     if current:
         groups.append(current)
     return groups
+
+
+def strip_internal_keys(findings: list[dict]) -> list[dict]:
+    cleaned = []
+    for item in findings:
+        public_item = dict(item)
+        public_item.pop("_line_keys", None)
+        cleaned.append(public_item)
+    return cleaned
+
+
+def line_span(lines: Iterable[ChangeLine]) -> dict:
+    old_lines = [line.old_line for line in lines if line.old_line is not None]
+    new_lines = [line.new_line for line in lines if line.new_line is not None]
+    return {
+        "old": {"start": min(old_lines), "end": max(old_lines)} if old_lines else None,
+        "new": {"start": min(new_lines), "end": max(new_lines)} if new_lines else None,
+    }
+
+
+def change_stats(lines: Iterable[ChangeLine]) -> dict:
+    materialized = list(lines)
+    changed = [line for line in materialized if line.kind in ("+", "-")]
+    removed = [line for line in changed if line.kind == "-"]
+    added = [line for line in changed if line.kind == "+"]
+    if removed and added:
+        change_kind = "modified"
+    elif added:
+        change_kind = "added-only"
+    elif removed:
+        change_kind = "removed-only"
+    else:
+        change_kind = "context-only"
+    return {
+        "changed_lines": len(changed),
+        "removed_lines": len(removed),
+        "added_lines": len(added),
+        "context_lines": len([line for line in materialized if line.kind == " "]),
+        "change_kind": change_kind,
+        "line_span": line_span(materialized),
+    }
+
+
+def serialize_line(line: ChangeLine) -> dict:
+    return {
+        "kind": line.kind,
+        "old_line": line.old_line,
+        "new_line": line.new_line,
+        "text": line.text,
+    }
+
+
+def chunk_record(
+    *,
+    chunk_id: int,
+    granularity: str,
+    file_path: str,
+    hunk: Hunk,
+    hunk_index: int,
+    lines: list[ChangeLine],
+    group_index: int | None = None,
+    include_noise_signals: bool = False,
+) -> dict:
+    changed = [line for line in lines if line.kind in ("+", "-")]
+    record = {
+        "id": chunk_id,
+        "granularity": granularity,
+        "file": file_path,
+        "line": line_ref(changed or lines),
+        "hunk_index": hunk_index,
+        "group_index": group_index,
+        "hunk": hunk.header,
+        **change_stats(lines),
+        "lines": [serialize_line(line) for line in lines],
+    }
+    if include_noise_signals:
+        noise_signals = []
+        if granularity == "hunk":
+            for group in changed_groups(hunk):
+                noise_signals.extend(analyze_group(file_path, hunk, group))
+        elif granularity == "group":
+            noise_signals.extend(analyze_group(file_path, hunk, lines))
+        record["noise_signals"] = strip_internal_keys(noise_signals)
+    return record
+
+
+def build_chunks(files: list[FileDiff], source: str, granularity: str, include_noise_signals: bool) -> dict:
+    chunks = []
+    total_hunks = 0
+    total_changed = 0
+    counts_by_file: Counter[str] = Counter()
+
+    for file_diff in files:
+        for hunk_index, hunk in enumerate(file_diff.hunks, start=1):
+            total_hunks += 1
+            total_changed += sum(1 for line in hunk.lines if line.kind in ("+", "-"))
+            if granularity == "hunk":
+                chunks.append(
+                    chunk_record(
+                        chunk_id=len(chunks) + 1,
+                        granularity=granularity,
+                        file_path=file_diff.path,
+                        hunk=hunk,
+                        hunk_index=hunk_index,
+                        lines=hunk.lines,
+                        include_noise_signals=include_noise_signals,
+                    )
+                )
+                counts_by_file[file_diff.path] += 1
+                continue
+
+            if granularity == "group":
+                for group_index, group in enumerate(changed_groups(hunk), start=1):
+                    chunks.append(
+                        chunk_record(
+                            chunk_id=len(chunks) + 1,
+                            granularity=granularity,
+                            file_path=file_diff.path,
+                            hunk=hunk,
+                            hunk_index=hunk_index,
+                            group_index=group_index,
+                            lines=group,
+                            include_noise_signals=include_noise_signals,
+                        )
+                    )
+                    counts_by_file[file_diff.path] += 1
+                continue
+
+            if granularity == "line":
+                line_index = 0
+                for line in hunk.lines:
+                    if line.kind not in ("+", "-"):
+                        continue
+                    line_index += 1
+                    chunks.append(
+                        chunk_record(
+                            chunk_id=len(chunks) + 1,
+                            granularity=granularity,
+                            file_path=file_diff.path,
+                            hunk=hunk,
+                            hunk_index=hunk_index,
+                            group_index=line_index,
+                            lines=[line],
+                            include_noise_signals=False,
+                        )
+                    )
+                    counts_by_file[file_diff.path] += 1
+
+    return {
+        "status": "ok",
+        "source": source,
+        "granularity": granularity,
+        "files_in_diff": len(files),
+        "hunks_in_diff": total_hunks,
+        "total_change_lines": total_changed,
+        "chunks": len(chunks),
+        "counts_by_file": dict(sorted(counts_by_file.items())),
+        "items": chunks,
+    }
 
 
 def finding(
@@ -375,15 +561,66 @@ def print_text(result: dict, max_findings: int) -> None:
             print(f"  ... {remaining} more finding(s) omitted")
 
 
+def print_chunks(result: dict, max_chunks: int, max_chunk_lines: int) -> None:
+    print(f"Diff Chunker - {result['source']}")
+    print(
+        f"Granularity: {result['granularity']}  "
+        f"Files: {result['files_in_diff']}  "
+        f"Hunks: {result['hunks_in_diff']}  "
+        f"Chunks: {result['chunks']}  "
+        f"Changed lines: {result['total_change_lines']}"
+    )
+
+    chunks = result["items"][:max_chunks]
+    for item in chunks:
+        print("")
+        print(
+            f"[{item['id']}] {item['granularity']} {item['file']}:{item['line']}  "
+            f"{item['change_kind']} +{item['added_lines']}/-{item['removed_lines']}  "
+            f"{item['hunk']}"
+        )
+        if item.get("noise_signals"):
+            categories = Counter(signal["category"] for signal in item["noise_signals"])
+            category_text = ", ".join(f"{key}:{value}" for key, value in sorted(categories.items()))
+            print(f"  noise signals: {category_text}")
+        for line in item["lines"][:max_chunk_lines]:
+            old_line = "" if line["old_line"] is None else str(line["old_line"])
+            new_line = "" if line["new_line"] is None else str(line["new_line"])
+            print(f"  {line['kind']} {old_line:>5} {new_line:>5} | {line['text']}")
+        remaining_lines = len(item["lines"]) - max_chunk_lines
+        if remaining_lines > 0:
+            print(f"  ... {remaining_lines} more line(s) omitted")
+
+    remaining_chunks = result["chunks"] - len(chunks)
+    if remaining_chunks > 0:
+        print(f"\n... {remaining_chunks} more chunk(s) omitted")
+
+
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Detect whitespace, wrapping, and style-only diff noise.")
+    parser = argparse.ArgumentParser(description="Detect whitespace, wrapping, style-only diff noise, or emit review chunks.")
     source = parser.add_mutually_exclusive_group()
     source.add_argument("--diff", help="Git diff range, for example HEAD~1..HEAD")
+    source.add_argument("--base", help="Base branch/ref; analyzes merge-base(base, head)..head")
     source.add_argument("--file", help="Read unified diff from a file")
     source.add_argument("--worktree", action="store_true", help="Analyze unstaged worktree diff")
+    parser.add_argument("--head", default="HEAD", help="Head ref used with --base (default: HEAD)")
+    parser.add_argument("--unified", type=int, help="Pass --unified=N to git diff before parsing hunks")
+    parser.add_argument(
+        "--inter-hunk-context",
+        type=int,
+        help="Pass --inter-hunk-context=N to git diff to merge nearby hunks",
+    )
     parser.add_argument("--paths", nargs="*", help="Optional paths to pass after git diff --")
+    parser.add_argument("--chunks", choices=("hunk", "group", "line"), help="Emit diff chunks instead of noise findings")
+    parser.add_argument(
+        "--with-noise-signals",
+        action="store_true",
+        help="Include scanner signals in hunk/group chunk output",
+    )
     parser.add_argument("--json", action="store_true", help="Emit JSON")
     parser.add_argument("--max-findings", type=int, default=50, help="Maximum findings to print in text mode")
+    parser.add_argument("--max-chunks", type=int, default=50, help="Maximum chunks to print in text mode")
+    parser.add_argument("--max-chunk-lines", type=int, default=80, help="Maximum lines per chunk to print in text mode")
     parser.add_argument("--fail-on-noise", action="store_true", help="Exit non-zero when findings are present")
     parser.add_argument("--timeout", type=int, default=30, help="git diff timeout in seconds")
     return parser
@@ -391,24 +628,48 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = build_parser().parse_args()
+    if args.head != "HEAD" and not args.base:
+        raise SystemExit("--head can only be used with --base")
+    if args.fail_on_noise and args.chunks:
+        raise SystemExit("--fail-on-noise can only be used in scanner mode")
+
     diff_text, source = run_git_diff(args)
     if not diff_text.strip():
-        result = {
-            "status": "ok",
-            "source": source,
-            "files_in_diff": 0,
-            "total_change_lines": 0,
-            "flagged_change_lines": 0,
-            "noise_ratio": 0.0,
-            "verdict": "clean",
-            "counts_by_category": {},
-            "findings": [],
-        }
+        if args.chunks:
+            result = {
+                "status": "ok",
+                "source": source,
+                "granularity": args.chunks,
+                "files_in_diff": 0,
+                "hunks_in_diff": 0,
+                "total_change_lines": 0,
+                "chunks": 0,
+                "counts_by_file": {},
+                "items": [],
+            }
+        else:
+            result = {
+                "status": "ok",
+                "source": source,
+                "files_in_diff": 0,
+                "total_change_lines": 0,
+                "flagged_change_lines": 0,
+                "noise_ratio": 0.0,
+                "verdict": "clean",
+                "counts_by_category": {},
+                "findings": [],
+            }
     else:
-        result = analyze(parse_diff(diff_text), source)
+        files = parse_diff(diff_text)
+        if args.chunks:
+            result = build_chunks(files, source, args.chunks, args.with_noise_signals)
+        else:
+            result = analyze(files, source)
 
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
+    elif args.chunks:
+        print_chunks(result, args.max_chunks, args.max_chunk_lines)
     else:
         print_text(result, args.max_findings)
 

@@ -6,10 +6,15 @@
 
 1. 先跑机械扫描。
    - 从本 skill 目录运行 `python3 scripts/diff_noise_scanner.py --json`。
-   - staged diff 为空但要审工作区时，加 `--worktree`；审提交范围时用 `--diff <base>...<head>`；审外部 diff 文件时用 `--file <diff-file>`。
+   - 审 MR/PR 或功能分支时，优先用 assignment 指定的 base/head；没有显式范围但能定位目标分支时，用 merge-base 到 HEAD 的已提交分支 diff，例如 `--diff <base>..HEAD`。
+   - 只有发起人或 assignment 明确要求审 staged / worktree / current candidate 时，才看本地未提交改动；审 staged 用默认 git diff/staged 输入，审工作区加 `--worktree`。
+   - 审外部 diff 文件时用 `--file <diff-file>`。
+   - 需要先按块浏览 compare diff 时，用 `--base <target-branch> --chunks hunk|group|line`；`group` 表示同一 hunk 内连续的 `+/-` 变更组，最适合逐块判断是否属于本次改动。
+   - 需要调整块大小时，用 `--unified 0` 拆细上下文，或用 `--inter-hunk-context <n>` 合并距离较近的 hunk。
    - 把输出里的 `verdict`、`counts_by_category` 和关键 findings 当作证据；脚本是证据收集器，不是最终裁判。
 2. 建立改动面。
-   - 优先用 assignment 给出的 base/head；没有就用 staged diff；再没有才看工作区 diff。
+   - 优先用 assignment 给出的 base/head 或 diff 文件。MR/PR 语境下，未提交 worktree 默认只是本地状态，不是 MR/PR diff。
+   - 如果 assignment 未给范围，先根据目标分支建立 merge-base..HEAD；只有任务明确是“审 staged/worktree/current candidate”时，才改看 staged 或 worktree diff。
    - 读取 `git diff --stat`、`git diff --name-status`、关键文件的 `git diff -- <path>`。
    - 对怀疑是空白噪音的 hunk，用 `git diff -w -- <path>` 或 `git diff --ignore-space-change -- <path>` 对比。
 3. 先分类，再判断。

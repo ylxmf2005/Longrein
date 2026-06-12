@@ -1,12 +1,12 @@
 # AgentCorp Session Router
 
-AgentCorp is a phased software-delivery pipeline packaged as skills. If the user mentions AgentCorp, Delivery Orchestrator, Vedas delivery workflow, a phase name, an AgentCorp role, or an AgentCorp artifact path, load the matching AgentCorp skill before answering, planning, or editing.
+AgentCorp is a phased software-delivery pipeline packaged as skills. If the user mentions AgentCorp, Delivery Orchestrator, AgentCorp delivery workflow, a phase name, an AgentCorp role, or an AgentCorp artifact path, load the matching AgentCorp skill before answering, planning, or editing.
 
 Do not treat phase names or artifact paths as ordinary words. They are routing signals.
 
 ## Default Route
 
-Use `delivery-orchestrator` when the user mentions AgentCorp, Delivery Orchestrator, Vedas delivery workflow, phased artifacts, gates, handoffs, task orchestration, workflow mode, task root, assignment/receipt, manifest, or asks which AgentCorp role should handle something.
+Use `delivery-orchestrator` when the user mentions AgentCorp, Delivery Orchestrator, AgentCorp delivery workflow, phased artifacts, gates, handoffs, task orchestration, workflow mode, task root, assignment/receipt, manifest, or asks which AgentCorp role should handle something.
 
 After loading `delivery-orchestrator`, read `references/workflow.md` before choosing phases, owners, gates, workflow mode, handoff shape, or artifact paths.
 
@@ -39,8 +39,8 @@ After loading `delivery-orchestrator`, read `references/workflow.md` before choo
 | regression test, blast radius, existing behavior still works | `regression-tester` |
 | `acceptance-review`, `acceptance-decision.md`, release acceptance evidence | `acceptance-review-lead` |
 | `deliver`, `delivery-report.md`, final delivery summary | `delivery-orchestrator` |
-| `change-detailed-walkthrough.md`, full implementation walkthrough, explain complete diff | `change-detailed-walker` |
-| SOTA, current best practice, external technical research | `sota-researcher` |
+| per-hunk diff walkthrough, hunk 讲解走查, walkthrough viewer, explain every hunk of the diff | `change-detailed-walker` |
+| parallel research, deep research, SOTA, current best practice, external technical research, prior art, paper research, open-source scan, competitor research | `parallel-researcher` |
 | adversarial review, challenge assumptions, pressure-test plan/design | `adversarial-reviewer` |
 
 ## Reference Loading Rules
@@ -57,6 +57,6 @@ After loading `delivery-orchestrator`, read `references/workflow.md` before choo
 - Keep human-facing AgentCorp artifacts in zh-CN unless target code or infrastructure requires another language.
 - Keep task artifacts under `teamspace/`; if `teamspace/` appears in git status, add it to `.git/info/exclude`.
 - Do not stage, commit, or push `teamspace/` artifacts, docs, tests, or markdown files unless the user explicitly changes that rule.
-- For Vedas delivery work, stay backend-focused. Do not modify frontend code, and do not treat frontend-owned issues as backend fixes.
+- For AgentCorp delivery work, stay backend-focused. Do not modify frontend code, and do not treat frontend-owned issues as backend fixes.
 - Preserve author/reviewer separation: a role must not approve its own artifact.
 - Review findings must pass through `review-research` before `fix`; do not fix raw code-review findings directly.

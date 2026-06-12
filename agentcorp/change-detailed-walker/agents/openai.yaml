@@ -1,4 +1,4 @@
 interface:
   display_name: "Change Detailed Walker"
-  short_description: "Write readable full-change walkthroughs"
-  default_prompt: "Use $change-detailed-walker to write a complete implementation walkthrough from the final diff."
+  short_description: "Per-hunk diff walkthrough with local review viewer"
+  default_prompt: "Use $change-detailed-walker to create per-hunk diff comments, validate coverage, and serve the local walkthrough viewer."

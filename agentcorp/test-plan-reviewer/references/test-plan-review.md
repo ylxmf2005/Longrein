@@ -7,5 +7,8 @@
 - public surface（API）变更，却没有 request/response 检查。
 - 迁移或持久化改动，却没有 before/after 的数据核对。
 - browser/UI 工作，却没有真实交互或视觉证据。
+- E2E 用例没有声明执行形态，或实际是 API 调用却挂着 E2E 的名——证明不了用户真正看到的东西。
+- 检查只有意图没有步骤（「发起 Plan 并验证恢复」），或用户输入处留白（「输入一个合适的 prompt」）——tester 得自己发明操作。
+- 计划引用的入口、页面、数据在测试上下文文档（`teamspace/testing-context.md`）里查无出处，靠现场猜。
 - 环境假设被默认掉，没写明 tester 实际怎么跑。
 - coverage 汇总里有条目既没有 E2E 目标、也没给出省略的理由。

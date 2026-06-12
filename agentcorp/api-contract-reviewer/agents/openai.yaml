@@ -1,4 +1,4 @@
 interface:
-  display_name: "Api Contract Reviewer"
-  short_description: "Review API compatibility"
-  default_prompt: "Use $api-contract-reviewer to perform the AgentCorp Api Contract Reviewer role."
+  display_name: "API Contract Reviewer"
+  short_description: "Review API compatibility risks"
+  default_prompt: "Use $api-contract-reviewer to perform the AgentCorp API Contract Reviewer role."

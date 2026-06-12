@@ -5,6 +5,11 @@ author_agent: test-planner
 status: ready_for_review
 source_artifacts:
   - requirements/validated-requirements.md
+  - teamspace/testing-context.md
+plan_files:
+  - test/api-test-plan.md
+  - test/e2e-test-plan.md
+  - test/regression-test-plan.md
 confidence: HIGH
 ---
 
@@ -16,35 +21,23 @@ confidence: HIGH
 
 ## Must-Have 检查
 
-- MH-1：要证明的行为、验证层级和证据。
+- MH-1（P0）：要证明的行为、验证层级和证据。
 
 ## 禁区
 
 - 绝对不能改变的区域。
 
+## 风险排序与执行顺序
+
+- 哪条 P0 是 gate、不过则哪些检查直接 blocked；各检查的执行先后。
+
 ## Capability 检查
 
-- Capability 场景和预期结果。
-
-## Integration/API 检查
-
-- Contract 或跨模块流程、成功路径和错误路径。
-
-## E2E 用户流程
-
-- 完整用户目标，覆盖 happy path 和 error path。
-
-## 回归检查
-
-- Bugfix 或必须保留的既有行为检查。
-
-## 数据与迁移检查
-
-- 持久化、迁移、回滚、隐私或留存检查。
+- CAP-1（P1）：场景、执行命令、预期结果。
 
 ## 失败与边界情况
 
-- Failure mode 和预期行为。
+- EDGE-1：跨手册的 failure mode 与判定规则。
 
 ## 审计与日志
 
@@ -56,15 +49,19 @@ confidence: HIGH
 
 ## 覆盖度汇总
 
-- requirement/capability：check id 和验证层级。
+- requirement/capability：check id、验证层级、所在计划文件、E2E 目标（user-facing 能力没有 E2E 目标时，此列写省略理由）。
 
 ## 环境说明
 
 - 环境类型、workdir、命令、URL、端口、凭据引用和 blockers。
 
-## 推荐 Tester 角色
+## 测试上下文
 
-- API Contract Tester, E2E Tester, Regression Tester, or specialist role.
+- 依据的 `teamspace/testing-context.md` 状态（日期/版本）；本次为它补充了什么；省略某份执行手册时在此说明理由。
+
+## 推荐 Tester 与分派
+
+- API Contract Tester → `test/api-test-plan.md`；E2E Tester → `test/e2e-test-plan.md`；Regression Tester → `test/regression-test-plan.md`；需要时加 specialist 角色。
 
 ## 残余风险
 

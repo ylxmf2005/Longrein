@@ -7,8 +7,8 @@
     "category": "Coding",
     "capabilities": ["Interactive", "Read", "Write"],
     "defaultPrompt": [
-      "Use the delivery-orchestrator skill to deliver this task end to end",
-      "Run a code review with the code-review-lead skill"
+      "Use $delivery-orchestrator to deliver this task end to end",
+      "Use $code-review-lead to run an evidence-based code review"
     ]
   },
   "marketplace_interface": {

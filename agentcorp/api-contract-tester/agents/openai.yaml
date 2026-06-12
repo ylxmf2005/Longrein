@@ -1,4 +1,4 @@
 interface:
-  display_name: "Api Contract Tester"
+  display_name: "API Contract Tester"
   short_description: "Test API contract behavior"
-  default_prompt: "Use $api-contract-tester to perform the AgentCorp Api Contract Tester role."
+  default_prompt: "Use $api-contract-tester to perform the AgentCorp API Contract Tester role."

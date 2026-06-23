@@ -21,14 +21,14 @@ that debt gets, the more dependent you become, and the harder it is to correct
 the agent when it goes wrong. Eventually, you no longer dare to hand it important
 work.
 
-AgentCorp exists to break that loop. In the language of
-[loop engineering](https://addyosmani.com/blog/loop-engineering/), it turns agent
-work from an uncontrollable, unreadable, untraceable black-box chain into a
-**controllable, understandable, verifiable** delivery loop. It includes **31
-skills** drawn from enterprise-grade software delivery practice, covering
-orchestration, planning, implementation, review, verification, acceptance,
-browser workflows, plain-language explanation, and code-comment hygiene. It
-works with both **Claude Code** and **Codex**.
+AgentCorp exists to break that loop. It is a
+[loop engineering](https://addyosmani.com/blog/loop-engineering/) system for
+software delivery: it turns agent work from an uncontrollable, unreadable,
+untraceable black-box chain into a **controllable, understandable, verifiable**
+delivery loop. It includes **31 skills** drawn from enterprise-grade software
+delivery practice, covering orchestration, planning, implementation, review,
+verification, acceptance, browser workflows, plain-language explanation, and
+code-comment hygiene. It works with both **Claude Code** and **Codex**.
 
 - **Controllable** -- The process scales itself to the size of the task. A
   one-line change does not pay the cost of an architecture review, while a new
@@ -44,23 +44,6 @@ works with both **Claude Code** and **Codex**.
   before implementation and independently reviewed. Review findings are treated
   as possible false positives and re-verified by another role; only confirmed
   findings enter the fix stage.
-
-## Why This Is Loop Engineering
-
-Loop engineering is the shift from prompting an agent turn by turn to designing
-the system that prompts, checks, records, and advances the agent work for you.
-AgentCorp packages that loop for software delivery:
-
-- **Goal and state** live in `task.md`, `manifest.md`, and `teamspace/`, so the
-  loop can resume without relying on a single chat context.
-- **Reusable skills** encode delivery practices, gates, and project habits the
-  agent would otherwise have to rediscover every run.
-- **Maker/checker separation** keeps implementation, review, research, fix,
-  verification, and acceptance under different responsibilities.
-- **Artifacts and gates** make "done" an auditable claim: each phase produces
-  evidence, and the next phase only runs when the gate passes.
-- **Parallel work and handoffs** let larger tasks split across agents without
-  losing ownership, receipts, or traceability.
 
 ## Quick Start
 

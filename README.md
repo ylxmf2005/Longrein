@@ -1,186 +1,186 @@
 # AgentCorp
 
-**English** | [简体中文](README_CN.md)
+**A multi-agent coding pipeline: controllable, understandable, verifiable.**
 
-A multi-agent software-delivery pipeline packaged as **Agent Skills**. A Delivery
-Orchestrator classifies each task, routes every phase to a specialized role —
-planning, implementation, independent code review, and layered verification — and
-enforces explicit gates between phases.
+English · [Simplified Chinese](README_CN.md)
 
-Built on the [Agent Skills](https://agentskills.io) `SKILL.md` standard, so the same
-skills install in both **Claude Code** and **Codex** from one repository.
+[Quick Start](#quick-start) · [Skills](#skills) · [Artifacts](#artifacts)
 
-## Features
+---
 
-- 29 skills: 27 specialized delivery roles plus 2 reusable support capabilities for brainstorming and authenticated browser sessions.
-- Author/reviewer separation — an artifact's author never reviews or approves it.
-- Independent re-verification — code-review findings are re-checked one by one by a separate role before any fix, filtering out false positives.
-- Parallel fixes — fixes are partitioned by file ownership and applied concurrently without overlap.
-- Structured artifacts — every phase emits a Markdown file with YAML frontmatter, forming a traceable record.
-- One repository, two tools, two languages — installs in both Claude Code and Codex, with English skills under `agentcorp/` and a Simplified Chinese mirror under `agentcorp-zh/`.
+AI can generate code faster and faster, but the cost of verifying whether that
+code is correct still lands on you. When you receive a pile of code that "looks
+fine," the responsibility for judging whether it is actually right is entirely
+yours. The deeper your dependency on AI becomes, the easier it is for that
+judgment to get dull.
 
-## Workflow
+The harder problem is the loop that follows: an agent's work process is a black
+box, so you cannot understand its reasoning; because you cannot understand it,
+you skip review; because you skip review, cognitive debt accumulates; the deeper
+that debt gets, the more dependent you become, and the harder it is to correct
+the agent when it goes wrong. Eventually, you no longer dare to hand it important
+work.
 
-The orchestrator classifies each task into one of four paradigms —
-`dev/architecture-first`, `enhancement/delta-design`, `bugfix/hypothesis-driven`, or
-`addition/simple` — and runs it through a phased lifecycle in which the author of an
-artifact never approves it.
+AgentCorp exists to break that loop. It turns agent work from an uncontrollable,
+unreadable, untraceable black-box chain into a **controllable, understandable,
+verifiable** pipeline. It includes **29 skills**: 27 specialized delivery roles
+drawn from enterprise-grade software delivery practice, covering the full
+development flow, plus 2 reusable capabilities that any role can call. It works
+with both **Claude Code** and **Codex**.
 
-### 1. Delivery lifecycle
+- **Controllable** -- The process scales itself to the size of the task. A
+  one-line change does not pay the cost of an architecture review, while a new
+  system skips no critical phase. Gates actually block: failed verification
+  stops the pipeline, and repeated failure forces replanning. You can step in at
+  any point, or let the pipeline run.
+- **Understandable** -- Every phase leaves a structured artifact and records
+  who made which decision under what evidence. Every review finding is explained
+  to the level of "even if you have not read this code, you can still judge
+  whether it should be changed." At delivery time, the final diff is turned into
+  function-level comments that explain why the change was made.
+- **Verifiable** -- No role can approve its own output. Tests are decided
+  before implementation and independently reviewed. Review findings are treated
+  as possible false positives and re-verified by another role; only confirmed
+  findings enter the fix stage.
 
-Each paradigm runs a subset of the same phases. Review phases (red) and human gates
-(orange) sit between work phases; `request changes` and `reject` return work to an
-earlier phase.
+## Quick Start
 
-![Delivery lifecycle](docs/diagrams/01-lifecycle.png)
+### Install
 
-### 2. Roles
-
-Each phase has a dedicated skill. Review roles stay independent of the work they
-assess, and the orchestrator does not approve its own output.
-
-![Roles](docs/diagrams/02-roles.png)
-
-### 3. Review → research → fix
-
-Code-review findings are not fixed directly. An independent `review-researcher`
-re-verifies each finding before any fix, filtering out false positives. Confirmed
-fixes then run in parallel, partitioned by file ownership so no two workers modify the
-same file.
-
-![Review, research, and fix](docs/diagrams/03-review-research-fix.png)
-
-### 4. Handoff and gates
-
-Delegated phases move over assignment/receipt files. Each receipt is first checked
-mechanically (does the artifact exist; do the paths, author, and phase match) and only
-then judged against the phase's quality gate — the two checks are kept separate.
-
-![Handoff and gates](docs/diagrams/04-handoff.png)
-
-### Workflow modes
-
-| Mode | Default | How it runs | When |
-|------|---------|-------------|------|
-| `direct` | no | No subagents at all; the orchestrator runs every phase itself, review phases produce drafts adjudicated by the sponsor at the human gate | small low-risk changes, or hosts without subagent support; requires explicit sponsor confirmation |
-| `partial-delegation` | yes | The orchestrator runs non-review phases itself; reviews are still delegated | regular, small-to-medium tasks |
-| `full-delegation` | no | Every phase is delegated to its owner via assignment/receipt | large or parallel work, or when independent authorship is required |
-
-## Output artifacts
-
-Every phase writes a Markdown artifact (with YAML frontmatter) to a fixed path, so a
-completed task leaves a traceable, reviewable record. Delegated phases use an
-**assignment → receipt** pair; each receipt is checked mechanically
-(`validate-handoff.py` — does the artifact exist, do the paths/author/phase match)
-before its quality gate, and `manifest.md` records every phase, owner, gate result,
-and artifact path.
-
-All artifacts live under `teamspace/` in the work directory. This is local
-coordination state and is never committed (add it to `.git/info/exclude` if it
-appears); only the subdirectories a task needs are created.
-
-```text
-teamspace/tasks/<task_id>/
-├── task.md                       # goal, classification, gate history
-├── manifest.md                   # index: phase · owner · gate · artifact path
-├── handoffs/                     # assignment + receipt pairs (delegated phases)
-│   ├── 001-validate-requirements.md
-│   └── 001-validate-requirements-receipt.md
-├── requirements/
-│   └── validated-requirements.md
-├── test/
-│   ├── test-plan.md
-│   └── test-plan-review.md
-├── design/                       # combine as needed; multiple artifacts may coexist
-│   ├── architecture.md           # structural design
-│   ├── impact-analysis.md        # incremental impact analysis
-│   ├── diagnosis.md              # defect root-cause diagnosis
-│   └── api-contract.md           # interface/contract definition
-├── implementation/
-│   ├── implementation-story.md
-│   └── implementation-result.md
-├── review/
-│   ├── plan-review.md
-│   ├── code-review.md
-│   ├── specialist-findings/
-│   ├── research/                 # review-researcher: one file per finding + index
-│   │   ├── 00-index.md
-│   │   └── <NN>-<slug>.md
-│   ├── fix-result.md
-│   └── fix-records/              # one per parallel review-fixer group
-├── verification/
-│   ├── assignments/
-│   ├── test-results/
-│   └── verification-report.md
-├── acceptance/
-│   ├── acceptance-package.md
-│   └── acceptance-decision.md
-└── delivery/
-    └── delivery-report.md
-```
-
-## Install — Claude Code
+**Claude Code:**
 
 ```
 /plugin marketplace add ylxmf2005/AgentCorp
 /plugin install agentcorp@agentcorp
 ```
 
-Then run `/reload-plugins` (or restart Claude Code). Skills are namespaced under the
-plugin, e.g. `/agentcorp:delivery-orchestrator`, `/agentcorp:code-review-lead`.
+Then run `/reload-plugins` or restart. Skills are namespaced, for example
+`/agentcorp:delivery-orchestrator`.
 
-## Install — Codex
-
-Whole suite (plugin):
+**Codex:**
 
 ```
 codex plugin marketplace add ylxmf2005/AgentCorp
 ```
 
-Then launch Codex, enable **AgentCorp** from the `/plugins` menu, and restart so the
-skills load.
+Launch Codex, enable **AgentCorp** from the `/plugins` menu, and restart. To
+install a single skill: `use skill-installer to install the skill at repo
+ylxmf2005/AgentCorp path agentcorp/delivery-orchestrator`.
 
-Individual skills (without the plugin) — inside Codex, use the built-in installer:
+### First Use
 
-```
-use skill-installer to install the skill at repo ylxmf2005/AgentCorp path agentcorp/delivery-orchestrator
-```
+After installation, describe what you need, or call
+`/agentcorp:delivery-orchestrator`. It will first confirm the success criteria
+with you, recommend an execution route, then move through the phases and stop at
+each gate to report.
 
-This installs the skill into `~/.codex/skills/`.
+When a task needs a real browser or logged-in state verification, AgentCorp uses
+an isolated browser profile, asks you to log in manually once, and then performs
+checks inside the page automatically. It does not touch your local cookies. At
+the end of the task, you receive a delivery report and an audit record that
+traces every decision.
 
 ## Skills
 
-29 skills cover the suite. The 27 delivery roles cover the full pipeline:
+The 29 skills are grouped by function below. Each skill's behavior is defined in
+`agentcorp/<skill>/SKILL.md` and appears in the Claude Code and Codex skill
+pickers. Of these, 27 are specialized delivery roles; the skills marked with [1]
+are reusable support capabilities that any role may call.
 
-- **Orchestration** — `delivery-orchestrator`
-- **Planning and design** — `solution-architect`, `implementation-planner`, `test-planner`, `parallel-researcher`
-- **Implementation** — `implementation-engineer`, `review-fixer`
-- **Plan and test-plan review** — `plan-review-lead`, `test-plan-reviewer`, `adversarial-reviewer`
-- **Code review** — `code-review-lead`, plus the specialist reviewers `correctness-reviewer`, `security-reviewer`, `performance-reviewer`, `reliability-reviewer`, `simplicity-reviewer`, `change-hygiene-reviewer`, `standards-reviewer`, `project-steward-reviewer`, `api-contract-reviewer`
-- **Verification** — `test-leader`, `e2e-tester`, `api-contract-tester`, `regression-tester`
-- **Research and acceptance** — `review-researcher`, `acceptance-review-lead`
-- **Support** — `change-detailed-walker`, `brainstorm`, `authenticated-browser-session` (fresh-start handoff and cross-task learnings are built-in capabilities of `delivery-orchestrator`, see its `references/fresh-start-handoff.md` and `references/learnings.md`)
+- **Orchestration** - `delivery-orchestrator`
+- **Planning and design** - `solution-architect`, `implementation-planner`, `test-planner`, `parallel-researcher`
+- **Implementation** - `implementation-engineer`, `review-fixer`
+- **Plan and test-plan review** - `plan-review-lead`, `test-plan-reviewer`, `adversarial-reviewer`
+- **Code review** - `code-review-lead` + `correctness-reviewer`, `security-reviewer`, `performance-reviewer`, `reliability-reviewer`, `simplicity-reviewer`, `change-hygiene-reviewer`, `standards-reviewer`, `project-steward-reviewer`, `api-contract-reviewer`
+- **Verification** - `test-leader`, `e2e-tester`, `api-contract-tester`, `regression-tester`
+- **Recheck and acceptance** - `review-researcher`, `acceptance-review-lead`
+- **Support** - `change-detailed-walker`, `brainstorm`[1], `authenticated-browser-session`[1]
 
-Each skill's full description is in its `agentcorp/<skill>/SKILL.md` and appears in the
-Claude Code and Codex skill pickers.
+[1] `brainstorm` (a general thinking capability, mainly for requirement
+clarification) and `authenticated-browser-session` (a persistent authenticated
+browser capability) are reusable behavior capabilities, not delivery roles with
+their own gates. Any role can load them when needed.
 
-## Project layout
+## Artifacts
 
-| Path | Purpose |
-|------|---------|
-| `agentcorp/<skill>/SKILL.md` | The skills — the single source, shared by both tools |
-| `agentcorp-zh/<skill>/SKILL.md` | Simplified Chinese skill mirror |
-| `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` | Claude Code manifests (canonical metadata) |
-| `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json` | Codex manifests (generated) |
-| `tools/codex-interface.json` | Codex-only display and policy metadata |
-| `tools/sync-codex.py` | Regenerates the Codex manifests from the Claude manifests |
-| `tools/sync-shared.py` | Re-copies shared reference files into every skill, keeping each skill self-contained |
-| `docs/diagrams/` | Workflow diagrams (`.drawio` sources and `.png` exports) |
-
-Both tools point their `skills` field at `./agentcorp` and auto-discover the skill
-folders, so there is no duplicated content. To change metadata, edit the Claude
-manifests (and `tools/codex-interface.json` for Codex display), then run:
+Every phase leaves a structured artifact with frontmatter (`artifact_type` /
+`author_agent` / `phase` / `status` / `source_artifacts`), making the work
+auditable and traceable. For example, for "add an invite members feature to a
+web app," a complete delivery creates an artifact tree like this under
+`teamspace/`:
 
 ```
-python3 tools/sync-codex.py
+teamspace/
+├── testing-context.md                   # Cross-task testing context: page map, observable surfaces, test-data conventions
+├── learnings/                           # Cross-task learnings (one file each; grep for duplicates before writing)
+│   └── invite-token-reuse-trap.md       #   Trigger -> root cause -> what to do -> how to move faster next time
+└── tasks/20260622-invite-members/       # Current task root
+    ├── task.md                          # Task record: success criteria, phase flow, gate history, decision log
+    ├── manifest.md                      # Audit ledger: phase owner/status/human gate/quality gate/artifact/receipt
+    │
+    ├── requirements/
+    │   └── validated-requirements.md    # Validated requirements: user journeys, FR/AC, non-goals, handoff to architecture and testing
+    │
+    ├── design/
+    │   ├── architecture.md              # Architecture: components, data model, Mermaid diagrams, implementation constraints
+    │   └── api-contract.md              # API contract: POST /invites, compatibility, migration notes, verification hooks
+    │
+    ├── test/
+    │   ├── test-plan.md                 # Master test plan: risk levels, must-haves, forbidden zones, coverage summary
+    │   ├── api-test-plan.md             # API manual: literal curl requests, expectations, evidence, failure handling
+    │   ├── e2e-test-plan.md             # E2E manual: browser steps, literal input, screenshots as primary evidence
+    │   ├── regression-test-plan.md      # Regression manual: blast radius, existing suites, new "fails before fix" checks
+    │   ├── test-plan-review.md          # Test-plan review decision (approve / request_changes)
+    │   └── exploration/                 # Exploratory test work files (kept in the task; confirmed conclusions update testing-context)
+    │       ├── charters.md              # Exploration charters: C-1/C-2/C-3 goals and status
+    │       ├── frontier.md              # Exploration backlog: entry points and provenance
+    │       └── journal.md               # Exploration journal: each action, observation, screenshot
+    │
+    ├── implementation/
+    │   ├── implementation-story.md      # Implementation story: AC, task tree (file pointers), constraints, verification expectations
+    │   └── implementation-result.md     # Implementation result: changed files, commands, deviations, blockers, review handoff
+    │
+    ├── review/
+    │   ├── plan-review.md               # Plan review decision: must-fix/suggested/evidence gaps/residual risk/next owner
+    │   ├── code-review.md               # Code-review decision: aggregates specialists, approve / request_changes
+    │   ├── specialist-findings/         # Specialist findings (each with severity/confidence/evidence/impact/recommendation)
+    │   │   ├── correctness-reviewer.md
+    │   │   ├── security-reviewer.md
+    │   │   ├── performance-reviewer.md
+    │   │   ├── reliability-reviewer.md
+    │   │   ├── simplicity-reviewer.md
+    │   │   ├── change-hygiene-reviewer.md
+    │   │   ├── standards-reviewer.md
+    │   │   ├── project-steward-reviewer.md
+    │   │   ├── api-contract-reviewer.md
+    │   │   └── adversarial-reviewer.md  # Adversarial: broken assumptions, combination failures, cascades, abuse cases
+    │   ├── research/                    # Review recheck: each finding is tested as a possible false positive
+    │   │   ├── 00-index.md              # Index: 7-column list, confirmed first -> false positives at the bottom
+    │   │   ├── F-01-confirmed-...md     # One file per issue: context, code context, root cause, fix recommendation
+    │   │   └── F-02-false-positive-...md#   Includes a Human decision skeleton left blank for human checkoff
+    │   ├── fix-records/                 # Fix records (parallelized by file-group ownership)
+    │   │   └── invite-service.md        # Each entry: verdict, changed files, regression check (fails before, passes after)
+    │   └── fix-result.md                # Fix summary
+    │
+    ├── verification/
+    │   ├── verification-report.md       # Verification decision: approve / request_changes, citing each test result
+    │   └── test-results/                # Test execution results (based on real evidence, never invented)
+    │       ├── e2e-tester.md            # Status, checks, commands, screenshot/URL evidence
+    │       ├── api-contract-tester.md   # Requests/responses, pass/fail
+    │       └── regression-tester.md     # Before/after comparison, exit code
+    │
+    ├── acceptance/
+    │   ├── acceptance-package.md        # Acceptance package: all artifact indexes + success criteria and direct evidence
+    │   └── acceptance-decision.md       # Final acceptance decision: accept / reject / needs_more_evidence
+    │
+    └── _handoffs/                       # Phase assignment-receipt loop (one pair per delegated phase)
+        ├── to-solution-architect.md     # Assignment: goal, inputs, constraints, stop conditions, output_path
+        ├── from-solution-architect.md   # Receipt: artifact path, completion notes, blockers
+        └── ...                          # One pair each for test-planner / implementation-engineer / etc.
 ```
+
+---
+
+AgentCorp lets work compound while welding controllability, understandability,
+and verifiability into the structure itself, instead of leaving them for the
+operator to guarantee by hand.

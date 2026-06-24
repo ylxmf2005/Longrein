@@ -41,6 +41,22 @@ codex plugin marketplace add ylxmf2005/AgentCorp
 
 启动 Codex，在 `/plugins` 菜单启用 **AgentCorp** 并重启。单独安装某个技能：`use skill-installer to install the skill at repo ylxmf2005/AgentCorp path agentcorp/delivery-orchestrator`。
 
+### 调用技能
+
+在 Claude Code 里，用 slash command 调技能：
+
+```
+/agentcorp:plain-explain output_mode=artifact explain review/code-review.md for a sponsor
+```
+
+在 Codex 里，用技能名或 `$skill-name` 说明要用哪个技能：
+
+```
+Use $plain-explain with output_mode=artifact to explain review/code-review.md for a sponsor.
+```
+
+如果不写 `output_mode` 这类参数，技能按默认行为处理。
+
 ### 第一次使用
 
 安装完成后，直接描述你的需求，或调用 `/agentcorp:delivery-orchestrator`。它会先与你确认成功标准、推荐执行路线，然后按阶段推进，在每个关卡停下汇报。

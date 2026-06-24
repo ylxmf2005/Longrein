@@ -17,6 +17,14 @@ description: "当 AgentCorp 需要把 bug、测试进度、交付状态、评审
 - `output_mode: artifact` —— 写入任务产物，并在对话里返回一个简短路径。
 - `output_mode: auto` —— 由你判断。未指定时默认使用这个模式。
 
+调用示例：
+
+```text
+/agentcorp:plain-explain output_mode=inline explain this test failure for a sponsor
+/agentcorp:plain-explain output_mode=artifact explain review/code-review.md item by item
+Use $plain-explain with output_mode=artifact to explain verification/verification-report.md.
+```
+
 小问题、短状态、单个概念适合 `inline`。当解释包含很多独立点、多条 finding、多条测试结果、多步实现 walkthrough，或 sponsor 很可能需要反复打开、逐项标注、对比或决策时，使用 `artifact`。用户说“落库”“写成文档”“放到产物里”“方便看”“分开写”时，直接使用 `artifact`。
 
 使用 `artifact` 时，写到当前任务根目录：

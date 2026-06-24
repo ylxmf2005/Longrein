@@ -17,6 +17,14 @@ Treat persistence as an explicit choice:
 - `output_mode: artifact` — write the explanation into task artifacts and return a short pointer in the conversation.
 - `output_mode: auto` — choose the mode yourself. This is the default when no mode is specified.
 
+Invocation examples:
+
+```text
+/agentcorp:plain-explain output_mode=inline explain this test failure for a sponsor
+/agentcorp:plain-explain output_mode=artifact explain review/code-review.md item by item
+Use $plain-explain with output_mode=artifact to explain verification/verification-report.md.
+```
+
 Use `inline` for one small answer, a short status update, or a single concept that fits comfortably in the conversation. Use `artifact` when the explanation has many independent points, several findings, several test results, a multi-step implementation walkthrough, or anything the sponsor will likely re-open, annotate, compare, or decide item by item. If the user asks to "落库", "write it down", "make a doc", "put it in artifacts", "方便看", or "分开写", use `artifact`.
 
 When using `artifact`, write under the current task root:

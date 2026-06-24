@@ -69,6 +69,22 @@ Launch Codex, enable **AgentCorp** from the `/plugins` menu, and restart. To
 install a single skill: `use skill-installer to install the skill at repo
 ylxmf2005/AgentCorp path agentcorp/delivery-orchestrator`.
 
+### Calling Skills
+
+In Claude Code, call a skill as a slash command:
+
+```
+/agentcorp:plain-explain output_mode=artifact explain review/code-review.md for a sponsor
+```
+
+In Codex, ask for the skill by name or `$skill-name`:
+
+```
+Use $plain-explain with output_mode=artifact to explain review/code-review.md for a sponsor.
+```
+
+If you omit options such as `output_mode`, the skill uses its default behavior.
+
 ### First Use
 
 After installation, describe what you need, or call

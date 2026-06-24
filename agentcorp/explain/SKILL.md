@@ -66,6 +66,19 @@ Use this shape unless the user asks for another format:
 
 For small answers, merge sections into natural paragraphs. Do not force headings when they add clutter.
 
+## Examples and Diagrams
+
+Prefer concrete examples over abstract explanation. For any non-trivial bug, test result, review finding, implementation flow, or tradeoff, include at least one small example that shows what the reader would see, send, click, configure, or decide. Keep examples realistic and local to the task; do not invent broad business context that the evidence does not support.
+
+Use Mermaid when a diagram makes the explanation easier to scan than prose. Default to a Mermaid diagram when explaining:
+
+- A request, data, or control flow with three or more steps.
+- State transitions, retries, fallbacks, gates, or failure paths.
+- Ownership across roles, services, files, or artifacts.
+- A decision tree or sequence of checks.
+
+Keep diagrams compact. Use simple `flowchart`, `sequenceDiagram`, or `stateDiagram-v2` forms, label nodes in plain language, and pair the diagram with a short interpretation. Skip diagrams for tiny answers, single-cause issues, or cases where a diagram would only repeat the paragraph.
+
 ## Rules
 
 - Assume the reader has not seen the code, diff, logs, issue, artifact, or earlier investigation.

@@ -4,7 +4,7 @@
 
 ## 审查维度与人员选择
 
-以下五个维度必须始终考虑：correctness（逻辑、状态、边界条件、错误传播）、standards（仓库明确指令与本地约定）、simplicity（不必要的抽象、范围蔓延、可避免的开销）、change hygiene（diff 整洁度、意图可追溯性、历史残留、超出范围的语义/合约变更）和 project stewardship（项目方向、长期维护成本、public surface、模块边界，以及 owner 是否愿意长期为这个变更负责）。其余维度根据变更的实际风险按需启用，不要默认全开：security 对应 auth、权限、external endpoints、untrusted input、secrets；reliability 对应 retries、timeouts、I/O、async tasks、health checks、recovery；performance 对应 hot paths、queries、loops、memory、scale；API contract 对应 routes、JSON-RPC/A2A、CLI、schemas、external interfaces；change hygiene reviewer 对应 formatting/wrapping/drive-by-refactor 噪音、multi-commit 历史残留、中途变更需求、顺带改掉的 public/shared contracts，以及对兼容性入口 / fallback / cache key / deprecation 行为的修改；adversarial 对应高风险、大规模、多角色、时间敏感或容易被滥用的变更；当实现改变了风险或 coverage 的假设时，引入 Test Planner 或 test review。
+以下五个维度必须始终考虑：correctness（逻辑、状态、边界条件、错误传播）、standards（仓库明确指令与本地约定）、simplicity（不必要的抽象、范围蔓延、可避免的开销）、change hygiene（diff 整洁度、意图可追溯性、历史残留、超出范围的语义/合约变更）和 project stewardship（项目方向、长期维护成本、public surface、模块边界，以及 owner 是否愿意长期为这个变更负责）。其余维度根据变更的实际风险按需启用，不要默认全开：security 对应 auth、权限、external endpoints、untrusted input、secrets；reliability 对应 retries、timeouts、I/O、async tasks、health checks、recovery；performance 对应 hot paths、queries、loops、memory、scale；API contract 对应 routes、JSON-RPC/A2A、CLI、schemas、external interfaces；change hygiene reviewer 对应 formatting/wrapping/drive-by-refactor 噪音、multi-commit 历史残留、中途变更需求、顺带改掉的 public/shared contracts，以及对兼容性入口 / fallback / cache key / deprecation 行为的修改；adversarial 对应高风险、大规模、多角色、时间敏感或容易被滥用的变更；taste 对应能过却按 hack 形态做出来的变更——局部补丁、特判绕行，或有治本解却选错了的抽象，作为对冲管线偏向最小 diff 的那股力；comment 对应 diff 新增或修改了实质性注释、文档或 TODO/FIXME/HACK 的变更，评判它们配不配留、并标出缺失的 why；当实现改变了风险或 coverage 的假设时，引入 Test Planner 或 test review。
 
 ## finding 定级
 

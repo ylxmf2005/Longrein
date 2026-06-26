@@ -54,7 +54,7 @@
 
 角色拆在两个运行时层，都按上述运行时继承原则调用，不额外指定模型参数:
 
-- **Claude（决策层）**: Delivery Orchestrator、Test Planner、Test Plan Reviewer、Solution Architect、Implementation Planner、Plan Review Lead、Code Review Lead、Test Leader、Review Researcher、Acceptance Review Lead、Adversarial Reviewer、Parallel Researcher、Simplicity Reviewer、Project Steward Reviewer —— 走当前 Claude 环境的原生 subagent/Agent 能力。
+- **Claude（决策层）**: Delivery Orchestrator、Test Planner、Test Plan Reviewer、Solution Architect、Implementation Planner、Plan Review Lead、Code Review Lead、Test Leader、Review Researcher、Acceptance Review Lead、Adversarial Reviewer、Parallel Researcher、Simplicity Reviewer、Project Steward Reviewer、Taste Reviewer、Comment Reviewer —— 走当前 Claude 环境的原生 subagent/Agent 能力。
 - **Codex（执行层）**: Implementation Engineer、Review Fixer、Correctness Reviewer、Security Reviewer、Performance Reviewer、Reliability Reviewer、Standards Reviewer、API Contract Reviewer、API Contract Tester、E2E Tester、Regression Tester —— 走当前 Codex 环境的原生 subagent/CLI/skill 能力; 当 host 里没有 Codex 通道时，降级为本地 subagent 调用同名 skill，协议不变。
 
 三种模式都不能牺牲 review 独立性; 变的只是裁决人: 在 `partial-delegation`/`full-delegation` 下，`test-plan-review`、`plan-review`、`code-review` 和 `acceptance-review` 始终交给各自的 review owner; 在 `direct` 下，这些 phase 由 Delivery Orchestrator 自己产出草案结论，但**草案不是审批** —— 每个 review phase 的人工 gate 必须保持活跃，由 sponsor 裁决，这些 gate 在 `direct` 下也不能跳过。任何模式下，Delivery Orchestrator 都不能审批自己的产物或证据。

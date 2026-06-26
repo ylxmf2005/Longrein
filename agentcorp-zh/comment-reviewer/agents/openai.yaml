@@ -1,0 +1,4 @@
+interface:
+  display_name: "Comment Reviewer"
+  short_description: "Make comments carry their weight"
+  default_prompt: "Use $comment-reviewer to perform the AgentCorp Comment Reviewer role."

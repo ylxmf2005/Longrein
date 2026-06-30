@@ -13,6 +13,7 @@ source_artifacts:
   - implementation/implementation-result.md
   - review/code-review.md
   - verification/verification-report.md
+  - verification/test-results/
 ---
 
 # 验收包

@@ -23,6 +23,7 @@ passed | failed | blocked | partial
 
 ## 证据
 
+- 示例句柄（替换为真实值）：运行日志 `verification/test-results/run.log`，或下方的代码块输出片段。
 - 日志、截图、请求/响应片段，或 artifact 路径。
 
 ## 失败项

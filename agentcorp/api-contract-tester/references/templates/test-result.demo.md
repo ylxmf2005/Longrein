@@ -23,6 +23,7 @@ passed | failed | blocked | partial
 
 ## Evidence
 
+- Example handle (replace with a real one): the run log at `verification/test-results/run.log`, or a fenced output excerpt below.
 - Logs, screenshots, request/response excerpts, or artifact paths.
 
 ## Failures

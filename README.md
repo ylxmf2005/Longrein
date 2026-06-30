@@ -25,7 +25,7 @@ AgentCorp exists to break that loop. It is a
 [loop engineering](https://addyosmani.com/blog/loop-engineering/) system for
 software delivery: it turns agent work from an uncontrollable, unreadable,
 untraceable black-box chain into a **controllable, understandable, verifiable**
-delivery loop. It includes **33 skills** drawn from enterprise-grade software
+delivery loop. It includes **34 skills** drawn from enterprise-grade software
 delivery practice, covering the full delivery loop and the supporting practices
 needed to run it in real projects. It works with both **Claude Code** and
 **Codex**.
@@ -100,7 +100,7 @@ traces every decision.
 
 ## Skills
 
-The 33 skills are grouped by delivery phase below (within a phase, planners, reviewers, and implementers sit together). Each skill's behavior is defined in
+The 34 skills are grouped by delivery phase below (within a phase, planners, reviewers, and implementers sit together). Each skill's behavior is defined in
 `agentcorp/<skill>/SKILL.md` and appears in the Claude Code and Codex skill
 pickers. Together, they cover the delivery loop and the supporting behaviors
 needed to run it in real projects.
@@ -145,6 +145,7 @@ needed to run it in real projects.
   - `authenticated-browser-session` — holds a real logged-in browser session to verify authenticated flows without reading cookies or asking the user for tokens
   - `explain` — translates bugs, test progress, review findings, and delivery status into zero-context language a sponsor who hasn't read the code can follow
   - `precommit-setup` — sets up commit-time guardrails: fast deterministic checks by default, optional AI review, explicit constraints, without slowing every commit
+  - `skill-evolution` — turns a skill-improvement signal captured at session end into a reviewed, landed edit (or a new skill from research), keeping AgentCorp's own skills improving with a human in the loop
 
 ## Artifacts
 

@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# UserPromptSubmit hook for the AgentCorp plugin — discipline heartbeat.
+#
+# Re-injects a one-line, non-negotiable discipline gate on each user turn, so the core
+# rules survive long sessions and compaction (a one-time SessionStart injection decays).
+# Gated to AgentCorp-relevant sessions, tiny, and fail-safe.
+#
+# Opt out with AGENTCORP_DISCIPLINE_DISABLE=1.
+
+set -uo pipefail
+
+[ "${AGENTCORP_DISCIPLINE_DISABLE:-}" = "1" ] && exit 0
+
+PAYLOAD="$(cat)"
+TRANSCRIPT="$(printf '%s' "$PAYLOAD" | python3 -c '
+import sys, json
+try:
+    d = json.load(sys.stdin)
+except Exception:
+    d = {}
+print(d.get("transcript_path", "") or "")
+' 2>/dev/null)" || exit 0
+
+# Gate: only inject in sessions where AgentCorp is active. The SessionStart router injects
+# AGENTCORP_SESSION_CONTEXT, so its presence in the transcript is a cheap relevance signal.
+# Stay silent on unrelated sessions (and on the very first turn before the marker is written).
+[ -n "$TRANSCRIPT" ] && [ -f "$TRANSCRIPT" ] || exit 0
+grep -q "AGENTCORP_SESSION_CONTEXT" "$TRANSCRIPT" 2>/dev/null || exit 0
+
+escape_for_json() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\n'/\\n}"
+    s="${s//$'\r'/\\r}"
+    s="${s//$'\t'/\\t}"
+    printf '%s' "$s"
+}
+
+gate="[AgentCorp discipline] Evidence is not a verbal claim — show the artifact, test, reproduction, or raw output. For a defect, done means the original failing input was re-run (not a proxy sample). Un-renderable output (diagrams, diffs, walkthroughs) must be persisted to a file, not dumped inline. Lock scope; no silent fallback on missing access, environment, or tool."
+gate_escaped="$(escape_for_json "$gate")"
+
+if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -z "${COPILOT_CLI:-}" ]; then
+  printf '{\n  "hookSpecificOutput": {\n    "hookEventName": "UserPromptSubmit",\n    "additionalContext": "%s"\n  }\n}\n' "$gate_escaped"
+else
+  printf '{\n  "additionalContext": "%s"\n}\n' "$gate_escaped"
+fi
+
+exit 0

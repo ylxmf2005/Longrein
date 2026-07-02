@@ -4,6 +4,15 @@ AgentCorp is a phased software-delivery pipeline packaged as skills. If the user
 
 Do not treat phase names or artifact paths as ordinary words. They are routing signals.
 
+## Discipline Core
+
+These non-negotiable rules hold for every AgentCorp response, regardless of which skill is loaded:
+
+- **Evidence ≠ a verbal claim.** Show the artifact, test run, reproduction, or raw output. A claim without an inspectable handle does not count as done.
+- **Defect "done" = the original failing input re-run.** When claiming a fix works, re-run the exact original input/scenario that failed — not a proxy sample.
+- **Un-renderable output must be persisted.** Diagrams, diffs, walkthroughs, and anything a terminal cannot render go to a file, not dumped inline.
+- **Lock scope; no silent fallback.** If you cannot deliver what was asked in the required scope (missing access, environment, or tool), say so — do not quietly substitute a weaker answer.
+
 ## Default Route
 
 Use `delivery-orchestrator` when the user mentions AgentCorp, Delivery Orchestrator, AgentCorp delivery workflow, phased artifacts, gates, handoffs, task orchestration, workflow mode, task root, assignment/receipt, manifest, or asks which AgentCorp role should handle something.
@@ -40,10 +49,11 @@ After loading `delivery-orchestrator`, read `references/workflow.md` before choo
 | `acceptance-review`, `acceptance-decision.md`, release acceptance evidence | `acceptance-review-lead` |
 | `deliver`, `delivery-report.md`, final delivery summary | `delivery-orchestrator` |
 | per-hunk diff walkthrough, hunk 讲解走查, walkthrough viewer, explain every hunk of the diff | `change-detailed-walker` |
-| plain-language explanation, zero-context explanation, explain for sponsor, persisted explanation, 落库解释, 白话解释, 看不懂, 方便看 | `explain` |
+| plain-language explanation, zero-context explanation, explain for sponsor, persisted explanation, 落库解释, 白话解释, 看不懂, 方便看, what does this PR/branch/diff do, 这个分支/改动做了啥, 讲讲这个分支, 我没读代码 | `explain` |
 | setup precommit, pre-commit setup, commit constraints, commit-time guardrails, Git hook workflow, AI commit review hook, Codex commit review, Claude commit review, 提交前检查, commit 约束, precommit 配置, AI commit review | `precommit-setup` |
 | parallel research, deep research, SOTA, current best practice, external technical research, prior art, paper research, open-source scan, competitor research | `parallel-researcher` |
 | adversarial review, challenge assumptions, pressure-test plan/design | `adversarial-reviewer` |
+| skill evolution, skill improvement proposal, improve/optimize a skill, evolve a skill, `teamspace/skill-evolution/pending`, turn research/trial-and-error into a project skill | `skill-evolution` |
 
 ## Reference Loading Rules
 

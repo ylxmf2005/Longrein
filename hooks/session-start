@@ -18,7 +18,19 @@ escape_for_json() {
     printf '%s' "$s"
 }
 
-router_escaped=$(escape_for_json "$router_content")
+# Skill-evolution: surface any pending improvement proposals so the human knows (人类可知).
+pending_dir="${AGENTCORP_EVOLUTION_DIR:-${PLUGIN_ROOT}/teamspace/skill-evolution/pending}"
+combined_content="$router_content"
+if [ -d "$pending_dir" ]; then
+    pending_count=$(find "$pending_dir" -maxdepth 1 -name '*.md' 2>/dev/null | wc -l | tr -d ' ')
+    if [ "${pending_count:-0}" -gt 0 ]; then
+        combined_content="[AgentCorp skill-evolution] ${pending_count} 条 skill 改进提案待审，见 teamspace/skill-evolution/pending/ —— 用 skill-evolution 处理（起草 → 人审 → 落地）。
+
+${router_content}"
+    fi
+fi
+
+router_escaped=$(escape_for_json "$combined_content")
 session_context="<AGENTCORP_SESSION_CONTEXT>\n${router_escaped}\n</AGENTCORP_SESSION_CONTEXT>"
 
 if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then

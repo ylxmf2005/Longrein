@@ -36,7 +36,12 @@ KNOWN_STATUS = {
     "assigned", "in_progress", "completed", "blocked",
     "needs_evidence", "needs_more_evidence", "implemented",
     "approve", "request_changes", "accept", "reject", "needs_human",
+    "passed", "failed", "partial",
 }
+
+# A TestExecutionResult with one of these statuses actually ran, so it must carry an
+# inspectable evidence handle in its body — not just a green/red status word.
+TEST_STATUS_NEEDS_EVIDENCE = {"passed", "failed", "partial", "completed"}
 
 _KV = re.compile(r"^([A-Za-z_][\w-]*):\s*(.*)$")
 
@@ -148,6 +153,37 @@ def check_artifact_exists(receipt_path, receipt, task_root, errors):
         author = scalars.get("author_agent", "")
         if author and receipt.get("from_agent") and author != receipt["from_agent"]:
             errors.append(f"{resolved}: author_agent '{author}' != receipt from_agent '{receipt['from_agent']}'")
+        # A test result that actually ran must carry an inspectable evidence handle, not just a status word.
+        if scalars.get("artifact_type", "") == "TestExecutionResult" and scalars.get("status", "") in TEST_STATUS_NEEDS_EVIDENCE:
+            check_test_evidence(resolved, scalars.get("status", ""), errors)
+
+
+def check_test_evidence(artifact_path, status, errors):
+    """A TestExecutionResult that ran must carry at least one inspectable evidence handle in its
+    body — an artifact/log file path, a URL/MR/CI/log link, or a fenced command-output block — so
+    the sponsor always has a path or excerpt to open. A bare 'passed'/'failed' word does not count."""
+    try:
+        with open(artifact_path, encoding="utf-8") as fh:
+            text = fh.read()
+    except OSError:
+        return  # existence already reported by the caller
+    lines, body = text.splitlines(), text
+    if lines and lines[0].strip() == "---":
+        for i in range(1, len(lines)):
+            if lines[i].strip() == "---":
+                body = "\n".join(lines[i + 1:])
+                break
+    has_handle = bool(
+        re.search(r"[\w./\-]+\.(log|jsonl|json|txt|csv|xml|html|png|jpg|jpeg|gif|out|md|har)\b", body)
+        or re.search(r"https?://", body)
+        or "```" in body
+    )
+    if not has_handle:
+        errors.append(
+            f"{artifact_path}: artifact_type=TestExecutionResult status='{status}' but no inspectable "
+            f"evidence handle found in the body (need at least one: an artifact/log file path, a "
+            f"URL/MR/CI/log link, or a fenced command-output block)"
+        )
 
 
 def sweep(task_root, errors, warnings):

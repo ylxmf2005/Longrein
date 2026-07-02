@@ -31,7 +31,7 @@ Either way, sort out which clauses apply to which kind of file in the diff. A sk
 - **Tool-selection violations inside agent / skill content** — instructing the use of shell commands (`find`, `ls`, `cat`, `head`, `tail`, `grep`, `rg`, `wc`, `tree`) for routine file discovery, content search, or file reading where the standards require the native tools; chained shell (`&&`, `||`, `;`) or error suppression (`2>/dev/null`, `|| true`) where the standards say to "run one simple command at a time."
 - **Naming and structure violations** — a file placed in the wrong directory category; component naming that does not follow the prescribed convention; a component added or removed without updating the README table or count to match.
 - **Writing-style violations** — second person ("you should") where the standards require imperative/objective voice; hedge words (`might`, `could`, `consider`) where the standards require clear instructions, leaving what the agent must do underspecified.
-- **Protected-artifact violations** — proposing to delete or gitignore files under paths the standards designate as protected (e.g., `docs/brainstorms/`, `docs/plans/`, `docs/solutions/`).
+- **Protected-artifact violations** — proposing to delete or gitignore artifacts that the applicable standards explicitly designate as protected.
 
 Every finding must carry two things together: the **exact quote** of the violated rule from the standards file (e.g., "AGENTS.md, Skill Compliance Checklist: 'Do NOT use markdown links like `[filename.md](./references/filename.md)`'"), and the **specific line (or lines)** in the diff that violate it. Missing either the quoted rule or the quoted violation, it is not a finding — drop it.
 

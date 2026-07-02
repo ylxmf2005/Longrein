@@ -1,0 +1,4 @@
+interface:
+  display_name: "技能进化"
+  short_description: "把已捕获的技能改进提案落地为真实改动"
+  default_prompt: "用 $skill-evolution 把一条已捕获的技能改进提案，变成经人审、真正落地的项目 skill 改动。"

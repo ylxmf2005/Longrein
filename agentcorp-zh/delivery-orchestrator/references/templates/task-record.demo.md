@@ -9,34 +9,34 @@ workflow_mode: partial-delegation
 
 # Task: Example Task
 
-## 需求方请求
+## Requester Request
 
 - 原始需求或 issue 链接。
 
-## 成功标准
+## Success Criteria
 
 - 可观测的完成条件。
 
-## 不在范围内
+## Out of Scope
 
 - 明确排除的目标。
 
-## 选定范式
+## Selected Paradigm
 
 - enhancement/delta-design
 
-## 工作流模式
+## Workflow Mode
 
 - partial-delegation（在以下选项中选择: direct | partial-delegation | full-delegation）
 
-## Phase 序列
+## Phase Sequence
 
 - validate-requirements -> test-plan -> review -> implement -> verify -> acceptance-review -> deliver
 
-## Gate 历史
+## Gate History
 
 - Requirements gate: approved | skipped | revised | blocked
 
-## 决策记录
+## Decision Log
 
 - 关键 orchestration 决策及其理由。

@@ -7,7 +7,7 @@ source_artifacts:
   - path/to/source.md
 ---
 
-# Decision Artifact 示例
+# Decision Artifact Example
 
 ## Decision
 
@@ -23,7 +23,7 @@ approve | request_changes | needs_more_evidence | blocked
 
 ## Evidence Gaps
 
-- 若不存在实质性缺口，写 \"None\"。
+- 若不存在实质性 gap，写 \"None\"。
 
 ## Residual Risk
 

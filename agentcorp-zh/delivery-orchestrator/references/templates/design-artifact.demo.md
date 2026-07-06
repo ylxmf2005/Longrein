@@ -16,32 +16,32 @@ source_artifacts:
 图表必须真实可信，使用真实组件，并用标签说明每一步在做什么。
 -->
 
-## 设计意图
+## Design Intent
 
-## 参考来源
+## Source References
 
-## 当前上下文
+## Current Context
 
-## 组件与受影响模块
+## Components or Affected Modules
 
-## 接口与契约
+## Interfaces and Contracts
 
-## 数据与状态流
+## Data or State Flow
 
-## 必须保留的现有行为
+## Existing Behavior That Must Be Preserved
 
-## 技术方案
+## Technical Approach
 
-## 复杂度
+## Complexity
 
-## 风险
+## Risks
 
-## 验证相关备注
+## Verification-Related Notes
 
-## 实现约束
+## Implementation Constraints
 
-## 建议的专家 review
+## Recommended Specialist Reviews
 
-## 待澄清问题
+## Open Questions
 
-## Handoff 给 implementation-planner
+## Handoff to Implementation Planner

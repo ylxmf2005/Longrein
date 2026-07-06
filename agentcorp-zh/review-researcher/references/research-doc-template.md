@@ -82,7 +82,7 @@ status: completed
 ## 根因（confirmed / partial 时填写）
 <讲清因果链：具体为什么出错。如果某层 fallback 本该拦住但没拦住，解释为什么没拦住。>
 
-## 影响 / 爆炸半径（confirmed / partial 时填写）
+## 影响 / blast radius（confirmed / partial 时填写）
 <破坏有多严重、影响谁、属于哪一类：数据损坏 / 泄漏 / 资源泄漏 / 卡死 / ……>
 
 ## 建议修复方案（confirmed / partial 时填写）

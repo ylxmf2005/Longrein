@@ -10,7 +10,7 @@
 
 首先通读整个 Story Spec，消化其中的 Story、Acceptance Criteria、Tasks/Subtasks、Implementation Constraints、Verification Expectations、Review Focus 和 Status，然后加载它引用的代码和项目上下文。接着按顺序完成 tasks/subtasks——除非 Story Spec 或 reviewer 明确允许重新排序。
 
-对每个 task 做"最小且正确"的改动：紧贴已批准的 story 实现，不要顺带塞入周边优化；保持现有模块边界不变，除非已批准的产物明确要求修改。尽量让每个文件只包含单一连贯的改动，并且在再次修改前重新读一遍。当行为、契约、bug、数据、auth 或 public interface 发生变化时，添加或更新针对性测试。在推进过程中，把进度、变更文件、命令、偏差和 blockers 记录到 `implementation/implementation-result.md`。
+对每个 task 做"最小且正确"的改动：紧贴已批准的 story 实现，不要顺带加入周边优化；保持现有模块边界不变，除非已批准的产物明确要求修改。尽量让每个文件只包含单一连贯的改动，并且在再次修改前重新读一遍。当行为、契约、bug、数据、auth 或 public interface 发生变化时，添加或更新针对性测试。在推进过程中，把进度、变更文件、命令、偏差和 blockers 记录到 `implementation/implementation-result.md`。
 
 改动越少越好。在添加任何内容之前，先用以下问题 gate 一下，防止 diff 膨胀：
 

@@ -19,18 +19,18 @@ optional: false
 ## 工作顺序
 
 1. **读入 inputs** — 已验证的 requirements（或 diagnosis criteria）、约束条件、环境说明、已有的测试 artifact。
-2. **核对 context** — 阅读 `teamspace/testing-context.md`；如果文件不存在，或者没覆盖到本次 task 需要测试的表面，先按照 `references/testing-context.md` 的 Step 0–5 补齐缺口，再继续。
+2. **核对 context** — 阅读 `teamspace/testing-context.md`；如果文件不存在，或者没覆盖到本次 task 需要测试的表面，先按照 `references/testing-context.md` 的 Step 0–5 补齐 gap，再继续。
 3. **排序 risk** — 确定 Must-Haves、禁区、P0 gate 和执行顺序。
 4. **撰写三份 execution manual** — 详细度标准见下文。E2E manual 引用的入口、页面和控件文本，必须能追溯到 page map 里**实际走过**的条目；任何仅靠代码推断出来的页面步骤，要么打回 exploration、实地验证，要么在该 flow 中显式标注"页面入口未验证"，并在整体策略的 open questions 中列出——不能把验证工作悄悄甩给 tester。
 5. **指定结果记录方式** — 每份 manual 都说明 tester 每跑完一个 check 要写下什么：准确动作/输入，相关的 request/response，观察面，证据路径，cleanup，以及证据边界。
 6. **撰写 overall strategy** — coverage summary 把每个 requirement 映射到一个 check id 及其所在文件。
-7. **交付前自检** — 每条 AC 都有负责人；E2E 的执行形式是明确的；三份 manual 都通过"逐字可执行"标准；结果记录期望是明确的；环境描述如实；每个遗漏和缺口都写明了原因。
+7. **交付前自检** — 每条 AC 都有负责人；E2E 的执行形式是明确的；三份 manual 都通过"逐字可执行"标准；结果记录期望是明确的；环境描述如实；每个遗漏和 gap 都写明了原因。
 
 ## 先搞 context，再写 plan
 
 每当"怎么测"不够具体时，根因几乎总是缺了项目运行时 context：系统从哪里进入、怎么登录、页面长什么样、测试数据遵循什么约定。这些不该每次都临时瞎猜；它们应该沉淀在项目级的测试 context 文档 `teamspace/testing-context.md` 里，跨 task 复用、持续维护。
 
-开 plan 之前先读它。如果文档不存在，或者没覆盖到本次 task 需要测试的表面（比如新页面、新接口），先按照 `references/testing-context.md` 里的 exploration 指引补齐缺口，再开始 plan。plan 里引用的任何入口、页面或数据，都应该能回溯到 context 文档里的来源；本次 task 特有的补充（专门构造的数据、临时配置）写进对应的 execution manual，不要反向喂给项目级文档——后者只收集跨 task 稳定的事实。
+开 plan 之前先读它。如果文档不存在，或者没覆盖到本次 task 需要测试的表面（比如新页面、新接口），先按照 `references/testing-context.md` 里的 exploration 指引补齐 gap，再开始 plan。plan 里引用的任何入口、页面或数据，都应该能回溯到 context 文档里的来源；本次 task 特有的补充（专门构造的数据、临时配置）写进对应的 execution manual，不要反向喂给项目级文档——后者只收集跨 task 稳定的事实。
 
 ## Artifact 形态：一组文件，不是单个文件
 
@@ -86,6 +86,6 @@ TestPlan 是一组文件——整体策略加三份 execution manual——写入
 
 ## 输出
 
-把 artifact set 写入 assignment `output_path` 所在的 `test/` 目录，结构参考 `references/templates/` 下的各 demo。这个 plan 只有在以下条件全部满足时才算到位：所有 Must-Haves 都是可观测的；禁区画得很具体；integration check 覆盖了真实边界；e2e 没有未经推理的缺口；三份 manual 都通过"逐字可执行"标准；给 Test Leader 的 tester-role 建议真正可执行。
+把 artifact set 写入 assignment `output_path` 所在的 `test/` 目录，结构参考 `references/templates/` 下的各 demo。这个 plan 只有在以下条件全部满足时才算到位：所有 Must-Haves 都是可观测的；禁区画得很具体；integration check 覆盖了真实边界；e2e 没有未经推理的 gap；三份 manual 都通过"逐字可执行"标准；给 Test Leader 的 tester-role 建议真正可执行。
 
 如果 requirements 或 diagnosis criteria 太模糊，无法 confident 地排 risk 和设计验证，返回 `blocked`，并具体说明缺什么证据，而不是凭空编造。

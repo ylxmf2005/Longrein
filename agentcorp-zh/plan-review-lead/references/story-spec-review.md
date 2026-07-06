@@ -1,6 +1,6 @@
 # Implementation Story Spec review 参考
 
-在 review 一份即将进入 implementation phase 的 Implementation Story Spec 时，使用本文档。它必须能让你确信，engineer 可以直接基于它开始构建，而无需去反推任何缺失的决策。
+在 review 一份即将进入 implementation phase 的 Implementation Story Spec 时，使用本文档。它必须能让你确信，engineer 可以直接基于它开始构建，而无需反推任何缺失的决策。
 
 要判断它是否站得住脚，可以从以下几个方面来看：
 

@@ -9,12 +9,15 @@ This is a general AgentCorp thinking capability, not a delivery phase and not a 
 
 The goal is to turn an unclear request into sponsor-approved, observable requirements. Do not implement, plan architecture, or write downstream artifacts while brainstorming. Fold the result back into the owning phase artifact, usually `requirements/validated-requirements.md`.
 
+When the boundary among `probe`, `brainstorm`, `grill`, `explain`, and `walkthrough` is unclear, read `../_shared/thinking-system.md`.
+
 ## Operating Principles
 
 - **Validate intent before shape.** Preserve the sponsor's important wording, but dig for the underlying problem, target user, success signal, and non-goals.
 - **One question at a time unless comparing options.** Missing facts are handled by focused follow-up; unresolved direction is handled by complete alternatives.
 - **Ground factual claims.** If the answer depends on repo behavior, product docs, prior tasks, or cloned reference projects, inspect evidence before claiming.
-- **Grill with care.** Pressure-test problem reality, user value, scope, risks, and simpler alternatives without turning the sponsor into an interview subject.
+- **Carry probe findings forward.** If `probe` supplied a knowledge matrix, preserve its known unknowns and resolution paths; do not silently turn unresolved items into requirements.
+- **Pressure-test with care.** Challenge problem reality, user value, scope, risks, and simpler alternatives without turning the sponsor into an interview subject.
 - **Every proposed option must be viable.** If you put an option in front of the sponsor, make it concrete enough to choose, refine, or reject.
 - **Keep requirement vs implementation clean.** Brainstorm product behavior, journeys, success criteria, and scope. Leave tables, modules, APIs, and algorithms to design unless the brainstorm is explicitly about a technical choice.
 
@@ -52,9 +55,11 @@ Before strong claims, inspect the smallest useful evidence set:
 
 When studying external repositories, clone to a scratch location such as `/tmp`, read them as evidence, and do not run their scripts or setup commands unless the sponsor explicitly authorizes it.
 
-## Grill Lenses
+If a direction depends on an unresolved known unknown, either resolve it via `ask_user`, `inspect_repo`, `inspect_history`, `research_external`, or `experiment`, or mark it as an explicit assumption with owner and revisit point. Do not present a path as equivalent to another when one path rests on more unresolved uncertainty.
 
-Use only the lenses that fit; do not dump the list on the sponsor. Load `references/grill-lenses.md` when the request needs deeper pressure-testing.
+## Pressure-Test Lenses
+
+Use only the lenses that fit; do not dump the list on the sponsor. Load `references/pressure-test-lenses.md` when the request needs deeper pressure-testing.
 
 ## Output Back to AgentCorp
 
@@ -67,6 +72,7 @@ Return a concise synthesis to the owning phase:
 - must-have requirements
 - non-goals and MVP boundary
 - assumptions and open questions
+- unresolved known unknowns and their resolution paths
 - evidence consulted
 
 For `validate-requirements`, this synthesis is not a separate gate. The Delivery Orchestrator writes it into the validated requirements artifact and still needs the sponsor's human confirmation before the requirements gate passes.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Walkthrough"
+  short_description: "为代码变更创建可视化 HTML 或 Notion 走读"
+  default_prompt: "Use $walkthrough to walk through this branch, PR, or diff as a rich artifact with background, intuition, code walkthrough, and quiz."

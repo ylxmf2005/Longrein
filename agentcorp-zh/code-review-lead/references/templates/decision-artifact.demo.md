@@ -7,28 +7,28 @@ source_artifacts:
   - path/to/source.md
 ---
 
-# Decision artifact 示例
+# Decision artifact example
 
-## 决策
+## Decision
 
 approve | request_changes | needs_more_evidence | blocked
 
-## 依据
+## Basis
 
 - 支撑本决策的直接证据。
 
-## 必须修复
+## Must-fix
 
 - 无阻塞性问题时，填写 "none"。
 
-## 证据缺口
+## Evidence gaps
 
-- 无实质性缺口时，填写 "none"。
+- 无实质性 gap 时，填写 "none"。
 
-## 残余风险
+## Residual risk
 
 - 已接受的剩余风险（如有）。
 
-## 下一负责人
+## Next owner
 
 - 负责下一步行动的 agent 或人员。

@@ -9,29 +9,29 @@ status: assigned
 output_path: review/example-output.md
 ---
 
-# 任务分配: example-phase
+# Assignment: example-phase
 
-## 目标
+## Goal
 
 阐明本 phase 的目标。
 
-## 输入
+## Inputs
 
 - 必需的输入 artifact 或证据。
 
-## 来源 artifact
+## Source artifacts
 
 - requirements/validated-requirements.md
 
-## 约束
+## Constraints
 
 - 语言、范围、环境及风险约束。
 
-## 必需输出
+## Required outputs
 
 - 在 `output_path` 路径下编写 phase artifact。
 - 返回一份符合 `templates/phase-receipt.demo.md` 格式的 receipt。
 
-## 终止条件
+## Stop conditions
 
-- 缺少必需输入、目标不明确、环境不可用，或风险不可接受。
+- 缺少必需输入、目标不清晰、环境不可用，或风险不可接受。

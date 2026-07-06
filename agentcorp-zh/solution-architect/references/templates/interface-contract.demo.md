@@ -7,25 +7,25 @@ source_artifacts:
   - design/architecture.md
 ---
 
-# Interface Contract: 示例标题
+# Interface Contract: Example Title
 
-## 范围
+## Scope
 
 - Contract surface:
 - 范围内:
 - 范围外:
 
-## 参考来源
+## Source References
 
 - 上游设计或需求:
 
-## Contract 清单
+## Contract Inventory
 
 | Contract | Type | Owner | Callers | Compatibility |
 | --- | --- | --- | --- | --- |
 | 示例 endpoint 或 interface | HTTP/RPC/SDK/schema/event | 所属模块 | 调用方模块或 client | compatible/new/breaking |
 
-## Contract 详情
+## Detailed Contracts
 
 ### Contract Name
 
@@ -39,26 +39,26 @@ source_artifacts:
 - Compatibility/默认行为:
 - 迁移说明:
 
-## 共享 Schema
+## Shared Schemas
 
 - Schema/type name:
 - 字段:
 - Ownership:
 - 复用位置:
 
-## 调用方影响
+## Caller Impact
 
 - 未受影响的调用方:
 - 受影响的调用方:
 - 迁移/默认值:
 
-## 验证 Hooks
+## Verification Hooks
 
 - 接口契约检查:
 - 负面/error 场景:
 - Auth/permission 检查:
 - Compatibility 检查:
 
-## 待解决问题
+## Open Questions
 
 - Q-1: 没有就写 "None"。

@@ -34,4 +34,4 @@ output_path: review/example-output.md
 
 ## Stop conditions
 
-- 缺少必需的输入、目标不明确、环境不可用，或风险不安全。
+- 缺少必需的输入、目标不清晰、环境不可用，或风险不安全。

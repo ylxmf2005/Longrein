@@ -6,18 +6,18 @@ author_agent: test-planner
 parent: test/test-plan.md
 ---
 
-# E2E 测试手册：示例标题
+# E2E Test Manual: Example Title
 
-## 执行方式
+## Execution form
 
 - 默认：浏览器操作为主要依据（真实浏览器、已登录会话）；截图和页面状态是主要依据，API/DB/日志作为辅助。
 - 降级：仅在此处明确声明时才降级；需说明降级后无法验证的内容。
 
-## 前置条件
+## Preconditions
 
 - 入口 URL、登录方式（仅引用凭据）、测试数据准备（精确到对象 ID；上下文中未提及的内容在此处补齐）。
 
-## FLOW-1 (P1)：用户目标名称
+## FLOW-1 (P1): user goal name
 
 - 角色：高级用户。覆盖：FR-x / AC-y。
 

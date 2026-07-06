@@ -7,11 +7,11 @@ source_artifacts:
   - path/to/reviewed-artifact.md
 ---
 
-# 专家 Review 发现
+# Specialist Review Findings
 
-## 发现
+## Findings
 
-### 发现 1: <title>
+### Finding 1: <title>
 
 - 严重程度:
 - 置信度:
@@ -19,10 +19,10 @@ source_artifacts:
 - 影响:
 - 建议:
 
-## 证据缺口
+## Evidence gaps
 
 - 没有时写 "None"。
 
-## 残余风险
+## Residual risks
 
 - 没有时写 "None"。

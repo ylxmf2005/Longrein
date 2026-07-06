@@ -8,7 +8,7 @@ source_artifacts:
   - design/impact-analysis.md
 ---
 
-# Implementation Story: 示例标题
+# Implementation Story: Example Title
 
 Status: ready-for-plan-review
 

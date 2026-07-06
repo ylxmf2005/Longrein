@@ -8,13 +8,13 @@ source_artifacts:
   - review/research/00-index.md
 ---
 
-# 修复记录，逐项说明：<group_slug>
+# Fix record, item by item: <group_slug>
 
 本组的归属文件集（OWNED_FILES）：path/to/service.py, path/to/helper.py
 
-## 逐项记录
+## Item by item
 
-### 记录 1
+### Record 1
 
 - fix_item_id: <ID, e.g. P0-1>
 - severity: <P0 | P1 | P2>
@@ -23,7 +23,7 @@ source_artifacts:
 - regression_check: 添加了 <test/check>；在 <trigger condition> 下，修复前失败，修复后通过。
 - notes: Drift check 通过；按 research 给出的修复方案在根因处落地，没有降级为 patch。
 
-### 记录 2
+### Record 2
 
 - fix_item_id: <ID, e.g. P1-5>
 - severity: <P0 | P1 | P2>

@@ -6,7 +6,7 @@ author_agent: test-planner
 parent: test/test-plan.md
 ---
 
-# Regression Test Manual: 示例标题
+# Regression Test Manual: Example Title
 
 ## Blast radius
 

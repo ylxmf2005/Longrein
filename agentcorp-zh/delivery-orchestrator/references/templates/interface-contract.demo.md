@@ -7,25 +7,25 @@ source_artifacts:
   - design/architecture.md
 ---
 
-# Interface Contract: 示例标题
+# Interface Contract: Example Title
 
-## 范围
+## Scope
 
 - Contract surface：
 - In scope：
 - Out of scope：
 
-## 来源引用
+## Source References
 
 - 上游设计或需求：
 
-## Contract 清单
+## Contract Inventory
 
 | Contract | Type | Owner | Callers | Compatibility |
 | --- | --- | --- | --- | --- |
 | 示例 endpoint 或 interface | HTTP/RPC/SDK/schema/event | 所属 module | Caller module 或 client | compatible/new/breaking |
 
-## Contract 详情
+## Detailed Contracts
 
 ### Contract Name
 
@@ -39,26 +39,26 @@ source_artifacts:
 - Compatibility/default behavior：
 - Migration notes：
 
-## 共享 Schema
+## Shared Schemas
 
 - Schema/type name：
 - Fields：
 - Ownership：
 - Reuse sites：
 
-## 调用方影响
+## Caller Impact
 
 - Preserved callers：
 - Changed callers：
 - Migration/defaults：
 
-## Verification Hook
+## Verification Hooks
 
 - 接口契约检查：
 - Negative/error cases：
 - Auth/permission checks：
 - Compatibility checks：
 
-## 待澄清问题
+## Open Questions
 
 - Q-1：没有则写 "None"。

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Probe"
+  short_description: "Find blind spots before brainstorming or planning"
+  default_prompt: "Use $probe to uncover blind spots, hidden constraints, and high-leverage questions before choosing a direction."

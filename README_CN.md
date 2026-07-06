@@ -88,7 +88,7 @@ codex plugin marketplace add ylxmf2005/AgentCorp
   - `taste-reviewer` — 先把 hack 当缺陷，哪怕它能跑；顶着管线偏向最小 diff 的惯性，坚持治本的形态（改 schema、重构、打破逼出丑陋的惯例）
   - `change-hygiene-reviewer` — 核查 diff 里每处改动是否都能追溯到批准的需求，挡掉越界改动、历史残留和格式噪音
   - `standards-reviewer` — 核对代码与产物是否遵循项目自己的约定：frontmatter、命名、格式、引用方式，而非通用最佳实践
-  - `comment-reviewer` — 评判一个改动新增的注释配不配留：砍掉复述代码、AI 腔的废话，标出维护者真正需要却缺失的 why/边界/历史
+  - `comment-optimizer` — 直接优化注释：重写、删除或补充简短的 why/边界/历史说明，避免先 review 再修的绕路
   - `project-steward-reviewer` — 从长期维护成本、模块边界、对外承诺和项目走向，判断一处变更值不值得写进项目历史
   - `api-contract-reviewer` — 守住 API 边界：schema、路由、类型、状态码、错误语义保持向后兼容，不在无迁移路径下悄悄弄坏调用方
   - `review-researcher` — 独立查证每条评审发现的真伪与根因，作为落地修复前的断路器，再给出正确利落的修法
@@ -100,11 +100,13 @@ codex plugin marketplace add ylxmf2005/AgentCorp
   - `regression-tester` — 确认变更之后原本好用的行为仍然好用，逮住那些悄无声息坏掉的回归
 - **验收与交付**
   - `acceptance-review-lead` — 守交付前最后一关，判断完整证据是否足以证明所有需求达成、风险可接受
-  - `change-detailed-walker` — 把一次变更镜像成本地 forge 上的 PR，逐函数写下「为什么这么改」的评论，让评审在原生 diff 界面里读
+  - `walkthrough` — 为一次代码变更生成丰富的 HTML 或 Notion 走读，包含背景、直觉、代码移动和 quiz
 - **配套**
+  - `probe` — 在 brainstorm 或 planning 前发现盲区、隐藏约束、缺失框架和高杠杆问题
   - `brainstorm` — 用一次一问的追问把模糊诉求逼成经发起人确认、可测试的需求
+  - `grill` — 强拷问已有计划、设计、提案或论证，暴露其中最薄弱的假设
   - `authenticated-browser-session` — 用独立浏览器配置维持真实登录态来验证需登录的流程，不读 Cookie 也不要用户贴 token
-  - `explain` — 把 bug、测试进展、评审发现和交付状态翻译成零上下文的话，让没读过代码的发起人也看得懂
+  - `explain` — 把已知证据、产物、失败和状态翻译成零上下文的话，让没读过原始材料的发起人也看得懂
   - `precommit-setup` — 给仓库配提交前防线：默认跑快速确定性检查，AI 评审按需开启，不拖慢每次提交
   - `skill-evolution` — 把在会话结束时捕获的技能改进信号，变成一次经审、落地的编辑（或从调研生成新的 skill），让 AgentCorp 自身的技能在人工参与的控制下持续改进
 
@@ -166,7 +168,7 @@ teamspace/
     │   │   ├── taste-reviewer.md
     │   │   ├── change-hygiene-reviewer.md
     │   │   ├── standards-reviewer.md
-    │   │   ├── comment-reviewer.md
+    │   │   ├── comment-optimizer.md
     │   │   ├── project-steward-reviewer.md
     │   │   ├── api-contract-reviewer.md
     │   │   ├── adversarial-reviewer.md

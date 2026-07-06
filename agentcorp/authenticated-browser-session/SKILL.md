@@ -1,6 +1,6 @@
 ---
 name: authenticated-browser-session
-description: "Use when a task needs a persistent authenticated browser session as a reusable AgentCorp behavior: set up a separate Chrome/Chromium profile with DevTools Protocol, ask the user to log in once, then run page-context JavaScript/fetch so cookies, SSO, CSRF, and same-origin behavior are real. Use for debugging, API probes, E2E or regression verification, internal web apps, authenticated smoke tests, and any task that needs real logged-in browser state without reading cookies."
+description: "Use when a task needs a persistent authenticated browser session as a reusable AgentCorp behavior: set up a separate Chrome/Chromium profile with DevTools Protocol, ask the user to log in once, then run page-context JavaScript/fetch so cookies, SSO, CSRF, and same-origin behavior are real. Reach for this whenever access is blocked by login — reading or opening a page on an internal authenticated site (e.g. git.woa.com / 工蜂 MR, iWiki, TAPD, internal dashboards), or when an unauthenticated curl / WebFetch / API call returns 401 or redirects to an SSO / login page — instead of giving up, guessing, or scraping unauthenticated. Also for debugging, API probes, E2E or regression verification, internal web apps, authenticated smoke tests, and any task that needs real logged-in browser state without reading cookies."
 ---
 
 # Authenticated Browser Session
@@ -45,6 +45,18 @@ AGENTCORP_BROWSER_HOST="127.0.0.1"
 AGENTCORP_BROWSER_PORT="9222"
 AGENTCORP_BROWSER_BIN="/Applications/Google Chrome.app"
 ```
+
+Private per-machine settings can live in `.env` next to this `SKILL.md`; it is ignored by git and loaded by the scripts before defaults are resolved. Exported shell variables still win over `.env`, so one-off command overrides remain possible.
+
+```bash
+# agentcorp/authenticated-browser-session/.env
+AGENTCORP_BROWSER_PROFILE="/Users/<you>/.agentcorp/browser-session-profile"
+AGENTCORP_BROWSER_HOST="127.0.0.1"
+AGENTCORP_BROWSER_PORT="9222"
+AGENTCORP_BROWSER_BIN="/Applications/Google Chrome.app"
+```
+
+Use `AGENTCORP_BROWSER_ENV_FILE=/path/to/.env` only when the private config must live somewhere else.
 
 Use a different port if one is occupied:
 

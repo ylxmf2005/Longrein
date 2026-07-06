@@ -8,23 +8,23 @@ source_artifacts:
 confidence: HIGH
 ---
 
-# Validated Requirements: 示例标题
+# Validated Requirements: Example Title
 
-## 发起人意图
+## Sponsor Intent
 
 - 产品层面的意图；保留发起人原话中的重要措辞。
 
-## 问题
+## Problem
 
 - 当前用户或系统面临的问题，不预设任何实现方案。
 
-## 目标用户
+## Target Users
 
 - 主要用户或系统 actor，以及待完成的工作。
 
-## 用户旅程
+## User Journeys
 
-### UJ-1: 示例旅程
+### UJ-1: Example journey
 
 - 用户画像与上下文：
 - 初始状态：
@@ -56,13 +56,13 @@ flowchart TD
   Criteria --> Handoff[\"Test and architecture handoffs\"]
 ```
 
-## 术语表
+## Glossary
 
 - **Term** - 在下游环节中统一使用的定义。
 
-## 功能需求
+## Functional Requirements
 
-### FR-1: 能力名称
+### FR-1: Capability name
 
 系统必须提供一项可观测的能力。
 
@@ -72,44 +72,44 @@ flowchart TD
 
 来源：sponsor request 或 source artifact。
 
-## 非目标
+## Non-Goals
 
 - 明确排除的行为或范围。
 
-## MVP 范围
+## MVP Scope
 
 - 范围内：
 - 范围外：
 
-## 约束
+## Constraints
 
 - 由发起人提供的约束。
 
-## 成功标准
+## Success Criteria
 
 - 证明需求已达成的条件。
 
-## 假设
+## Assumptions
 
 - 需要在下游环节确认或验证的假设。
 
-## 待解决问题
+## Open Questions
 
 - Q-1: 如果没有就写 "None"。
 
-## Handoff 给 Test Planner
+## Handoff to Test Planner
 
 - 必须验证的行为：
-- 需要 E2E 覆盖的用户旅程：
+- 需要 E2E coverage 的用户 journey：
 - 需要重点测试的风险区域：
 
-## Handoff 给 Solution Architect
+## Handoff to Solution Architect
 
 - 必须保留的产品约束：
 - 架构必须继承的术语与边界：
 - 需求提出的技术问题：
 
-## Mermaid 校验
+## Mermaid Validation
 
 - 包含哪些图表及其原因：
 - 已检查的声明：

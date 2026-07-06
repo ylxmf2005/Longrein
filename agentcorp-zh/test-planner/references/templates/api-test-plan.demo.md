@@ -6,11 +6,11 @@ author_agent: test-planner
 parent: test/test-plan.md
 ---
 
-# API 测试手册：示例标题
+# API Test Manual: Example Title
 
 每条检查都要写成可直接跑的形式：request/SQL 原文、预期结果、evidence、失败处理。
 
-## API-1 (P0): 检查名称
+## API-1 (P0): check name
 
 - Purpose：要验证的 contract 行为，对应 FR-x / AC-y。
 - Environment and preconditions：在哪跑、需要什么数据。
@@ -24,6 +24,6 @@ parent: test/test-plan.md
 - Evidence：保留什么（request/response 摘要、log 位置、artifact 路径）。
 - Failure handling：停止 / 标 blocked / 继续并记录。
 
-## 数据与迁移检查
+## Data and migration checks
 
 - DATA-1 (P0)：verification SQL 原文、前后对比、rollback 或重入条件、evidence。

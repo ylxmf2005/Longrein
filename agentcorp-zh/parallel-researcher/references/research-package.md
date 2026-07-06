@@ -57,7 +57,7 @@ research/<topic-slug>/
 3. 只有渲染后的站点：少量页面用 `curl -s "https://r.jina.ai/<page-URL>"` 逐页转 markdown；整棵子树用 crawl4ai 这类本地工具。
 4. 绝不用 wget/httrack 做整站 HTML 镜像——HTML 噪音会爆 token，下游 agent 也没法用。
 
-`INDEX.md` 是快照对下游的约定，必须包含：source URL、repo 和 version/commit、capture 日期、capture 方法、文件清单（每文件一句话）、**显式的"未包含内容"**（防止下游误以为快照是完整集合）、已知缺口。
+`INDEX.md` 是快照对下游的约定，必须包含：source URL、repo 和 version/commit、capture 日期、capture 方法、文件清单（每文件一句话）、**显式的"未包含内容"**（防止下游误以为快照是完整集合）、known gap。
 
 ## 三种断言状态
 

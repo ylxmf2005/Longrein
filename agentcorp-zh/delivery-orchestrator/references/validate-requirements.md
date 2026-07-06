@@ -47,13 +47,13 @@ Artifact frontmatter 里的 `confidence` 不是装饰；它直接决定 gate 能
 
 - **MEDIUM** — 主线清楚，可以继续推进，但存在一些需要 downstream 确认的 assumptions，或不阻塞的 open questions。在 "Assumptions" 和 "Open Questions" 下面明确列出来；别藏着。
 
-- **LOW** — 太模糊，根本没法诚实地面向它做 design：intent 不清、success criteria 你说不出口、关键 constraints 未知。**别硬塞进 requirements**；按下面的方式 block。
+- **LOW** — 太模糊，根本没法诚实地面向它做 design：intent 不清、success criteria 你说不出口、关键 constraints 未知。**别强行添加进 requirements**；按下面的方式 block。
 
 Gate 要求 MEDIUM 或 HIGH。LOW 绝不能用措辞包装成"看起来像 MEDIUM"。
 
 ## 何时 Block
 
-当 requirements 的 confidence 为 LOW、或者 success criteria 说不清楚、或者 priority/scope/risk-acceptance 不明确时，如果缺失清晰度可以通过 sponsor 互动补齐，先使用 `brainstorm`。如果 sponsor 不能或没有解决这个缺口，再停下来返回 `blocked`，并明确指出你缺的是哪块信息，让 sponsor 来补——而不是自己猜一个填进去。诚实标成 LOW 或 open question，也好过用看似自信的措辞掩盖真正的不确定性。这不是在拖；这是在成本最低的环节挡住最贵的返工。
+当 requirements 的 confidence 为 LOW、或者 success criteria 说不清楚、或者 priority/scope/risk-acceptance 不明确时，如果缺失清晰度可以通过 sponsor 互动补齐，先使用 `brainstorm`。如果 sponsor 不能或没有解决这个 gap，再停下来返回 `blocked`，并明确指出你缺的是哪块信息，让 sponsor 来补——而不是自己猜一个填进去。诚实标成 LOW 或 open question，也好过用看似自信的措辞掩盖真正的不确定性。这不是在拖；这是在成本最低的环节挡住最贵的返工。
 
 ## 谁来裁决这个 Gate
 

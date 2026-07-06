@@ -8,7 +8,7 @@ optional: true
 
 # Interface Contract
 
-在动手实现之前，先把 public、shared 或跨模块的 interface 敲定，让调用方、实现方、reviewer 和 tester 都对同一条边界达成共识。它适用于 HTTP/RPC API、SDK/CLI contract、共享 schema、payload 与 event 形态、鉴权/权限约定、错误语义，或者任何需要先把规矩立好才能并行开发的边界。它是 contract，不是实现方案，也不是源码。
+在动手实现之前，先把 public、shared 或跨模块的 interface 敲定，让调用方、实现方、reviewer 和 tester 都对同一条边界达成共识。它适用于 HTTP/RPC API、SDK/CLI contract、共享 schema、payload 与 event 形态、auth/authz 约定、错误语义，或者任何需要先把规矩立好才能并行开发的边界。它是 contract，不是实现方案，也不是源码。
 
 ## 这份 artifact 必须达成的目标
 
@@ -16,7 +16,7 @@ optional: true
 
 - request/response 的形态、签名和协议格式；
 - schema——如果在多个模块之间共享，只定义一次，其他地方通过引用复用；
-- 状态归属、鉴权/权限假设以及错误语义；
+- 状态归属、auth/authz 假设以及错误语义；
 - 兼容性行为：哪些现有调用方保持不变，哪些会变，以及如何迁移；
 - reviewer 或 tester 能够实际核验的 verification hook。
 

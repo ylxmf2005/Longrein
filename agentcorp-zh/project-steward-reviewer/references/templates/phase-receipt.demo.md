@@ -9,14 +9,14 @@ artifact_path: review/specialist-findings/project-steward-reviewer.md
 
 # Phase Receipt
 
-## 完成状态
+## Completion status
 
 - Project Steward review finding set 已产出。
 
-## 偏差
+## Deviations
 
 - 无。
 
-## 阻塞项
+## Blockers
 
 - 无。

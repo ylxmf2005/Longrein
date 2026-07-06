@@ -1,6 +1,45 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ENV_FILE="${AGENTCORP_BROWSER_ENV_FILE:-$SCRIPT_DIR/../.env}"
+
+trim() {
+  local value="$1"
+  value="${value#"${value%%[![:space:]]*}"}"
+  value="${value%"${value##*[![:space:]]}"}"
+  printf '%s' "$value"
+}
+
+load_env_file() {
+  local env_file="$1"
+  local line key value
+  [[ -f "$env_file" ]] || return 0
+
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line="$(trim "$line")"
+    [[ -z "$line" || "$line" == \#* ]] && continue
+    [[ "$line" == export\ * ]] && line="$(trim "${line#export }")"
+    [[ "$line" == *=* ]] || continue
+
+    key="$(trim "${line%%=*}")"
+    value="$(trim "${line#*=}")"
+    [[ "$key" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || continue
+    [[ -z "${!key+x}" ]] || continue
+
+    if [[ "$value" =~ ^\"(.*)\"$ ]]; then
+      value="${BASH_REMATCH[1]}"
+    elif [[ "$value" =~ ^\'(.*)\'$ ]]; then
+      value="${BASH_REMATCH[1]}"
+    fi
+
+    printf -v "$key" '%s' "$value"
+    export "$key"
+  done < "$env_file"
+}
+
+load_env_file "$ENV_FILE"
+
 PROFILE_DIR="${AGENTCORP_BROWSER_PROFILE:-${CHROME_COOKIE_JS_PROFILE:-$HOME/.agentcorp/browser-session-profile}}"
 HOST="${AGENTCORP_BROWSER_HOST:-${CHROME_COOKIE_JS_HOST:-127.0.0.1}}"
 PORT="${AGENTCORP_BROWSER_PORT:-${CHROME_COOKIE_JS_PORT:-9222}}"
@@ -16,8 +55,10 @@ Environment:
   AGENTCORP_BROWSER_HOST      Debug host, default 127.0.0.1
   AGENTCORP_BROWSER_PORT      Debug port, default 9222
   AGENTCORP_BROWSER_BIN       Browser binary/app override
+  AGENTCORP_BROWSER_ENV_FILE  Optional dotenv path, default ../.env
 
 Legacy fallback variables CHROME_COOKIE_JS_PROFILE/HOST/PORT are also accepted.
+Unset environment variables can be loaded from ../.env; exported shell values win.
 EOF
 }
 

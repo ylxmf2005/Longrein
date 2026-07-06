@@ -1,6 +1,6 @@
 # Exploration Journal
 
-## Round 1 (C-1: 任务列表页)
+## Round 1 (C-1: task list page)
 
 1. 打开 `/app/tasks` → 看到任务列表和 "New" 按钮 → `shots/01-task-list.png`
 2. 点击 "New" → 弹出创建对话框，包含 prompt 输入框和提交按钮 → `shots/02-create-dialog.png`

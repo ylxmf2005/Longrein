@@ -7,13 +7,13 @@ source_artifacts:
   - path/to/source.md
 ---
 
-# Decision Artifact 示例
+# Decision Artifact Example
 
 ## Decision
 
 approve | request_changes | needs_more_evidence | blocked
 
-## 依据
+## Basis
 
 - 支持本 decision 的直接证据。
 
@@ -21,11 +21,11 @@ approve | request_changes | needs_more_evidence | blocked
 
 - 若无阻塞性问题，写 \"None\"。
 
-## 证据缺口
+## Evidence Gaps
 
-- 若无实质性缺口，写 \"None\"。
+- 若无实质性 gap，写 \"None\"。
 
-## 残余风险
+## Residual Risks
 
 - 已接受的风险（如有）。
 

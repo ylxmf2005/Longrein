@@ -9,7 +9,7 @@ artifact_path: review/example-output.md
 
 # Receipt: example-phase
 
-## 备注
+## Notes
 
 - 一句话的完成说明。
 

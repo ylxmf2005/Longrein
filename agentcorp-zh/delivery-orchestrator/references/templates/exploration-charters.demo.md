@@ -1,4 +1,4 @@
-# Charter 台账
+# Charter Ledger
 
 ## C-1 (done)
 

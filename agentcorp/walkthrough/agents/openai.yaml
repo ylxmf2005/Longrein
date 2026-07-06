@@ -1,0 +1,4 @@
+interface:
+  display_name: "Walkthrough"
+  short_description: "Create visual HTML or Notion walkthroughs of code changes"
+  default_prompt: "Use $walkthrough to walk through this branch, PR, or diff as a rich artifact with background, intuition, code walkthrough, and quiz."

@@ -7,11 +7,11 @@ source_artifacts:
   - path/to/reviewed-artifact.md
 ---
 
-# 专家 Review 发现
+# Specialist Review Findings
 
 ## Findings
 
-### Finding 1: <标题>
+### Finding 1: <title>
 
 - Severity:
 - Confidence:

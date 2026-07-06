@@ -127,7 +127,7 @@ needed to run it in real projects.
   - `taste-reviewer` — assumes a hack is a defect even when it works, holding out for the root-cause shape (a schema change, a refactor, breaking a forcing convention) against the pipeline's pull toward the smallest diff
   - `change-hygiene-reviewer` — checks that every hunk in the diff traces to an approved requirement, blocking out-of-scope changes, history residue, and formatting noise
   - `standards-reviewer` — verifies code and artifacts follow the project's own conventions — frontmatter, naming, formatting, reference style — not generic best practices
-  - `comment-reviewer` — judges whether the comments a change adds carry their weight: cuts what restates the code or reads as AI boilerplate, and flags the missing why/boundary/history a maintainer needs
+  - `comment-optimizer` — optimizes comments directly: rewrites, deletes, or adds concise why/boundary/history notes instead of routing through a review-then-fix loop
   - `project-steward-reviewer` — judges whether a change is worth admitting into the project's long-term history: maintenance cost, module boundaries, public surface, direction
   - `api-contract-reviewer` — keeps API boundaries — schemas, routes, types, status codes, error semantics — backward-compatible so consumers don't break without a migration path
   - `review-researcher` — independently verifies each review finding to ground truth before any fix lands, then proposes the correct, elegant fix
@@ -139,11 +139,13 @@ needed to run it in real projects.
   - `regression-tester` — confirms behavior that used to work still works after a change, catching regressions that fail silently
 - **Acceptance and delivery**
   - `acceptance-review-lead` — guards the final gate before delivery, judging whether the complete evidence proves every requirement met and the risks acceptable
-  - `change-detailed-walker` — mirrors a change into a PR on a local forge and walks it function-by-function with "why this change" comments reviewers read natively
+  - `walkthrough` — creates a rich HTML or Notion walkthrough of a code change with background, intuition, code movement, and quiz
 - **Support**
+  - `probe` — finds blind spots, hidden constraints, missing frames, and high-leverage questions before brainstorming or planning
   - `brainstorm` — turns an unclear request into sponsor-approved, testable requirements by pressure-testing intent, scope, and viability one question at a time
+  - `grill` — relentlessly interviews an existing plan, design, proposal, or argument to expose its weakest assumptions
   - `authenticated-browser-session` — holds a real logged-in browser session to verify authenticated flows without reading cookies or asking the user for tokens
-  - `explain` — translates bugs, test progress, review findings, and delivery status into zero-context language a sponsor who hasn't read the code can follow
+  - `explain` — turns known evidence, artifacts, failures, and status into zero-context language a sponsor who hasn't read the source material can follow
   - `precommit-setup` — sets up commit-time guardrails: fast deterministic checks by default, optional AI review, explicit constraints, without slowing every commit
   - `skill-evolution` — turns a skill-improvement signal captured at session end into a reviewed, landed edit (or a new skill from research), keeping AgentCorp's own skills improving with a human in the loop
 
@@ -209,7 +211,7 @@ teamspace/
     │   │   ├── taste-reviewer.md
     │   │   ├── change-hygiene-reviewer.md
     │   │   ├── standards-reviewer.md
-    │   │   ├── comment-reviewer.md
+    │   │   ├── comment-optimizer.md
     │   │   ├── project-steward-reviewer.md
     │   │   ├── api-contract-reviewer.md
     │   │   ├── adversarial-reviewer.md

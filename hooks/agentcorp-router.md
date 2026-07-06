@@ -48,8 +48,11 @@ After loading `delivery-orchestrator`, read `references/workflow.md` before choo
 | regression test, blast radius, existing behavior still works | `regression-tester` |
 | `acceptance-review`, `acceptance-decision.md`, release acceptance evidence | `acceptance-review-lead` |
 | `deliver`, `delivery-report.md`, final delivery summary | `delivery-orchestrator` |
-| per-hunk diff walkthrough, hunk 讲解走查, walkthrough viewer, explain every hunk of the diff | `change-detailed-walker` |
-| plain-language explanation, zero-context explanation, explain for sponsor, persisted explanation, 落库解释, 白话解释, 看不懂, 方便看, what does this PR/branch/diff do, 这个分支/改动做了啥, 讲讲这个分支, 我没读代码 | `explain` |
+| blind spots, unknown unknowns, hidden constraints, missing frames, what am I missing, before brainstorm, 开工前找盲区, 未知未知, 我是不是漏了什么 | `probe` |
+| brainstorm, shape requirements, clarify vague request, explore options, 多路径方案, 需求澄清, 发散一下, 帮我想方案 | `brainstorm` |
+| grill me, grilling, pressure-test this plan/design/proposal, challenge my plan, relentless interview, 拷问这个方案, 挑战这个设计, 压测这个计划 | `grill` |
+| rich diff explanation, diff walkthrough, PR explanation, branch explanation, hunk 讲解走查, walkthrough viewer, explain every hunk of the diff, 这个 PR/分支/diff 做了什么 | `walkthrough` |
+| plain-language explanation, zero-context explanation, explain for sponsor, persisted explanation, 落库解释, 白话解释, 看不懂, 方便看, explain this bug/test result/review finding/status/plan/tradeoff, 我没读代码 | `explain` |
 | setup precommit, pre-commit setup, commit constraints, commit-time guardrails, Git hook workflow, AI commit review hook, Codex commit review, Claude commit review, 提交前检查, commit 约束, precommit 配置, AI commit review | `precommit-setup` |
 | parallel research, deep research, SOTA, current best practice, external technical research, prior art, paper research, open-source scan, competitor research | `parallel-researcher` |
 | adversarial review, challenge assumptions, pressure-test plan/design | `adversarial-reviewer` |

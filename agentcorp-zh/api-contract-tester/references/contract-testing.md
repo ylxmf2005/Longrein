@@ -23,4 +23,4 @@
 - pass / fail。
 - 如有必要，附上 artifact path 或脱敏后的 inline sample。
 
-报告、日志、截图、payload 里严禁泄露任何 secret。
+报告、日志、截图、payload 里禁止泄露任何 secret。

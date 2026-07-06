@@ -1,6 +1,47 @@
 #!/usr/bin/env node
 
+import fs from "node:fs";
+import path from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
+import { fileURLToPath } from "node:url";
+
+const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
+const ENV_FILE = process.env.AGENTCORP_BROWSER_ENV_FILE || path.resolve(SCRIPT_DIR, "..", ".env");
+
+function loadEnvFile(filePath) {
+  let text;
+  try {
+    text = fs.readFileSync(filePath, "utf8");
+  } catch (error) {
+    if (error.code === "ENOENT") return;
+    throw error;
+  }
+
+  for (const rawLine of text.split(/\r?\n/)) {
+    let line = rawLine.trim();
+    if (!line || line.startsWith("#")) continue;
+    if (line.startsWith("export ")) line = line.slice("export ".length).trim();
+
+    const separator = line.indexOf("=");
+    if (separator === -1) continue;
+
+    const key = line.slice(0, separator).trim();
+    let value = line.slice(separator + 1).trim();
+    if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(key)) continue;
+    if (Object.prototype.hasOwnProperty.call(process.env, key)) continue;
+
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+
+    process.env[key] = value;
+  }
+}
+
+loadEnvFile(ENV_FILE);
 
 const DEFAULT_HOST = process.env.AGENTCORP_BROWSER_HOST || process.env.CHROME_COOKIE_JS_HOST || "127.0.0.1";
 const DEFAULT_PORT = Number(process.env.AGENTCORP_BROWSER_PORT || process.env.CHROME_COOKIE_JS_PORT || 9222);
@@ -45,6 +86,8 @@ Options:
   --port <port>          Browser debug port, default from AGENTCORP_BROWSER_PORT or 9222
   --timeout-ms <ms>      Wait timeout, default 30000
   --no-await             Do not await Promise results from the expression
+
+Unset environment variables can be loaded from ../.env, or from AGENTCORP_BROWSER_ENV_FILE.
 `;
 }
 

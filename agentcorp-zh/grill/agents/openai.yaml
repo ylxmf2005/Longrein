@@ -1,0 +1,4 @@
+interface:
+  display_name: "Grill"
+  short_description: "强拷问已有计划或设计"
+  default_prompt: "Use $grill to pressure-test this plan, design, proposal, or argument one hard question at a time."

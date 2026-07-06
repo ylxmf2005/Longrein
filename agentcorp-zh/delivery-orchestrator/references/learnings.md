@@ -24,9 +24,9 @@ tags: [module-name, error-keyword, domain-word]
 - 这次让你感到意外或反直觉的事实（看起来是 X，根因其实是 Y）。
 - 反复修复失败后才定位到的根因；诊断过程中暴露出的非显而易见的机制。
 - repo 或系统特有的陷阱 / 约定，而 repo 文档和 CLAUDE.md 里都没写。
-- 流程层面的教训：某个 phase 的 artifact 形状不够用、某类 reviewer 的系统性误报模式、某个 gate 错误放行的原因。哪怕是指向 skill 自身文本的教训，也作为 `process` 类型记录，并在交付时点名给 sponsor——skill 的修改权始终归人类。
+- 流程层面的教训：某个 phase 的 artifact 形状不够用、某类 reviewer 的 systematic false positive 模式、某个 gate 错误放行的原因。哪怕是指向 skill 自身文本的教训，也作为 `process` 类型记录，并在交付时点名给 sponsor——skill 的修改权始终归人类。
 
-不要记录：一次性 trivia；repo 文档、CLAUDE.md 或 git history 里已有的内容；只对当前任务有意义的细节。唯一判断标准：**换了一个 agent，在做下一个不同的任务时读到这条，能不能避免走错路**——如果不能，就别写；不要为了仪式感硬凑条目。
+不要记录：一次性 trivia；repo 文档、CLAUDE.md 或 git history 里已有的内容；只对当前任务有意义的细节。唯一判断标准：**换了一个 agent，在做下一个不同的任务时读到这条，能不能避免走错路**——如果不能，就别写；不要为了仪式感勉强拼凑条目。
 
 ## 先查重，再落笔
 

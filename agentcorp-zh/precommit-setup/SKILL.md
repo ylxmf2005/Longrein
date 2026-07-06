@@ -39,7 +39,7 @@ description: "当 AgentCorp 需要为仓库配置或改进 pre-commit 检查、c
 
 ## Commit 约束
 
-commit 约束要做成本地 guardrail，能看懂，也能在必要时有意识地绕过。
+commit 约束要作为本地 guardrail，能看懂，也能在必要时有意识地绕过。
 
 常见约束：
 

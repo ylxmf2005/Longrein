@@ -7,28 +7,28 @@ source_artifacts:
   - path/to/source.md
 ---
 
-# Review 决策
+# Review Decision
 
-## 决策
+## Decision
 
 approve | request_changes | needs_more_evidence | blocked
 
-## 必须修复
+## Must Fix
 
 - 如果没有，写 "None"。
 
-## 建议修复
+## Should Fix
 
 - 如果没有，写 "None"。
 
-## 证据缺口
+## Evidence Gaps
 
 - 如果没有，写 "None"。
 
-## 残余风险
+## Residual Risks
 
 - 如果没有，写 "None"。
 
-## 下一步 Owner
+## Next Owner
 
 - 负责下一步动作的 agent 或人。

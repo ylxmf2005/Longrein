@@ -1,4 +1,0 @@
-interface:
-  display_name: "Change Detailed Walker"
-  short_description: "Mirror a diff into a local forge PR with per-function comments"
-  default_prompt: "Use $change-detailed-walker to mirror a branch diff into a local Gitea PR, write per-function why-comments, and pass the coverage gate."

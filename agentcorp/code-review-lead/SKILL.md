@@ -34,7 +34,7 @@ Add by risk condition:
 - Change Hygiene Reviewer — convene explicitly when the diff carries formatting/wrapping/drive-by-refactor noise, or when there is a multi-commit branch, mid-flight requirement change, a user suspecting the early implementation was wrong, a public/shared contract changed in passing, or changes to compatibility entry points / fallback / cache key / deprecation behavior.
 - adversarial — emergent failures that surface in high-risk changes that span sequences, span roles, are timing-sensitive, or are easy to abuse.
 - Taste Reviewer — when a change passes every other gate but is shaped as a hack: a local patch, a special-case workaround, or a wrong abstraction where a root-cause fix (a schema change, a refactor, breaking a forcing convention) exists; it is the counterweight to the pipeline's pull toward the smallest diff.
-- Comment Reviewer — when the diff adds or edits substantive comments, docs, or TODO/FIXME/HACK notes: judges whether they carry their weight, cuts the noise, and flags the missing why a maintainer would need.
+- Comment Optimizer — when the diff adds or edits substantive comments, docs, or TODO/FIXME/HACK notes: prefer routing it before review to rewrite/delete/add the right comments directly; in review-only mode, it flags remaining comment-quality issues and exact replacements.
 - Test Planner / test review — when the implementation changes the risk or coverage assumptions.
 - Project Steward Reviewer — when the change lands in core capability, widens the public surface, introduces long-term dependency/migration/release responsibility, or when the initiator asks for owner taste and Apache-grade project governance bars.
 

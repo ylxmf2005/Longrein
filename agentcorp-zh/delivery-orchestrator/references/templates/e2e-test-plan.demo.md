@@ -6,18 +6,18 @@ author_agent: test-planner
 parent: test/test-plan.md
 ---
 
-# E2E 测试手册：示例标题
+# E2E Test Manual: Example Title
 
-## 执行模式
+## Execution Mode
 
 - Default：browser 操作是核心验证手段（真实浏览器、已登录会话）；截图和页面状态是主要证据，API/DB/logs 仅作辅助。
 - Degraded：仅当此处明确声明时才启用；需说明降级后无法再验证的内容。
 
-## 前置条件
+## Preconditions
 
 - 入口 URL、登录方式（仅引用凭据）、测试数据准备（精确到对象 ID；上下文中未覆盖的内容在此补充）。
 
-## FLOW-1 (P1)：用户目标名称
+## FLOW-1 (P1): User Goal Name
 
 - 角色：Power user。覆盖范围：FR-x / AC-y。
 

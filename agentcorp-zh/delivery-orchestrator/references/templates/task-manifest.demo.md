@@ -5,7 +5,7 @@ author_agent: delivery-orchestrator
 status: active
 ---
 
-# 任务清单
+# Manifest
 
 | Phase | Owner | Status | Human Gate | Quality Gate | Assignment | Artifact | Receipt |
 | --- | --- | --- | --- | --- | --- | --- | --- |

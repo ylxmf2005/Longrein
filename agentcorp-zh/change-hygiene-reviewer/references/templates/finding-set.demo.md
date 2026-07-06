@@ -7,14 +7,14 @@ source_artifacts:
   - path/to/reviewed-diff.md
 ---
 
-# Change Hygiene Review 发现
+# Change Hygiene Review Findings
 
-## 结论
+## Conclusion
 
 - Verdict: clean | minor_noise | needs_cleanup | needs_human_intent
 - 概述：
 
-## Review 范围
+## Review scope
 
 - Diff:
 - Source artifacts:
@@ -33,7 +33,7 @@ source_artifacts:
 | --- | --- | --- | --- | --- |
 | path/to/file:line | requirements / story / contract / review finding / tool-required / none | required / optional / unknown | none / changed / unknown | keep / remove / split / ask-human |
 
-## 发现
+## Findings
 
 ### Finding 1: <title>
 
@@ -44,11 +44,11 @@ source_artifacts:
 - Impact:
 - Recommendation:
 
-## 值得保留的 Mechanical changes
+## Mechanical changes worth keeping
 
 - 没有则写 none。
 
-## 需要原作者确认的 Intent
+## Intent needing originator confirmation
 
 - 没有则写 none。
 

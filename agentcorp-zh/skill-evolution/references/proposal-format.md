@@ -20,4 +20,4 @@
 
 ## 生命周期
 
-`pending/` → `skill-evolution` skill 核实信号、选车道、起草、过门（standards + 人审）、落地 → 然后把文件移到 `landed/` 或 `rejected/`,记录结果与产出路径。提案自身绝不编辑 skill;落地始终过人审 gate。
+`pending/` → `skill-evolution` skill 核实信号、选车道、起草、过门（standards + 人工审核）、落地 → 然后把文件移到 `landed/` 或 `rejected/`,记录结果与产出路径。提案自身绝不编辑 skill;落地始终过人工审核 gate。

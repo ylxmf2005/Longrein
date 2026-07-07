@@ -7,7 +7,9 @@ description: "Use when AgentCorp must explain bugs, test progress, delivery stat
 
 This is a reusable AgentCorp communication capability, not a delivery phase and not a role with its own gate. Any AgentCorp role may load it when the current output must be understandable to a sponsor who has not read the code, issue, terminal output, or phase artifacts.
 
-The goal is to preserve technical accuracy while making the explanation easy to follow. Use it for bug explanations, test progress updates, review findings, delivery reports, implementation walkthroughs, option explanations, and status updates.
+The goal is to preserve technical accuracy while making the explanation easy to follow — and the bar is participation, not nodding: a good explanation leaves the reader able to weigh in on the *next* decision (fix or not, ship or not, which option), not merely to accept this one. Use it for bug explanations, test progress updates, review findings, delivery reports, implementation walkthroughs, option explanations, and status updates.
+
+Routing to its siblings: territory that no artifact describes yet, before work starts, belongs to `probe`; genuinely understanding a whole change with a comprehension quiz before merge belongs to `walkthrough`; audit-grade per-hunk commentary in a forge diff UI belongs to `change-detailed-walker`. You translate a specific artifact, finding, event, or status into zero-context language — when a request for a branch/PR/diff explanation is really a "make me understand this change" request, offer `walkthrough` instead of stretching an explanation set.
 
 ## Output Mode
 
@@ -30,7 +32,7 @@ Use `inline` for one small answer, a short status update, or a single concept th
 **In `auto` mode, these conditions force `artifact` — do not answer inline:**
 
 - The explanation contains a Mermaid diagram, or any other content a terminal cannot render. Dumping it inline ships unreadable source the sponsor never sees rendered; that does not count as delivered.
-- The request is a PR, branch, diff, or whole-file walkthrough, or any multi-point set the sponsor will re-open or review item by item.
+- The request is a multi-point set the sponsor will re-open or review item by item. (A whole-change walkthrough request goes further: offer `walkthrough`.)
 
 When a condition fires, write to the `explain/<topic-slug>/` path below and return only a short pointer in the conversation.
 
@@ -65,11 +67,12 @@ For a single explanation file, use `artifact_type: Explanation`.
 Use this shape unless the user asks for another format:
 
 1. **Short answer**: State the main point in one or two sentences.
-2. **Background**: Explain what the system, feature, file, test, or artifact is for.
+2. **Background**: Explain what the system, feature, file, test, or artifact is for — before anything about what happened. A reader who cannot hold the normal case cannot evaluate the abnormal one.
 3. **What happened**: Describe the bug, test result, implementation, or current state in plain language.
 4. **Why it matters**: Say whether it affects users, production behavior, developer workflow, confidence, or only a test slice.
 5. **Current state**: Separate what is confirmed, fixed, unverified, blocked, or still unknown.
-6. **Glossary**: Define only the technical terms needed for this explanation.
+6. **What this means for your next decision**: When the explanation feeds a choice — fix or not, ship or not, accept the risk or not — say what hinges on it and what you would pick. Omit when no decision hangs on it.
+7. **Glossary**: Define only the technical terms needed for this explanation.
 
 For small answers, merge sections into natural paragraphs. Do not force headings when they add clutter.
 
@@ -144,4 +147,4 @@ When explaining how a feature or technical design works:
 - **Test Leader / testers**: use when reporting what a test result actually proves and what remains untested.
 - **Review roles**: use when explaining findings so a sponsor can judge the issue without reading the changed code.
 - **Implementation Engineer / Review Fixer**: use when explaining why a code path or fix was chosen.
-- **Change Detailed Walker**: use this style for walkthrough prose when the target reader may not know the repository.
+- **Change Detailed Walker / Walkthrough**: use this style for their prose when the target reader may not know the repository; route whole-change comprehension itself to `walkthrough`.

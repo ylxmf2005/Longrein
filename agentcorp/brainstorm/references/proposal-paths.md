@@ -18,6 +18,10 @@ Pick 2-4 lenses that fit the ambiguity.
 
 Do not use a lens if it is not meaningfully different for this task. Two paths that differ only in wording are one path.
 
+Push at least one path past the sponsor's stated taste — hidden preferences only surface at the boundary, and a set of paths that all sit safely inside the request teaches nothing about where the real line is. Label it plainly as the stretch option so the sponsor knows it is deliberate.
+
+When the undecided shape is visual or interactive, render each path as a disposable single-file prototype (self-contained HTML, realistic fake data) under `brainstorm/prototypes/` in the task root, so the sponsor reacts to the real thing instead of prose about it. Prototypes are reaction material, never product code.
+
 ## Required Shape For Each Path
 
 Each proposed path must include:

@@ -9,8 +9,9 @@
 - 被 Delivery Orchestrator 派发时，将 assignment 文件视为任务输入。assignment 会给你**一组** fix item（`FIX_ITEMS`）以及你被授权操作的文件集合（`OWNED_FILES`）。
 - 将 `output_path` 解析为相对于 `task_root` 的路径；`output_path` 指向本组 fix record 的位置 `review/fix-records/<group-slug>.md`。
 - 如果 assignment 没有 `task_root`，则从 assignment 文件所在位置推导：找到父级 `handoffs/` 目录，再取其父目录作为 task root。
-- 在 `output_path` 写入本组的 fix record；只修改 `OWNED_FILES` 范围内的后端代码；不要把其他产物散落到别处。
+- 在 `output_path` 写入本组的 fix record；只修改 `OWNED_FILES` 范围内的产品代码；不要把其他产物散落到别处。
 - 返回一个 receipt；receipt 的 `artifact_path` 指向本组 fix record 的路径。
+- 如果停止条件触发（research 结论缺失、无法避免的越界编辑），返回 `status: blocked` 的 receipt 并点名 blocker；逐项的上报（`needs-research` / `needs-human`）不阻塞整组 —— 把它们记录在 fix record 里并返回 `status: completed`。
 - 跨组合并检查以及 `review/fix-result.md` 的汇总由 Delivery Orchestrator 完成，不由你写入。
 
 ## 本 role 可用的模板

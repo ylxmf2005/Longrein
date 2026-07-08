@@ -6,7 +6,7 @@
 
 目标是**减少必须处理 exception 的地方**，而不是捕获每一个可能的错误。Exception handling 代码写起来、测起来、维护起来都比正常路径代码更难。它在生产环境很少执行，导致 bug 很难被发现。Exception handling 还会制造更多 exception 的机会（比如恢复代码本身又挂了）。
 
-本 review 维度关注的是：错误处理究竟在增加还是降低整体系统复杂度。最好的代码要么通过精心的 API 设计把错误条件彻底消灭，要么在关键的战略位置统一处理 exception。
+做设计时，用这个维度来判断：你正在提出的错误处理究竟在增加还是降低整体系统复杂度。最好的设计要么通过精心的 API 设计把错误条件彻底消灭，要么在关键的战略位置统一处理 exception。
 
 ## Core Principles
 
@@ -93,7 +93,7 @@
 
 ## Issue Tags
 
-Code review 输出中使用以下 tag：
+在设计产物中标记错误处理问题时使用以下 tag：
 
 - **[Exception Proliferation]**：Exception handler 或 exception type 过多，增加了接口复杂度
 - **[Error Definition]**：操作对其实可以定义为正常行为的条件 throw exception

@@ -1,6 +1,6 @@
 ---
 artifact_type: ImplementationResult
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 author_agent: implementation-engineer
 status: implemented
 source_artifacts:
@@ -16,7 +16,7 @@ implementation/implementation-story.md
 
 ## Completed tasks
 
-- Tasks and evidence.
+- Task -> evidence handle (file:line, or command + observed output).
 
 ## Unfinished tasks
 
@@ -32,7 +32,7 @@ implementation/implementation-story.md
 
 ## Commands run
 
-- Commands and results.
+- `command` -> exit code and the key output line (an inspectable handle, not just a pass/fail word).
 
 ## Implementation notes
 

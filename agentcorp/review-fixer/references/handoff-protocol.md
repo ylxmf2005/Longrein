@@ -9,8 +9,9 @@ Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifier
 - When dispatched by the Delivery Orchestrator, treat the assignment file as your task input. The assignment gives you **one group** of fix items (`FIX_ITEMS`) and your authorized file set (`OWNED_FILES`).
 - Resolve `output_path` relative to `task_root`; `output_path` points to this group's fix record `review/fix-records/<group-slug>.md`.
 - If the assignment has no `task_root`, derive it from the assignment file's location: find the parent `handoffs/` directory and take its parent directory as the task root.
-- Write this group's fix record at `output_path`; edit only the backend code within `OWNED_FILES`; do not scatter any other artifacts beyond that.
+- Write this group's fix record at `output_path`; edit only the product code within `OWNED_FILES`; do not scatter any other artifacts beyond that.
 - Return a receipt; the receipt's `artifact_path` points to this group's fix record path.
+- If a stop condition fires (missing research conclusions, an unavoidable out-of-bounds edit), return the receipt with `status: blocked` and name the blocker; per-item escalations (`needs-research` / `needs-human`) do not block the group — record them in the fix record and return `status: completed`.
 - The cross-group merge check and the `review/fix-result.md` rollup are done by the Delivery Orchestrator, not written by you.
 
 ## Templates available to this role

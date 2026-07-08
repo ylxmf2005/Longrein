@@ -1,6 +1,6 @@
 # TestPlan review reference
 
-Red flags common to reviewing a TestPlan — when you see these, executing the plan most likely will not build confidence either.
+Red flags common to reviewing a TestPlan — check the plan against every line before you write the decision; when one of these appears, executing the plan most likely will not build confidence either.
 
 - "Test that the feature works" — no verifiable assertion, nothing to falsify.
 - A user-facing workflow change covered only by unit tests, with no end-to-end verification.

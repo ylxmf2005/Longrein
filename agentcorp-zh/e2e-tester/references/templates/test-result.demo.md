@@ -15,7 +15,7 @@ passed | failed | blocked | partial
 
 ## 已执行的检查
 
-- 场景及结果。
+- 每个 scenario 一条真人 tester 颗粒度的执行记录——背景、准确的操作和输入、requests/responses、亲眼观察到什么、清理、证据边界——绝不是只有 verdict 的一行。
 
 ## 已执行的命令
 
@@ -32,6 +32,7 @@ passed | failed | blocked | partial
 
 ## 被阻塞的检查
 
+- 标为 `needs_more_evidence` 的 check 也写在这里，并写明缺失的观察。
 - 没有就写 "None"。
 
 ## 残余风险

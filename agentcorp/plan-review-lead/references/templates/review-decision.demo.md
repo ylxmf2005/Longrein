@@ -1,10 +1,11 @@
 ---
-artifact_type: CodeReviewDecision
+artifact_type: PlanReviewDecision
 task_id: example-task-20260603-120000
-author_agent: example-review-lead
+author_agent: plan-review-lead
 status: approve
 source_artifacts:
-  - path/to/source.md
+  - implementation/implementation-story.md
+  - design/impact-analysis.md
 ---
 
 # Review decision
@@ -20,6 +21,15 @@ approve | request_changes | needs_more_evidence | blocked
 ## Should fix
 
 - Write "none" when there are none.
+
+## Constraints for implementation
+
+- Required when Decision is approve: the implementation constraints and the release scope (the story's in-scope / out-of-scope boundary), addressed to the Implementation Engineer. Write "none" otherwise.
+
+## Specialist reviews
+
+- One line per reviewer convened: name + finding-set path (e.g. Correctness Reviewer — review/specialist-findings/correctness-reviewer.md).
+- For each always-consider reviewer not convened: the reason, recorded as a residual risk.
 
 ## Evidence gaps
 

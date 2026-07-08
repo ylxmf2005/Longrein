@@ -18,10 +18,9 @@ SKILL.md 讲为什么；这里讲怎么做。写 artifact 之前加载。
 
 ## Quiz 机制
 
-- 从 reviewer 的视角出题，而不是作者的视角："X 变了会坏什么"、"这与哪条既有路径交互"、"输入是 Y 时会发生什么"、"为什么选形状 A 而不是 B"。
-- 瞄准意外面：依赖既有代码路径的行为、边界情况和失败模式、"追踪这个输入"式的题目。至少一道题必须需要**背景**章节的知识——这是你检测读者是否跳过了它的方法。
+- 瞄准意外面：依赖既有代码路径的行为、边界情况和失败模式、"追踪这个输入"式的题目，以及"为什么选形状 A 而不是 B"。至少一道题必须需要**背景**章节的知识——这是你检测读者是否跳过了它的方法。
 - 禁止：扫一眼 diff 就能答的题——文件名、行数、符号拼写、任何数数题。
-- Gate：满分。答错时点名要重读的章节，然后就同一概念出一道**变体**题。在任务内时按标准 human-gate 词汇把结果记录到 `task.md` 的 Gate History：满分记 `approved`，sponsor 显式跳过记 `skipped`。独立使用时，在 artifact 末尾记一行「Gate outcome: approved <日期> / skipped by sponsor <日期>」。
+- Gate：按 SKILL.md 的「Quiz gate」执行（满分；重读后答对变体题即清除错题；`approved`/`skipped` 记入 `task.md` 的 Gate History）。独立使用时，artifact 以末尾一行「Gate outcome: approved <日期> / skipped by sponsor <日期>」收尾。
 
 ## 交付前自检——命中任意一条就回去重写
 

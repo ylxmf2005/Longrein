@@ -1,10 +1,11 @@
 ---
-artifact_type: CodeReviewDecision
-task_id: example-task-20260603-120000
-author_agent: example-review-lead
+artifact_type: TestPlanReviewDecision
+task_id: 20260603-120000-example-task
+author_agent: test-plan-reviewer
 status: approve
 source_artifacts:
-  - path/to/source.md
+  - test/test-plan.md
+  - requirements/validated-requirements.md
 ---
 
 # Review decision

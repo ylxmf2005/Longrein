@@ -44,4 +44,9 @@ sequenceDiagram
 
 ## Syntax validation
 
-After writing an artifact that contains Mermaid, you must validate the syntax against a Mermaid version compatible with the target previewer/publishing environment; if you don't know the version, prefer conservative syntax (e.g., `graph TD`, choosing diagram syntax compatible with older parsers). When `mmdc` is missing locally, install it first with `npm install -g @mermaid-js/mermaid-cli`; if the target environment runs an older version, you can temporarily install the matching `mermaid@<version>` and parse each code fence with `mermaid.parse`. Keep the source document for the formal artifact, and report the validation result in the delivery note.
+After writing an artifact that contains Mermaid, validate every fence before delivery, against a Mermaid version compatible with the target previewer/publishing environment; if you don't know the version, prefer conservative syntax (e.g., `graph TD`, choosing diagram syntax compatible with older parsers).
+
+- **With tooling**: extract each fence to a temp `.mmd` file and run `mmdc -i <fence>.mmd -o <tmp>.svg`; non-zero exit = the fence fails to parse. When `mmdc` is missing locally and the environment permits, install it with `npm install -g @mermaid-js/mermaid-cli`; if the target environment runs an older version, you can instead temporarily install the matching `mermaid@<version>` and parse each code fence with `mermaid.parse`.
+- **Without tooling**: if `mmdc` cannot be installed (no network, no npm, no global-install permission), do not block delivery and do not claim a validation you did not run: fall back to conservative syntax (`graph TD`, no newer-parser features), re-check each fence by eye for balanced brackets/quotes and valid arrows, and report `validation skipped: tooling unavailable` in the delivery note.
+
+Keep the source document for the formal artifact, and report the validation result — or the declared skip — in the delivery note.

@@ -8,7 +8,7 @@ Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifier
 
 - When dispatched by the Delivery Orchestrator, treat the assignment file as the task input.
 - Resolve `output_path` relative to `task_root`.
-- If the assignment has no `task_root`, derive it from the assignment file's location: find the parent `handoffs/` directory and take its parent as the task root.
+- If the assignment has no `task_root`, derive it from the assignment file's location: when the file sits under a `handoffs/` directory, take that directory's parent as the task root; tester assignments under `verification/assignments/` have no `handoffs/` ancestor — take the directory containing `verification/` as the task root instead.
 - Write this phase's primary persistent artifact at `output_path`; do not scatter extra artifacts unless this role's instructions call for creating a tester assignment, a sub-result, or an acceptance package.
 - Return a receipt; the receipt's `artifact_path` must match the primary artifact path, or point to the final summary artifact when this role explicitly produces multiple artifacts.
 

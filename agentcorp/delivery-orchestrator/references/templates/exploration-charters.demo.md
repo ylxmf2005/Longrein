@@ -1,3 +1,4 @@
+<!-- Exploration working notes for filling testing-context — deliberately no YAML frontmatter; never named in a receipt, so validate-handoff.py never sees them. -->
 # Charter Ledger
 
 ## C-1 (done)

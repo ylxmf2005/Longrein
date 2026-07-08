@@ -1,3 +1,4 @@
+<!-- 用于填充 testing-context 的探索工作笔记——刻意不带 YAML frontmatter；永远不会被 receipt 指名，因此 validate-handoff.py 永远不会看到它们。 -->
 # Charter 台账
 
 ## C-1 (done)

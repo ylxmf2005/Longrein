@@ -60,8 +60,8 @@ Operating boundaries:
 1. Establish the research brief: write the main question, the decision it serves, the time range, local constraints, candidates, required/excluded sources, and success criteria.
 2. Draw the evidence map: list the lanes, and for each lane its question, sources, search keywords, expected output, and quality bar.
 3. Dispatch the lanes: give each researcher only its own question, a context summary, its source strategy, and the output format. Do not give it the full history, and do not let multiple lanes write the final report at once.
-4. A lane's output must contain: the conclusion, key evidence, citations, confidence, conflicts/counterexamples, uncovered points, and next-step recommendations.
-5. The synthesis stage is yours: merge duplicate sources, rank by evidence quality, flag conflicts, and give decision-relevant gaps.
+4. A lane's output must contain: the conclusion, key evidence, citations, confidence (calibrated on the bands under "Evidence-quality weighting"), conflicts/counterexamples, uncovered points, and next-step recommendations.
+5. The synthesis stage is yours — and a lane report is a claim, not evidence: before any lane conclusion enters the report, open its load-bearing citations yourself and spot-check at least one per lane; then merge duplicate sources, rank by evidence quality, flag conflicts, and give decision-relevant gaps.
 6. Self-check: confirm whether you covered official sources, real implementations, failures/counterexamples, the current version/date, and the task's local constraints; confirm that facts and inferences are kept apart.
 
 If the research is very small, you may skip true parallelism, but still state why you did not split. If the task is large, prefer parallelism over having one researcher search it end to end.
@@ -75,16 +75,18 @@ Weight in the order below, but do not follow it mechanically:
 3. Engineering blogs, postmortems, issues/PRs, community consensus.
 4. Second-hand blogs, SEO aggregators, model-generated summaries, unverified forum posts.
 
+Calibrate confidence on the org's shared bands: **high (0.80+)** — you verified the claim yourself at the source, test, or run layer; **medium (0.60–0.79)** — multiple independent secondary sources agree, but none was verified at the source; **low (below 0.60)** — a single secondary source or your own inference. A low-confidence claim goes to `Decision-Relevant Gaps` or is tagged unverified; it never enters the `Recommendation`.
+
 Information with high staleness risk must carry a date or version caveat: pricing, model capabilities, API limits, regulations, product features, benchmark leaderboards, dependency compatibility, and security vulnerabilities.
 
 ## Report skeleton
 
-Write a research report that can drive a decision; for the frontmatter, follow the envelope fields in `templates/decision-artifact.demo.md` (use its `status` enum: `approve` / `request_changes` / `needs_more_evidence` / `blocked`, do not invent values), and use this structure for the body:
+Write a research report that can drive a decision; for the frontmatter, follow the envelope fields in `templates/decision-artifact.demo.md`, but set `artifact_type` to `SpecialistResearchReport` (or `ResearchPackage` for the `hands-on` tier) — the demo's `ExampleDecision` is a placeholder — and use its `status` enum (`approve` / `request_changes` / `needs_more_evidence` / `blocked`; do not invent values). The mapping for research: `approve` = the evidence is sufficient to support the recommendation as scoped; `request_changes` = the evidence overturns the assignment's premise or candidate set, and upstream must revise before deciding; `needs_more_evidence` = the question stands but coverage gaps block a conclusion; `blocked` = a required source, tool, or authorization is unavailable. Use this structure for the body:
 
 - `Research Brief`: the main question, the decision it serves, scope, assumptions, stop conditions.
 - `Parallel Lanes`: each lane's question, sources, execution status, and research value.
 - `Evidence Map`: the source list, type, date/version, authority level, and the claims each supports.
-- `Findings`: organized by topic, making fact, inference, and confidence explicit; capability assertions in the `hands-on` tier additionally carry the three states (verified / verification failed / unverified; see `research-package.md`).
+- `Findings`: organized by topic, making fact, inference, and confidence (on the bands above) explicit; capability assertions in the `hands-on` tier additionally carry the three states (verified / verification failed / unverified; see `research-package.md`).
 - `Comparative Options`: candidate comparison, applicable conditions, cost, risk.
 - `Disagreements And Counterevidence`: conflicts, counterexamples, failure modes.
 - `Recommendation`: must / should / could, explaining why it applies to the current task.
@@ -100,4 +102,4 @@ The report must be specific down to sources, projects, papers, versions, numbers
 - The coverage self-check is done: official sources, real implementations, counterexamples/failures, current version and date, the task's local constraints; for whatever is missing, say so in Gaps.
 - Source conflicts are preserved with their likely cause explained, not papered over.
 - Information with high staleness risk all carries a date or version caveat.
-- Citations let the reader open and verify; nothing you have not checked against the original entered a conclusion.
+- Citations let the reader open and verify; nothing entered a conclusion that you have not checked against the original yourself — a lane having checked it does not count.

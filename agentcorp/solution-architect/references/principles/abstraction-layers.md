@@ -2,7 +2,7 @@
 
 ## Description
 
-This dimension evaluates how well a system separates concerns across architectural layers. In well-designed systems, each layer provides a distinct abstraction from adjacent layers — following an operation through method calls should reveal changing abstractions at each level. When adjacent layers expose similar abstractions, it signals confused responsibility boundaries and shallow design that adds interface complexity without proportional functionality gains.
+When designing, use this dimension to judge how well the structure you are proposing separates concerns across architectural layers. In well-designed systems, each layer provides a distinct abstraction from adjacent layers — following an operation through method calls should reveal changing abstractions at each level. When adjacent layers expose similar abstractions, it signals confused responsibility boundaries and shallow design that adds interface complexity without proportional functionality gains.
 
 Key concerns include:
 - **Layer separation**: Whether each layer provides a meaningfully different abstraction
@@ -49,7 +49,7 @@ A class's interface should provide a different abstraction than its internal imp
 
 ## Red Flags
 
-Watch for these patterns during review:
+Watch for these patterns in the design you are proposing and in the code you read while designing:
 
 ### Pass-Through Methods
 - Methods that do nothing but call another method with the same or very similar signature
@@ -85,7 +85,7 @@ Watch for these patterns during review:
 
 ## Issue Tags
 
-Use these tags when reporting issues:
+Use these tags when flagging layering problems in a design artifact:
 
 - **[Pass-Through Method]**: Method delegates to another without adding functionality
 - **[Pass-Through Variable]**: Variable threaded through methods that don't use it

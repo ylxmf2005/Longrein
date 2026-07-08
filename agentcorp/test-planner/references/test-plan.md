@@ -1,18 +1,10 @@
----
-id: test-plan
-name: Test Plan
-inputs: [validated requirements, diagnosis criteria, testing context]
-outputs: [TestPlan artifact set]
-optional: false
----
-
 # Test Plan (TestPlan)
 
 Settle the verification strategy before implementation begins. The point is to spell out how this task should be proven correct while there is still no code and changes are still cheap — so the implementer knows what must stay testable, and the tester knows how to prove the risky behaviors.
 
 ## What you are fighting against
 
-Missing a risk, and verifying the wrong place, are the two enemies. Coverage must follow risk: concentrate effort on the critical paths, boundaries, failure modes, and regressions that genuinely matter, rather than spreading it evenly. At the same time, make the plan prove behavior rather than some internal implementation style — keep out brittle assertions that drift with implementation details, or the tests will go false-positive in sheets during refactors.
+Missing a risk, and verifying the wrong place, are the two enemies. Coverage must follow risk: concentrate effort on the critical paths, boundaries, failure modes, and regressions that genuinely matter, rather than spreading it evenly. At the same time, make the plan prove behavior rather than some internal implementation style — keep out brittle assertions that drift with implementation details, or the tests will go false-positive en masse during refactors.
 
 There is a third enemy: a plan that can write "what to test" but not "how to test". A check with intent but no steps forces the tester to invent operations on the spot — and the invented operations are not necessarily the same as the risk you assessed. So this artifact's passing line is **followable verbatim**: the tester can run what is written without inventing any step.
 
@@ -20,11 +12,11 @@ There is a third enemy: a plan that can write "what to test" but not "how to tes
 
 1. **Read the inputs** — validated requirements (or diagnosis criteria), constraints, environment notes, existing test artifacts.
 2. **Check the context** — read `teamspace/testing-context.md`; if it does not exist, or does not cover the surface this task needs to test, first explore and fill the gaps per Step 0–5 of `references/testing-context.md`, then proceed.
-3. **Rank risk** — set the Must-Haves, the forbidden zones, the P0 gates, and the execution order.
+3. **Rank risk** — set the Must-Haves, the forbidden zones, the P0 gates, and the execution order; for defect-class tasks, the original failing input appears verbatim as an explicit check, so the fix is proven against the input that actually failed, not proxy samples alone.
 4. **Write the three execution manuals** — specificity standard below. The entry points, pages, and control text the E2E manual references must trace to entries in the page map that are **actually walked**; any page step whose provenance is only code-inferred must either be sent back to exploration and verified on the ground, or be explicitly marked "page entry unverified" in that flow and listed in the overall strategy's open questions — the verification may not be silently left to the tester.
 5. **Specify result reporting** — each manual states what the tester must write down after every check: exact actions/inputs, exact requests/responses when relevant, observation surface, evidence paths, cleanup, and evidence limits.
 6. **Write the overall strategy** — the coverage summary maps each requirement to a check id and the file it lives in.
-7. **Self-check before delivery** — every AC has an owner; the E2E execution form is explicit; the three manuals pass the "followable verbatim" standard; the result-recording expectations are explicit; the environment is described faithfully; every omission and gap has its reason written down.
+7. **Self-check before delivery** — every AC has an owner; the E2E execution form is explicit; the three manuals pass the "followable verbatim" standard; defect-class tasks carry the original failing input as a check; the result-recording expectations are explicit; the environment is described faithfully; every omission and gap has its reason written down.
 
 ## Context first, then the plan
 
@@ -59,7 +51,7 @@ Every execution manual must say how the tester records the result. Use the same 
 - Include the concrete action before the conclusion. For API or page-console checks, include method, path, payload, credentials/session mode, status, key response body fields, and trace/request IDs.
 - Record the observation surface that proves the user-visible or runtime outcome: UI state, screenshot, DB read-back, log line, audit event, notification content, or manual user confirmation.
 - For async or external outcomes, name the observation window and who/what confirms it. A trigger request returning success is not enough to prove email/chat/push/scheduler behavior.
-- For negative checks, state what source was watched and what matching signal was absent. If absence cannot be observed reliably, the expected result should be `needs_more_evidence` or `blocked`, not pass.
+- For negative checks, state what source was watched and what matching signal was absent. If absence cannot be observed reliably, the expected result should be `blocked` or `partial` with the missing observation named, not pass.
 - End each check with cleanup/restore evidence and an evidence boundary: what this check proves and what it cannot prove.
 
 ## E2E execution form: browser as primary evidence
@@ -86,6 +78,10 @@ Describe the runtime environment clearly in plain Markdown in the overall strate
 
 ## Output
 
-Write the artifact set into the `test/` directory that holds the assignment's `output_path`, with the shape following each demo under `references/templates/`. This plan is only in place when the Must-Haves are all observable, the forbidden zones are drawn concretely, the integration checks cover the real boundaries, the e2e has no unreasoned gaps, all three manuals pass the "followable verbatim" standard, and the tester-role recommendations for the Test Leader are genuinely actionable.
+Write the artifact set into the `test/` directory that holds the assignment's `output_path`, with the shape following each demo under `references/templates/`.
+
+Frontmatter `confidence` is `HIGH` | `MEDIUM` | `LOW`: HIGH = every Must-Have is traceable to an actually-walked entry and there are no open questions; MEDIUM = code-inferred entries or open questions remain; LOW = requirements gaps are named in Open questions.
+
+This plan is only in place when the Must-Haves are all observable, the forbidden zones are drawn concretely, the integration checks cover the real boundaries, the e2e has no unreasoned gaps, all three manuals pass the "followable verbatim" standard, and the tester-role recommendations for the Test Leader are genuinely actionable.
 
 If the requirements or diagnosis criteria are too vague to rank risk and design verification with confidence, return `blocked` and state specifically what evidence is missing, rather than making it up.

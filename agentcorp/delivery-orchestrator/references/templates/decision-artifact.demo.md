@@ -7,6 +7,8 @@ source_artifacts:
   - path/to/source.md
 ---
 
+<!-- ExampleDecision is a placeholder: set artifact_type to the phase's decision type, e.g. AcceptanceDecision -->
+
 # Decision Artifact Example
 
 ## Decision

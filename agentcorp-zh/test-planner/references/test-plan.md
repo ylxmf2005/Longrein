@@ -1,18 +1,10 @@
----
-id: test-plan
-name: Test Plan
-inputs: [validated requirements, diagnosis criteria, testing context]
-outputs: [TestPlan artifact set]
-optional: false
----
-
 # Test Plan (TestPlan)
 
 在 implementation 开始前把验证策略敲定。核心目的在于：趁还没代码、改动成本还低的时候，把这个 task 怎么算"被证明正确"说清楚——让 implementer 清楚哪些东西必须保持可测试，让 tester 知道怎么去证明那些高风险行为。
 
 ## 你要对抗什么
 
-漏掉一个风险、或者验证错了地方，这是两个大敌。覆盖率必须跟着风险走：把精力集中在真正重要的关键路径、边界条件、异常行为和回归点上，不要平均撒胡椒面。与此同时，plan 要证明的是行为，而不是某种内部实现风格——别写那种一重构就成片飘红的脆弱断言，否则测试会在 refactor 时集体误报。
+漏掉一个风险、或者验证错了地方，这是两个大敌。覆盖率必须跟着风险走：把精力集中在真正重要的关键路径、边界条件、异常行为和回归点上，不要平均撒胡椒面。与此同时，plan 要证明的是行为，而不是某种内部实现风格——排除那些会随实现细节漂移的脆弱断言，否则测试会在 refactor 时成片误报。
 
 还有第三个敌人：只能写"测什么"却写不出"怎么测"的 plan。一个只有意图没有步骤的 check，逼得 tester 临场现编操作——而现编的操作跟你评估的风险未必是一回事。所以这个 artifact 的及格线是**逐字可执行（followable verbatim）**：tester 照着手册跑，不需要自己发明任何一步。
 
@@ -20,11 +12,11 @@ optional: false
 
 1. **读入 inputs** — 已验证的 requirements（或 diagnosis criteria）、约束条件、环境说明、已有的测试 artifact。
 2. **核对 context** — 阅读 `teamspace/testing-context.md`；如果文件不存在，或者没覆盖到本次 task 需要测试的表面，先按照 `references/testing-context.md` 的 Step 0–5 补齐缺口，再继续。
-3. **排序 risk** — 确定 Must-Haves、禁区、P0 gate 和执行顺序。
+3. **排序 risk** — 确定 Must-Haves、禁区、P0 gate 和执行顺序；对缺陷类任务，原始失败输入要逐字作为显式 check 出现，让修复针对真正失败的那个输入被证明，而不是只靠代理样本。
 4. **撰写三份 execution manual** — 详细度标准见下文。E2E manual 引用的入口、页面和控件文本，必须能追溯到 page map 里**实际走过**的条目；任何仅靠代码推断出来的页面步骤，要么打回 exploration、实地验证，要么在该 flow 中显式标注"页面入口未验证"，并在整体策略的 open questions 中列出——不能把验证工作悄悄甩给 tester。
 5. **指定结果记录方式** — 每份 manual 都说明 tester 每跑完一个 check 要写下什么：准确动作/输入，相关的 request/response，观察面，证据路径，cleanup，以及证据边界。
 6. **撰写 overall strategy** — coverage summary 把每个 requirement 映射到一个 check id 及其所在文件。
-7. **交付前自检** — 每条 AC 都有负责人；E2E 的执行形式是明确的；三份 manual 都通过"逐字可执行"标准；结果记录期望是明确的；环境描述如实；每个遗漏和缺口都写明了原因。
+7. **交付前自检** — 每条 AC 都有负责人；E2E 的执行形式是明确的；三份 manual 都通过"逐字可执行"标准；缺陷类任务带上了原始失败输入作为 check；结果记录期望是明确的；环境描述如实；每个遗漏和缺口都写明了原因。
 
 ## 先搞 context，再写 plan
 
@@ -59,7 +51,7 @@ TestPlan 是一组文件——整体策略加三份 execution manual——写入
 - 先写具体动作，再写结论。API 或 page-console check 要写 method、path、payload、credentials/session mode、status、关键 response body 字段，以及 trace/request ID。
 - 写明证明用户可见结果或 runtime 结果的观察面：UI 状态、截图、DB read-back、log line、audit event、通知内容或人工确认。
 - 异步或外部结果要点名观察窗口，以及由谁/什么确认。trigger request 返回成功，不足以证明邮件/聊天/push/scheduler 行为成功。
-- 负向检查要说明观察了哪个来源，以及没有出现哪个匹配信号。如果无法可靠观察“没有发生”，预期结果应该是 `needs_more_evidence` 或 `blocked`，而不是 pass。
+- 负向检查要说明观察了哪个来源，以及没有出现哪个匹配信号。如果无法可靠观察“没有发生”，预期结果应该是 `blocked` 或 `partial` 并点名缺失的观察，而不是 pass。
 - 每条 check 结尾写 cleanup/restore 证据和证据边界：这条 check 证明了什么，不能证明什么。
 
 ## E2E 执行形式：浏览器作为主要证据
@@ -86,6 +78,10 @@ TestPlan 是一组文件——整体策略加三份 execution manual——写入
 
 ## 输出
 
-把 artifact set 写入 assignment `output_path` 所在的 `test/` 目录，结构参考 `references/templates/` 下的各 demo。这个 plan 只有在以下条件全部满足时才算到位：所有 Must-Haves 都是可观测的；禁区画得很具体；integration check 覆盖了真实边界；e2e 没有未经推理的缺口；三份 manual 都通过"逐字可执行"标准；给 Test Leader 的 tester-role 建议真正可执行。
+把 artifact set 写入 assignment `output_path` 所在的 `test/` 目录，结构参考 `references/templates/` 下的各 demo。
+
+Frontmatter `confidence` 是 `HIGH` | `MEDIUM` | `LOW`：HIGH = 每个 Must-Have 都能追溯到实际走过的条目，且没有 open questions；MEDIUM = 仍存在代码推断的条目或 open questions；LOW = requirements 缺口已在 Open questions 中点名。
+
+这个 plan 只有在以下条件全部满足时才算到位：所有 Must-Haves 都是可观测的；禁区画得很具体；integration check 覆盖了真实边界；e2e 没有未经推理的缺口；三份 manual 都通过"逐字可执行"标准；给 Test Leader 的 tester-role 建议真正可执行。
 
 如果 requirements 或 diagnosis criteria 太模糊，无法 confident 地排 risk 和设计验证，返回 `blocked`，并具体说明缺什么证据，而不是凭空编造。

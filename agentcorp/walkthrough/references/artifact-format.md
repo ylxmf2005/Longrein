@@ -18,10 +18,9 @@ SKILL.md covers the why; this covers the how. Load before writing the artifact.
 
 ## Quiz mechanics
 
-- Write questions from the reviewer's perspective, not the author's: "what breaks if X", "which existing path does this interact with", "what happens when the input is Y", "why was shape A chosen over B".
-- Target the surprise surface: behavior that depends on pre-existing code paths, edge cases and failure modes, "trace this input" questions. At least one question must require knowledge from the **Background** section — that is how you detect a reader who skipped it.
+- Target the surprise surface: behavior that depends on pre-existing code paths, edge cases and failure modes, "trace this input" questions, and "why was shape A chosen over B". At least one question must require knowledge from the **Background** section — that is how you detect a reader who skipped it.
 - Forbidden: questions answerable by skimming the diff — file names, line counts, symbol spellings, counts of anything.
-- Gate: perfect score. On a miss, name the section to re-read, then ask a **variant** question on the same concept. Record the outcome in `task.md`'s Gate History when inside a task, using the standard human-gate vocabulary: `approved` on a perfect score, `skipped` on an explicit sponsor skip. Standalone, record it as a final "Gate outcome: approved <date> / skipped by sponsor <date>" line in the artifact itself.
+- Gate: as SKILL.md's "The quiz gate" (perfect score; a correct variant after the re-read clears a miss; `approved`/`skipped` in `task.md`'s Gate History). Standalone, the artifact ends with a final "Gate outcome: approved <date> / skipped by sponsor <date>" line.
 
 ## Pre-delivery self-check — if any item hits, go back and rewrite
 

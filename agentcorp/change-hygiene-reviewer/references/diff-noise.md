@@ -4,10 +4,10 @@ Load only when the assignment or diff signals point to whitespace, formatting, w
 
 ## Process
 
-1. Run the mechanical scan first.
-   - From this skill directory, run `python3 scripts/diff_noise_scanner.py --json`.
-   - When reviewing an MR/PR or feature branch, prefer the base/head the assignment specifies; with no explicit range but a locatable target branch, use the committed branch diff from merge-base to HEAD, e.g. `--diff <base>..HEAD`.
-   - Look at local uncommitted changes only when the originator or assignment explicitly asks to review staged / worktree / current candidate; for staged, use the default git diff/staged input, and for the working tree add `--worktree`.
+1. Run the mechanical scan first — from the right repo, against the right range.
+   - Run the scanner from the code worktree root (the `code_worktree`/`code_location` when the task uses a separate checkout): `python3 <absolute-path-to-this-skill>/scripts/diff_noise_scanner.py --json --base <target-branch>`. The script shells out to `git diff` in your current working directory, so it must run inside the repo under review — run it from the skill directory and you scan the skill repo, not the code.
+   - For an MR/PR or feature branch, prefer the base/head the assignment specifies. With no explicit range but a locatable target branch, use `--base <target-branch>` — the script computes merge-base(base, HEAD) itself. For a raw range, use the three-dot form `--diff <base>...HEAD`; a two-dot `<base>..HEAD` compares the base **tip** against HEAD and drags in inverse hunks from mainline commits that are not in HEAD, so you would flag other people's landed changes as noise in this MR.
+   - Look at local uncommitted changes only when the originator or assignment explicitly asks to review staged / worktree / current candidate: with no source flag the script scans the staged diff, and `--worktree` scans the unstaged worktree. Beware: with no source flag and an empty staged diff, the script **silently falls back to the unstaged worktree diff** — the output's `source` field then reads `git diff (fallback; staged diff was empty)`. In an MR/PR context always pass an explicit `--base`/`--diff`/`--file`, and before using any finding always check that `source` matches the scope you were assigned.
    - For an external diff file, use `--file <diff-file>`.
    - When you need to browse the compare diff chunk by chunk first, use `--base <target-branch> --chunks hunk|group|line`; `group` means a run of consecutive `+/-` changes within the same hunk and is best for judging chunk by chunk whether each belongs to this change.
    - To adjust chunk size, use `--unified 0` to break context finer, or `--inter-hunk-context <n>` to merge nearby hunks.
@@ -47,4 +47,4 @@ Do not report long lines the formatter must split, complex expressions whose wra
 
 ## Output requirements
 
-Report only noise that has an actionable fix. For each finding, state the file/line number or hunk, the scan or diff command evidence, why it increases review cost, and whether the recommendation is delete, revert, split the commit, or keep but explain.
+Report only noise that has an actionable fix. For each finding, state the file/line number or hunk, the scan or diff command evidence (including the `source` the scanner actually used), why it increases review cost, and whether the recommendation is delete, revert, split the commit, or keep but explain.

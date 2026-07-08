@@ -26,12 +26,13 @@ source_artifacts:
 - Verdict:
 - Noise ratio:
 - Categories:
+- Write "not run" plus the reason when `diff-noise.md` was not loaded.
 
 ## Intent trace
 
 | Change | Source artifact | Necessity | Compatibility impact | Verdict |
 | --- | --- | --- | --- | --- |
-| path/to/file:line | requirements / story / contract / review finding / tool-required / none | required / optional / unknown | none / changed / unknown | keep / remove / split / ask-human |
+| path/to/file:line | requirements / story / contract / diagnosis / review finding / test failure / user instruction / tool-required / none | required / optional / unknown | none / changed / unknown | keep / remove / split / ask-human |
 
 ## Findings
 

@@ -1,19 +1,27 @@
 # Regression Testing Reference
 
-Use this reference when proving a bug is still fixed, or that an at-risk behavior is still compatible.
+Use this reference when proving a bug is still fixed, or that an at-risk behavior is still compatible. It specifies how each check is run; the verdict and boundary rules live in `SKILL.md`.
 
-## What it takes to prove a regression clearly
+## The fails-before / passes-after sequence
 
-First state the bug or at-risk behavior to be verified, then try as hard as you can to reproduce it on the current baseline — and if you cannot reproduce it, explain why. Next run the targeted check that should have caught the problem; when the blast radius is non-trivial, pull in the neighboring tests across the affected modules or contracts as well. Finally, use direct evidence to confirm that the fixed or preserved behavior genuinely holds, and faithfully record any result that could not be reproduced, was flaky, was blocked, or was environment-dependent.
+For each bug or at-risk behavior, run the check on both sides of the change, in this order:
+
+1. **State the target.** Name the bug or at-risk behavior being verified, and the exact check that should catch it — reproduction steps, a test, a request, a command.
+2. **Obtain the pre-change code.** Check out the base commit, or stash/revert the change locally — whichever the working tree allows. "Pre-change" means the code as it was before this change, not the current tree.
+3. **Show the check fails there.** Run the check on the pre-change code and capture the failure. This is what makes the later pass meaningful; a check that never fired before the change proves nothing about the change.
+4. **Restore the change and show the check passes.** Re-apply the change (check the branch back out, unstash, un-revert), run the same check, and capture the pass.
+5. **If the pre-change state is unobtainable** — the base commit is unknown, the change cannot be cleanly reverted, the environment cannot be rebuilt — say why, run the check on the post-change code only, and record the exception under Residual risk in the result artifact. Never present a post-change-only run as a before/after proof.
+
+For at-risk behavior that was never broken (compatibility rather than a bug fix), the same sequence applies with "fails before" replaced by "behaves identically before and after": capture the pre-change observation, then the post-change one, and compare them explicitly.
+
+## Choosing neighbors
+
+Beyond the targeted check, run the regression suites the change's blast radius calls for. The blast radius is non-trivial — and neighboring existing tests across the affected modules or contracts must be pulled in — whenever the change touches more than one module, any shared utility, schema, or configuration, or a public API or contract. When coverage is missing for an at-risk behavior, write the missing check and run it; a green suite that never asserts the behavior is silence, not proof.
 
 ## What counts as good regression evidence
 
 - The original reproduction steps, and the result observed now.
-- Where feasible, a test that fails before the change and passes after it.
+- A test that fails before the change and passes after it; when the pre-change state is unobtainable, the reason recorded under Residual risk.
 - Commands, requests, screenshots, logs, or artifacts.
 - Neighboring checks picked out from the affected modules or contracts.
-- A clear pass/fail status.
-
-## Boundaries
-
-Unless assigned to, do not expand into broad exploratory testing. Do not treat judging the implementation code as your primary evidence. Do not hide flaky or environment-dependent failures.
+- A clear pass/fail status, and for flaky or environment-dependent results, the rerun history as observed.

@@ -8,7 +8,7 @@
 
 - 被 Delivery Orchestrator 指派时，将 assignment 文件视为你的 task 输入。
 - 将 `output_path` 相对于 `task_root` 解析。
-- 若 assignment 中没有 `task_root`，则根据 assignment 文件所在位置推导：找到父级 `handoffs/` 目录，再取其上级目录作为 task root。
+- 若 assignment 中没有 `task_root`，则根据 assignment 文件所在位置推导：找到父级 `handoffs/` 目录，再取其上级目录作为 task root；对位于 `verification/assignments/` 下的 tester assignment，取包含 `verification/` 的那个目录作为 task root。
 - 将本 phase 的主要持久化 artifact 写入 `output_path`；除非本 role 的指令明确要求创建 tester assignment、sub-result 或 acceptance package，否则不要散落额外 artifact。
 - 返回一个 receipt；receipt 的 `artifact_path` 必须与主 artifact 路径一致，或者在本 role 明确产出多个 artifact 时，指向最终的汇总 artifact。
 

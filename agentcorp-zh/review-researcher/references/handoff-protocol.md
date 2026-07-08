@@ -2,7 +2,7 @@
 
 本协议是 `review-researcher` 自用的参考文档。assignment 和 receipt 的表单格式，请从本目录 `templates/` 下的 demo 文件中取用；调研文件夹的骨架在 `research-doc-template.md` 里。
 
-协议字段、`artifact_type`、`status` 枚举、`verdict` 枚举、路径和代码标识符保持原值；供人阅读的解释性正文使用简体中文。
+协议字段、`artifact_type`、`status` 枚举、`verdict` 枚举、路径、代码标识符和 API/接口契约字段保持原值；供人阅读的解释性正文使用简体中文。
 
 ## Reading the Assignment
 

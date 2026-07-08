@@ -1,10 +1,10 @@
-# Local Handoff protocol
+# Local handoff protocol
 
 This protocol is the `test-leader` skill's own reference. The shape of the assignment, receipt, and this role's artifacts is taken from the `templates/` demos in this directory.
 
-Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifiers, and API/interface contract fields at their original values; write the human-facing explanatory body in zh-CN.
+The demos show shape, not values: keep the protocol field names, the `status` enums, and the frontmatter keys exactly as the templates define them, and replace every `example-*` placeholder with this task's real values; write the human-facing explanatory body in zh-CN.
 
-## Reading the Assignment
+## Reading the assignment
 
 - When assigned by the Delivery Orchestrator, treat the assignment file as your task input.
 - Resolve `output_path` relative to `task_root`.
@@ -12,9 +12,16 @@ Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifier
 - Write this phase's primary durable artifact at `output_path`; unless this role's instructions say to create tester assignments, sub-results, or an acceptance package, do not scatter extra artifacts.
 - Return a receipt; the receipt's `artifact_path` must match the primary artifact path, or, when this role explicitly produces multiple artifacts, point to the final summary artifact.
 
+## Writing tester assignments
+
+- Copy `templates/phase-assignment.demo.md` and set `from_agent: test-leader`, `to_agent: <tester-slug>`, `phase: verify`, `status: assigned`, and this task's real `task_id`.
+- Always set `task_root` explicitly. A tester cannot derive it from `verification/assignments/` — the fallback derivation expects a parent `handoffs/` directory, which this path does not have.
+- Set `output_path: verification/test-results/<tester-slug>.md`, and name the matching execution playbook path in Inputs.
+- Specialist reviewers assigned during verify get the same shape; their own skills default their output under `review/specialist-findings/`, so the assignment must set `output_path` explicitly.
+
 ## Templates available to this role
 
 - `templates/phase-assignment.demo.md`
 - `templates/phase-receipt.demo.md`
-- `templates/decision-artifact.demo.md`
+- `templates/verification-report.demo.md`
 - `templates/test-result.demo.md`

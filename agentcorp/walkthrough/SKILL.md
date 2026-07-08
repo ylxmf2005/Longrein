@@ -17,7 +17,7 @@ Unlike most AgentCorp artifacts, which lead with conclusions and evidence, this 
 
 - **Teach in learning order, not repo order.** Background (what was already there) → intuition (the essence of the change, before any code) → the change as a story → behavior changes and risks → quiz. The reader must understand the code that is *not* in the diff before the diff can mean anything.
 - **Assume zero background.** The reader has not read the code, the task artifacts, or the conversation. Expand every in-task code name on first use; teach every concept the change touches.
-- **The quiz is a governor, not a ritual.** When execution outruns comprehension, a mechanical checkpoint must ask "do I actually understand?" — otherwise the sponsor slides from creative participant to rubber stamp. Passing means all questions right; a miss sends the reader back to the relevant section, then gets a *variant* question on the same concept, not the same question again.
+- **The quiz is a governor, not a ritual.** When execution outruns comprehension, a mechanical checkpoint must ask "do I actually understand?" — otherwise the sponsor slides from creative participant to rubber stamp. A miss sends the reader back to the relevant section, then gets a *variant* question on the same concept, not the same question again; passing means every question answered right, counting variants that cleared a miss.
 - **Honest coverage.** Every behavior change in scope is either explained or explicitly declared out of scope in the artifact. Silence is not scope reduction.
 - **You issue no verdicts.** You are not code review, not verification, not acceptance. A real problem discovered while teaching goes to its owner as one conclusive line; it does not turn the walkthrough into an audit.
 
@@ -38,9 +38,9 @@ The artifact is collaboration material: it lives under `teamspace/`, never enter
 ## The quiz gate
 
 - Questions are written from the reviewer's perspective: "what breaks if X", "which pre-existing path does this interact with", "what happens when input is Y". Target the parts most likely to surprise — interactions with existing code, edge cases, failure modes. Trivia (file names, line counts, symbol spellings) is forbidden.
-- The bar is a perfect score. Administer in conversation or via the HTML; on a miss, point to the section to re-read and issue a variant question.
+- The bar is a perfect score. Administer in conversation or via the HTML; on a miss, point to the section to re-read, then issue a variant question on the same concept. A miss is cleared when, after the re-read, the reader answers the variant correctly; `approved` means every question answered right, counting cleared variants. Keep issuing variants until the concept clears or the sponsor explicitly skips.
 - Inside a task, the outcome is recorded as a human-gate entry in `task.md`'s Gate History using the standard human-gate vocabulary: `approved` on a perfect score, `skipped` on an explicit sponsor skip. The gate is never skipped silently. Standalone (no task), record the outcome as a final "Gate outcome" line in the artifact itself, so the iron law stays inspectable.
-- For a genuinely trivial change, say plainly that a quiz is overkill and ask — do not manufacture ritual.
+- For a genuinely trivial change — the sponsor could reconstruct the whole diff from one sentence and it touches no pre-existing behavior (a typo, a comment- or doc-only edit, a config value bump) — say plainly that a quiz is overkill and ask; agreement is an explicit skip, recorded `skipped`. Anything that changes behavior is not trivial: do not manufacture ritual, and do not stretch "trivial" to dodge one.
 
 ## Process
 
@@ -58,6 +58,7 @@ The artifact is collaboration material: it lives under `teamspace/`, never enter
 | "The diff speaks for itself." | The reader has not read the code that is *not* in the diff. Background comes first or nothing lands. |
 | "Good quiz question: how many files changed?" | Trivia. Ask what breaks, what interacts, what happens when X — questions a reviewer would ask. |
 | "The sponsor is in a hurry; skip the quiz." | The quiz exists precisely because the loop is fast. Offer an explicit skip; never a silent one. |
+| "One miss, but they clearly get it — record `approved`." | The missed question marks exactly the concept that will surprise them later. Re-read, variant, clear it — then approve. `approved` with an uncleared miss is a silent skip. |
 | "I'll paste the whole diff in." | A walkthrough is not a diff mirror. Show the hunks that carry the idea; summarize and link the rest. |
 | "They answered wrong; I'll show the same question again." | Re-asking measures memory, not understanding. Point back to the section, then ask a variant. |
 | "I'll note the risks as things for the reader to go verify." | You have read everything; the reader has read nothing. State conclusions; route real problems to their owner. |

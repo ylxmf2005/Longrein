@@ -86,7 +86,7 @@
 按以下结构输出每条发现：
 
 - Long-term health impact：未来谁将承担什么样的维护成本。
-- Evidence：代码/计划/设计/文档路径及行号，需要时附实际检索结果。
+- Evidence：代码/计划/设计/文档路径及行号。当 finding 对仓库整体做出断言——没有 owner、没有其他 caller、没有设计记录、没有兼容性说明——必须附上你实际跑过的检索命令和返回结果；没有的话，把该 finding 降级为中等 confidence。
 - Recommended action：缩小 scope、移到 plugin/caller、补充契约、拆分 PR、补充设计记录、添加 sunset plan、让人类 owner 承担风险等。
 - Routing：`review-fixer`、`implementation-planner`、`solution-architect`、`release owner`、`human owner`。
 

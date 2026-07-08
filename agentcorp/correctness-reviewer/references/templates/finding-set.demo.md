@@ -13,8 +13,8 @@ source_artifacts:
 
 ### Finding 1: <title>
 
-- Severity:
-- Confidence:
+- Severity: <critical | major | minor>
+- Confidence: <numeric, per the bands in SKILL.md>
 - Evidence:
 - Impact:
 - Recommendation:
@@ -26,3 +26,4 @@ source_artifacts:
 ## Residual risks
 
 - Write "none" when there are none.
+- Suppressed low-confidence findings that would be severe if real go here: one line each, marked unconfirmed.

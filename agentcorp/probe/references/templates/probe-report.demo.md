@@ -11,8 +11,9 @@ source_artifacts:
 
 <!--
 The frontmatter above is the artifact contract. The sections below are a starting skeleton, not a fixed form:
-keep what serves the terrain, delete what does not, add what is missing — but never drop the Unknowns Ledger
-or "What you asked vs what the territory says". This is a living document: update it in place as entries
+keep what serves the terrain, delete what does not, add what is missing — but never drop the Unknowns Ledger,
+"What you asked vs what the territory says", or "How to instruct better" — that last section is the handoff
+feed for `brainstorm` and `validate-requirements`. This is a living document: update it in place as entries
 resolve; keep resolved entries visible with their evidence. status stays in_progress until the sponsor
 confirms the terrain is settled, then completed.
 -->
@@ -21,6 +22,7 @@ confirms the terrain is settled, then completed.
 
 - You assumed <assumption from the sponsor's request>; the territory shows <corrected fact> (`path/to/file.py:120`).
 - (At most five corrections. Each anchored. This section earns the read.)
+- (If the map genuinely holds: say so, and name what you checked to conclude that.)
 
 ## The terrain
 
@@ -58,5 +60,7 @@ Pre-delivery self-check — if any item hits, go back and rewrite:
 - A ledger entry is a bare question — no "tried", no hypothesis, no owner.
 - "What would have surprised you" is empty without an explicit "genuinely simple, because..." defense.
 - The report answers only the literal request and adds nothing the sponsor did not know to ask.
+- A "correction" in section 1 is manufactured — a nitpick inflated into a headline instead of an honest "the map holds".
+- A sweep source deliberately skipped is not named as unswept in the ledger.
 - A section a zero-context reader needs (what a term means, what a component is for) assumes repo knowledge.
 - The file was rewritten from scratch instead of updated in place while entries were still open.

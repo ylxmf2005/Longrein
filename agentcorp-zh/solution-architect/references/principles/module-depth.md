@@ -61,7 +61,7 @@
 
 ## Issue Tags
 
-在报告模块深度问题时使用以下 tag：
+在设计产物中标记模块深度问题时使用以下 tag：
 
 - **[Shallow Module]** — 接口复杂度几乎等于实现复杂度
 - **[Trivial Wrapper]** — 方法没有提供有意义的抽象

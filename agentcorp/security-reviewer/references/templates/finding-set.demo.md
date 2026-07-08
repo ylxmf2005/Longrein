@@ -13,16 +13,17 @@ source_artifacts:
 
 ### Finding 1: <title>
 
-- Severity:
-- Confidence:
+- Severity: <critical | major | minor>
+- Confidence: <numeric, per the bands in SKILL.md>
 - Evidence:
 - Impact:
 - Recommendation:
 
 ## Evidence gaps
 
-- Write "None" when there are none.
+- Write "none" when there are none.
 
-## Residual risk
+## Residual risks
 
-- Write "None" when there is none.
+- Write "none" when there are none.
+- Suppressed low-confidence findings that would be critical if real go here: one line each, marked unconfirmed.

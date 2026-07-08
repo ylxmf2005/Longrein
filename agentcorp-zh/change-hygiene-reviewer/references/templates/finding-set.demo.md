@@ -26,12 +26,13 @@ source_artifacts:
 - Verdict:
 - Noise ratio:
 - Categories:
+- 未加载 `diff-noise.md` 时写 "not run" 并说明原因。
 
 ## Intent trace
 
 | Change | Source artifact | Necessity | Compatibility impact | Verdict |
 | --- | --- | --- | --- | --- |
-| path/to/file:line | requirements / story / contract / review finding / tool-required / none | required / optional / unknown | none / changed / unknown | keep / remove / split / ask-human |
+| path/to/file:line | requirements / story / contract / diagnosis / review finding / test failure / user instruction / tool-required / none | required / optional / unknown | none / changed / unknown | keep / remove / split / ask-human |
 
 ## 发现
 

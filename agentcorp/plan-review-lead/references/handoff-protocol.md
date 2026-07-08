@@ -9,7 +9,7 @@ Keep protocol fields, `artifact_type`, `status` enum values, paths, code identif
 - When assigned by the Delivery Orchestrator, treat the assignment file as your task input.
 - Resolve `output_path` relative to `task_root`.
 - If the assignment has no `task_root`, derive it from the assignment file's location: find the parent `handoffs/` directory and take its parent as the task root.
-- Write this phase's primary durable artifact at `output_path`; do not scatter additional artifacts unless this role's instructions call for creating a tester assignment, sub-results, or an acceptance package.
+- Write this phase's primary durable artifact at `output_path`; do not scatter additional artifacts beyond what this role's instructions call for — the specialist reviewer assignments this role issues under the task's `handoffs/`, and their finding sets under `review/specialist-findings/`.
 - Return a receipt; the receipt's `artifact_path` must match the primary artifact path, or point to the final aggregate artifact when this role explicitly produces multiple artifacts.
 
 ## Templates available to this role

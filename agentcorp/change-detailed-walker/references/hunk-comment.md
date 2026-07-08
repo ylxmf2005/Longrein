@@ -9,7 +9,7 @@ You write from a **god's-eye view**: you have already read the diff and the surr
 Each comment passed to `post_review.py` is `{path, body, new_position or old_position}`:
 
 - `path`: repo-relative path (new path for additions/modifications, old path for pure deletions).
-- `body`: zh-CN markdown — the conclusion.
+- `body`: markdown — the conclusion. Bodies follow the requester's working language; AgentCorp's default is zh-CN.
 - `new_position` / `old_position`: the anchor line number from the real values in `diff_outline.py`. Anchor added/context lines on `new`, pure deletions on `old`. Pick one.
 
 ## What every comment says

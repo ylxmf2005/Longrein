@@ -4,13 +4,15 @@ This protocol is the `delivery-orchestrator` skill's own reference. The shape of
 
 Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifiers, and interface contract fields at their original values; use zh-CN for the human-readable explanatory prose.
 
-## Reading an Assignment
+## What the Assignee Does with Your Assignment
 
-- When the Delivery Orchestrator assigns you, treat the assignment file as the task input.
-- Resolve `output_path` relative to `task_root`.
-- If the assignment has no `task_root`, derive it from the assignment file's location: find the enclosing `handoffs/` directory and take its parent as the task root.
-- Write this phase's primary persistent artifact at `output_path`; don't scatter extra artifacts unless this role's instructions call for creating a tester assignment, sub-results, or an acceptance package.
-- Return a receipt; the receipt's `artifact_path` must match the primary artifact path, or point to the final aggregate artifact when this role explicitly produces multiple artifacts.
+Every delegated owner treats your assignment file as its task input and resolves it by these rules — write assignments so they hold:
+
+- The owner treats the assignment file as the task input.
+- The owner resolves `output_path` relative to `task_root`.
+- If the assignment has no `task_root`, the owner derives it from the assignment file's location: it finds the enclosing `handoffs/` directory and takes its parent as the task root.
+- The owner writes the phase's primary persistent artifact at `output_path`, and doesn't scatter extra artifacts unless its role's instructions call for creating a tester assignment, sub-results, or an acceptance package.
+- The owner returns a receipt; the receipt's `artifact_path` must match the primary artifact path, or point to the final aggregate artifact when that role explicitly produces multiple artifacts.
 
 ## Validating the Receipt (mechanical, before the quality judgment)
 
@@ -23,19 +25,24 @@ It verifies that `artifact_path` truly exists, matches the assignment's `output_
 
 ## Templates Available to This Role
 
+This list is complete — every demo shipped in `templates/` appears here. Take artifact shape from these demos; don't invent your own.
+
 - `templates/acceptance-package.demo.md`
 - `templates/interface-contract.demo.md`
-- `templates/decision-artifact.demo.md`
+- `templates/decision-artifact.demo.md` — generic decision shape for other decisions, e.g. `acceptance-decision` (`AcceptanceDecision`, status `accept|reject|needs_more_evidence`)
 - `templates/design-artifact.demo.md`
 - `templates/finding-set.demo.md`
 - `templates/implementation-result.demo.md`
 - `templates/implementation-story-spec.demo.md`
 - `templates/phase-assignment.demo.md`
 - `templates/phase-receipt.demo.md`
-- `templates/review-decision.demo.md`
+- `templates/review-decision.demo.md` — backs `code-review` (`CodeReviewDecision`); use the same shape with `PlanReviewDecision` / `TestPlanReviewDecision` for `plan-review` and `test-plan-review`
 - `templates/task-manifest.demo.md`
 - `templates/task-record.demo.md`
 - `templates/test-plan.demo.md`
+- `templates/api-test-plan.demo.md`, `templates/e2e-test-plan.demo.md`, `templates/regression-test-plan.demo.md` — the TestPlan playbooks, children of `test/test-plan.md`
+- `templates/testing-context.demo.md` — the project-level `teamspace/testing-context.md`
 - `templates/test-result.demo.md`
 - `templates/validated-requirements.demo.md`
 - `templates/work-item.demo.md`
+- `templates/exploration-frontier.demo.md`, `templates/exploration-charters.demo.md`, `templates/exploration-journal.demo.md` — exploration working notes for filling testing-context; deliberately no YAML frontmatter, never named in a receipt, so `validate-handoff.py` never sees them

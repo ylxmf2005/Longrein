@@ -17,3 +17,10 @@ Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifier
 - `templates/phase-assignment.demo.md`
 - `templates/phase-receipt.demo.md`
 - `templates/test-plan.demo.md`
+- `templates/api-test-plan.demo.md`
+- `templates/e2e-test-plan.demo.md`
+- `templates/regression-test-plan.demo.md`
+- `templates/testing-context.demo.md`
+- `templates/exploration-frontier.demo.md`
+- `templates/exploration-charters.demo.md`
+- `templates/exploration-journal.demo.md`

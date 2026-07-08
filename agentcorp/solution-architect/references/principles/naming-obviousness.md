@@ -2,11 +2,11 @@
 
 ## Description
 
-Code should be immediately understandable. When developers read code, their first quick guess about what it does should be correct, without needing deep analysis or constant reference to documentation. This dimension evaluates whether code makes its meaning clear through precise naming, adherence to conventions, and alignment with reader expectations.
+Code should be immediately understandable. When developers read code, their first quick guess about what it does should be correct, without needing deep analysis or constant reference to documentation. When designing, use this dimension to judge whether the names and conventions you are pinning down make meaning clear through precise naming, adherence to conventions, and alignment with reader expectations.
 
 Obscurity is a primary cause of complexity. When important information is hidden or requires effort to discover, developers waste time, make incorrect assumptions, and introduce bugs. Good naming is foundational — names create mental images that guide understanding. Consistency amplifies this by allowing developers to transfer knowledge from one context to another. When code violates expectations or uses ambiguous constructs, it forces readers to slow down and puzzle out the true behavior.
 
-This review dimension asks: Can someone read this code quickly and understand it correctly on the first pass? Or does it require careful study to decode?
+While designing, keep asking: will someone be able to read the resulting code quickly and understand it correctly on the first pass? Or will it require careful study to decode?
 
 ## Core Principles
 
@@ -114,7 +114,7 @@ When information is essential, make it visible. Use formatting, comments, and st
 
 ## Issue Tags
 
-Use these tags in code review output:
+Use these tags when flagging naming and obviousness problems in a design artifact:
 
 - **[Vague Name]**: Name too generic to convey meaning (e.g., `data`, `info`, `status`)
 - **[Ambiguous Name]**: Name used for multiple distinct purposes or could mean several things

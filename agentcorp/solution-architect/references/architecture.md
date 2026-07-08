@@ -3,7 +3,7 @@ id: architecture
 name: Architecture Design
 inputs: [validated requirements, TestPlan document]
 outputs: [architecture design artifact]
-optional: false
+optional: true  # produced only when the task calls for this artifact type — selection is governed by SKILL.md "Your outputs"
 ---
 
 # Architecture Design
@@ -33,7 +33,7 @@ After the requirements, this is the most human-facing artifact. The originator m
 - how much complexity it introduces, and how this structure holds that complexity down;
 - plus the risks, constraints, and anything that affects verification.
 
-Give as much detail as it takes for someone to trust the design, no more; where detail is dense, use code blocks, tables, or bullet lists. Use diagrams per the guidance in `references/mermaid.md`: wherever a view expresses structure, flow, state, ownership, or a before/after change more clearly than prose, draw one — but keep the set to the smallest that conveys the design (usually 2–3), and don't decompose prose or branch-lists into separate flowcharts. When this is a change to existing code, prefer a single change-annotated diagram (mark new/changed parts) plus, when data crosses services, a data-flow sequence whose messages name the real function and payload type — see `references/mermaid.md`.
+Give as much detail as it takes for someone to trust the design, no more; where detail is dense, use code blocks, tables, or bullet lists. Use diagrams per the guidance in `references/mermaid.md`: wherever a view expresses structure, flow, state, ownership, or a before/after change more clearly than prose, draw one — but keep the set to the smallest that conveys the design (usually 2–3); for change-annotated diagrams and data-flow sequences, see `references/mermaid.md`.
 
 If the requirements or existing code are too vague to design with confidence, return `blocked` and name the specific evidence you are missing, rather than inventing it.
 

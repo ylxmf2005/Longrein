@@ -7,6 +7,8 @@ source_artifacts:
   - path/to/source.md
 ---
 
+<!-- ExampleDecision 是占位符: 请把 artifact_type 设为该 phase 的 decision 类型，例如 AcceptanceDecision -->
+
 # Decision Artifact 示例
 
 ## Decision

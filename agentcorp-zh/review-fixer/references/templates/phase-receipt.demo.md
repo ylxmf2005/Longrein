@@ -16,3 +16,4 @@ artifact_path: review/fix-records/<group-slug>.md
 ## 阻塞项
 
 - 若无则填写 "None"。
+- 如果停止条件触发，将 frontmatter 中的 `status` 设为 `blocked` 并在此点名 blocker；逐项的 needs-research / needs-human 上报写在 fix record 里，不阻塞整组。

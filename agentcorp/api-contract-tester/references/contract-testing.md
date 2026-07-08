@@ -10,9 +10,12 @@ Use when performing contract verification on an API, JSON-RPC, A2A, CLI, SDK, or
 - **SDK / exported types**: function signatures, schemas, backward-compatible optional fields.
 - **error contract**: status/code, body shape, retriability, user-visible message.
 
-## Execution points
+## Negative probes worth running per surface
 
-When an environment is available, run real requests or commands rather than inferring from code whether the contract is honored. Walk both the happy path and the contract-relevant error paths. Check actual responses against the TestPlan, docs, schema, or prior contract expectations one by one. Leave persistent data unchanged unless the TestPlan explicitly authorizes a change, or the environment itself is disposable. For interface surfaces that cannot be executed, explicitly record that they were not tested and why.
+- **HTTP routes**: no credentials, expired or out-of-scope token; missing required field; wrong field type; unsupported method on a valid path; oversized body; malformed JSON.
+- **JSON-RPC / A2A**: unknown method; malformed or missing params; `id` echo on success and on error; error object shape on failure; behavior when a stream is interrupted mid-response.
+- **CLI**: unknown flag; missing required argument; malformed stdin; exit code per failure class; whether machine-readable output stays parseable on error.
+- **SDK / exported types**: calls omitting optional fields; payloads in the pre-change shape an existing caller would still send; schema validation of returned objects.
 
 ## Evidence to leave for each check
 
@@ -22,5 +25,3 @@ When an environment is available, run real requests or commands rather than infe
 - The actual status / shape / output.
 - pass / fail.
 - An artifact path when useful, or an inline redacted sample.
-
-Never leak any secret in reports, logs, screenshots, or payloads.

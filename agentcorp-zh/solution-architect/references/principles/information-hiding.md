@@ -87,7 +87,7 @@
 
 ## Issue Tags
 
-报告信息隐藏问题时，请使用以下标签：
+在设计产物中标记信息隐藏问题时使用以下 tag：
 
 - **[Information Leakage]** - 相同的知识或设计决策出现在多个模块中
 - **[Temporal Decomposition]** - 系统结构反映的是执行顺序，而非知识边界

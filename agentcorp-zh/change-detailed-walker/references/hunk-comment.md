@@ -9,7 +9,7 @@
 传给 `post_review.py` 的每条评论格式为 `{path, body, new_position 或 old_position}`：
 
 - `path`：相对于仓库的路径（新增/修改用新路径，纯删除用旧路径）。
-- `body`：zh-CN markdown——结论本身。
+- `body`：markdown——结论本身。Body 使用 requester 的工作语言；AgentCorp 的默认是 zh-CN。
 - `new_position` / `old_position`：从 `diff_outline.py` 实际值中取的锚定行号。新增/上下文行锚在 `new`，纯删除锚在 `old`。二选一。
 
 ## 每条评论必须说清楚的两件事

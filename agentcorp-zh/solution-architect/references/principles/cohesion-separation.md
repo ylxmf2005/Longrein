@@ -74,7 +74,7 @@
 
 ## Red Flags
 
-review 时留意以下模式：
+在你正在提出的设计里、以及你为设计而阅读的代码里，留意以下模式：
 
 ### Repetition
 - 相同（或几乎相同）的代码多次出现
@@ -118,7 +118,7 @@ review 时留意以下模式：
 
 ## Issue Tags
 
-报告 issue 时使用以下 tag：
+在设计产物中标记合并/拆分问题时使用以下 tag：
 
 - **[Repetition]**：相同或相似的代码被重复，但没有抽象
 - **[Special-General Mixture]**：通用机制里混入了专用代码

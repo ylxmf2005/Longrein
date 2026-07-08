@@ -2,15 +2,13 @@
 artifact_type: ImplementationStorySpec
 task_id: 20260603-120000-example-task
 author_agent: implementation-planner
-status: ready-for-plan-review
+status: ready_for_plan_review
 source_artifacts:
   - requirements/validated-requirements.md
   - design/impact-analysis.md
 ---
 
 # Implementation Story: 示例标题
-
-Status: ready-for-plan-review
 
 ## Implementation Story
 

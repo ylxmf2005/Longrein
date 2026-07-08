@@ -51,7 +51,7 @@ TestPlan 是一组文件——整体策略加三份 execution manual——写入
 - 先写具体动作，再写结论。API 或 page-console check 要写 method、path、payload、credentials/session mode、status、关键 response body 字段，以及 trace/request ID。
 - 写明证明用户可见结果或 runtime 结果的观察面：UI 状态、截图、DB read-back、log line、audit event、通知内容或人工确认。
 - 异步或外部结果要点名观察窗口，以及由谁/什么确认。trigger request 返回成功，不足以证明邮件/聊天/push/scheduler 行为成功。
-- 负向检查要说明观察了哪个来源，以及没有出现哪个匹配信号。如果无法可靠观察“没有发生”，预期结果应该是 `blocked` 或 `partial` 并点名缺失的观察，而不是 pass。
+- 负向检查要说明观察了哪个来源，以及没有出现哪个匹配信号。如果无法可靠观察“没有发生”，预期结果应该是 `needs_more_evidence` 或 `blocked` 并点名缺失的观察，而不是 pass——`needs_more_evidence` 是 tester 记在 Blocked checks 下的单条检查标记；artifact 级 status 仍取 tester 枚举。
 - 每条 check 结尾写 cleanup/restore 证据和证据边界：这条 check 证明了什么，不能证明什么。
 
 ## E2E 执行形式：浏览器作为主要证据

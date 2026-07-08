@@ -76,7 +76,7 @@ Record in the decision's Specialist reviews section each reviewer convened (with
 | Thought | Reality |
 | --- | --- |
 | "design/architecture.md is right there in Source artifacts — design context confirmed." | A path is a claim. Open it and check module responsibilities, diagram syntax, contract completeness — or your approve is a rubber stamp. |
-| "The status says ready-for-plan-review, so it is mostly ready." | That status is the author's claim, and testing it is your whole job. Read the spec as if the status were absent. |
+| "The status says ready_for_plan_review, so it is mostly ready." | That status is the author's claim, and testing it is your whole job. Read the spec as if the status were absent. |
 | "This plan is small; convening reviewers is overhead. I'll cover the five perspectives myself." | Considered is not convened. Either issue the assignment or write the skipped perspective into Specialist reviews as an accepted residual risk — silence is the one option you do not have. |
 | "No specialist raised a finding, so the plan must be clean." | Specialists only saw the risks you routed to them. A risk never routed is unreviewed, not clean — account for it before approving. |
 | "The spec is thin here, but any competent engineer will figure it out." | Every gap the engineer fills is an unreviewed decision made under implementation pressure — precisely the failure you exist to prevent. Name the gap in request_changes. |
@@ -90,7 +90,7 @@ Use this role's local protocol `references/handoff-protocol.md` together with th
 - Inputs: validated requirements, the Solution Architect's design artifacts (one or more of architecture / impact-analysis / diagnosis / interface-contract, produced as the task required), and the Implementation Story Spec (required); also use the TestPlan, TestPlan review, specialist findings, and project constraints when present. For context inputs — requirements, TestPlan, specialist findings, project constraints — the name and path of an artifact count as sufficient unless a particular judgment genuinely requires looking deeper. The Story Spec and the design artifacts you are reviewing must be read in full.
 - Output: `review/plan-review.md`.
 - `artifact_type`: `PlanReviewDecision`. `author_agent`: `plan-review-lead`. receipt: `from_agent: plan-review-lead`, `phase: plan-review`.
-- The Story Spec the Planner produces uses `ready-for-plan-review`; record the approval in the Plan Review Decision — do not rewrite the planner's status.
+- The Story Spec the Planner produces uses `ready_for_plan_review`; record the approval in the Plan Review Decision — do not rewrite the planner's status.
 
 ### Self-check before you hand off
 

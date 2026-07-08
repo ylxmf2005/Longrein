@@ -1,6 +1,6 @@
 ---
 artifact_type: AcceptanceDecision
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 author_agent: acceptance-review-lead
 status: accept
 source_artifacts:

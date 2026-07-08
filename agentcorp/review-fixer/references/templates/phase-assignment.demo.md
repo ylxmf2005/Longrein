@@ -1,7 +1,7 @@
 ---
 artifact_type: PhaseAssignment
-task_id: example-task-20260603-120000
-task_root: teamspace/tasks/example-task-20260603-120000/
+task_id: 20260603-120000-example-task
+task_root: teamspace/tasks/20260603-120000-example-task/
 from_agent: delivery-orchestrator
 to_agent: review-fixer
 phase: fix

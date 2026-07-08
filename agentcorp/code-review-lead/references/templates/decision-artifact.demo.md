@@ -1,7 +1,7 @@
 ---
-artifact_type: CodeReviewDecision
-task_id: example-task-20260603-120000
-author_agent: code-review-lead
+artifact_type: ExampleDecision
+task_id: 20260603-120000-example-task
+author_agent: example-agent
 status: approve
 source_artifacts:
   - path/to/source.md

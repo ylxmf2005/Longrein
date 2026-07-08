@@ -4,7 +4,7 @@ This protocol is the `test-leader` skill's own reference. The shape of the assig
 
 The demos show shape, not values: keep the protocol field names, the `status` enums, and the frontmatter keys exactly as the templates define them, and replace every `example-*` placeholder with this task's real values; write the human-facing explanatory body in zh-CN.
 
-## Reading the assignment
+## Reading the Assignment
 
 - When assigned by the Delivery Orchestrator, treat the assignment file as your task input.
 - Resolve `output_path` relative to `task_root`.

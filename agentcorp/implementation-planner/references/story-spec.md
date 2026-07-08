@@ -24,7 +24,7 @@ Give as much detail as it takes for the engineer to start without ambiguity; whe
 
 ## Shape
 
-Follow `templates/implementation-story-spec.demo.md` where it is needed or useful. Initialize Status to `ready-for-plan-review`; do not mark a Story Spec you authored as ready to develop — that waits for the Plan Review Lead's approval.
+Follow `templates/implementation-story-spec.demo.md` where it is needed or useful. Initialize Status to `ready_for_plan_review`; do not mark a Story Spec you authored as ready to develop — that waits for the Plan Review Lead's approval.
 
 ## Pre-delivery self-check
 
@@ -35,4 +35,4 @@ Before returning the receipt, confirm every line:
 3. Constraints, behavior that must keep working, and forbidden zones are stated; any new dependency, data migration, auth change, public API change, or UI design change is an explicit call-out for review, not an ordinary task.
 4. Verification expectations separate the engineer's focused checks from the TestPlan/diagnosis decision criteria (cited by path and section) whose final evidence the Test Leader owns.
 5. No open question that would change the implementation's direction is buried: it is spelled out in the spec, or the plan is `blocked` naming the missing design.
-6. Status is `ready-for-plan-review` (or `blocked` per the protocol's blocked rule), the frontmatter matches the demo, and the Review Focus section tells the Plan Review Lead where to look.
+6. Status is `ready_for_plan_review` (or `blocked` per the protocol's blocked rule), the frontmatter matches the demo, and the Review Focus section tells the Plan Review Lead where to look.

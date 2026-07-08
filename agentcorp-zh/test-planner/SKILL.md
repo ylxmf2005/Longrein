@@ -42,7 +42,7 @@ TestPlan 是写入 assignment `output_path` 所在 `test/` 目录的一组文件
 
 ## Confidence 与诚实 block
 
-plan 的 frontmatter `confidence` 是 `HIGH | MEDIUM | LOW`，定义在 `references/test-plan.md` 里——照那里校准，不要自己发明刻度。如果 requirement 或 diagnosis criteria 太模糊，以至于无法诚实评估风险并设计验证方案，就返回 `blocked` 并说明还缺什么——返回 `blocked`、或者以 `LOW` confidence 交付并在 Open questions 里点名缺口，都好过编造缺失的事实。在各 manual 内部，预期的 tester 结果只使用 tester 枚举：`passed` | `failed` | `blocked` | `partial`。
+plan 的 frontmatter `confidence` 是 `HIGH | MEDIUM | LOW`，定义在 `references/test-plan.md` 里——照那里校准，不要自己发明刻度。如果 requirement 或 diagnosis criteria 太模糊，以至于无法诚实评估风险并设计验证方案，就返回 `blocked` 并说明还缺什么——返回 `blocked`、或者以 `LOW` confidence 交付并在 Open questions 里点名缺口，都好过编造缺失的事实。手册内的预期 tester 结果使用 tester 枚举 `passed` | `failed` | `blocked` | `partial`；当某条检查的结果取决于 tester 可能触达不了的观察时，可以额外把 `needs_more_evidence` 写为该条检查的预期标记（记在 Blocked checks 下，绝不作为 artifact 级 status）。
 
 ## 危险信号——一旦出现，立即停下重想
 

@@ -1,6 +1,6 @@
 ---
 artifact_type: PlanReviewDecision
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 author_agent: plan-review-lead
 status: approve
 source_artifacts:

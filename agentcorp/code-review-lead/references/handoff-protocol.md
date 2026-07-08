@@ -4,7 +4,7 @@ This protocol is the `code-review-lead` skill's own reference. The shape of the 
 
 Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifiers, and API/interface contract fields at their original values; the human-facing explanatory prose uses zh-CN.
 
-## Reading the assignment
+## Reading the Assignment
 
 - When assigned by the Delivery Orchestrator, treat the assignment file as the task input.
 - Resolve `output_path` relative to `task_root`.

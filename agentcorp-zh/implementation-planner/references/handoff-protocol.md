@@ -13,7 +13,7 @@
 - 返回一个 receipt；receipt 的 `artifact_path` 必须与主 artifact 路径一致，或者在本 role 明确产出多个 artifacts 时指向最终的汇总 artifact。
 - 当本 role 返回 `blocked` 时，仍要在 `output_path` 写出 artifact，`status: blocked` 且把具体的设计缺口或矛盾点写在其中，并把 receipt 的 `status` 设为 `blocked`，在 `## Blockers` 下点名同一缺口——只有 blocked receipt 而 `output_path` 上没有 artifact，会通不过 orchestrator 的机械校验。
 
-## 本 role 可用的 Templates
+## 本 role 可用的模板
 
 - `templates/phase-assignment.demo.md`
 - `templates/phase-receipt.demo.md`

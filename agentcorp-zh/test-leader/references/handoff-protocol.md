@@ -19,7 +19,7 @@ demo 给出的是形状，不是取值：protocol 字段名、`status` 枚举和
 - 设置 `output_path: verification/test-results/<tester-slug>.md`，并在 Inputs 里写明对应的执行 playbook 路径。
 - verify 期间指派的 specialist reviewer 用同样的形状；他们自己的 skill 默认把输出放在 `review/specialist-findings/` 下，所以 assignment 必须显式设置 `output_path`。
 
-## Templates available to this role
+## 本 role 可用的模板
 
 - `templates/phase-assignment.demo.md`
 - `templates/phase-receipt.demo.md`

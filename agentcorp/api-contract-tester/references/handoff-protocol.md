@@ -4,7 +4,7 @@ This protocol is the `api-contract-tester` skill's own reference. The shapes of 
 
 Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifiers, and API/interface contract fields at their original values; use zh-CN for human-readable explanatory prose.
 
-## Reading the assignment
+## Reading the Assignment
 
 - When dispatched by the Delivery Orchestrator, treat the assignment file as the task input.
 - Resolve `output_path` relative to `task_root`.

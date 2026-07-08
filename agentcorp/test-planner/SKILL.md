@@ -42,7 +42,7 @@ The TestPlan is a set of files written into the `test/` directory that holds the
 
 ## Confidence and honest blocking
 
-The plan's frontmatter `confidence` is `HIGH | MEDIUM | LOW`, defined in `references/test-plan.md` — calibrate it there, do not improvise a scale. If the requirements or diagnosis criteria are too vague to honestly rank risk and design verification, return `blocked` and state what is still missing — better to return `blocked`, or deliver with `LOW` confidence and the gap named in Open questions, than to invent the missing facts. Inside the manuals, expected tester results use only the tester enum: `passed` | `failed` | `blocked` | `partial`.
+The plan's frontmatter `confidence` is `HIGH | MEDIUM | LOW`, defined in `references/test-plan.md` — calibrate it there, do not improvise a scale. If the requirements or diagnosis criteria are too vague to honestly rank risk and design verification, return `blocked` and state what is still missing — better to return `blocked`, or deliver with `LOW` confidence and the gap named in Open questions, than to invent the missing facts. Inside the manuals, expected tester results use the tester enum `passed` | `failed` | `blocked` | `partial`; a check whose outcome hinges on an observation the tester may not reach may additionally name `needs_more_evidence` as the expected per-check mark (recorded under Blocked checks, never as the artifact-level status).
 
 ## Red flags — stop and rethink the moment one appears
 

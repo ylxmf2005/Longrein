@@ -29,7 +29,7 @@ This list is complete — every demo shipped in `templates/` appears here. Take 
 
 - `templates/acceptance-package.demo.md`
 - `templates/interface-contract.demo.md`
-- `templates/decision-artifact.demo.md` — generic decision shape for other decisions, e.g. `acceptance-decision` (`AcceptanceDecision`, status `accept|reject|needs_more_evidence`)
+- `templates/decision-artifact.demo.md` — generic decision shape for other decisions, e.g. `acceptance-decision` (`AcceptanceDecision`, status `accept|reject|needs_more_evidence|blocked`)
 - `templates/design-artifact.demo.md`
 - `templates/finding-set.demo.md`
 - `templates/implementation-result.demo.md`

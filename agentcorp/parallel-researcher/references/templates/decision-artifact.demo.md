@@ -13,7 +13,7 @@ source_artifacts:
 
 approve | request_changes | needs_more_evidence | blocked
 
-## Rationale
+## Basis
 
 - Direct evidence supporting this decision.
 

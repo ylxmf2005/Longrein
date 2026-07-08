@@ -58,6 +58,8 @@ AGENTCORP_BROWSER_BIN="/Applications/Google Chrome.app"
 AGENTCORP_BROWSER_PORT=9333 ./scripts/browser-session.sh 'https://example.com'
 ```
 
+脚本也接受旧的 `CHROME_COOKIE_JS_PROFILE/HOST/PORT` 变量作为回退，仅用于兼容较旧的本地环境。
+
 ## 运行页面 JavaScript
 
 用 `page-js.mjs` 在已登录页面中执行 JavaScript：

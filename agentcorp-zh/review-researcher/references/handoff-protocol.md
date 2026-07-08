@@ -12,7 +12,7 @@
 - 在调研文件夹下编写 `00-index.md`，每个 issue 各写一份文件；除此之外不要再额外散落其他产物。
 - 返回一份 receipt；其中 `artifact_path` 指向 `00-index.md`。
 
-## Templates available to this role
+## 本 role 可用的模板
 
 - `templates/phase-assignment.demo.md`
 - `templates/phase-receipt.demo.md`

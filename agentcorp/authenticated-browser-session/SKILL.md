@@ -58,6 +58,8 @@ Use a different port if one is occupied:
 AGENTCORP_BROWSER_PORT=9333 ./scripts/browser-session.sh 'https://example.com'
 ```
 
+The scripts also accept the legacy `CHROME_COOKIE_JS_PROFILE/HOST/PORT` variables as a fallback, for compatibility with older local setups only.
+
 ## Run page JavaScript
 
 Use `page-js.mjs` to run JavaScript in the authenticated page:

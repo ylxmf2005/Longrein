@@ -1,6 +1,6 @@
 ---
 artifact_type: SpecialistReviewFindingSet
-task_id: example-task-20260611-120000
+task_id: 20260611-120000-example-task
 author_agent: change-hygiene-reviewer
 status: completed
 source_artifacts:

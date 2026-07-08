@@ -12,7 +12,7 @@
 - 将本 phase 的主持久 artifact 写入 `output_path`；除非本 role 明确要求必须创建子结果，否则不要散落额外 artifact。
 - 返回一个 receipt；receipt 中的 `artifact_path` 必须与主 artifact 路径一致。
 
-## Templates available to this role
+## 本 role 可用的模板
 
 - `templates/phase-assignment.demo.md`
 - `templates/phase-receipt.demo.md`

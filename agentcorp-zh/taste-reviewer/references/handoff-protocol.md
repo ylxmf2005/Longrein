@@ -12,7 +12,7 @@
 - 将本 phase 的主要持久化 artifact 写入 `output_path`；除非本角色的指令要求创建 tester assignment、子结果或 acceptance package，否则不要散落额外 artifact。
 - 返回一个 receipt；receipt 的 `artifact_path` 必须与主 artifact 路径一致，或者在本角色明确产出多个 artifact 时，指向最终的汇总 artifact。
 
-## 本角色可用的模板
+## 本 role 可用的模板
 
 - `templates/phase-assignment.demo.md`
 - `templates/phase-receipt.demo.md`

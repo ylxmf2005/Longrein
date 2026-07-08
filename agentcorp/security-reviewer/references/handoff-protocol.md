@@ -4,7 +4,7 @@ This protocol is the `security-reviewer` skill's own reference. The shapes of th
 
 Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifiers, and API/interface contract fields at their original values; write human-facing explanatory prose in zh-CN.
 
-## Reading the assignment
+## Reading the Assignment
 
 - When assigned by the Delivery Orchestrator, treat the assignment file as your task input.
 - Resolve `output_path` relative to `task_root`.

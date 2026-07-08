@@ -51,7 +51,7 @@ Every execution manual must say how the tester records the result. Use the same 
 - Include the concrete action before the conclusion. For API or page-console checks, include method, path, payload, credentials/session mode, status, key response body fields, and trace/request IDs.
 - Record the observation surface that proves the user-visible or runtime outcome: UI state, screenshot, DB read-back, log line, audit event, notification content, or manual user confirmation.
 - For async or external outcomes, name the observation window and who/what confirms it. A trigger request returning success is not enough to prove email/chat/push/scheduler behavior.
-- For negative checks, state what source was watched and what matching signal was absent. If absence cannot be observed reliably, the expected result should be `blocked` or `partial` with the missing observation named, not pass.
+- For negative checks, state what source was watched and what matching signal was absent. If absence cannot be observed reliably, the expected result should be `needs_more_evidence` or `blocked` with the missing observation named, not pass — `needs_more_evidence` is a per-check mark the tester records under Blocked checks; the artifact-level status stays in the tester enum.
 - End each check with cleanup/restore evidence and an evidence boundary: what this check proves and what it cannot prove.
 
 ## E2E execution form: browser as primary evidence

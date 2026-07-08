@@ -4,7 +4,7 @@ This protocol is the `review-fixer` skill's own reference. The shapes of the ass
 
 Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifiers, and API/interface contract fields at their original values; the human-facing explanatory prose uses zh-CN.
 
-## Reading the assignment
+## Reading the Assignment
 
 - When dispatched by the Delivery Orchestrator, treat the assignment file as your task input. The assignment gives you **one group** of fix items (`FIX_ITEMS`) and your authorized file set (`OWNED_FILES`).
 - Resolve `output_path` relative to `task_root`; `output_path` points to this group's fix record `review/fix-records/<group-slug>.md`.

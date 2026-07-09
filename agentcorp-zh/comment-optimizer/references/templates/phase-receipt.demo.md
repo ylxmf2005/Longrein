@@ -1,6 +1,6 @@
 ---
 artifact_type: PhaseReceipt
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 from_agent: example-agent
 phase: example-phase
 status: completed
@@ -11,7 +11,7 @@ artifact_path: review/example-output.md
 
 ## Notes
 
-- 一句话的完成说明。
+- 简述完成情况的一句话。
 
 ## Blockers
 

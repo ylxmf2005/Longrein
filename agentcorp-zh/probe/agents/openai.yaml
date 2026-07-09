@@ -1,0 +1,4 @@
+interface:
+  display_name: "Probe"
+  short_description: "先查证据并写共享盲区文件"
+  default_prompt: "Use $probe to inspect cheap evidence, uncover sponsor-facing unknowns, and create a shared probe file by default. Add /probe file:false to answer inline."

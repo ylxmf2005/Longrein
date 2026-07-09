@@ -1,4 +1,4 @@
 interface:
   display_name: "Explain"
-  short_description: "给零上下文读者解释 AgentCorp 输出"
-  default_prompt: "使用 $explain 把这个 AgentCorp 输出解释给没有项目上下文的人听。"
+  short_description: "给零上下文、非专家读者解释 AgentCorp 输出"
+  default_prompt: "使用 $explain 把这个 AgentCorp 输出解释给没有项目上下文、领域词汇、jargon 或技术背景的人听。重点讲它是什么意思、为什么重要、还有什么未知；当具体例子或 Mermaid 图能降低理解成本时主动使用。"

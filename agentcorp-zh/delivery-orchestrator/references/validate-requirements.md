@@ -35,6 +35,12 @@ optional: false
 
 - **把没被问到的东西写成既定事实。** Sponsor 没说过、repo 也确认不了的任何事情，都是 open question 或 assumption，而不是 conclusion。凭空脑补缺失的事实是最贵的失真——它会被一路 downstream 当成真的。
 
+- **把你自己的发明当成既定的东西落地。** 你发明的一个概念、名字或形状——一个新字段、一个展示层对象、一个术语——不会因为被写下来就变成 requirement 文本。在它落地之前或落地的同时，在对话里把它摊开，一句话说清 what 和 why；在 sponsor 对它作出反应之前，它归在 Assumptions 下，而不在 requirement 正文里。这条规则被打破的标志：sponsor 后来对你自己的 artifact 里写成既定的东西发问"X 是什么？"。
+
+## 当 Sponsor 修订一个已记录的决策
+
+一个与已记录的东西相矛盾的新指令——sponsor 自己更早的选择，或你的某个设计（他们对它作出过反应）——绝不是自动覆盖。把冲突大声点名（"这会替换 X，而 X 当初是因为 Y 才被选中的"），然后给出你的 judgment：认同所陈述的理由，或者具体地、把 trade-off 定价后，推回**一次**——然后由 sponsor 决定，artifact 记录 old → new → why。如果你认为新形状更糟，说出来一次是义务，而不是选项：静默服从会把一个已知的错误写进 scope，而 sponsor 也许只差一句话就能自己发现它。
+
 ## 这个 Artifact 必须达成什么
 
 读者（sponsor 本人、Test Planner、Solution Architect）必须能够信任这些 requirements，并直接在其上继续构建。因此它必须明确阐明 sponsor 的 intent、要解决的问题、目标用户及其工作、可观察的 user journeys、带有可验证 acceptance criteria 的 functional requirements、non-goals 和 MVP boundary、constraints、success criteria、assumptions 和 open questions；如果需要，就画一张 diagram 来把 before/after 的行为或 scope 讲清楚。每个 section 的完整形态（包括 user-journey diagram 和 diagram validation checklist）由 `references/templates/validated-requirements.demo.md` 规定，gate bar 由 workflow.md 的 Phase Catalog 规定；本文档不再重复这些字段。

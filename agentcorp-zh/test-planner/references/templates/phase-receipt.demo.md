@@ -11,7 +11,7 @@ artifact_path: review/example-output.md
 
 ## Notes
 
-- 一行完成说明。
+- 简述完成情况的一句话。
 
 ## Blockers
 

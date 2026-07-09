@@ -1,18 +1,18 @@
 ---
 artifact_type: PhaseReceipt
-task_id: 20260611-120000-example-task
-from_agent: change-hygiene-reviewer
-phase: code-review
+task_id: 20260603-120000-example-task
+from_agent: example-agent
+phase: example-phase
 status: completed
-artifact_path: review/specialist-findings/change-hygiene-reviewer.md
+artifact_path: review/example-output.md
 ---
 
-# Receipt
+# Receipt: example-phase
 
-## 完成情况
+## Notes
 
-- Change hygiene review 已完成。
+- 简述完成情况的一句话。
 
-## 主要 artifact
+## Blockers
 
-- `review/specialist-findings/change-hygiene-reviewer.md`
+- 无。

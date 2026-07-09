@@ -1,20 +1,19 @@
-# 本地 Handoff 协议
+# Local Handoff 协议
 
-本协议是 `implementation-planner` skill 的自有参考。assignment、receipt 和本 role 的 artifacts 的结构，均来自本目录下 `templates/` 中的示例。
+本协议是 `implementation-planner` skill 的专用参考文档。assignment、receipt 以及本 role 的 artifact 格式，均来自本目录 `templates/` 下的示例。
 
-协议字段、`artifact_type`、`status` 枚举、路径、代码标识符以及 API/接口契约字段保持原值不变；面向人的说明性文字使用简体中文。
+protocol 字段、`artifact_type`、`status` 枚举、路径、代码标识符以及 API/interface contract 字段保持原值；供人阅读的说明文字请用简体中文书写。
 
 ## 阅读 Assignment
 
-- 被 Delivery Orchestrator 指派时，将 assignment 文件视为任务输入。
-- 相对于 `task_root` 解析 `output_path`。
-- 如果 assignment 中没有 `task_root`，则从 assignment 文件所在位置推导：找到上级 `handoffs/` 目录，并将其父目录作为 task root。
-- 将本 phase 的主要持久 artifact 写入 `output_path`；除非本 role 的 instructions 明确要求创建 tester assignment、sub-result 或 acceptance package，否则不要散落额外的 artifacts。
-- 返回一个 receipt；receipt 的 `artifact_path` 必须与主 artifact 路径一致，或者在本 role 明确产出多个 artifacts 时指向最终的汇总 artifact。
-- 当本 role 返回 `blocked` 时，仍要在 `output_path` 写出 artifact，`status: blocked` 且把具体的设计缺口或矛盾点写在其中，并把 receipt 的 `status` 设为 `blocked`，在 `## Blockers` 下点名同一缺口——只有 blocked receipt 而 `output_path` 上没有 artifact，会通不过 orchestrator 的机械校验。
+- 被 Delivery Orchestrator 指派后，将 assignment 文件作为你的 task 输入。
+- 根据 `task_root` 解析 `output_path`。
+- 若 assignment 中没有 `task_root`，则根据文件位置推导：找到父级 `handoffs/` 目录，再取其父目录作为 task root。
+- 将本 phase 的主要持久化 artifact 写入 `output_path`；除非本 role 的指令要求创建 tester assignment、sub-results 或 acceptance package，否则不要生成多余的 artifact。
+- 需返回 receipt；其中 `artifact_path` 应与主 artifact 路径一致，若本 role 明确生成多个 artifact，则指向最终聚合的 artifact。
 
 ## 本 role 可用的模板
 
+- `templates/implementation-story-spec.demo.md`
 - `templates/phase-assignment.demo.md`
 - `templates/phase-receipt.demo.md`
-- `templates/implementation-story-spec.demo.md`

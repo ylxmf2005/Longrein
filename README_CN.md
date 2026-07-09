@@ -85,7 +85,7 @@ codex plugin marketplace add ylxmf2005/AgentCorp
   - `reliability-reviewer` — 找依赖出故障时让系统崩溃或卡死的隐患：缺超时、吞错误、重试风暴、资源泄漏、级联故障
   - `adversarial-reviewer` — 先假设它已经坏了再去证明，专攻组合、时序、滥用引发的、单轴评审各自都看不到的涌现型故障
   - `simplicity-reviewer` — 挖出不值当的复杂度：多余的抽象、过早泛化、死代码，以及配不上其成本的结构选择
-  - `taste-reviewer` — 先把 hack 当缺陷，哪怕它能跑；顶着管线偏向最小 diff 的惯性，坚持治本的形态（改 schema、重构、打破逼出丑陋的惯例）
+  - `taste-reviewer` — 判断改动是否长成了对的形态——hack 还是治本形态、错误抽象、概念性错误命名、API 手感、比例失衡——顶着管线偏向最小 diff 的惯性
   - `change-hygiene-reviewer` — 核查 diff 里每处改动是否都能追溯到批准的需求，挡掉越界改动、历史残留和格式噪音
   - `standards-reviewer` — 核对代码与产物是否遵循项目自己的约定：frontmatter、命名、格式、引用方式，而非通用最佳实践
   - `comment-reviewer` — 评判一个改动新增的注释配不配留：砍掉复述代码、AI 腔的废话，标出维护者真正需要却缺失的 why/边界/历史
@@ -105,7 +105,7 @@ codex plugin marketplace add ylxmf2005/AgentCorp
   - `probe` — 在开工前先侦查陌生地带，把地形讲给发起人：修正其原有认知地图、指出意外发现、说明本地「好」长什么样，并维护一份持续更新的未知项台账
   - `brainstorm` — 用一次一问的追问把模糊诉求逼成经发起人确认、可测试的需求
   - `authenticated-browser-session` — 用独立浏览器配置维持真实登录态来验证需登录的流程，不读 Cookie 也不要用户贴 token
-  - `explain` — 把 bug、测试进展、评审发现和交付状态翻译成零上下文的话，让没读过代码的发起人也看得懂
+  - `explain` — 按读者水平讲解 bug、测试进展、评审发现和交付状态——默认面向零上下文的发起人——每个结论都带状态标签和证据
   - `walkthrough` — 把一次变更做成教学产物——先讲背景、代码之前先给直觉、把变更讲成 story 而非文件清单——最后以一份发起人必须通过才能合并的测验收尾
   - `precommit-setup` — 给仓库配提交前防线：默认跑快速确定性检查，AI 评审按需开启，不拖慢每次提交
   - `skill-evolution` — 把在会话结束时捕获的技能改进信号，变成一次经审、落地的编辑（或从调研生成新的 skill），让 AgentCorp 自身的技能在人工参与的控制下持续改进

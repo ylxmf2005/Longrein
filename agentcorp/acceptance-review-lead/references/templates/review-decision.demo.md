@@ -15,7 +15,8 @@ accept | reject | needs_more_evidence | blocked
 
 ## Basis
 
-- The direct evidence supporting this decision.
+- The direct evidence supporting this decision — files you opened, each with its inspectable handle (command plus output, log path, screenshot). Every Must Have appears here or under Evidence Gaps, none silently unmentioned.
+- For a defect-class task: record that the original failing input was re-run, and what it produced.
 
 ## Must Fix
 

@@ -15,25 +15,29 @@ passed | failed | blocked | partial
 
 ## Checks run
 
-- Scenario and result.
+- Scenario and result, with the before/after observation for every fixed-bug or at-risk-behavior check — fails on the pre-change code, passes on the post-change code, or the exception recorded under Residual risk.
 
 ## Commands run
 
-- Command, environment, and result.
+- Command, environment, and result — replayable as written.
 
 ## Evidence
 
 - Example handle (replace with a real one): the run log at `verification/test-results/run.log`, or a fenced output excerpt below.
-- Logs, screenshots, request/response excerpts, or artifact paths.
+- Logs, screenshots, request/response excerpts, or artifact paths. Every handle must resolve. Flaky or environment-dependent results carry their rerun history as observed.
 
 ## Failures
 
-- Write "None" when there are none.
+- The check, the input, and the before/after observation. Write "None" when there are none.
 
 ## Blocked checks
 
-- Write "None" when there are none.
+- Every assigned check that could not run, with exactly what is missing. Write "None" when there are none.
+
+## Sightings and plan corrections
+
+- Breakage observed outside the assigned checks, and places where the assignment did not match the territory (unexecutable repro, vanished flow, wrong base commit) — one line each. Write "None" when there are none.
 
 ## Residual risk
 
-- Write "None" when there are none.
+- Every pre-change-state exception, with the reason. Write "None" when there are none.

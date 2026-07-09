@@ -1,20 +1,20 @@
-# 本地 Handoff 协议
+# Local Handoff 协议
 
-本协议是 `solution-architect` skill 的内部参考文档。assignment、receipt 以及本角色 artifact 的格式，均来自同级 `templates/` 目录下的示例。
+本协议是 `solution-architect` skill 的专用参考文档。assignment、receipt 以及本 role 的 artifact 格式，均来自本目录 `templates/` 下的示例。
 
-协议字段、`artifact_type`、`status` 枚举、路径、代码标识符以及 API/接口契约字段保持原始值不变；面向用户的说明正文使用简体中文。
+protocol 字段、`artifact_type`、`status` 枚举、路径、代码标识符以及 API/interface contract 字段保持原值；供人阅读的说明文字请用简体中文书写。
 
-## 读取 Assignment
+## 阅读 Assignment
 
-- Delivery Orchestrator 分配任务时，将 assignment 文件作为任务输入。
-- `output_path` 相对于 `task_root` 解析。
-- 若 assignment 中未指定 `task_root`，则从该文件所在位置推导：向上查找 `handoffs/` 目录，并将其父目录作为任务根目录。
-- 将本 phase 的 artifact 写入 `output_path`。若设计需要产出多个 artifact，assignment 的 `output_path` 应指向 `design/` 目录；在其下按需创建 `architecture.md`、`impact-analysis.md`、`diagnosis.md`、`interface-contract.md`。
-- 返回 receipt；其中 `artifact_path` 必须与 assignment 的 `output_path` 保持一致，若 `output_path` 为目录，则指向该目录下的某一份实际设计 artifact。若产出了多份设计 artifact，请在 receipt 正文的 "Notes" 章节中列出全部路径。
+- 被 Delivery Orchestrator 指派后，将 assignment 文件作为你的 task 输入。
+- 根据 `task_root` 解析 `output_path`。
+- 若 assignment 中没有 `task_root`，则根据文件位置推导：找到父级 `handoffs/` 目录，再取其父目录作为 task root。
+- 将本 phase 的主要持久化 artifact 写入 `output_path`；除非本 role 的指令要求创建 tester assignment、sub-results 或 acceptance package，否则不要生成多余的 artifact。
+- 需返回 receipt；其中 `artifact_path` 应与主 artifact 路径一致，若本 role 明确生成多个 artifact，则指向最终聚合的 artifact。
 
-## 本角色可用 Templates
+## 本 role 可用的模板
 
-- `templates/phase-assignment.demo.md`
-- `templates/phase-receipt.demo.md`
 - `templates/design-artifact.demo.md`
 - `templates/interface-contract.demo.md`
+- `templates/phase-assignment.demo.md`
+- `templates/phase-receipt.demo.md`

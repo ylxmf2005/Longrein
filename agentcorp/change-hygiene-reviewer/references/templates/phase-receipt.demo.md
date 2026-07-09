@@ -1,18 +1,18 @@
 ---
 artifact_type: PhaseReceipt
-task_id: 20260611-120000-example-task
-from_agent: change-hygiene-reviewer
-phase: code-review
+task_id: 20260603-120000-example-task
+from_agent: example-agent
+phase: example-phase
 status: completed
-artifact_path: review/specialist-findings/change-hygiene-reviewer.md
+artifact_path: review/example-output.md
 ---
 
-# Receipt
+# Receipt: example-phase
 
-## Completion
+## Notes
 
-- Change hygiene reviewed.
+- One-line completion note.
 
-## Main artifact
+## Blockers
 
-- `review/specialist-findings/change-hygiene-reviewer.md`
+- None.

@@ -14,10 +14,14 @@ source_artifacts:
 ### Finding 1: <title>
 
 - Severity: <critical | major | minor>
-- Confidence: <numeric, per the bands in SKILL.md>
-- Evidence:
-- Impact:
-- Recommendation:
+- Confidence: <numeric, per the bands in SKILL.md; 0.60 is the reporting floor>
+- Evidence: <entry point → unguarded path → sink at file:line, plus what your reading of the middleware / ORM / config showed>
+- Impact: <what the attacker gains>
+- Recommendation: <the minimal change at the vulnerable boundary — no wrappers or out-of-scope rewrites>
+
+## Sightings for other lanes
+
+- One line per real problem outside this reviewer's question (a functional bug, a perf risk, a reliability gap) — never developed, never dropped. Write "none" when there are none.
 
 ## Evidence gaps
 

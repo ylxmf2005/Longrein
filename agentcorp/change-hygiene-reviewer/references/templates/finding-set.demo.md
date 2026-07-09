@@ -45,6 +45,10 @@ source_artifacts:
 - Impact:
 - Recommendation:
 
+## Sightings for other lanes
+
+- One line per real problem outside this reviewer's question (a suspected bug, a security smell, a perf risk) — never developed, never dropped. Write "none" if there are none.
+
 ## Mechanical changes worth keeping
 
 - Write "none" if there are none.

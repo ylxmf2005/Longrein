@@ -9,9 +9,9 @@ artifact_path: review/example-output.md
 
 # Receipt: example-phase
 
-## Summary
+## Notes
 
-- One-line completion summary.
+- One-line completion note.
 
 ## Blockers
 

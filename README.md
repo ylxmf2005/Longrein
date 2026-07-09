@@ -124,7 +124,7 @@ needed to run it in real projects.
   - `reliability-reviewer` — exposes failure-handling gaps — missing timeouts, swallowed errors, retry storms, leaks, cascading failures — that crash or hang the system
   - `adversarial-reviewer` — assumes it's already broken and proves it, hunting emergent failures from combination, timing, and abuse that single-axis reviewers miss
   - `simplicity-reviewer` — finds complexity that doesn't pay for itself: needless abstractions, premature generalization, dead code, structural choices that can't justify their cost
-  - `taste-reviewer` — assumes a hack is a defect even when it works, holding out for the root-cause shape (a schema change, a refactor, breaking a forcing convention) against the pipeline's pull toward the smallest diff
+  - `taste-reviewer` — judges whether a change is built in the right shape — hack vs root-cause form, wrong abstraction, conceptual misnaming, API feel, proportionality — against the pipeline's pull toward the smallest diff
   - `change-hygiene-reviewer` — checks that every hunk in the diff traces to an approved requirement, blocking out-of-scope changes, history residue, and formatting noise
   - `standards-reviewer` — verifies code and artifacts follow the project's own conventions — frontmatter, naming, formatting, reference style — not generic best practices
   - `comment-reviewer` — judges whether the comments a change adds carry their weight: cuts what restates the code or reads as AI boilerplate, and flags the missing why/boundary/history a maintainer needs
@@ -144,7 +144,7 @@ needed to run it in real projects.
   - `probe` — investigates unfamiliar territory before work starts and teaches the sponsor the terrain: the corrections to their map, the surprises, what "good" looks like locally, and a living unknowns ledger
   - `brainstorm` — turns an unclear request into sponsor-approved, testable requirements by pressure-testing intent, scope, and viability one question at a time
   - `authenticated-browser-session` — holds a real logged-in browser session to verify authenticated flows without reading cookies or asking the user for tokens
-  - `explain` — translates bugs, test progress, review findings, and delivery status into zero-context language a sponsor who hasn't read the code can follow
+  - `explain` — explains bugs, test progress, review findings, and delivery status at the reader's level — zero-context sponsor by default — with every conclusion carrying its status and evidence
   - `walkthrough` — turns a change into a teaching artifact — background first, intuition before code, the change as a story rather than a file list — ending in a quiz the sponsor must pass before merge
   - `precommit-setup` — sets up commit-time guardrails: fast deterministic checks by default, optional AI review, explicit constraints, without slowing every commit
   - `skill-evolution` — turns a skill-improvement signal captured at session end into a reviewed, landed edit (or a new skill from research), keeping AgentCorp's own skills improving with a human in the loop

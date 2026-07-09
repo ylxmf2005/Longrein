@@ -12,7 +12,6 @@ artifact_path: review/example-output.md
 ## Notes
 
 - One-line completion note.
-- Design artifacts: list each path relative to the task root.
 
 ## Blockers
 

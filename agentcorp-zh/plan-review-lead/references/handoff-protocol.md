@@ -1,20 +1,20 @@
-# 本地 handoff 协议
+# Local Handoff 协议
 
-这份协议是 `plan-review-lead` skill 自身的参考文档。assignment、receipt 以及本 role 的 artifact 的形态，均取自本目录下 `templates/` 中的示例。
+本协议是 `plan-review-lead` skill 的专用参考文档。assignment、receipt 以及本 role 的 artifact 格式，均来自本目录 `templates/` 下的示例。
 
-protocol 字段、`artifact_type`、`status` 枚举值、路径、代码标识符以及 API/interface 契约字段保持原值不变；面向人的说明正文使用简体中文。
+protocol 字段、`artifact_type`、`status` 枚举、路径、代码标识符以及 API/interface contract 字段保持原值；供人阅读的说明文字请用简体中文书写。
 
-## 阅读 assignment
+## 阅读 Assignment
 
-- 被 Delivery Orchestrator 指派时，将 assignment 文件视为你的任务输入。
-- 将 `output_path` 相对于 `task_root` 解析。
-- 如果 assignment 没有 `task_root`，则从 assignment 文件的位置推导：找到上级 `handoffs/` 目录，并将其上级目录作为 task root。
-- 将本 phase 的主要持久 artifact 写入 `output_path`；除本 role 指令明确要求的产物之外——即本 role 在 task 的 `handoffs/` 下签发的 specialist reviewer assignment，以及 `review/specialist-findings/` 下它们的 finding set——不要散落其他 artifact。
-- 返回一份 receipt；receipt 的 `artifact_path` 必须与主 artifact 路径一致，或者当本 role 显式产出多个 artifact 时，指向最终的聚合 artifact。
+- 被 Delivery Orchestrator 指派后，将 assignment 文件作为你的 task 输入。
+- 根据 `task_root` 解析 `output_path`。
+- 若 assignment 中没有 `task_root`，则根据文件位置推导：找到父级 `handoffs/` 目录，再取其父目录作为 task root。
+- 将本 phase 的主要持久化 artifact 写入 `output_path`；除非本 role 的指令要求创建 tester assignment、sub-results 或 acceptance package，否则不要生成多余的 artifact。
+- 需返回 receipt；其中 `artifact_path` 应与主 artifact 路径一致，若本 role 明确生成多个 artifact，则指向最终聚合的 artifact。
 
 ## 本 role 可用的模板
 
+- `templates/finding-set.demo.md`
 - `templates/phase-assignment.demo.md`
 - `templates/phase-receipt.demo.md`
 - `templates/review-decision.demo.md`
-- `templates/finding-set.demo.md`

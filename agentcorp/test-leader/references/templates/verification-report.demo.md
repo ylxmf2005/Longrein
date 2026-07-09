@@ -23,7 +23,7 @@ approve | request_changes | needs_more_evidence | blocked
 
 ## Result File Index
 
-- `verification/test-results/<tester-slug>.md` — one line per assignee: status plus the strongest evidence handle.
+- `verification/test-results/<tester-slug>.md` — one line per assignee: status plus the strongest evidence handle. Every listed file exists at its path, was opened, and its handle resolves; every assignment behind it set `task_root`, `output_path`, and (when the TestPlan has one) its playbook path.
 
 ## Evidence Gaps and Unverified Areas
 

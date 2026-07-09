@@ -14,6 +14,13 @@ The frontmatter above is the artifact contract. The sections below are a startin
 keep the parts that serve the design, delete the ones that don't, and add whatever is missing.
 Use Mermaid when a diagram explains structure, flow, state, or before/after changes more clearly than prose;
 diagrams must be honest, use real components, and let labels say what each step does.
+
+Self-check before delivery:
+- artifact_type matches the artifact (ArchitectureDesign / ImpactAnalysis / Diagnosis / InterfaceContract); author_agent is solution-architect.
+- Source References name the code, tests, and artifacts actually read.
+- Every unverified assumption sits under Open Questions; status is needs_more_evidence when a judgment depends on one.
+- Mermaid syntax validated per references/mermaid.md, or the skip declared in the delivery note.
+- When several artifacts were produced, the receipt lists every path.
 -->
 
 ## Design Intent

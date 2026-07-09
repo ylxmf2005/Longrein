@@ -11,7 +11,7 @@ artifact_path: review/example-output.md
 
 ## Notes
 
-- A one-line completion note.
+- One-line completion note.
 
 ## Blockers
 

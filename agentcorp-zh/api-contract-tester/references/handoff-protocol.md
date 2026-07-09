@@ -1,18 +1,18 @@
-# 本地 handoff 协议
+# Local Handoff 协议
 
-本协议是 `api-contract-tester` skill 的自有参考。assignment、receipt 以及本角色的 artifact 格式均取自本目录下 `templates/` 中的示例。
+本协议是 `api-contract-tester` skill 的专用参考文档。assignment、receipt 以及本 role 的 artifact 格式，均来自本目录 `templates/` 下的示例。
 
-协议字段、`artifact_type`、`status` 枚举、路径、代码标识符以及 API/接口合约字段保持原值不变；人机可读的解释性正文使用简体中文。
+protocol 字段、`artifact_type`、`status` 枚举、路径、代码标识符以及 API/interface contract 字段保持原值；供人阅读的说明文字请用简体中文书写。
 
-## 读取 assignment
+## 阅读 Assignment
 
-- 由 Delivery Orchestrator 分派时，将 assignment 文件视为任务输入。
-- 将 `output_path` 相对于 `task_root` 解析。
-- 若 assignment 中没有 `task_root`，则根据 assignment 文件所在位置推导：当文件位于某个 `handoffs/` 目录之下时，取该目录的父目录作为 task root；位于 `verification/assignments/` 下的 tester assignment 没有 `handoffs/` 祖先目录——此时改取包含 `verification/` 的那个目录作为 task root。
-- 将本 phase 的主要持久化 artifact 写入 `output_path`；除非本角色的指令明确要求创建 tester assignment、sub-result 或 acceptance package，否则不要散落额外 artifact。
-- 返回 receipt；receipt 的 `artifact_path` 必须与主 artifact 路径一致，或者在本角色明确产出多个 artifact 时指向最终汇总 artifact。
+- 被 Delivery Orchestrator 指派后，将 assignment 文件作为你的 task 输入。
+- 根据 `task_root` 解析 `output_path`。
+- 若 assignment 中没有 `task_root`，则根据文件位置推导：找到父级 `handoffs/` 目录，再取其父目录作为 task root。
+- 将本 phase 的主要持久化 artifact 写入 `output_path`；除非本 role 的指令要求创建 tester assignment、sub-results 或 acceptance package，否则不要生成多余的 artifact。
+- 需返回 receipt；其中 `artifact_path` 应与主 artifact 路径一致，若本 role 明确生成多个 artifact，则指向最终聚合的 artifact。
 
-## 本 role 可用的 templates
+## 本 role 可用的模板
 
 - `templates/phase-assignment.demo.md`
 - `templates/phase-receipt.demo.md`

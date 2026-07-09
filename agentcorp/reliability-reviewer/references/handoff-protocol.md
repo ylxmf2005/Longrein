@@ -1,20 +1,19 @@
 # Local Handoff Protocol
 
-This protocol is the `reliability-reviewer` skill's own reference. The shape of the assignment, the receipt, and this role's artifacts is taken from the `templates/` demos in this directory.
+This protocol is the `reliability-reviewer` skill's own reference. The shapes of the assignment, the receipt, and this role's artifact are all taken from the `templates/` demos in this directory.
 
-Protocol fields, `artifact_type`, the `status` enum, paths, code identifiers, and API/interface contract fields keep their original values; human-facing explanatory prose uses zh-CN.
+Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifiers, and API/interface contract fields at their original values; write human-facing explanatory prose in zh-CN.
 
 ## Reading the Assignment
 
-- When assigned by the Delivery Orchestrator, treat the assignment file as the task input.
-- Resolve `output_path` relative to `task_root`. The assignment's `output_path` always wins over any default output path stated in `SKILL.md`; the default applies only when the assignment does not set one.
-- If the assignment has no `task_root`, derive it from the assignment file's location: find the parent `handoffs/` directory and take its parent directory as the task root.
-- Standalone, with no assignment and no `task_root`, resolve the role's default output path under `teamspace/` in the workdir; never write it into the skill directory or the repository root.
-- Write this phase's primary durable artifact at `output_path`; do not scatter additional artifacts unless this role specifies creating a tester assignment, sub-result, or acceptance package.
-- Return a receipt; the receipt's `artifact_path` must match the primary artifact path, or point to the final summary artifact when this role explicitly produces multiple artifacts.
+- When assigned by the Delivery Orchestrator, treat the assignment file as your task input.
+- Resolve `output_path` relative to `task_root`.
+- If the assignment has no `task_root`, derive it from the assignment file's location: find the parent `handoffs/` directory and take its parent as the task root.
+- Write this phase's primary durable artifact at `output_path`; do not scatter extra artifacts unless this role's instructions call for creating a tester assignment, sub-results, or an acceptance package.
+- Return a receipt; the receipt's `artifact_path` must match the primary artifact path, or point to the final aggregate artifact when this role explicitly produces more than one.
 
 ## Templates available to this role
 
+- `templates/finding-set.demo.md`
 - `templates/phase-assignment.demo.md`
 - `templates/phase-receipt.demo.md`
-- `templates/finding-set.demo.md`

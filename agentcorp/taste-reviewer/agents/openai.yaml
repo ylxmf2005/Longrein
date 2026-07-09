@@ -1,4 +1,4 @@
 interface:
   display_name: "Taste Reviewer"
-  short_description: "Reject hacks; hold out for the root-cause fix"
+  short_description: "Judge whether a change is the right shape, not just working"
   default_prompt: "Use $taste-reviewer to perform the AgentCorp Taste Reviewer role."

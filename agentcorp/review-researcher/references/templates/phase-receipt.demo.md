@@ -1,18 +1,18 @@
 ---
 artifact_type: PhaseReceipt
 task_id: 20260603-120000-example-task
-from_agent: review-researcher
-phase: review-research
+from_agent: example-agent
+phase: example-phase
 status: completed
-artifact_path: review/research/00-index.md
+artifact_path: review/example-output.md
 ---
 
-# Receipt: review-research
+# Receipt: example-phase
 
 ## Notes
 
-- One-sentence completion note (e.g.: researched 12 issues — 7 confirmed, 2 partial, 2 false positives, 1 needs-human, fix suggestions given).
+- One-line completion note.
 
 ## Blockers
 
-- Write "none" when there are none.
+- None.

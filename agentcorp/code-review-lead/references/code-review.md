@@ -22,6 +22,6 @@ When merging duplicate findings, file them under the one with the strongest evid
 - `needs_more_evidence`: the review cannot be completed because the diff, requirements, test, or design context is missing — and a named evidence request could unblock it.
 - `blocked`: the review cannot proceed at all and no evidence request would unblock it (for example, the diff or worktree is unavailable, or the phase itself is cancelled).
 
-High-stakes changes (security/permission boundary, public/shared contract, data-loss/irreversible release) take one cross-family second opinion before the decision — the full rule is in SKILL.md "Your output"; the conclusion stays the Code Review Lead's own.
+High-stakes changes (security/permission boundary, public/shared contract, data-loss/irreversible release) take one cross-family second opinion before the decision — the full rule is in SKILL.md "High-stakes second opinion"; the conclusion stays the Code Review Lead's own.
 
 Never claim a reviewer, command, or test ran without evidence.

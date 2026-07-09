@@ -15,25 +15,29 @@ passed | failed | blocked | partial
 
 ## Checks run
 
-- Scenario and result.
+- Scenario, expected vs actual behavior, and pass/fail. Every entry traces to a request or command under "Commands run" executed in this session against the real target — nothing inferred, nothing from a stub.
 
 ## Commands run
 
-- Command, environment, and result.
+- Command, environment, the real target it ran against, and result.
 
 ## Evidence
 
 - Example handle (replace with a real one): the run log at `verification/test-results/run.log`, or a fenced output excerpt below.
-- Logs, screenshots, request/response excerpts, or artifact paths.
+- Logs, request/response excerpts, or artifact paths. Every handle must resolve; no secret appears anywhere.
 
 ## Failures
 
-- Write "none" if there are none.
+- Write "None" when there are none.
 
 ## Blocked checks
 
-- Write "none" if there are none.
+- Every unrun or unrunnable check, with exactly what is missing. Write "None" when there are none.
+
+## Sightings and plan corrections
+
+- Real problems observed outside the assigned checks, and places where the plan or docs did not match the territory (missing endpoint, unbuildable request) — one line each. Write "None" when there are none.
 
 ## Residual risk
 
-- Write "none" if there is none.
+- Write "None" when there are none.

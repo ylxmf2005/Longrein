@@ -45,6 +45,10 @@ source_artifacts:
 - Impact:
 - Recommendation:
 
+## 给其它 lane 的旁见
+
+- 落在本 reviewer 问题之外的每一个真实问题各写一行（一个疑似 bug、一处 security 苗头、一个 perf 风险）——永不展开、也永不丢弃。没有则写 none。
+
 ## 值得保留的 Mechanical changes
 
 - 没有则写 none。

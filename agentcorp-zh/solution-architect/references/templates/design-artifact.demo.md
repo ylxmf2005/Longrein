@@ -14,6 +14,13 @@ source_artifacts:
 保留对设计有用的部分，删掉用不上的，缺什么就补什么。
 当用图比用文字更能说清楚结构、流程、状态或前后变化时，就用 Mermaid；
 diagram 必须如实反映真实组件，让标签说明每一步在做什么。
+
+交付前自查：
+- artifact_type 与 artifact 匹配（ArchitectureDesign / ImpactAnalysis / Diagnosis / InterfaceContract）；author_agent 是 solution-architect。
+- Source References 写明实际读过的代码、测试和 artifact。
+- 每个未核实的假设都在 Open Questions 下；当某个判断依赖它时，status 为 needs_more_evidence。
+- Mermaid 语法已按 references/mermaid.md 校验，或在交付备注中声明跳过。
+- 当产出多份 artifact 时，receipt 列出每一条路径。
 -->
 
 ## 设计意图

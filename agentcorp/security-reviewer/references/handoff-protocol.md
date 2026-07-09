@@ -14,6 +14,6 @@ Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifier
 
 ## Templates available to this role
 
+- `templates/finding-set.demo.md`
 - `templates/phase-assignment.demo.md`
 - `templates/phase-receipt.demo.md`
-- `templates/finding-set.demo.md`

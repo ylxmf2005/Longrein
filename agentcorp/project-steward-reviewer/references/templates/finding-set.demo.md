@@ -13,12 +13,17 @@ source_artifacts:
 
 ### Finding 1: <title>
 
-- Severity:
-- Confidence:
-- Long-term health impact:
-- Evidence:
+- Severity: <P0 | P1 | P2 | P3>
+- Confidence: <high | medium — low-confidence concerns are held, not written>
+- Rubric dimension: <the stewardship-rubric dimension this was judged against>
+- Long-term health impact: <who bears what future cost>
+- Evidence: <file:line where code is involved; repo-wide negatives paste the search command and its result>
 - Recommendation:
-- Routing:
+- Routing: <review-fixer | implementation-planner | solution-architect | release owner | human owner>
+
+## Sightings for other lanes
+
+- One line per real problem outside this reviewer's question (a suspected bug, a security smell, a perf risk) — never developed, never dropped. Write "None" when there are none.
 
 ## Evidence gaps
 

@@ -23,7 +23,7 @@ approve | request_changes | needs_more_evidence | blocked
 
 ## Result File Index
 
-- `verification/test-results/<tester-slug>.md` — 每个被指派者一行：状态加最有力的证据句柄。
+- `verification/test-results/<tester-slug>.md` — 每个被指派者一行：状态加最有力的证据句柄。列出的每个文件都存在于其路径上、被打开过、且其句柄能解析；其背后的每份 assignment 都设置了 `task_root`、`output_path`，以及（TestPlan 有的话）它的 playbook 路径。
 
 ## Evidence Gaps and Unverified Areas
 

@@ -1,21 +1,17 @@
 ---
 artifact_type: PhaseReceipt
 task_id: 20260603-120000-example-task
-phase: code-review
-from_agent: project-steward-reviewer
+from_agent: example-agent
+phase: example-phase
 status: completed
-artifact_path: review/specialist-findings/project-steward-reviewer.md
+artifact_path: review/example-output.md
 ---
 
-# Phase Receipt
+# Receipt: example-phase
 
-## Completion status
+## Notes
 
-- Project Steward review finding set produced.
-
-## Deviations
-
-- None.
+- One-line completion note.
 
 ## Blockers
 

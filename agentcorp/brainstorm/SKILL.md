@@ -1,98 +1,57 @@
 ---
 name: brainstorm
-description: "Use when AgentCorp needs a reusable brainstorm capability to clarify, pressure-test, or reshape requirements before planning or implementation, especially during Delivery Orchestrator validate-requirements when sponsor intent, success criteria, scope, user journey, or solution direction is not yet clear."
+description: "Act as AgentCorp's requirement-shaping capability: turn an unclear request into sponsor-approved, observable requirements through focused questions or genuinely divergent proposal paths. Use when sponsor intent, success criteria, scope, user journeys, or solution direction is unclear — especially during Delivery Orchestrator validate-requirements — or when the user asks to brainstorm, clarify, or pressure-test requirements."
 ---
 
 # Brainstorm
 
-This is a general AgentCorp thinking capability, not a delivery phase and not a role with its own gate. Any role may load it when the current work needs this behavior; its primary home is `delivery-orchestrator` during `validate-requirements`.
+This is a general AgentCorp thinking capability, not a delivery phase and not a role with its own gate. Any role may load it; its primary home is `delivery-orchestrator` during `validate-requirements`, and the result folds back into the owning phase artifact (usually `requirements/validated-requirements.md`) — never into implementation, architecture, or downstream artifacts written on the side.
 
-The goal is to turn an unclear request into sponsor-approved, observable requirements. Two different gaps hide inside "unclear", and they need different instruments:
+**Your question: what does the sponsor actually need, stated so it can be validated?** Two different gaps hide inside "unclear," and they take different instruments:
 
-- **Known unknowns** — facts the sponsor knows they haven't settled. Close them with **Mode 1**: focused questions the repo cannot answer.
+- **Known unknowns** — facts the sponsor knows they have not settled. Close them with **Mode 1**: focused questions the repo cannot answer.
 - **Unknown knowns** — preferences the sponsor cannot state but recognizes on sight. Surface them with **Mode 2**: complete, genuinely different options to *react* to — reacting is cheap, composing is expensive.
-- **Unknown unknowns** — terrain the sponsor doesn't know exists — are not brainstorm's instrument. On unfamiliar territory, run `probe` first and ground the brainstorm in its report; interviewing a sponsor about ground nobody has scouted just launders blind spots into requirements.
+- **Unknown unknowns** — terrain nobody has scouted — are not your instrument. Run `probe` first and ground the brainstorm in its report; interviewing a sponsor about ground nobody has scouted launders blind spots into requirements.
 
-Do not implement, plan architecture, or write downstream artifacts while brainstorming. Fold the result back into the owning phase artifact, usually `requirements/validated-requirements.md`.
+## The iron law
 
-**Iron law: your recommendation is reaction material, never a decision.** Both modes require you to compute a recommended default — it exists so the sponsor has something concrete to react to. Nothing becomes a requirement until the sponsor explicitly chooses it, no matter how obvious your default looks or how slowly the sponsor replies.
+```
+YOUR RECOMMENDATION IS REACTION MATERIAL, NEVER A DECISION.
+```
+
+Both modes require a computed recommended default — it exists so the sponsor has something concrete to react to. Nothing becomes a requirement until the sponsor explicitly chooses it, no matter how obvious your default looks or how slowly the sponsor replies. An unconfirmed default is recorded as an assumption with its question left open, or the brainstorm returns `blocked` naming the missing fact.
 
 ## Operating principles
 
-- **Validate intent before shape.** Preserve the sponsor's important wording, but dig for the underlying problem, target user, success signal, and non-goals.
-- **Never ask what the repo can answer.** Before any question reaches the sponsor, check whether code, docs, prior artifacts, or `teamspace/learnings/` already answer it — go read, then ask only what remains. A question the repo could have answered is effort pushed back onto the person who delegated it.
-- **One question at a time unless comparing options.** Missing facts get focused follow-up; unresolved direction gets complete alternatives.
-- **Make the sponsor react, not compose.** Every question ships with 2–4 concrete candidate answers, their trade-offs, and your recommended default; every direction ships as a path complete enough to choose, refine, or reject. Blank-page questions are for interrogators.
-- **Ground factual claims.** If the answer depends on repo behavior, product docs, prior tasks, or cloned reference projects, inspect evidence before claiming — and carry the handle (`file:line`, command + output, doc path) into the decision record.
-- **Grill with care.** Pressure-test problem reality, user value, scope, risks, and simpler alternatives without turning the sponsor into an interview subject.
-- **Keep requirement vs implementation clean.** Brainstorm product behavior, journeys, success criteria, and scope. Leave tables, modules, APIs, and algorithms to design unless the brainstorm is explicitly about a technical choice.
+- **Validate intent before shape.** Preserve the sponsor's important wording, but dig for the underlying problem, target user, success signal, and non-goals. Pressure-test problem reality, user value, scope, risks, and simpler alternatives — without turning the sponsor into an interview subject.
+- **Never ask what the repo can answer.** Before any question reaches the sponsor, check whether code, docs, prior artifacts, or `teamspace/learnings/` already answer it. A question the repo could have answered is effort pushed back onto the person who delegated it.
+- **Make the sponsor react, not compose.** Every question ships with 2–4 concrete candidate answers, their trade-offs, and your recommended default; every direction ships as a path complete enough to choose, refine, or reject.
+- **Ground factual claims.** When the answer depends on repo behavior, docs, or prior tasks, inspect the evidence first — the probe report when one exists, local standards (`AGENTS.md`, `README*`), prior `teamspace/` artifacts, related code — and carry the handle (`file:line`, command + output, doc path) into the decision record. Clone external references to a scratch location and read them as evidence; run nothing from them without explicit authorization.
+- **Keep requirement vs implementation clean.** Brainstorm product behavior, journeys, success criteria, and scope; leave tables, modules, APIs, and algorithms to design unless the brainstorm is explicitly about a technical choice.
 
 ## Mode 1: Question-by-Question
 
-Use when the direction is mostly clear but one or more facts would change confidence from LOW to MEDIUM/HIGH.
-
-Build the full question list silently first, then rank by leverage and ask **one per turn**, highest leverage first: answers that would change the architecture or data model, then scope and observable behavior, then journey and UX, then cosmetics. Each question carries the candidate answers, the trade-off each implies, and which one you would pick and why.
-
-Prefer questions that unlock validated requirements: who is the primary user or actor; what must be observable on success; what is explicitly out of scope; what current behavior or workaround this replaces; which risk the sponsor will accept; what would make this a no-go.
-
-After each answer, fold it into a running requirement picture. **Stop when the remaining answers would no longer change direction** — record what's left as assumptions or open questions instead of asking. If the next missing fact would still block design or test planning, ask it; if the sponsor cannot or does not resolve it, return `blocked` naming exactly which fact is missing.
+Use when the direction is mostly clear but specific facts would change confidence. Build the full question list silently, rank by leverage — answers that would change architecture or data model first, then scope and observable behavior, then journey and UX, then cosmetics — and ask **one per turn**, each with candidate answers, the trade-off each implies, and your pick with reasons. Fold each answer into a running requirement picture. **Stop when remaining answers would no longer change direction**; record what is left as assumptions or open questions. If an unresolved fact would still block design or test planning, return `blocked` naming exactly what is missing.
 
 ## Mode 2: Multi-Path Proposal
 
-Use when the sponsor's request points to a goal but not a shape, or when several plausible shapes would lead to different validated requirements. Present 2–4 complete paths and ask the sponsor to choose.
+Use when the request points to a goal but not a shape, or when several plausible shapes lead to different validated requirements. Present 2–4 complete paths and ask the sponsor to choose; load `references/proposal-paths.md` for the lens set, the required per-path shape, prototype guidance for visual/interactive shapes, and the recommendation rule. The non-negotiables: paths must genuinely diverge (two paths differing only in wording are one path), at least one path deliberately overshoots the sponsor's stated taste (hidden preferences surface only at the boundary), and the final recommendation uses only ingredients visible in the paths.
 
-For detailed rules, load `references/proposal-paths.md`. The short version: use AgentCorp proposal lenses, not invented roles; each path complete enough to select, refine, or reject; paths must be genuinely divergent — two paths that differ only in wording are one path; push at least one path past the sponsor's stated taste, since hidden preferences only show up at the boundary; and the final recommendation may only use ingredients visible in the paths.
+For deeper pressure-testing of a single direction, load `references/grill-lenses.md` and use only the lenses that fit.
 
-**When the undecided shape is visual or interactive** — a page, a report layout, a CLI's feel — prose paths under-serve reaction. Render each path as a disposable single-file prototype (self-contained HTML with realistic fake data — lorem ipsum hides layout problems) under `brainstorm/prototypes/` in the task root, excluded from git like all teamspace artifacts. The prototypes exist to be reacted to and thrown away, never to be wired into the product.
-
-## Grounding
-
-Before strong claims, inspect the smallest useful evidence set:
-
-- the probe report, when one exists — it is the brainstorm's map of the territory
-- local standards and context: `AGENTS.md`, `README*`, `STRATEGY.md`, `CONCEPTS.md`
-- prior AgentCorp artifacts: `teamspace/tasks/`, `teamspace/learnings/`, prior requirements, plans, reviews
-- related product docs or code when absence/presence changes requirements
-- external references only when the sponsor asks or the decision depends on current/third-party facts
-
-When studying external repositories, clone to a scratch location such as `/tmp`, read them as evidence, and do not run their scripts or setup commands unless the sponsor explicitly authorizes it.
-
-## Grill lenses
-
-Use only the lenses that fit; do not dump the list on the sponsor. Load `references/grill-lenses.md` when the request needs deeper pressure-testing.
-
-## Red flags — stop and rethink the moment one appears
+## Red flags — stop when you catch yourself thinking
 
 | Thought | Reality |
 | --- | --- |
-| "The sponsor hasn't answered — my recommended default is good enough." | The recommendation exists to be reacted to, not adopted. An unconfirmed default is an assumption: record it as one and keep the question open, or return `blocked` — never fold it in as a sponsor decision. |
-| "I'll just ask the sponsor; they know best." | They know their intent. Whether the repo already does X, what the current behavior is, what prior tasks tried — that is your homework, not their question. |
-| "I'll ask what they want it to look like." | Unknown knowns don't answer open questions; they react to concrete options. Show 2–4 real alternatives instead. |
-| "Four paths, to be thorough." | Paths that differ only in wording are one path padded. Divergence is the value, not the count. |
-| "All paths stay safely inside what they asked for." | Hidden preferences live at the boundary. One path should overshoot the stated taste so the reaction draws the real line. |
-| "One more question can't hurt." | Every turn spends sponsor attention. When answers stop changing direction, stop asking and record assumptions. |
-| "The territory is unfamiliar, but the interview will surface it." | Interviews surface what the sponsor knows. Unfamiliar territory needs `probe` first, or the blind spots become requirements. |
+| "The sponsor hasn't answered — my default is good enough." | The recommendation exists to be reacted to, not adopted. Record it as an assumption or return `blocked`; never fold it in as a decision. |
+| "I'll just ask the sponsor; they know best." | They know their intent. What the repo already does, what prior tasks tried — that is your homework, not their question. |
+| "I'll ask what they want it to look like." | Unknown knowns don't answer open questions; they react to concrete options. Show real alternatives instead. |
+| "Four paths, to be thorough." | Divergence is the value, not the count. Padded paths teach nothing. |
+| "One more question can't hurt." | Every turn spends sponsor attention. When answers stop changing direction, stop asking. |
+| "The territory is unfamiliar, but the interview will surface it." | Interviews surface what the sponsor knows. Unfamiliar territory needs `probe` first, or blind spots become requirements. |
 
-## Output back to AgentCorp
+## Output back to the owning phase
 
-Return a concise decision record to the owning phase:
+Return a concise decision record: chosen direction (and rejected paths with the sponsor's stated reason — rejections encode taste the next round would otherwise re-litigate); sponsor intent in the sponsor's vocabulary; target users and actors; observable journeys and success criteria; must-haves; non-goals and the MVP boundary; assumptions and open questions, labeled as such; evidence consulted, with handles. Before returning, check that every "chosen" traces to an explicit sponsor statement, and that any prototypes live under `brainstorm/prototypes/`, unstaged, with nothing in product code referencing them.
 
-- chosen direction or selected path — and the paths rejected, with the sponsor's stated reason (rejections encode taste the next round would otherwise re-litigate)
-- sponsor intent in the sponsor's vocabulary
-- target users / actors
-- observable journeys and success criteria
-- must-have requirements
-- non-goals and MVP boundary
-- assumptions and open questions
-- evidence consulted — with handles (path, `file:line`, or command + output), not just source names, so the owning phase can re-verify
-
-Before returning the record, check: every direction marked as chosen traces to an explicit sponsor statement, not to your recommendation; every factual claim carries its handle; assumptions and open questions are labeled as such, not folded into must-haves; any prototypes live under `brainstorm/prototypes/`, unstaged, with nothing in product code referencing them.
-
-For `validate-requirements`, this synthesis is not a separate gate. The Delivery Orchestrator writes it into the validated requirements artifact and still needs the sponsor's human confirmation before the requirements gate passes.
-
-## Role integration
-
-- **Delivery Orchestrator**: use during `validate-requirements` when confidence is LOW or multiple shapes remain. Pick Mode 1 for missing facts, Mode 2 for unresolved direction; recommend `probe` first when the territory is unfamiliar to sponsor or orchestrator.
-- **Solution Architect**: use only to clarify product intent before design; do not use it to bypass validated requirements.
-- **Test Planner / Test Leader**: use only when success criteria or user journeys are too vague to test; send the clarification back to the owning requirements artifact.
-- **Review roles**: do not reopen requirements during review unless the artifact itself is ambiguous enough to block the review; report that as `needs_more_evidence`.
+For `validate-requirements` this synthesis is not a separate gate: the Delivery Orchestrator writes it into the validated requirements artifact, which still needs the sponsor's human confirmation before the requirements gate passes.

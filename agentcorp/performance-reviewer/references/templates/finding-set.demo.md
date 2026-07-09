@@ -13,11 +13,15 @@ source_artifacts:
 
 ### Finding 1: <title>
 
-- Severity:
-- Confidence:
-- Evidence:
-- Impact:
-- Recommendation:
+- Severity: <critical | major | minor>
+- Confidence: <numeric, per the bands in SKILL.md; a medium finding names the scale assumption it depends on>
+- Evidence: <the construct at file:line, plus the sourced scale handle — constraint, schema, migration, or named document>
+- Impact: <the cost at the sourced scale — latency, memory, throughput, resource exhaustion>
+- Recommendation: <the fix; recommend caching only with evidence the uncached path is hot or slow>
+
+## Sightings for other lanes
+
+- One line per real problem outside this reviewer's question (a functional bug, a security smell, a reliability gap) — never developed, never dropped. Write "None" when there are none.
 
 ## Evidence gaps
 
@@ -26,3 +30,4 @@ source_artifacts:
 ## Residual risks
 
 - Write "None" when there are none.
+- Suppressed low-confidence findings that would be an outage if real go here: one line each, marked unconfirmed.

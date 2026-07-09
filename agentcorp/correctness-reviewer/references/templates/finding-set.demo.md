@@ -15,9 +15,13 @@ source_artifacts:
 
 - Severity: <critical | major | minor>
 - Confidence: <numeric, per the bands in SKILL.md>
-- Evidence:
-- Impact:
-- Recommendation:
+- Evidence: <the concrete input or state, and the branch-by-branch path it takes at file:line>
+- Impact: <the wrong observable result and who hits it>
+- Recommendation: <the fix; when a test is missing, name it — its input and the result it should assert>
+
+## Sightings for other lanes
+
+- One line per real problem outside this reviewer's question (a security smell, a perf risk, a shape problem) — never developed, never dropped. Write "none" when there are none.
 
 ## Evidence gaps
 

@@ -19,6 +19,10 @@ source_artifacts:
 - 影响: <留着这个 hack 长期要付的代价>
 - 建议: <诚实的形态和它的价>
 
+## 给其它 lane 的旁见
+
+- 落在本 reviewer 问题之外的每一个真实问题各写一行（一个疑似 bug、一处 security 苗头、一个 perf 风险）——永不展开、也永不丢弃。没有时写 "None"。
+
 ## 证据缺口
 
 - 没有时写 "None"。
@@ -26,4 +30,4 @@ source_artifacts:
 ## 残余风险
 
 - 没有时写 "None"。
-- 被按住的 low confidence 疑虑中，一旦为真会是 critical 级的写在这里：每条一行，标注 unconfirmed。对「该不该存在」的疑虑也写在这里，每条一行。
+- 被按住的 low confidence 疑虑中，一旦为真会是 critical 级的写在这里：每条一行，标注 unconfirmed。对「该不该存在」的疑虑（这个功能到底该不该存在）也写在这里，每条一行。

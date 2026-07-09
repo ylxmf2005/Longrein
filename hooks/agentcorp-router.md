@@ -54,7 +54,7 @@ After loading `delivery-orchestrator`, read `references/workflow.md` before choo
 | probe the territory/codebase, blindspot pass, blind spot pass, terrain scan, unknown unknowns, unfamiliar codebase/module before starting, don't know what to ask, 盲区扫描, 探一探, 不知道从哪开始 | `probe` |
 | brainstorm, clarify requirements, pressure-test requirements, multi-path proposal, requirement shaping, 需求澄清, 头脑风暴 | `brainstorm` |
 | authenticated browser session, logged-in browser state, page-context JavaScript, same-origin API request from the logged-in page, 登录态浏览器 | `authenticated-browser-session` |
-| taste review, hack vs honest shape, wrong abstraction, special-case elimination, root-cause shape | `taste-reviewer` |
+| taste review, hack vs honest shape, wrong abstraction, special-case elimination, root-cause shape, conceptual misnaming, API feel, proportionality, 代码品味 | `taste-reviewer` |
 | comment review, comment quality, AI boilerplate comments, TODO/FIXME hygiene, missing why-comment | `comment-reviewer` |
 | setup precommit, pre-commit setup, commit constraints, commit-time guardrails, Git hook workflow, AI commit review hook, Codex commit review, Claude commit review, 提交前检查, commit 约束, precommit 配置, AI commit review | `precommit-setup` |
 | parallel research, deep research, SOTA, current best practice, external technical research, prior art, paper research, open-source scan, competitor research | `parallel-researcher` |
@@ -71,6 +71,7 @@ After loading `delivery-orchestrator`, read `references/workflow.md` before choo
 - For cross-task learnings, use `delivery-orchestrator` and read `references/learnings.md`.
 - For `probe` reports, read `references/templates/probe-report.demo.md` before writing.
 - For `walkthrough` artifacts, read `references/artifact-format.md` before writing.
+- For `explain` persisted artifacts, read `references/artifact-format.md` before writing.
 
 ## Operating Rules
 

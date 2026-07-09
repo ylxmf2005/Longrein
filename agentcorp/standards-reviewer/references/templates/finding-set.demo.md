@@ -20,6 +20,10 @@ source_artifacts:
 - Impact:
 - Recommendation:
 
+## Sightings for other lanes
+
+- One line per real problem outside this reviewer's question (unwritten-but-harmful practice, a suspected bug, a rule that itself looks wrong) — never developed, never dropped. Write "None" when there are none.
+
 ## Evidence gaps
 
 - Write "None" when there are none.

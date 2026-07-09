@@ -9,10 +9,10 @@ artifact_path: review/example-output.md
 
 # Receipt: example-phase
 
-## 概要
+## Notes
 
-- 一句话完成说明。
+- 简述完成情况的一句话。
 
-## 阻塞项
+## Blockers
 
 - 无。

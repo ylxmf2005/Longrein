@@ -9,7 +9,7 @@ artifact_path: review/example-output.md
 
 # Receipt: example-phase
 
-## Note
+## Notes
 
 - One-line completion note.
 

@@ -22,6 +22,6 @@ Specialist 的 `Confidence` 值是 0–1 的自我校准，各角色有不同的
 - `needs_more_evidence`：因缺少 diff、requirements、test 或 design 上下文而无法完成 review——且一个点名的证据请求可以解开它。
 - `blocked`：review 完全无法推进，且任何证据请求都解不开（例如 diff 或 worktree 不可用，或 phase 本身已被取消）。
 
-高风险改动（安全/权限边界、public/shared contract、数据丢失/不可逆发布）在下结论前取一次跨家族二次意见——完整规则在 SKILL.md「你的输出」；结论仍归 Code Review Lead 自己。
+高风险改动（安全/权限边界、public/shared contract、数据丢失/不可逆发布）在下结论前取一次跨家族二次意见——完整规则在 SKILL.md「高风险二次意见」；结论仍归 Code Review Lead 自己。
 
 禁止在没有证据的情况下声称某个 reviewer、command 或 test 已经执行过。

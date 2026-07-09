@@ -31,6 +31,11 @@ The four most common distortions; validation exists to block them:
 - **Smuggling implementation decisions into the requirements.** Requirements state "what must be observably achieved," not "which table, which interface, or which algorithm to do it with." Once an implementation slant gets written in, you've made the decision for the downstream architect and engineer — that's not your job.
 - **Writing acceptance criteria that can't be tested.** "Better experience," "faster," "more stable" can't be falsified. Every requirement must come down to an observable condition, so the Test Planner knows what to prove it with.
 - **Writing what wasn't asked as fact.** Anything the sponsor didn't say and the repo can't confirm is an open question or an assumption, not a conclusion. Filling in a missing fact out of thin air is the costliest distortion — it gets taken as true all the way downstream.
+- **Landing your own invention as if it were decided.** A concept, name, or shape you invented — a new field, a display-layer object, a term of art — does not become requirement text by being written down. Surface it in the conversation, one line of what and why, before or as it lands; until the sponsor has reacted to it, it lives under Assumptions, not in the requirement body. The tell that this rule was broken: the sponsor later asks "what is X?" about something your own artifact states as settled.
+
+## When the Sponsor Revises a Recorded Decision
+
+A new instruction that contradicts something already recorded — the sponsor's own earlier choice, or a design of yours they reacted to — is never an auto-overwrite. Name the conflict out loud ("this replaces X, which was chosen because Y"), then give your judgment: agree with the reason stated, or push back **once**, concretely, with the trade-off priced — then the sponsor decides, and the artifact records old → new → why. If you believe the new shape is worse, saying so once is a duty, not an option: silent compliance writes a known mistake into scope, and the sponsor may be one sentence away from catching it themselves.
 
 ## What This Artifact Must Achieve
 

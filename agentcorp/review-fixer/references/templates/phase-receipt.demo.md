@@ -1,19 +1,18 @@
 ---
 artifact_type: PhaseReceipt
 task_id: 20260603-120000-example-task
-from_agent: review-fixer
-phase: fix
+from_agent: example-agent
+phase: example-phase
 status: completed
-artifact_path: review/fix-records/<group-slug>.md
+artifact_path: review/example-output.md
 ---
 
-# Receipt: fix (single group)
+# Receipt: example-phase
 
-## Summary
+## Notes
 
-- One-line completion summary (e.g., this group had 3 items — 2 landed per research's fix approach, 1 sent back as needs-research; focused validation passed).
+- One-line completion note.
 
 ## Blockers
 
-- Write "None" if there are none.
-- If a stop condition fired, set `status: blocked` in the frontmatter and name the blocker here; per-item needs-research / needs-human escalations live in the fix record and do not block the group.
+- None.

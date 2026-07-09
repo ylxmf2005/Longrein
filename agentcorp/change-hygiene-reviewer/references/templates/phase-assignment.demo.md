@@ -1,11 +1,11 @@
 ---
 artifact_type: PhaseAssignment
-task_id: example-task-20260611-120000
+task_id: 20260611-120000-example-task
 from_agent: delivery-orchestrator
 to_agent: change-hygiene-reviewer
 phase: code-review
 status: assigned
-task_root: teamspace/tasks/example-task-20260611-120000
+task_root: teamspace/tasks/20260611-120000-example-task
 output_path: review/specialist-findings/change-hygiene-reviewer.md
 ---
 

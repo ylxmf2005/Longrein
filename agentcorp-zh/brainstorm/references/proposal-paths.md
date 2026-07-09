@@ -18,6 +18,10 @@
 
 如果某个 lens 对当前任务没有带来实质不同，不要使用。两个只差措辞的路径其实是同一个路径。
 
+至少让一个路径越过 sponsor 声明的口味 —— 隐藏偏好只会在边界处现身，一组全部安全地待在 request 范围内的路径，教不会你真正的线在哪里。要把它明确标注为激进的 stretch 选项，让 sponsor 知道这是有意为之。
+
+当未定的形状是视觉或交互性的，把每个路径渲染成一次性的单文件原型（自包含 HTML，配真实感的假数据 —— lorem ipsum 会掩盖布局问题），放在任务根目录的 `brainstorm/prototypes/` 下，与所有 teamspace artifact 一样排除在 git 之外，让 sponsor 对真实的东西做出反应，而不是对描述它的文字。原型是反应材料，绝不是产品代码。
+
 ## 每个路径必须包含
 
 每个 proposed path 必须包含：
@@ -40,4 +44,4 @@
 - sponsor 能看懂组合了什么、放弃了什么
 - hybrid 仍然有清楚的 MVP 边界和验收信号
 
-Sponsor 选择一个路径或明确授权 hybrid 之前，不要从多个路径混写 validated requirements。
+Sponsor 选择一个路径或明确授权 hybrid 之前，不要写 validated requirements —— 无论来自一个路径还是多个。你推荐的路径不算选择；只有 sponsor 的选择才算。

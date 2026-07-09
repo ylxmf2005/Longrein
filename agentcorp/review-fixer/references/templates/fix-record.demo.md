@@ -1,6 +1,6 @@
 ---
 artifact_type: FixRecordSet
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 author_agent: review-fixer
 status: completed
 group_slug: <this group's short English slug, usually derived from the owned file set>
@@ -16,16 +16,16 @@ This group's owned file set (OWNED_FILES): path/to/service.py, path/to/helper.py
 
 ### Record 1
 
-- fix_item_id: <ID, e.g. P0-1>
+- fix_item_id: <ID from review/research/, e.g. F-01>
 - severity: <P0 | P1 | P2>
 - verdict: fixed-as-suggested
-- files_changed: path/to/service.py
-- regression_check: Added <test/check>; under <trigger condition> it fails before the fix and passes after it.
+- files_changed: path/to/service.py, path/to/test_service_regression.py (new test file, created by this group only)
+- regression_check: Added <test/check> in path/to/test_service_regression.py; under <trigger condition> it fails before the fix and passes after it.
 - notes: Drift check passed; landed at the root per research's fix approach, not downgraded to a patch.
 
 ### Record 2
 
-- fix_item_id: <ID, e.g. P1-5>
+- fix_item_id: <ID from review/research/, e.g. F-04>
 - severity: <P0 | P1 | P2>
 - verdict: needs-research
 - files_changed: none

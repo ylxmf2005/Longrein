@@ -1,6 +1,6 @@
 ---
 artifact_type: FixRecordSet
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 author_agent: review-fixer
 status: completed
 group_slug: <this group's short English slug, usually derived from the owned file set>
@@ -16,16 +16,16 @@ source_artifacts:
 
 ### 记录 1
 
-- fix_item_id: <ID, e.g. P0-1>
+- fix_item_id: <来自 review/research/ 的 ID, e.g. F-01>
 - severity: <P0 | P1 | P2>
 - verdict: fixed-as-suggested
-- files_changed: path/to/service.py
-- regression_check: 添加了 <test/check>；在 <trigger condition> 下，修复前失败，修复后通过。
+- files_changed: path/to/service.py, path/to/test_service_regression.py（新测试文件，仅由本组创建）
+- regression_check: 在 path/to/test_service_regression.py 中添加了 <test/check>；在 <trigger condition> 下，修复前失败，修复后通过。
 - notes: Drift check 通过；按 research 给出的修复方案在根因处落地，没有降级为 patch。
 
 ### 记录 2
 
-- fix_item_id: <ID, e.g. P1-5>
+- fix_item_id: <来自 review/research/ 的 ID, e.g. F-04>
 - severity: <P0 | P1 | P2>
 - verdict: needs-research
 - files_changed: none

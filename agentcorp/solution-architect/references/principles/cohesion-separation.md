@@ -74,7 +74,7 @@ Consider joining methods when it would:
 
 ## Red Flags
 
-Watch for these patterns during review:
+Watch for these patterns in the design you are proposing and in the code you read while designing:
 
 ### Repetition
 - The same code (or nearly identical code) appearing multiple times
@@ -118,7 +118,7 @@ Watch for these patterns during review:
 
 ## Issue Tags
 
-Use these tags when reporting issues:
+Use these tags when flagging together-or-apart problems in a design artifact:
 
 - **[Repetition]**: Same or similar code repeated without abstraction
 - **[Special-General Mixture]**: General-purpose mechanism contains special-purpose code

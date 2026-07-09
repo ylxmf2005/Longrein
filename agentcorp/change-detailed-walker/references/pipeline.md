@@ -8,7 +8,7 @@ Dependencies: `python3` (stdlib), `git`. All scripts are in `scripts/` and use o
 {
   "body": "optional overall comment (one sentence on what this change is)",
   "comments": [
-    {"path": "<repo-relative path>", "body": "<why, zh-CN markdown>", "new_position": <new-file line number>},
+    {"path": "<repo-relative path>", "body": "<why — markdown, requester's language (default zh-CN)>", "new_position": <new-file line number>},
     {"path": "<...>",                "body": "<...>",                 "old_position": <old-file line number>}
   ]
 }
@@ -29,13 +29,19 @@ HEAD=<sha or ref>        # head
 # 1. Ensure the local forge is running (idempotent; reuses one already running)
 python3 $S/setup_forge.py
 
-# 2. Mirror into a local PR (base branch = merge-base, head branch = head, PR diff == git diff BASE..HEAD three-dot)
+# 2. Mirror into a local PR (base branch = merge-base, head branch = head,
+#    PR diff == `git diff BASE...HEAD` — three-dot, identical to <merge_base>..HEAD)
+#    One forge repo per walked change: put the branch or short head sha in --name (e.g. myrepo-ab12cd3)
 python3 $S/mirror_pr.py --repo $REPO --base $BASE --head $HEAD --name <forge-repo-name>
 #   → JSON: {owner, repo, index, merge_base, head_sha, files_url}
 
 # 3. Get the diff outline with line numbers
+#    Leave --context at its default 3: coverage_gate.py hardcodes -U3, so any other width
+#    changes hunk boundaries and your anchors stop reconciling. -U3 is the pipeline contract.
 python3 $S/diff_outline.py --repo $REPO --merge-base <merge_base> --head <head_sha> > /tmp/outline.json
 ```
+
+**Worktree mode**: pass `--head WORKTREE` to walk uncommitted changes (`--base` is ignored; `merge_base` becomes the target's `HEAD`). All three scripts then diff against `HEAD`, so **untracked new files are invisible** to the mirror, the outline, and the gate — the gate can exit 0 while a whole new file was never walked. Before walking, run `git -C $REPO status --porcelain`; if `??` entries are in scope, have the requester stage or commit them first (the target repo is read-only to you), or declare them as uncovered in the receipt.
 
 **Check the scope before writing comments**: every file and every hunk listed by `diff_outline.py` must enter your comment set. Reviewing only one file, or skipping a whole new file / SQL migration, is a miss by default, not a deliberate scope reduction — unless the assignment limited the scope and you declare in the receipt "walked through only X this time, the rest not covered." SQL migrations, handlers, schemas, and the like are often where risk density is highest, and are the last thing that should be missed.
 
@@ -53,13 +59,15 @@ python3 $S/coverage_gate.py --repo $REPO --merge-base <merge_base> --head <head_
 
 ## Coverage and density
 
-The gate's rule (default): each hunk has at least 1 comment anchored within its line range; **a large hunk (changed lines > 20) needs ≥ ceil(changed lines / 40) comments** — forcing big blocks to be split by function rather than swept past with one comment.
+The gate's rule (default): each hunk has at least 1 comment anchored within its line range; **a large hunk (changed lines > 20) needs ≥ ceil(changed lines / 40) comments** — forcing big blocks to be split by function rather than swept past with one comment. Note the floor is generous: with defaults, a 21–40-changed-line hunk still passes with one comment. The gate is a floor, not the standard — the split-at-~20-lines rule in `references/hunk-comment.md` binds you even when the gate would pass.
 
 The gap-filling loop: gate reports a GAP → add function-level comments for those hunks → `post_review.py` again (it creates a new review; the gate reads back the comments across all reviews and reconciles cumulatively) → `coverage_gate.py` again, until it exits 0. Don't stuff in empty filler to pass the gate — each comment still has to explain a real "why"; for what you genuinely can't explain, mark it `untraceable` and state the evidence you checked. The gate only enforces density; quality is backstopped by writing discipline and review.
 
 ## Wrap-up
 
 Hand the `files_url` to the requester, who logs into the local forge and reviews in the native PR UI. When sandbox repos pile up, delete them as needed: `DELETE /api/v1/repos/{owner}/{repo}`.
+
+If the head moves after a fix round, mint a new `--name` (or DELETE the old repo first): mirroring reuses an existing open PR, and the gate reconciles cumulatively across all reviews — stale comments from the old diff can satisfy the gate for lines they no longer explain.
 
 ## Boundaries
 

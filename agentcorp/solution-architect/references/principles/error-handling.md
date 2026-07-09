@@ -6,7 +6,7 @@ Error handling is a major source of complexity in software systems. This dimensi
 
 The goal is to **reduce the number of places where exceptions must be handled**, not to catch every possible error. Exception handling code is inherently harder to write, test, and maintain than normal-case code. It rarely executes in production, making bugs difficult to detect. Exception handling creates opportunities for more exceptions (e.g., recovery code that itself fails).
 
-This review dimension focuses on whether error handling increases or decreases overall system complexity. The best code either eliminates error conditions entirely through careful API design, or handles exceptions at strategic points where they can be managed collectively.
+When designing, use this dimension to judge whether the error handling you are proposing increases or decreases overall system complexity. The best design either eliminates error conditions entirely through careful API design, or handles exceptions at strategic points where they can be managed collectively.
 
 ## Core Principles
 
@@ -93,7 +93,7 @@ Beyond exceptions, eliminate other special-case logic by making the general case
 
 ## Issue Tags
 
-Use these tags in code review output:
+Use these tags when flagging error-handling problems in a design artifact:
 
 - **[Exception Proliferation]**: Too many exception handlers or exception types, increasing interface complexity
 - **[Error Definition]**: Operation throws exceptions for conditions that could be defined as normal behavior

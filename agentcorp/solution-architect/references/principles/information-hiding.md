@@ -87,7 +87,7 @@ See also `cohesion-separation.md` for the full set of together-or-apart red flag
 
 ## Issue Tags
 
-Use these tags when reporting information hiding issues:
+Use these tags when flagging information-hiding problems in a design artifact:
 
 - **[Information Leakage]** - Same knowledge or design decision appears in multiple modules
 - **[Temporal Decomposition]** - System structure reflects execution order instead of knowledge boundaries

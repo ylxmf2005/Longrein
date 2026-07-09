@@ -11,6 +11,7 @@ Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifier
 - If the assignment has no `task_root`, derive it from the assignment file's location: find the parent `handoffs/` directory and take its parent as the task root.
 - Write this phase's primary durable artifact at `output_path`; unless this role's instructions call for creating a tester assignment, a sub-result, or an acceptance package, do not scatter extra artifacts.
 - Return a receipt; the receipt's `artifact_path` must match the primary artifact path, or point at the final summary artifact when this role explicitly produces multiple artifacts.
+- When this role returns `blocked`, still write the artifact at `output_path` with `status: blocked` and the specific design gap or contradiction spelled out inside it, and set the receipt `status: blocked` naming the same gap under `## Blockers` — a blocked receipt with no artifact at `output_path` fails the orchestrator's mechanical validation.
 
 ## Templates available to this role
 

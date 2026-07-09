@@ -1,6 +1,6 @@
 ---
 artifact_type: SpecialistReviewFindingSet
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 author_agent: example-reviewer
 status: completed
 source_artifacts:
@@ -22,7 +22,9 @@ source_artifacts:
 ## Evidence gaps
 
 - 没有就写 "None"。
+- 对 Residual risk 下的每一条，写明什么证据能证实或否定它。
 
 ## Residual risk
 
 - 没有就写 "None"。
+- 按住的 low confidence 架构层面顾虑写在这里：每条一行，标注 unconfirmed。

@@ -4,7 +4,7 @@ This protocol is the `taste-reviewer` skill's own reference. The shape of the as
 
 Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifiers, and API/interface contract fields at their original values; human-facing explanatory prose uses zh-CN.
 
-## Reading the assignment
+## Reading the Assignment
 
 - When assigned by the Delivery Orchestrator, treat the assignment file as your task input.
 - Resolve `output_path` relative to `task_root`.

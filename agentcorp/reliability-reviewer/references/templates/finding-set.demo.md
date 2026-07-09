@@ -1,6 +1,6 @@
 ---
 artifact_type: SpecialistReviewFindingSet
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 author_agent: example-reviewer
 status: completed
 source_artifacts:
@@ -22,7 +22,9 @@ source_artifacts:
 ## Evidence gaps
 
 - Write "None" when there are none.
+- For each entry under Residual risk, name the evidence that would confirm or kill it.
 
 ## Residual risk
 
 - Write "None" when there is none.
+- Held-back low-confidence architectural concerns go here: one line each, marked unconfirmed.

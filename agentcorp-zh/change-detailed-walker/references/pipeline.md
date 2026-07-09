@@ -6,10 +6,10 @@
 
 ```json
 {
-  \"body\": \"可选的总体评论 (一句话概括这个变更)\",
-  \"comments\": [
-    {\"path\": \"<repo-relative path>\", \"body\": \"<why, zh-CN markdown>\", \"new_position\": <new-file line number>},
-    {\"path\": \"<...>\",                \"body\": \"<...>\",                 \"old_position\": <old-file line number>}
+  "body": "可选的总体评论 (一句话概括这个变更)",
+  "comments": [
+    {"path": "<repo-relative path>", "body": "<why — markdown，requester 的工作语言 (默认 zh-CN)>", "new_position": <new-file line number>},
+    {"path": "<...>",                "body": "<...>",                 "old_position": <old-file line number>}
   ]
 }
 ```
@@ -29,15 +29,21 @@ HEAD=<sha or ref>        # head
 # 1. 确保本地 forge 已启动 (幂等; 如果已经在跑就直接复用)
 python3 $S/setup_forge.py
 
-# 2. Mirror 成本地 PR (base branch = merge-base, head branch = head, PR diff == git diff BASE..HEAD three-dot)
+# 2. Mirror 成本地 PR (base branch = merge-base, head branch = head,
+#    PR diff == `git diff BASE...HEAD` —— 三点语法，与 <merge_base>..HEAD 完全一致)
+#    每次 walk 的变更用一个独立的 forge repo: 把分支名或 head 短 sha 写进 --name (如 myrepo-ab12cd3)
 python3 $S/mirror_pr.py --repo $REPO --base $BASE --head $HEAD --name <forge-repo-name>
 #   → JSON: {owner, repo, index, merge_base, head_sha, files_url}
 
 # 3. 获取带行号的 diff outline
+#    --context 保持默认值 3: coverage_gate.py 硬编码了 -U3，任何别的宽度都会改变
+#    hunk 边界，你的锚点就无法对账。-U3 是 pipeline 契约。
 python3 $S/diff_outline.py --repo $REPO --merge-base <merge_base> --head <head_sha> > /tmp/outline.json
 ```
 
-**写 comment 前先核对范围**: `diff_outline.py` 列出的每个文件、每个 hunk 都必须进入你的 comment 集合。只 review 一个文件、或者跳过一整个新文件 / SQL migration，默认算漏了，不算有意缩小范围 —— 除非 assignment 限定了范围，并且你在 receipt 里声明 \"这次只 walk 了 X，其余没覆盖\"。SQL migration、handler、schema 这类东西往往是风险密度最高的地方，最不该被漏掉。
+**Worktree 模式**: 传 `--head WORKTREE` 可以 walk 未提交的改动（`--base` 被忽略；`merge_base` 取目标仓库的 `HEAD`）。此时三个脚本都是对 `HEAD` 做 diff，因此 **untracked 的新文件对 mirror、outline 和 gate 全部不可见** —— gate 可能 exit 0，而一整个新文件根本没被 walk 到。开始 walk 之前先跑 `git -C $REPO status --porcelain`；如果 `??` 条目在 scope 内，让 requester 先 stage 或 commit（目标仓库对你只读），或者在 receipt 里声明它们未覆盖。
+
+**写 comment 前先核对范围**: `diff_outline.py` 列出的每个文件、每个 hunk 都必须进入你的 comment 集合。只 review 一个文件、或者跳过一整个新文件 / SQL migration，默认算漏了，不算有意缩小范围 —— 除非 assignment 限定了范围，并且你在 receipt 里声明 "这次只 walk 了 X，其余没覆盖"。SQL migration、handler、schema 这类东西往往是风险密度最高的地方，最不该被漏掉。
 
 Step 4 是你的工作 (walker 的): 读取 `/tmp/outline.json`，逐文件、逐函数写 comment。每个 `files[].hunks[]` 给出 `changed` (变更行数) 以及每行变更的 `new`/`old` 行号。按 `references/hunk-comment.md` 里的规范写 `body`，在函数内选一个变更行的 `new` (或删除段的 `old`) 作为 anchor，组装成上面的 comment JSON 写入 `/tmp/comments.json`。
 
@@ -53,13 +59,15 @@ python3 $S/coverage_gate.py --repo $REPO --merge-base <merge_base> --head <head_
 
 ## Coverage and density
 
-Gate 的规则 (默认): 每个 hunk 至少在其行范围内锚定 1 条 comment; **大 hunk (变更行数 > 20) 需要 ≥ ceil(变更行数 / 40) 条 comment** —— 这迫使大块代码按函数拆分，而不是用一条 comment 一笔带过。
+Gate 的规则 (默认): 每个 hunk 至少在其行范围内锚定 1 条 comment; **大 hunk (变更行数 > 20) 需要 ≥ ceil(变更行数 / 40) 条 comment** —— 这迫使大块代码按函数拆分，而不是用一条 comment 一笔带过。注意这个下限很宽松: 默认参数下，一个改动 21–40 行的 hunk 只有一条 comment 也能通过。Gate 是下限，不是标准 —— `references/hunk-comment.md` 里 "约 20 行就拆" 的规则对你始终有效，哪怕 gate 会放行。
 
-补 gap 循环: gate 报 GAP → 给这些 hunk 补充函数级 comment → 再跑 `post_review.py` (它会创建一个新的 review; gate 会跨所有 review 读回 comment 并累计对账) → 再跑 `coverage_gate.py`，直到 exit 0。不要为了过 gate 塞空填充 —— 每条 comment 仍然要解释清楚真实的 \"why\"; 实在解释不了的，标为 `untraceable` 并列出你查过的证据。Gate 只 enforce 密度; 质量由 writing discipline 和 review 兜底。
+补 gap 循环: gate 报 GAP → 给这些 hunk 补充函数级 comment → 再跑 `post_review.py` (它会创建一个新的 review; gate 会跨所有 review 读回 comment 并累计对账) → 再跑 `coverage_gate.py`，直到 exit 0。不要为了过 gate 塞空填充 —— 每条 comment 仍然要解释清楚真实的 "why"; 实在解释不了的，标为 `untraceable` 并列出你查过的证据。Gate 只 enforce 密度; 质量由 writing discipline 和 review 兜底。
 
 ## Wrap-up
 
 把 `files_url` 交给 requester，对方登录本地 forge 后在原生 PR UI 里 review。sandbox repo 堆积时，按需删除: `DELETE /api/v1/repos/{owner}/{repo}`。
+
+如果修一轮之后 head 移动了，换一个新的 `--name`（或者先 DELETE 掉旧 repo）: mirror 会复用已存在的 open PR，而 gate 会跨所有 review 累计对账 —— 旧 diff 留下的过期 comment 可能替它已不再解释的代码行满足 gate。
 
 ## Boundaries
 

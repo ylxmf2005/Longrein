@@ -44,4 +44,9 @@ sequenceDiagram
 
 ## 语法校验
 
-写完包含 Mermaid 的 artifact 后，必须针对目标预览/发布环境兼容的 Mermaid 版本做语法校验；不知道版本号时，优先用保守语法（如 `graph TD`，选老解析器也能兼容的图表语法）。本地没有 `mmdc` 时，先用 `npm install -g @mermaid-js/mermaid-cli` 安装；如果目标环境跑的是旧版本，可以临时安装对应 `mermaid@<version>`，然后用 `mermaid.parse` 逐段解析代码块。正式 artifact 保留源文件，校验结果写到 delivery note 里。
+写完包含 Mermaid 的 artifact 后，交付前逐段校验每个代码块，针对目标预览/发布环境兼容的 Mermaid 版本进行；不知道版本号时，优先用保守语法（如 `graph TD`，选老解析器也能兼容的图表语法）。
+
+- **有工具时**：把每个代码块抽取到临时 `.mmd` 文件，运行 `mmdc -i <fence>.mmd -o <tmp>.svg`；非零退出 = 该代码块解析失败。本地没有 `mmdc` 且环境允许时，用 `npm install -g @mermaid-js/mermaid-cli` 安装；如果目标环境跑的是旧版本，也可以临时安装对应 `mermaid@<version>`，然后用 `mermaid.parse` 逐段解析代码块。
+- **没有工具时**：如果 `mmdc` 装不上（没网络、没 npm、没有全局安装权限），不要因此阻塞交付，也绝不声称一次你没跑过的校验：退回保守语法（`graph TD`，不用新解析器特性），逐段人工复查括号/引号是否配对、箭头是否合法，并在 delivery note 里报告 `validation skipped: tooling unavailable`。
+
+正式 artifact 保留源文件，校验结果——或声明的跳过——写到 delivery note 里。

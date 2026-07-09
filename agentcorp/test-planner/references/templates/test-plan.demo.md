@@ -1,6 +1,6 @@
 ---
 artifact_type: TestPlan
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 author_agent: test-planner
 status: ready_for_review
 source_artifacts:
@@ -15,58 +15,58 @@ confidence: HIGH
 
 # Test Plan: Example Title
 
-## Requirements covered
+## Requirements Covered
 
 - FR-1 / AC-1: covered by the checks below.
 
-## Must-Have checks
+## Must-Have Checks
 
-- MH-1 (P0): the behavior to prove, the verification layer, and the evidence.
+- MH-1 (P0): the behavior to prove, the verification level, and the evidence.
 
-## Forbidden zones
+## Forbidden Zones
 
-- The areas that must never be changed.
+- Areas that must never change.
 
-## Risk ranking and execution order
+## Risk Ranking and Execution Order
 
-- Which P0 is a gate and which checks become directly blocked if it fails; the execution order of the checks.
+- Which P0 is the gate and which checks are immediately blocked if it fails; the order in which checks run.
 
-## Capability checks
+## Capability Checks
 
-- CAP-1 (P1): scenario, execution command, expected result.
+- CAP-1 (P1): scenario, command to run, expected result.
 
-## Failure and edge cases
+## Failure and Edge Cases
 
-- EDGE-1: cross-manual failure modes and decision rules.
+- EDGE-1: a failure mode spanning manuals and its decision rule.
 
-## Audit and logging
+## Audit and Logging
 
-- The required log/audit signals, and the sensitive information forbidden from output.
+- Required logging/audit signals, and the sensitive information that must not be emitted.
 
-## Security and token constraints
+## Security and Token Constraints
 
 - Auth, permission, sandbox, token, or rate-limit checks.
 
-## Coverage summary
+## Coverage Summary
 
-- requirement/capability: check id, verification layer, the plan file it lives in, the E2E goal (when a user-facing capability has no E2E goal, write the omission reason in this column).
+- requirement/capability: check id, verification level, the plan file it lives in, and the E2E target (when a user-facing capability has no E2E target, state the omission reason in this column).
 
-## Environment notes
+## Environment Notes
 
-- Environment type, workdir, commands, URLs, ports, credential references, and blockers.
+- Environment type, workdir, commands, URL, port, credential references, and blockers.
 
-## Testing context
+## Testing Context
 
-- The state of `teamspace/testing-context.md` relied upon (date/version); what was added to it this time; the reason for omitting any execution manual, stated here.
+- The `teamspace/testing-context.md` state it relies on (date/version); what this plan adds to it; and the reason for omitting any execution manual.
 
-## Recommended testers and assignment
+## Recommended Testers and Assignment
 
-- API Contract Tester → `test/api-test-plan.md`; E2E Tester → `test/e2e-test-plan.md`; Regression Tester → `test/regression-test-plan.md`; add specialist roles when needed.
+- API Contract Tester → `test/api-test-plan.md`; E2E Tester → `test/e2e-test-plan.md`; Regression Tester → `test/regression-test-plan.md`; add specialist roles as needed.
 
-## Residual risk
+## Residual Risks
 
-- Write "none" when there is none.
+- Write "None" if there are none.
 
-## Open questions
+## Open Questions
 
-- Write "none" when there is none.
+- Write "None" if there are none.

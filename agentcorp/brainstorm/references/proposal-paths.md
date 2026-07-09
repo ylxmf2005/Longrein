@@ -18,6 +18,10 @@ Pick 2-4 lenses that fit the ambiguity.
 
 Do not use a lens if it is not meaningfully different for this task. Two paths that differ only in wording are one path.
 
+Push at least one path past the sponsor's stated taste — hidden preferences only surface at the boundary, and a set of paths that all sit safely inside the request teaches nothing about where the real line is. Label it plainly as the stretch option so the sponsor knows it is deliberate.
+
+When the undecided shape is visual or interactive, render each path as a disposable single-file prototype (self-contained HTML with realistic fake data — lorem ipsum hides layout problems) under `brainstorm/prototypes/` in the task root, excluded from git like all teamspace artifacts, so the sponsor reacts to the real thing instead of prose about it. Prototypes are reaction material, never product code.
+
 ## Required Shape For Each Path
 
 Each proposed path must include:
@@ -40,4 +44,4 @@ After presenting paths, recommend one. A hybrid is allowed only when:
 - the sponsor can understand what was combined and what was dropped
 - the hybrid still has a clear MVP boundary and acceptance signal
 
-Never write validated requirements from multiple paths until the sponsor selects one path or explicitly authorizes a hybrid.
+Never write validated requirements — from one path or several — until the sponsor selects a path or explicitly authorizes a hybrid. Your recommended path is not a selection; only the sponsor's is.

@@ -1,6 +1,6 @@
 ---
 artifact_type: PhaseReceipt
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 from_agent: review-fixer
 phase: fix
 status: completed
@@ -16,3 +16,4 @@ artifact_path: review/fix-records/<group-slug>.md
 ## Blockers
 
 - Write "None" if there are none.
+- If a stop condition fired, set `status: blocked` in the frontmatter and name the blocker here; per-item needs-research / needs-human escalations live in the fix record and do not block the group.

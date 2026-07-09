@@ -3,7 +3,7 @@ id: impact-analysis
 name: Impact Analysis (Delta Design)
 inputs: [validated requirements, existing codebase]
 outputs: [impact analysis design artifact]
-optional: false
+optional: true  # produced only when the task calls for this artifact type — selection is governed by SKILL.md "Your outputs"
 ---
 
 # Impact Analysis (Delta Design)

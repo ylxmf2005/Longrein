@@ -237,7 +237,7 @@ When it affects more than 3 modules, or an existing interface must change, escal
 | `review-research` | Review Researcher (when findings are many, the Delivery Orchestrator orchestrates in parallel by code domain and aggregates the index) | code-review findings (required), the diff, design principles/conventions | `review/research/`: **one per-issue file per finding** (verdict + root-cause-level fix recommendation + a human-readable explanation for someone unfamiliar) + `00-index.md` | each finding has an evidence-backed verdict landed on real code, written per item (not bundled), with context; false-positive/partially-valid items explain why; confirmed/partially-valid items get an elegant fix recommendation; missing out-of-repo context is marked for human confirmation rather than forced to a conclusion |
 | `fix` | Delivery Orchestrator coordinating parallel Review Fixer workers | `review/research/` (required, with verdicts and fix recommendations) + human comments; the changed-file list | per-group `review/fix-records/<group>.md` + the aggregate `review/fix-result.md` + backend code changes (left in the working tree) | `review/research/` found and consumed (if missing, stop and require `review-research` first); confirmed/partially-valid items partitioned into mutually non-overlapping groups by file ownership, parallel workers dispatched to land them, no concurrency on the same file; each worker lands faithfully, fixing the root cause rather than patching; merge validation run once and passing; no commits, no touching the frontend |
 | `verify` | Test Leader coordinating testers | the implementation, the TestPlan or diagnosis criteria, the environment spec | verification results given per capability/integration/E2E/regression | required checks pass; E2E run when needed; gaps explicit; no fabricated or assumed success; each passed/failed result names its result-file path or output excerpt (e.g. verification/test-results/<tester>.md), not a bare pass/fail; a behavior claim that can only be verified in an environment the local box lacks (e.g., a real browser, headless renderer, GPU, or prod-like service) MUST run in that environment or be marked status=unverified and may not pass any gate; user verbal confirmation is not evidence |
-| `acceptance-review` | Acceptance Review Lead | requirements, TestPlan, Story Spec, implementation notes, the code review decision, verification evidence, residual risks | `accept`, `reject`, or `needs_more_evidence` | evidence supports every Must Have and the scoped risks; for defect-class tasks, the original failing input has been re-run against the fix and produces correct output; residual risk acceptable |
+| `acceptance-review` | Acceptance Review Lead | requirements, TestPlan, Story Spec, implementation notes, the code review decision, verification evidence, residual risks | `accept`, `reject`, `needs_more_evidence`, or `blocked` | evidence supports every Must Have and the scoped risks; for defect-class tasks, the original failing input has been re-run against the fix and produces correct output; residual risk acceptable |
 | `deliver` | Delivery Orchestrator | the accepted implementation and evidence | a delivery report | the report and the final sponsor reply explicitly list artifact paths — code location, verification/test-result paths, review/MR paths — plus tests, deviations, follow-ups, and residual risks; any claim with no inspectable path is recorded as a gap, never stated as passed |
 
 ### Phase Completion Hint
@@ -271,6 +271,8 @@ When a task produces persistent notes, designs, prompts, screenshots, logs, revi
 teamspace/tasks/<task_id>/
   task.md
   manifest.md
+  probe/                          # optional pre-requirements terrain report (probe capability)
+    00-probe.md
   handoffs/
     001-validate-requirements.md
     001-validate-requirements-receipt.md
@@ -299,6 +301,8 @@ teamspace/tasks/<task_id>/
       <number>-<slug>.md
     fix-result.md
     fix-records/
+  walkthrough/                    # optional teaching artifact for the change (walkthrough capability)
+    <slug>.html
   verification/
     assignments/
     verification-report.md
@@ -382,7 +386,7 @@ Each parallel implementation session receives exactly these inputs:
 1. **Take the findings**: take all findings to verify from the code-review findings.
 2. **Dedup and merge into clusters by code domain**: when multiple findings across reviewers point at the same file / the same call chain, group them into one cluster (e.g. "convert polling," "asset clone lock," "batch status contract"). A cluster exists so that one worker reads that shared batch of code once and covers multiple findings, rather than 33 findings each spawning an agent that re-reads the same files.
 3. **Dispatch `review-researcher` in parallel**: one assignment per cluster, giving `FINDINGS` (the full text of each finding in this cluster + reviewer evidence, as leads only), `CODE_SCOPE` (the relevant code range for this cluster), `DESIGN_PRINCIPLES` (the documented design principles), the discipline of independent adversarial re-checking, and `OUTPUT_DIR=review/research/`. **Write the hard constraint into the assignment: the worker writes one per-issue file `review/research/<number>-<slug>.md` for each finding in its cluster, and is not allowed to write a bundle/cluster file.** Respect the harness concurrency limit; if parallelism isn't supported, go serial, with the protocol unchanged.
-4. **Aggregate the index**: each worker writes the per-issue files for its few findings and returns a receipt. After all return, **the Orchestrator aggregates `review/research/00-index.md` from all per-issue files** (per the `templates`/research-skeleton index shape: list each item by P0→P1→P2 + verdict + link). The Orchestrator does not invent a merged `SUMMARY.md`, nor assign a custom `artifact_type` to the index — the index is `00-index.md`.
+4. **Aggregate the index**: each worker writes the per-issue files for its few findings and returns a receipt. After all return, **the Orchestrator aggregates `review/research/00-index.md` from all per-issue files** (index shape, same as the Review Researcher's own: one line per finding ordered P0→P1→P2 — one-sentence summary + verdict + an empty human-decision column + a link to the per-issue file). The Orchestrator does not invent a merged `SUMMARY.md`, nor assign a custom `artifact_type` to the index — the index is `00-index.md`.
 5. **Only proceed to fix after the human-review gate**: by default, stop at the review-research human gate to let the sponsor confirm the verdicts and fixes, then proceed to `fix`; don't chain straight from research to fix.
 
 When receiving receipts, validate as usual with `scripts/validate-handoff.py` (a worker receipt's `artifact_path` points to one of the per-issue files it produced or to `review/research/`), and after the index is aggregated, run a full `--sweep` pass.
@@ -411,6 +415,6 @@ The pipeline terminates at `deliver`, but lessons survive across tasks in `teams
 2. What was delivered: code location, key artifact paths, key verification.
 3. Deviations and residual risks: write none if there are none; otherwise give an owner or acceptance condition.
 4. Recommended next step: one clear recommendation.
-5. Optional follow-ups: list 2-4 as needed, e.g. close the task, create a follow-up, run `change-detailed-walker`, do another round of verification, capture/review learnings, return to a gate to revise.
+5. Optional follow-ups: list 2-4 as needed, e.g. close the task, create a follow-up, run `walkthrough` (sponsor understanding + quiz gate) or `change-detailed-walker` (per-hunk audit comments on the local forge), do another round of verification, capture/review learnings, return to a gate to revise.
 
 If acceptance didn't pass or evidence is insufficient, the recommended next step cannot be "close out"; it must point to supplying evidence, revising, re-reviewing, or sponsor risk acceptance.

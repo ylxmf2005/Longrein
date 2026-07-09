@@ -27,8 +27,14 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
 fi
 
 if command -v curl >/dev/null 2>&1 && curl -fsS --max-time 2 "http://$HOST:$PORT/json/version" >/dev/null 2>&1; then
-  echo "Browser CDP is already available at http://$HOST:$PORT"
-  exit 0
+  if ps ax -o command= 2>/dev/null | grep -v grep | grep -F -- "--remote-debugging-port=$PORT" | grep -qF -- "--user-data-dir=$PROFILE_DIR"; then
+    echo "Browser CDP is already available at http://$HOST:$PORT (dedicated profile: $PROFILE_DIR)"
+    exit 0
+  fi
+  echo "A CDP endpoint is already listening at http://$HOST:$PORT, but it is not the dedicated profile ($PROFILE_DIR)." >&2
+  echo "Refusing to attach to another browser session (it may be the user's daily browser)." >&2
+  echo "Choose a fresh port with AGENTCORP_BROWSER_PORT instead." >&2
+  exit 1
 fi
 
 if command -v lsof >/dev/null 2>&1 && lsof -nP -iTCP:"$PORT" -sTCP:LISTEN >/dev/null 2>&1; then

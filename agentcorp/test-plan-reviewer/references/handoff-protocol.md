@@ -2,7 +2,7 @@
 
 This protocol is the `test-plan-reviewer` skill's own reference. The forms of the assignment, the receipt, and this role's artifacts all come from the `templates/` demos in this directory.
 
-Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifiers, and API/interface contract fields at their original values; write human-facing explanatory body text in zh-CN.
+Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifiers, and API/interface contract fields exactly as the demos and this role's Handoff section define them; write human-facing explanatory body text in zh-CN.
 
 ## Reading the Assignment
 

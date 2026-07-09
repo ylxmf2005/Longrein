@@ -24,4 +24,15 @@
 
 ## Shape
 
-需要或有用时，参照 `references/templates/implementation-story-spec.demo.md`。Status 初始化为 `ready-for-plan-review`；别把你写的 Story Spec 标记为 ready to develop——这得等 Plan Review Lead 批准。
+需要或有用时，参照 `templates/implementation-story-spec.demo.md`。Status 初始化为 `ready_for_plan_review`；别把你写的 Story Spec 标记为 ready to develop——这得等 Plan Review Lead 批准。
+
+## 交付前自检
+
+返回 receipt 之前，逐条确认：
+
+1. 每条验收标准都可观测、可追溯到具体需求；每个任务都点名了它服务的验收标准或 guardrail，以及（已知时）落脚的模块/文件。
+2. 任务顺序反映真实依赖关系，每个 story 都能独立验证——而不是要等全部做完才能验证。
+3. 约束、必须继续跑通的行为和禁区都已写明；任何新依赖、数据迁移、auth 变更、public API 变更或 UI 设计变更都是交给 review 的显式提请，而不是一条普通任务。
+4. 验收预期把工程师的针对性检查，与最终证据由 Test Leader 负责的 TestPlan/diagnosis 决策标准（按路径和章节引用）区分开。
+5. 没有任何会改变实现方向的开放问题被埋着：要么在 spec 里写明，要么整份计划按协议的 blocked 规则返回 `blocked` 并点名缺失的设计。
+6. Status 是 `ready_for_plan_review`（或按协议 blocked 规则为 `blocked`），frontmatter 与 demo 一致，Review Focus 章节告诉 Plan Review Lead 该看哪里。

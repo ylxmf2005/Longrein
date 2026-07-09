@@ -1,6 +1,6 @@
 ---
 artifact_type: ExampleDecision
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 author_agent: example-agent
 status: approve
 source_artifacts:
@@ -13,7 +13,7 @@ source_artifacts:
 
 approve | request_changes | needs_more_evidence | blocked
 
-## Rationale
+## Basis
 
 - Direct evidence supporting this decision.
 

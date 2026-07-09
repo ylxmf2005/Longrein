@@ -1,3 +1,4 @@
+<!-- Exploration working notes for filling testing-context — deliberately no YAML frontmatter; never named in a receipt, so validate-handoff.py never sees them. -->
 # Exploration Journal
 
 ## Round 1 (C-1: task list page)

@@ -1,6 +1,6 @@
 ---
 artifact_type: ImplementationResult
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 author_agent: implementation-engineer
 status: implemented
 source_artifacts:
@@ -16,7 +16,7 @@ implementation/implementation-story.md
 
 ## 已完成任务
 
-- 任务及佐证。
+- 任务 -> 证据 handle（file:line，或命令 + 观测到的输出）。
 
 ## 未完成任务
 
@@ -32,7 +32,7 @@ implementation/implementation-story.md
 
 ## 执行的命令
 
-- 命令及结果。
+- `command` -> exit code 和关键输出行（可检查的 handle，而不只是一个 pass/fail 状态词）。
 
 ## 实现备注
 

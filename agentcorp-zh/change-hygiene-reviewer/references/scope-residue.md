@@ -11,7 +11,7 @@
 如果答案不是明确的“yes”，就不要默默放过：
 
 - 如果你能证明某部分不是当前需求所必需的，报 `scope-residue`。
-- 如果某部分看似合理，但缺少 source artifact 支撑，报 `intent-trace-gap` 或 `needs_human_intent`。
+- 如果某部分看似合理，但缺少 source artifact 支撑，报 `intent-trace-gap`；当判断完全取决于发起方的意图时，再在该 finding 的 Confidence 字段标记 `needs_human_intent`——`needs_human_intent` 是 verdict/confidence 标记，绝不是 Category。
 - 如果某部分修改了 public/shared contract、compatibility entry point、error semantics，或者 caching/persistence key，报 `contract-drift`，除非该 contract 已明确授权。
 
 ## 确定 Review 范围

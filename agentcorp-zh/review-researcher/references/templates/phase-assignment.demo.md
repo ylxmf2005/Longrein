@@ -1,7 +1,7 @@
 ---
 artifact_type: PhaseAssignment
-task_id: example-task-20260603-120000
-task_root: teamspace/tasks/example-task-20260603-120000/
+task_id: 20260603-120000-example-task
+task_root: teamspace/tasks/20260603-120000-example-task/
 from_agent: delivery-orchestrator
 to_agent: review-researcher
 phase: review-research
@@ -29,7 +29,7 @@ output_path: review/research/
 ## 约束
 
 - 简体中文，写给不熟悉这段代码的人；涉及代码时，贴出关键 snippet 并加以解释。
-- Verdict 必须锚定在真实代码上，且有证据支撑；若仅凭读代码不够或缺少 repo 外上下文，则标 needs-human，不强下结论。
+- Verdict 必须锚定在真实代码上，且有证据支撑；只有当 verdict 取决于 repo 里没有的上下文（外部系统 / 运行时配置 / 产品意图）时才标 needs-human。代码读得不够意味着继续读，而不是 needs-human——同时也不强下结论。
 - 只给出 fix 建议；不修改产品代码，也不做 acceptance 判定。
 - Research / 说明文档为 *.md，且永远不会进入 commit。
 

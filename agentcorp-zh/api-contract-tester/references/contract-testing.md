@@ -10,9 +10,12 @@
 - **SDK / exported types**：function signatures、schemas、backward-compatible optional fields。
 - **error contract**：status/code、body shape、retriability、user-visible message。
 
-## 执行要点
+## 每种 surface 值得跑的负向探测
 
-如果有可用环境，直接跑真实请求或命令，而不是靠读代码去推断 contract 是否被遵守。既要走 happy path，也要覆盖跟 contract 相关的错误路径。把实际返回与 TestPlan、文档、schema 或之前的 contract 预期逐项比对。除非 TestPlan 明确允许修改，或者环境本身就是一次性的，否则不要动持久化数据。对于无法执行的 interface surface，要如实记录没测的原因。
+- **HTTP routes**：无凭证、过期或越权 token；缺失必填字段；错误的字段类型；对合法 path 使用不支持的 method；超大 body；格式错误的 JSON。
+- **JSON-RPC / A2A**：未知 method；params 缺失或格式错误；成功和出错时的 `id` 回显；失败时的 error object shape；stream 在响应中途被打断时的行为。
+- **CLI**：未知 flag；缺失必填参数；格式错误的 stdin；每类失败对应的 exit code；出错时 machine-readable output 是否仍可解析。
+- **SDK / exported types**：省略可选字段的调用；已有调用方仍会发送的变更前形状的 payload；对返回对象做 schema 校验。
 
 ## 每次检查要留的证据
 
@@ -22,5 +25,3 @@
 - 实际的 status / shape / output。
 - pass / fail。
 - 如有必要，附上 artifact path 或脱敏后的 inline sample。
-
-报告、日志、截图、payload 里严禁泄露任何 secret。

@@ -1,7 +1,7 @@
 ---
 artifact_type: PhaseAssignment
-task_id: example-task-20260603-120000
-task_root: teamspace/tasks/example-task-20260603-120000/
+task_id: 20260603-120000-example-task
+task_root: teamspace/tasks/20260603-120000-example-task/
 from_agent: delivery-orchestrator
 to_agent: review-fixer
 phase: fix
@@ -18,15 +18,15 @@ Faithfully land this group's verified fix items (a file set that does not overla
 
 ## FIX_ITEMS (the items this group must land)
 
-- P0-1: verdict confirmed; root cause …; fix approach …; involves path/to/service.py
-- P2-2: verdict partial; corrected fix approach …; involves path/to/service.py
+- F-01: verdict confirmed; root cause …; fix approach …; involves path/to/service.py
+- F-04: verdict partial; corrected fix approach …; involves path/to/service.py
 (Each item references the verdict and fix approach in the corresponding issue file under review/research/; only confirmed/partial items are included.)
 
 ## OWNED_FILES (the file set this group may edit)
 
 - path/to/service.py
 - path/to/helper.py
-(Must not edit backend files outside the set; if you need to spill over, escalate as needs-human.)
+(Must not edit files outside the set; if you need to spill over, escalate as needs-human.)
 
 ## Inputs
 
@@ -38,7 +38,7 @@ Faithfully land this group's verified fix items (a file set that does not overla
 
 - Do not re-verify: validity/root cause/fix approach follow research; this role only lands.
 - Land that elegant fix faithfully, at the root rather than as a patch job; keep changes focused and aligned with existing conventions.
-- Edit only the backend code within OWNED_FILES and leave it in the working tree; do not commit, do not push; do not touch the frontend.
+- Edit only the product code within OWNED_FILES and leave it in the working tree; do not commit, do not push; do not touch areas reserved for other owners (e.g., the frontend).
 - Run only the focused validation, not the full suite (the Orchestrator runs the full suite after the merge).
 - If a suggestion does not match the current code, send it back for re-check (needs-research); do not patch your own alternative on top.
 
@@ -50,3 +50,4 @@ Faithfully land this group's verified fix items (a file set that does not overla
 ## Stop conditions
 
 - The research conclusions referenced by FIX_ITEMS are missing, a file outside OWNED_FILES must be edited, or the fix would touch the frontend / requires an unapproved dependency.
+- When one fires, return the receipt with `status: blocked` and name the blocker.

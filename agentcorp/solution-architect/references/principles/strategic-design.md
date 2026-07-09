@@ -2,7 +2,7 @@
 
 ## Description
 
-Strategic design is about programming with a long-term investment mindset rather than short-term expediency. This dimension evaluates whether code changes demonstrate thoughtful design investment, whether modifications improve or degrade system structure, whether developers resist tactical shortcuts, and whether the codebase shows signs of continuous small improvements versus accumulated quick fixes. It also covers appropriate use of design patterns and development practices, rejecting both under-engineering and over-engineering.
+Strategic design is about programming with a long-term investment mindset rather than short-term expediency. When designing, use this dimension to judge whether the structure you are proposing demonstrates thoughtful design investment, whether the change improves or degrades system structure, whether it resists tactical shortcuts, and whether it continues a line of small improvements rather than accumulating quick fixes. It also covers appropriate use of design patterns and development practices, rejecting both under-engineering and over-engineering.
 
 ## Core Principles
 
@@ -47,7 +47,7 @@ Agile development's focus on rapid feature delivery can lead to tactical program
 
 ### Design Exploration (Process Principle)
 
-The "design it twice" philosophy suggests considering multiple alternatives for major design decisions rather than implementing the first idea. This is a process principle that cannot be evaluated from finished code, but evidence of inadequate design exploration sometimes surfaces as awkward interfaces that seem to miss obvious alternatives.
+The "design it twice" philosophy suggests considering multiple alternatives for major design decisions rather than implementing the first idea. At design time this is directly actionable — explore at least one radically different alternative before settling. In code you read while designing, evidence of inadequate design exploration sometimes surfaces as awkward interfaces that seem to miss obvious alternatives.
 
 Considering radically different approaches - even apparently inferior ones - helps identify strengths and weaknesses. The best choice may be one alternative, a combination of features from multiple alternatives, or a new design inspired by problems identified in the originals.
 
@@ -57,7 +57,7 @@ Development paradigms and patterns should be evaluated critically based on wheth
 
 **Design patterns** provide proven solutions to common problems. Use them when they fit naturally, but don't force problems into patterns when custom approaches would be cleaner. Using patterns doesn't automatically improve design; it only helps when the patterns genuinely fit the problem.
 
-**Test-driven development** focuses attention on getting features working rather than finding the best design. This is tactical programming. Writing tests first for bug fixes makes sense (to verify the bug is truly fixed), but for new development, design the abstraction first, then write tests.
+**Design the abstraction before letting tests shape it**: at design time, settle the abstraction as a whole rather than letting it accrete one test-satisfying feature at a time. This is a design-phase concern only — it does not override the delivery pipeline's testing discipline: the TestPlan precedes design, and verification-first still governs implementation.
 
 **Unit tests** are valuable because they facilitate refactoring. With good test coverage, developers can confidently make structural improvements, leading to better design. Without tests, developers avoid refactoring and minimize code changes, allowing complexity to accumulate and mistakes to persist.
 
@@ -98,7 +98,7 @@ The balanced approach: develop awareness of fundamentally expensive operations (
 - Forced design patterns that don't fit naturally, adding unnecessary complexity
 - Over-engineering with abstractions or configurability for hypothetical future needs
 - Premature performance optimization creating complexity without measured benefit
-- Test-driven development leading to incremental feature hacking rather than cohesive abstraction design
+- Abstractions accreted one test or feature at a time rather than designed cohesively
 - Excessive getters and setters exposing implementation details instead of hiding information
 
 ### Feature-Driven Development

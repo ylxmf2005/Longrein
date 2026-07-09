@@ -1,7 +1,7 @@
 ---
 artifact_type: PhaseAssignment
-task_id: example-task-20260603-120000
-task_root: teamspace/tasks/example-task-20260603-120000/
+task_id: 20260603-120000-example-task
+task_root: teamspace/tasks/20260603-120000-example-task/
 from_agent: delivery-orchestrator
 to_agent: review-researcher
 phase: review-research
@@ -29,7 +29,7 @@ Research every finding from this round of code review to the bottom: verify whet
 ## Constraints
 
 - zh-CN, written for someone unfamiliar with this code; where code is involved, paste key snippets and explain.
-- The verdict must land on real code and be evidence-backed; mark needs-human when code reading is insufficient or out-of-repo context is missing, and do not force a conclusion.
+- The verdict must land on real code and be evidence-backed; mark needs-human only when the verdict depends on context not in the repo (external systems / runtime configuration / product intent). Insufficient code reading means keep reading, not needs-human — and do not force a conclusion.
 - Give only fix suggestions; do not change product code or make acceptance judgments.
 - Research/explanation documents are *.md and are never included in a commit.
 

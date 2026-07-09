@@ -3,7 +3,7 @@ id: diagnose
 name: Bug Diagnosis
 inputs: [validated requirements (bug report), reproduction steps if available]
 outputs: [diagnosis design artifact]
-optional: false
+optional: true  # produced only when the task calls for this artifact type — selection is governed by SKILL.md "Your outputs"
 ---
 
 # Bug Diagnosis

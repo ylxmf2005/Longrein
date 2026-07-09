@@ -1,6 +1,6 @@
 ---
 artifact_type: PhaseReceipt
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 from_agent: example-agent
 phase: example-phase
 status: completed

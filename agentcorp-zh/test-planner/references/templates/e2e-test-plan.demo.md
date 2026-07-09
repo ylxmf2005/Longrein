@@ -1,7 +1,7 @@
 ---
 artifact_type: TestPlan
 component: e2e
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 author_agent: test-planner
 parent: test/test-plan.md
 ---

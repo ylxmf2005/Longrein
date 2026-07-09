@@ -86,7 +86,7 @@ Strong signals:
 Write each finding to this structure:
 
 - Long-term health impact: who will bear what maintenance cost in the future.
-- Evidence: code/plan/design/doc path and line number, with actual search results when needed.
+- Evidence: code/plan/design/doc path and line number. When the finding asserts anything about the wider repo — no owner, no other caller, no design record, no compatibility note — include the search command you ran and what it returned; without that, downgrade the finding to medium confidence.
 - Recommended action: narrow scope, move to a plugin/caller, add a contract, split the PR, add a design record, add a sunset plan, ask the human owner to accept the risk, etc.
 - Routing: `review-fixer`, `implementation-planner`, `solution-architect`, `release owner`, `human owner`.
 

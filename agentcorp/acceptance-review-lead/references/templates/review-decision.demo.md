@@ -1,8 +1,8 @@
 ---
-artifact_type: CodeReviewDecision
-task_id: example-task-20260603-120000
-author_agent: example-review-lead
-status: approve
+artifact_type: AcceptanceDecision
+task_id: 20260603-120000-example-task
+author_agent: acceptance-review-lead
+status: accept
 source_artifacts:
   - path/to/source.md
 ---
@@ -11,7 +11,11 @@ source_artifacts:
 
 ## Decision
 
-approve | request_changes | needs_more_evidence | blocked
+accept | reject | needs_more_evidence | blocked
+
+## Basis
+
+- The direct evidence supporting this decision.
 
 ## Must Fix
 

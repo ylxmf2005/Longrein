@@ -1,6 +1,6 @@
 ---
 artifact_type: TestExecutionResult
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 author_agent: example-tester
 status: passed
 source_artifacts:
@@ -15,7 +15,7 @@ passed | failed | blocked | partial
 
 ## Checks run
 
-- Scenarios and results.
+- One execution record per scenario at human-tester granularity — background, exact actions and inputs, requests/responses, what was personally observed, cleanup, evidence boundary — never a verdict-only line.
 
 ## Commands run
 
@@ -32,6 +32,7 @@ passed | failed | blocked | partial
 
 ## Blocked checks
 
+- Checks marked `needs_more_evidence` go here too, with the missing observation named.
 - Write "None" if there are none.
 
 ## Residual risks

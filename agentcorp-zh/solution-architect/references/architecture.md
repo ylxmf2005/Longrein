@@ -3,7 +3,7 @@ id: architecture
 name: Architecture Design
 inputs: [validated requirements, TestPlan document]
 outputs: [architecture design artifact]
-optional: false
+optional: true  # produced only when the task calls for this artifact type — selection is governed by SKILL.md "Your outputs"
 ---
 
 # Architecture Design
@@ -33,7 +33,7 @@ optional: false
 - 引入了多大复杂度，以及这个结构如何把它压下去；
 - 外加风险、约束，以及任何会影响验证的因素。
 
-给足细节，让别人能信任这份设计，但也不要多；细节密集的地方，用代码块、表格或列表来呈现。按 `references/mermaid.md` 中的指导使用图表：只要某种视图在表达结构、流程、状态、归属或变更前后对比时，比纯文字更清晰，就画一张——但把图的数量控制在能传达设计的最小集（通常 2–3 张），别把文字或分支清单拆成一堆独立流程图。当这是对存量代码的改动时，优先用一张标注了新增/改动的图，外加（数据跨服务流动时）一张消息点名真实 function 与 payload 形态的数据流时序图，见 `references/mermaid.md`。
+给足细节，让别人能信任这份设计，但也不要多；细节密集的地方，用代码块、表格或列表来呈现。按 `references/mermaid.md` 中的指导使用图表：只要某种视图在表达结构、流程、状态、归属或变更前后对比时，比纯文字更清晰，就画一张——但把图的数量控制在能传达设计的最小集（通常 2–3 张）；标注变更的图和数据流时序图的画法，见 `references/mermaid.md`。
 
 如果需求或现有代码过于模糊，不足以让你有把握地做设计，返回 `blocked`，并指出你具体缺什么证据，而不是去编。
 

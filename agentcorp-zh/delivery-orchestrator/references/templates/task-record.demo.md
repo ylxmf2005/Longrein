@@ -31,7 +31,7 @@ workflow_mode: partial-delegation
 
 ## Phase 序列
 
-- validate-requirements -> test-plan -> review -> implement -> verify -> acceptance-review -> deliver
+- validate-requirements -> test-plan -> test-plan-review -> impact-analysis -> implementation-plan -> plan-review -> implement -> code-review -> review-research -> fix -> verify -> acceptance-review -> deliver
 
 ## Gate 历史
 

@@ -6,11 +6,13 @@
 
 Verdict 取值：**confirmed / false-positive / partial / needs-human**。
 
+Severity 取值：**P0**（数据丢失/损坏、安全暴露、或真实用户的主干路径被打断）/ **P1**（真实调用方会踩到的错误行为，但范围有界或有 workaround）/ **P2**（边缘情况、质量或卫生问题）。当你的 verdict 修正了 reviewer 的 severity 时，各处统一使用修正后的值——frontmatter、标题标签、索引行。
+
 ---
 
 ## 索引：`00-index.md`
 
-行序固定：先放要修的（confirmed、partial，按 P0→P1→P2 排序），再放 needs-human，**false positive 垫底**。「人工决策」列留空，供人填写。
+行序固定：先放要修的（confirmed、partial，按 P0→P1→P2 排序），再放 needs-human，**false positive 垫底**。「人工决策」列留空，供人填写。索引不带任何 artifact frontmatter——从标题开始，与下面完全一致。
 
 ```markdown
 # Review Research Index
@@ -108,4 +110,5 @@ status: completed
 - 关键断言只有 `file:line`、没有粘贴代码片段；
 - verdict 没有同时出现在文件名、标题、首句这三处；
 - 「人工决策」块缺失，或内容已被勾选 / 填写；
+- confirmed 或 partial 的 verdict，其「我的核实与 verdict」段没有在当前代码里走通具体的失败路径（这个输入 → 走这条分支 → 落到这行 → 产出这个错误结果），或者除了 finding 本身引用的那几行之外，没有点名任何你读过的调用方 / gate；
 - false positive / partial 没有说清楚「为什么（完全/部分）不是问题」。

@@ -10,16 +10,12 @@
 
 ## Impact Analysis
 
-用于对现有代码的增强。它必须阐明：变更摘要、受影响的模块/文件、接口变更（没有就明确写 `none`）、集成点、必须保留的既有行为、新引入的行为、风险评估和复杂度估算。一份可信赖的 impact analysis：每个受影响模块都被点名，接口变更明确，风险具体，当前/目标行为和集成点可理解，复杂度落在 S/M；当复杂度、结构决策或接口边界超出其承载能力时，可以引用 architecture 或 interface-contract 作为补充，而不是把所有内容硬塞进一个文档。当 before/after 视图能更直观地表达变更时，值得画出来。
+用于对现有代码的增强。它必须阐明：变更摘要、受影响的模块/文件、接口变更（没有就明确写 `none`）、集成点、必须保留的既有行为、新引入的行为、风险评估和复杂度估算。一份可信赖的 impact analysis：每个受影响模块都被点名，接口变更明确，风险具体，当前/目标行为和集成点可理解，且复杂度保持在"增量级"——只涉及少数几个被点名的模块，且没有结构性的接口变更；当复杂度、结构决策或接口边界超出这个范围时，应引用 architecture 或 interface-contract 作为补充，而不是把所有内容硬塞进一个文档。当 before/after 视图能更直观地表达变更时，值得画出来。
 
 ## Diagnosis
 
-用于缺陷修复。它必须阐明：报告的现象与预期行为、复现步骤（或无法复现的原因）、已验证的假设及证据、经确认的 root cause 及其因果链、提议的最小化 fix、受影响的文件/模块、以及回归测试或验证标准。除非 coordinator 明确接受残余不确定性，否则没有证据支持的 root cause 不应继续推进。失败路径、root cause 和修正后的行为必须可理解——精确的流程描述或图表均可；图表应标注 trigger、entry point、故障组件、root-cause 状态或决策点、修正后的路径、保留的行为以及相关的 success/failure 结果。
+用于缺陷修复。它必须阐明：报告的现象与预期行为、复现步骤（或无法复现的原因）、已验证的假设及证据、经确认的 root cause 及其因果链、提议的最小化 fix、受影响的文件/模块、以及回归测试或验证标准。除非 Delivery Orchestrator（独立使用时为 user）明确接受残余不确定性，否则没有证据支持的 root cause 不应继续推进。失败路径、root cause 和修正后的行为必须可理解——精确的流程描述或图表均可；图表应标注 trigger、entry point、故障组件、root-cause 状态或决策点、修正后的路径、保留的行为以及相关的 success/failure 结果。
 
 ## Interface Contract
 
 用于并行实现，或涉及公共/共享接口的场景。每个公共 endpoint、共享 schema、协议、SDK/CLI 接口或跨模块边界对应一份契约；共享类型/schema 应归拢到一份共享契约中，不要重复。契约需明确签名、请求/响应 shape、协议规则、兼容性行为、auth/permission 假设和 error semantics，但不包含实现体。一份可信赖的 `interface-contract`：每个公共/共享/跨模块接口都有契约，契约只暴露调用方需要知道的内容，且 API Contract Reviewer 或 Tester 无需猜测即可验证其行为。
-
-## Deciding
-
-只有当整套设计产物给了 Implementation Engineer 足够的上下文、使其无需自行推演架构即可开始编码时，才 `approve`。当存在具体缺陷时，使用 `request_changes`。当产物可能正确但缺少证据或来源上下文时，使用 `needs_more_evidence`。

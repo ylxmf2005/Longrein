@@ -6,11 +6,13 @@ These files are the **human gate**: a person reads only this one file and then d
 
 Verdict values: **confirmed / false-positive / partial / needs-human**.
 
+Severity values: **P0** (data loss/corruption, security exposure, or a mainline path broken for real users) / **P1** (wrong behavior a real caller will hit, but bounded or with a workaround) / **P2** (edge case, quality, or hygiene). When your verdict corrects the reviewer's severity, use the corrected value everywhere — the frontmatter, the title tag, and the index row.
+
 ---
 
 ## Index: `00-index.md`
 
-Fixed row order: those to fix first (confirmed, partial, ordered P0→P1→P2), needs-human next, **false positives at the bottom**. Leave the "human decision" column empty for a person to fill.
+Fixed row order: those to fix first (confirmed, partial, ordered P0→P1→P2), needs-human next, **false positives at the bottom**. Leave the "human decision" column empty for a person to fill. The index carries no artifact frontmatter — it starts at the title, exactly as below.
 
 ```markdown
 # Review Research Index
@@ -108,4 +110,5 @@ Run this over every file before delivery; if it hits any item, go back and rewri
 - a key assertion has only `file:line` with no code snippet pasted;
 - the verdict does not appear in all three of the file name, title, and first sentence;
 - the "Human decision" block is missing, or content was checked/filled in for the human;
+- a confirmed or partial verdict whose "My verification and verdict" section does not walk the concrete failure path in the current code (this input → this branch → lands on this line → this wrong result), or names no caller/gate you read beyond the lines the finding cited;
 - a false positive / partial does not state clearly "why this is not (or not entirely) a problem to change."

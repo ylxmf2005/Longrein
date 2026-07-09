@@ -1,6 +1,6 @@
 # TestPlan review 参考
 
-review TestPlan 时常见的 red flag——如果你看到下面这些情况，执行这个 plan 大概率也建立不了什么信心。
+review TestPlan 时常见的 red flag——在写下 decision 之前，把 plan 逐条对照下面每一行；如果你看到下面这些情况，执行这个 plan 大概率也建立不了什么信心。
 
 - "测一下功能是否正常"——没有可验证的断言，也没有可证伪的点。
 - 面向用户的 workflow 变更只覆盖了 unit test，没有 end-to-end 验证。

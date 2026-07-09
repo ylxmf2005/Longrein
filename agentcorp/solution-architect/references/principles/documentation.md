@@ -2,7 +2,7 @@
 
 ## Description
 
-Documentation quality is critical for maintainability. Comments capture design information that cannot be represented in code alone. Without proper documentation, developers waste time reconstructing original design intent, leading to slower modifications and increased risk of bugs. This dimension evaluates whether comments provide essential information at appropriate levels of detail, whether they describe non-obvious aspects effectively, and whether documentation supports rather than contaminates abstractions.
+Documentation quality is critical for maintainability. Comments capture design information that cannot be represented in code alone. Without proper documentation, developers waste time reconstructing original design intent, leading to slower modifications and increased risk of bugs. When designing, use this dimension to judge whether the comments your design calls for provide essential information at appropriate levels of detail, describe non-obvious aspects effectively, and support rather than contaminate abstractions.
 
 ## Core Principles
 

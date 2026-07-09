@@ -7,8 +7,9 @@ Protocol fields, `artifact_type`, the `status` enum, paths, code identifiers, an
 ## Reading the Assignment
 
 - When assigned by the Delivery Orchestrator, treat the assignment file as the task input.
-- Resolve `output_path` relative to `task_root`.
+- Resolve `output_path` relative to `task_root`. The assignment's `output_path` always wins over any default output path stated in `SKILL.md`; the default applies only when the assignment does not set one.
 - If the assignment has no `task_root`, derive it from the assignment file's location: find the parent `handoffs/` directory and take its parent directory as the task root.
+- Standalone, with no assignment and no `task_root`, resolve the role's default output path under `teamspace/` in the workdir; never write it into the skill directory or the repository root.
 - Write this phase's primary durable artifact at `output_path`; do not scatter additional artifacts unless this role specifies creating a tester assignment, sub-result, or acceptance package.
 - Return a receipt; the receipt's `artifact_path` must match the primary artifact path, or point to the final summary artifact when this role explicitly produces multiple artifacts.
 

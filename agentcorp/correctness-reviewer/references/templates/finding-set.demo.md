@@ -1,6 +1,6 @@
 ---
 artifact_type: SpecialistReviewFindingSet
-task_id: example-task-20260603-120000
+task_id: 20260603-120000-example-task
 author_agent: example-reviewer
 status: completed
 source_artifacts:
@@ -13,8 +13,8 @@ source_artifacts:
 
 ### Finding 1: <title>
 
-- Severity:
-- Confidence:
+- Severity: <critical | major | minor>
+- Confidence: <numeric, per the bands in SKILL.md>
 - Evidence:
 - Impact:
 - Recommendation:
@@ -26,3 +26,4 @@ source_artifacts:
 ## Residual risks
 
 - Write "none" when there are none.
+- Suppressed low-confidence findings that would be severe if real go here: one line each, marked unconfirmed.

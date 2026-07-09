@@ -11,7 +11,7 @@ Ask by default: **if you started fresh today, building only against the current 
 When the answer is not a clear "yes," do not let it slide silently:
 
 - For what you can prove is not needed by this requirement, report `scope-residue`.
-- For what might be reasonable but lacks source artifact support, report `intent-trace-gap` or `needs_human_intent`.
+- For what might be reasonable but lacks source artifact support, report `intent-trace-gap`; when the call depends entirely on the originator's intent, additionally mark the finding `needs_human_intent` in its Confidence field — `needs_human_intent` is a verdict/confidence marker, never a Category.
 - For what changes a public/shared contract, compatibility entry point, error semantics, or caching/persistence key, report `contract-drift`, unless the contract explicitly authorizes it.
 
 ## Establishing what to review

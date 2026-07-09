@@ -8,11 +8,11 @@ Treat yourself as a real user with a goal: drive the product from the outside an
 
 ## Execution mode
 
-When there is a user-facing interface, use the browser as primary evidence: a real browser, a logged-in session, following the steps in the E2E manual (typically `test/e2e-test-plan.md`), checking each step against the expected behavior the manual specifies and capturing evidence at the screenshot points it marks. API/DB/logs are only supporting evidence. When the environment is not in place (service not started, routing not switched, data not seeded), mark the corresponding flow blocked and state the gap; switching to API-driven execution is allowed only when the manual explicitly declares a fallback, and the result must state what this layer of evidence cannot prove.
+SKILL.md sets the rule — browser primary, API/DB/logs supporting, API-driven execution only under a fallback the E2E manual declares. In practice: use a real browser and a logged-in session, follow the steps in the E2E manual (`test/e2e-test-plan.md`), check each step's actual behavior against the expected behavior the manual specifies, and capture evidence at the screenshot points it marks. When the environment is not in place (service not started, routing not switched, data not seeded), mark the corresponding flow blocked and state the gap; when a declared fallback is used, the result must state what that layer of evidence cannot prove.
 
 ## How to run a flow
 
-For each assigned flow, first nail down the preconditions — entry point, persona, environment, credentials, data setup; do not make up on the spot any precondition the manual leaves unspecified (such as an object ID to use) — report it as a gap. Then let it proceed in an "observe — act — observe again" rhythm: first see the starting state clearly, take one user action, wait for the result to settle before taking the next, and record "expected vs actual" at every step, until the goal is reached, you are blocked, or the scenario warrants giving up. The key is to verify every step of the flow, not just the final result. For steps where the manual requires verbatim input (such as the prompt sent to the system), use the verbatim text and do not rewrite it — rewritten input tests something other than the path the plan evaluated.
+For each assigned flow, first nail down the preconditions — entry point, persona, environment, credentials, data setup; do not make up on the spot any precondition the manual leaves unspecified (such as an object ID to use) — report it as a gap. Then let it proceed in an "observe — act — observe again" rhythm: first see the starting state clearly, take one user action, wait for the result to settle before taking the next, and record "expected vs actual" at every step — until the goal is reached, a step's actual behavior fails the expected result and the remaining steps depend on it (record the failing step and input, mark the flow failed), or you are blocked (name the missing environment, data, or observation surface). Never abandon a flow without classifying it as failed or blocked in the record. The key is to verify every step of the flow, not just the final result. For steps where the manual requires verbatim input (such as the prompt sent to the system), use the verbatim text and do not rewrite it — rewritten input tests something other than the path the plan evaluated.
 
 ## Evidence by surface
 
@@ -23,7 +23,7 @@ For each assigned flow, first nail down the preconditions — entry point, perso
 
 ## Human-tester execution log
 
-Write one record per completed or blocked scenario. Put the concrete execution before the conclusion:
+This item list is the authoritative checklist for execution records — SKILL.md defers to it. Write one record per completed or blocked scenario. Put the concrete execution before the conclusion:
 
 - Background: persona, user goal, environment, page or entry point, and why this scenario matters.
 - Preconditions: data chosen, account/credential reference, feature flags, config backup, and what writes are allowed.
@@ -33,7 +33,7 @@ Write one record per completed or blocked scenario. Put the concrete execution b
 - Cleanup: what was restored, the request or UI action used to restore it, and the read-back proving final state.
 - Evidence boundary: what this record proves, and what it does not prove.
 
-For negative checks, state the observation window and source (for example "watched chat notifications from 15:00 to 15:05 and saw no message matching X"). If there is no reliable observation surface, report `needs_more_evidence` or `blocked`; do not call the negative path passed.
+For negative checks, state the observation window and source (for example "watched chat notifications from 15:00 to 15:05 and saw no message matching X"). If there is no reliable observation surface, mark the check `needs_more_evidence` (recorded under Blocked checks, per SKILL.md's Handoff) or `blocked`; do not call the negative path passed.
 
 ## Persona
 

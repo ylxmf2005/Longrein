@@ -61,7 +61,7 @@ See also `cohesion-separation.md` for the full set of together-or-apart red flag
 
 ## Issue Tags
 
-Use these tags when reporting module depth issues:
+Use these tags when flagging module-depth problems in a design artifact:
 
 - **[Shallow Module]** - Interface complexity nearly equals implementation complexity
 - **[Trivial Wrapper]** - Method provides no meaningful abstraction

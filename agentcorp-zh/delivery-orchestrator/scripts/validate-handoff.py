@@ -32,9 +32,13 @@ ENVELOPE_REQUIRED = {
 ARTIFACT_REQUIRED = ["artifact_type", "task_id", "author_agent", "status"]
 
 # Soft enum: unknown values warn (drift-friendly), they do not fail the run.
+# Keep this set in sync with the statuses the templates/ demos instruct agents to write,
+# so a fully conformant run stays warning-free and warnings keep meaning something.
 KNOWN_STATUS = {
-    "assigned", "in_progress", "completed", "blocked",
+    "assigned", "in_progress", "active", "completed", "blocked",
     "needs_evidence", "needs_more_evidence", "implemented",
+    "ready_for_review", "ready_for_plan_review",
+    "ready_for_acceptance_review", "ready_for_triage",
     "approve", "request_changes", "accept", "reject", "needs_human",
     "passed", "failed", "partial",
 }
@@ -160,8 +164,9 @@ def check_artifact_exists(receipt_path, receipt, task_root, errors):
 
 def check_test_evidence(artifact_path, status, errors):
     """A TestExecutionResult that ran must carry at least one inspectable evidence handle in its
-    body — an artifact/log file path, a URL/MR/CI/log link, or a fenced command-output block — so
-    the sponsor always has a path or excerpt to open. A bare 'passed'/'failed' word does not count."""
+    body — an artifact/log file path, a URL/MR/CI/log link, or a non-empty fenced command-output
+    block — so the sponsor always has a path or excerpt to open. A bare 'passed'/'failed' word
+    does not count; neither does a .md citation (e.g. the test plan itself) or an empty fence."""
     try:
         with open(artifact_path, encoding="utf-8") as fh:
             text = fh.read()
@@ -174,15 +179,15 @@ def check_test_evidence(artifact_path, status, errors):
                 body = "\n".join(lines[i + 1:])
                 break
     has_handle = bool(
-        re.search(r"[\w./\-]+\.(log|jsonl|json|txt|csv|xml|html|png|jpg|jpeg|gif|out|md|har)\b", body)
+        re.search(r"[\w./\-]+\.(log|jsonl|json|txt|csv|xml|html|png|jpg|jpeg|gif|out|har)\b", body)
         or re.search(r"https?://", body)
-        or "```" in body
+        or any(m.strip() for m in re.findall(r"```[^\n]*\n(.*?)```", body, re.S))
     )
     if not has_handle:
         errors.append(
             f"{artifact_path}: artifact_type=TestExecutionResult status='{status}' but no inspectable "
             f"evidence handle found in the body (need at least one: an artifact/log file path, a "
-            f"URL/MR/CI/log link, or a fenced command-output block)"
+            f"URL/MR/CI/log link, or a non-empty fenced command-output block)"
         )
 
 

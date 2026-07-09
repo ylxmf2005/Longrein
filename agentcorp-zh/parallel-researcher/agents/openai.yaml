@@ -1,4 +1,4 @@
 interface:
   display_name: "Parallel Researcher"
-  short_description: "Establish decision-ready evidence across sources"
-  default_prompt: "Use $parallel-researcher to run multi-source research and synthesize decision-ready evidence."
+  short_description: "跨来源建立可驱动决策的证据"
+  default_prompt: "使用 $parallel-researcher 运行多来源研究并综合可驱动决策的证据。"

@@ -1,17 +1,17 @@
-# Implementation Story Spec review 参考
+# 实现 Story Spec 评审参考
 
-在 review 一份即将进入 implementation phase 的 Implementation Story Spec 时，使用本文档。它必须能让你确信，engineer 可以直接基于它开始构建，而无需去反推任何缺失的决策。
+在评审即将进入实现阶段的实现 Story Spec 时使用本参考。它必须让你确信：工程师可以从中直接开始构建，无需逆向工程任何缺失的决策。
 
-要判断它是否站得住脚，可以从以下几个方面来看：
+要判断其是否成立，审视以下方面：
 
-- 应包含的组成部分必须齐全且内容充实 — Story、Source Context、Acceptance Criteria、Tasks / Subtasks、Implementation Constraints、Verification Expectations、Review Focus、Status。
-- 每条 Acceptance Criterion 都必须是可观察的，并且能追溯到某个 requirement 或 design / test 上下文。
-- 每个 Task / Subtask 都必须绑定到一条 Acceptance Criterion，或在必要时绑定到明确的技术 guardrail。
-- 目标 module / file 必须足够具体，能支撑第一轮的 implementation pass。
-- Implementation Constraints 必须涵盖 architecture / design constraint、existing-code 上下文、interface / contract、forbidden zone，以及 implementation 所需的参考资料。
-- Enhancement / defect story 必须明确写出必须保留的现有行为。
-- 涉及 public interface、data schema、auth / authz、reliability、performance 和 security 的风险，必须在相关场景下明确 handoff 给 specialist review。
-- Verification Expectations 必须要么可由 Implementation Engineer 执行，要么明确 delegate 给 Test Leader / tester。
-- 计划不能迫使 Implementation Engineer 去推测缺失的 architecture、凭空发明 scope，或选择未经批准的 dependency。
+- 应有的部分全部存在且实质性——Story、Source Context、Acceptance Criteria、Tasks / Subtasks、Implementation Constraints、Verification Expectations、Review Focus、Status。
+- 每条验收标准可观察，且可追溯到需求或设计/测试上下文。
+- 每项任务/子任务绑定到一条验收标准，或在有用时绑定到明确的技术护栏。
+- 目标模块/文件足够具体，能支撑首次实现。
+- Implementation Constraints 涵盖架构/设计约束、现有代码上下文、接口/契约、禁区以及实现所需的参考资料。
+- 增强/缺陷故事阐明必须保留的现有行为。
+- 公共接口、数据 schema、认证/授权、可靠性、性能和安全性方面的风险，在相关时明确移交给专家评审。
+- Verification Expectations 要么可由实现工程师执行，要么明确委托给测试负责人/测试员。
+- 计划不会迫使实现工程师推断缺失的架构、捏造范围或选择未经批准的依赖。
 
-按以下原则做出判断：task 含糊、acceptance criteria 缺失、design constraint 缺失、目标模糊、未经 review 的 interface 变更、defect fix 缺少 regression criteria，或者 verification expectations 既无法执行也无法 delegate —— 这些情况一律给 `request_changes`。如果 requirements、TestPlan、diagnosis evidence、code 上下文或 specialist review 暂时缺失，但补充后就能让你 validate 这份 Story Spec，则使用 `needs_more_evidence`。
+据此判断：模糊的任务、缺失的验收标准、缺失的设计约束、模糊的目标、未经评审的接口变更、缺少回归标准的缺陷修复，或既无法执行也无法委托的验证期望——这些都应触发 `request_changes`。当需求、TestPlan、诊断证据、代码上下文或专家评审缺失，但一旦提供即可让你验证此 Story Spec 时，使用 `needs_more_evidence`。

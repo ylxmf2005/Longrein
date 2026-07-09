@@ -1,4 +1,4 @@
 interface:
-  display_name: "Correctness Reviewer"
-  short_description: "Find functional correctness bugs"
-  default_prompt: "Use $correctness-reviewer to perform the AgentCorp Correctness Reviewer role."
+  display_name: "正确性审查者"
+  short_description: "发现功能性正确性缺陷"
+  default_prompt: "使用 $correctness-reviewer 执行 AgentCorp 正确性审查者角色。"

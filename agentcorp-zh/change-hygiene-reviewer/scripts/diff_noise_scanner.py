@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Scan a unified diff for mechanical MR/PR noise and review chunks.
+"""扫描统一 diff 中的机械性 MR/PR 噪声并审查块。
 
-The scanner is intentionally conservative: it reports formatting-like signals
-that need human review, not definitive correctness findings.
+该扫描器有意采取保守策略：它报告类似格式化的信号供人工审查，
+而非给出最终正确性结论。
 """
 
 from __future__ import annotations
@@ -70,10 +70,10 @@ def run_git_diff(args: argparse.Namespace) -> tuple[str, str]:
                 check=False,
             )
         except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
-            raise SystemExit(f"failed to run {' '.join(merge_base_cmd)}: {exc}") from exc
+            raise SystemExit(f"运行 {' '.join(merge_base_cmd)} 失败：{exc}") from exc
         if merge_base_result.returncode != 0:
             message = merge_base_result.stderr.strip() or (
-                f"git merge-base failed with exit code {merge_base_result.returncode}"
+                f"git merge-base 以退出码 {merge_base_result.returncode} 失败"
             )
             raise SystemExit(message)
         merge_base = merge_base_result.stdout.strip()
@@ -93,10 +93,10 @@ def run_git_diff(args: argparse.Namespace) -> tuple[str, str]:
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=args.timeout, check=False)
     except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
-        raise SystemExit(f"failed to run {' '.join(cmd)}: {exc}") from exc
+        raise SystemExit(f"运行 {' '.join(cmd)} 失败：{exc}") from exc
 
     if result.returncode not in (0, 1):
-        raise SystemExit(result.stderr.strip() or f"git diff failed with exit code {result.returncode}")
+        raise SystemExit(result.stderr.strip() or f"git diff 以退出码 {result.returncode} 失败")
 
     if not result.stdout and not args.diff and not args.base and not args.worktree:
         fallback = ["git", "diff", *diff_options]
@@ -410,8 +410,8 @@ def analyze_group(file_path: str, hunk: Hunk, group: list[ChangeLine]) -> list[d
                 file_path,
                 hunk,
                 group,
-                "Only blank lines changed in this hunk.",
-                "Revert unless the blank line change is required by the local formatter.",
+                "此 hunk 中仅有空行变更。",
+                "回退，除非该空行变更是本地格式化器所要求的。",
                 "high",
             )
         )
@@ -424,8 +424,8 @@ def analyze_group(file_path: str, hunk: Hunk, group: list[ChangeLine]) -> list[d
                 file_path,
                 hunk,
                 group,
-                "The hunk only changes comments or blank lines.",
-                "Keep only if the comment fixes stale or wrong information required by this task.",
+                "此 hunk 仅修改了注释或空行。",
+                "仅在注释修正了本任务所需的过时或错误信息时保留。",
                 "medium",
             )
         )
@@ -442,14 +442,14 @@ def analyze_group(file_path: str, hunk: Hunk, group: list[ChangeLine]) -> list[d
         if removed_compact == added_compact and removed_text != added_text:
             category = "over-wrapping" if len(removed) != len(added) else "whitespace-only"
             detail = (
-                "The removed and added text are identical after whitespace is ignored."
+                "忽略空白后，删除和新增的文本完全相同。"
                 if category == "whitespace-only"
-                else "The hunk appears to split or join the same expression without semantic change."
+                else "此 hunk 似乎在拆分或合并同一表达式，没有语义变化。"
             )
             recommendation = (
-                "Revert the whitespace-only hunk unless formatter output proves it is required."
+                "回退此纯空白 hunk，除非格式化器输出证明它是必要的。"
                 if category == "whitespace-only"
-                else "Prefer the lower-diff surrounding style unless the project formatter requires this wrapping."
+                else "优先保持与周围代码一致的低 diff 风格，除非项目格式化器要求此折行。"
             )
             findings.append(finding(category, file_path, hunk, group, detail, recommendation, "high"))
             return findings
@@ -457,14 +457,14 @@ def analyze_group(file_path: str, hunk: Hunk, group: list[ChangeLine]) -> list[d
         if removed_style == added_style and removed_compact != added_compact:
             category = "over-wrapping" if len(removed) != len(added) else "style-only"
             detail = (
-                "The hunk appears to split or join the same expression with only punctuation/style normalization."
+                "此 hunk 似乎在拆分或合并同一表达式，仅有标点/风格归一化。"
                 if category == "over-wrapping"
-                else "The hunk differs only by style normalization such as quotes, semicolons, or trailing commas."
+                else "此 hunk 仅存在引号、分号或尾随逗号等风格归一化差异。"
             )
             recommendation = (
-                "Prefer the lower-diff surrounding style unless the project formatter requires this wrapping."
+                "优先保持与周围代码一致的低 diff 风格，除非项目格式化器要求此折行。"
                 if category == "over-wrapping"
-                else "Revert or isolate this style-only change unless the formatter requires it."
+                else "回退或隔离此纯风格变更，除非格式化器要求它。"
             )
             findings.append(
                 finding(
@@ -488,8 +488,8 @@ def analyze_group(file_path: str, hunk: Hunk, group: list[ChangeLine]) -> list[d
                         file_path,
                         hunk,
                         group,
-                        f"Line count changed but compact content is {similarity:.0%} similar.",
-                        "Manually verify whether this is model-driven wrapping; keep only if it helps readability or formatter output requires it.",
+                        f"行数变化但紧凑内容相似度为 {similarity:.0%}。",
+                        "手动验证是否为模型驱动的折行；仅在提升可读性或格式化器输出要求时保留。",
                         "medium",
                     )
                 )
@@ -535,40 +535,40 @@ def analyze(files: list[FileDiff], source: str) -> dict:
 
 
 def print_text(result: dict, max_findings: int) -> None:
-    print(f"Diff Noise Scanner — {result['source']}")
+    print(f"Diff 噪声扫描器 — {result['source']}")
     print(
-        f"Files: {result['files_in_diff']}  "
-        f"Changed lines: {result['total_change_lines']}  "
-        f"Flagged lines: {result['flagged_change_lines']}  "
-        f"Noise ratio: {result['noise_ratio']:.0%}"
+        f"文件数: {result['files_in_diff']}  "
+        f"变更行数: {result['total_change_lines']}  "
+        f"标记行数: {result['flagged_change_lines']}  "
+        f"噪声比: {result['noise_ratio']:.0%}"
     )
-    print(f"Verdict: {result['verdict']}")
+    print(f"结论: {result['verdict']}")
 
     if result["counts_by_category"]:
-        print("Categories:")
+        print("类别:")
         for category, count in result["counts_by_category"].items():
             print(f"  - {category}: {count}")
 
     findings = result["findings"][:max_findings]
     if findings:
-        print("Findings:")
+        print("发现:")
         for item in findings:
             print(f"  [{item['category']}] {item['file']}:{item['line']} ({item['confidence']})")
             print(f"    {item['detail']}")
-            print(f"    Recommendation: {item['recommendation']}")
+            print(f"    建议: {item['recommendation']}")
         remaining = len(result["findings"]) - len(findings)
         if remaining > 0:
-            print(f"  ... {remaining} more finding(s) omitted")
+            print(f"  ... 还有 {remaining} 个发现被省略")
 
 
 def print_chunks(result: dict, max_chunks: int, max_chunk_lines: int) -> None:
-    print(f"Diff Chunker - {result['source']}")
+    print(f"Diff 分块器 - {result['source']}")
     print(
-        f"Granularity: {result['granularity']}  "
-        f"Files: {result['files_in_diff']}  "
-        f"Hunks: {result['hunks_in_diff']}  "
-        f"Chunks: {result['chunks']}  "
-        f"Changed lines: {result['total_change_lines']}"
+        f"粒度: {result['granularity']}  "
+        f"文件数: {result['files_in_diff']}  "
+        f"Hunk 数: {result['hunks_in_diff']}  "
+        f"块数: {result['chunks']}  "
+        f"变更行数: {result['total_change_lines']}"
     )
 
     chunks = result["items"][:max_chunks]
@@ -582,56 +582,56 @@ def print_chunks(result: dict, max_chunks: int, max_chunk_lines: int) -> None:
         if item.get("noise_signals"):
             categories = Counter(signal["category"] for signal in item["noise_signals"])
             category_text = ", ".join(f"{key}:{value}" for key, value in sorted(categories.items()))
-            print(f"  noise signals: {category_text}")
+            print(f"  噪声信号: {category_text}")
         for line in item["lines"][:max_chunk_lines]:
             old_line = "" if line["old_line"] is None else str(line["old_line"])
             new_line = "" if line["new_line"] is None else str(line["new_line"])
             print(f"  {line['kind']} {old_line:>5} {new_line:>5} | {line['text']}")
         remaining_lines = len(item["lines"]) - max_chunk_lines
         if remaining_lines > 0:
-            print(f"  ... {remaining_lines} more line(s) omitted")
+            print(f"  ... 还有 {remaining_lines} 行被省略")
 
     remaining_chunks = result["chunks"] - len(chunks)
     if remaining_chunks > 0:
-        print(f"\n... {remaining_chunks} more chunk(s) omitted")
+        print(f"\n... 还有 {remaining_chunks} 个块被省略")
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Detect whitespace, wrapping, style-only diff noise, or emit review chunks.")
+    parser = argparse.ArgumentParser(description="检测空白、折行、纯风格的 diff 噪声，或输出审查块。")
     source = parser.add_mutually_exclusive_group()
-    source.add_argument("--diff", help="Git diff range, for example HEAD~1..HEAD")
-    source.add_argument("--base", help="Base branch/ref; analyzes merge-base(base, head)..head")
-    source.add_argument("--file", help="Read unified diff from a file")
-    source.add_argument("--worktree", action="store_true", help="Analyze unstaged worktree diff")
-    parser.add_argument("--head", default="HEAD", help="Head ref used with --base (default: HEAD)")
-    parser.add_argument("--unified", type=int, help="Pass --unified=N to git diff before parsing hunks")
+    source.add_argument("--diff", help="Git diff 范围，例如 HEAD~1..HEAD")
+    source.add_argument("--base", help="基准分支/引用；分析 merge-base(base, head)..head")
+    source.add_argument("--file", help="从文件读取统一 diff")
+    source.add_argument("--worktree", action="store_true", help="分析未暂存的工作区 diff")
+    parser.add_argument("--head", default="HEAD", help="与 --base 一起使用的 head 引用（默认: HEAD）")
+    parser.add_argument("--unified", type=int, help="将 --unified=N 传给 git diff 再解析 hunk")
     parser.add_argument(
         "--inter-hunk-context",
         type=int,
-        help="Pass --inter-hunk-context=N to git diff to merge nearby hunks",
+        help="将 --inter-hunk-context=N 传给 git diff 以合并相邻 hunk",
     )
-    parser.add_argument("--paths", nargs="*", help="Optional paths to pass after git diff --")
-    parser.add_argument("--chunks", choices=("hunk", "group", "line"), help="Emit diff chunks instead of noise findings")
+    parser.add_argument("--paths", nargs="*", help="在 git diff -- 后传入的可选路径")
+    parser.add_argument("--chunks", choices=("hunk", "group", "line"), help="输出 diff 块而非噪声发现")
     parser.add_argument(
         "--with-noise-signals",
         action="store_true",
-        help="Include scanner signals in hunk/group chunk output",
+        help="在 hunk/group 块输出中包含扫描器信号",
     )
-    parser.add_argument("--json", action="store_true", help="Emit JSON")
-    parser.add_argument("--max-findings", type=int, default=50, help="Maximum findings to print in text mode")
-    parser.add_argument("--max-chunks", type=int, default=50, help="Maximum chunks to print in text mode")
-    parser.add_argument("--max-chunk-lines", type=int, default=80, help="Maximum lines per chunk to print in text mode")
-    parser.add_argument("--fail-on-noise", action="store_true", help="Exit non-zero when findings are present")
-    parser.add_argument("--timeout", type=int, default=30, help="git diff timeout in seconds")
+    parser.add_argument("--json", action="store_true", help="输出 JSON")
+    parser.add_argument("--max-findings", type=int, default=50, help="文本模式下打印的最大发现数")
+    parser.add_argument("--max-chunks", type=int, default=50, help="文本模式下打印的最大块数")
+    parser.add_argument("--max-chunk-lines", type=int, default=80, help="文本模式下每块打印的最大行数")
+    parser.add_argument("--fail-on-noise", action="store_true", help="存在发现时以非零退出码退出")
+    parser.add_argument("--timeout", type=int, default=30, help="git diff 超时秒数")
     return parser
 
 
 def main() -> int:
     args = build_parser().parse_args()
     if args.head != "HEAD" and not args.base:
-        raise SystemExit("--head can only be used with --base")
+        raise SystemExit("--head 只能与 --base 一起使用")
     if args.fail_on_noise and args.chunks:
-        raise SystemExit("--fail-on-noise can only be used in scanner mode")
+        raise SystemExit("--fail-on-noise 只能在扫描模式下使用")
 
     diff_text, source = run_git_diff(args)
     if not diff_text.strip():

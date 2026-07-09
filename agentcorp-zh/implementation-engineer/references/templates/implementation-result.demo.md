@@ -10,19 +10,19 @@ source_artifacts:
 
 # 实现结果
 
-## 来源 Story Spec
+## 来源故事规格
 
 implementation/implementation-story.md
 
 ## 已完成任务
 
-- 任务 -> 证据 handle（file:line，或命令 + 观测到的输出）。
+- 任务 -> 证据句柄（file:line，或命令 + 观察到的输出）。
 
 ## 未完成任务
 
-- 没有时写"None"。
+- 如果没有，写 "None"。
 
-## 变更文件
+## 变更的文件
 
 - path/to/file
 
@@ -30,22 +30,22 @@ implementation/implementation-story.md
 
 - 测试文件或场景。
 
-## 执行的命令
+## 已运行的命令
 
-- `command` -> exit code 和关键输出行（可检查的 handle，而不只是一个 pass/fail 状态词）。
+- `command` -> 退出码及关键输出行（可核查的句柄，而非仅通过/失败的词）。
 
 ## 实现备注
 
-- 仅 review 需要了解的说明。
+- 仅记录审查者需要知道的内容。
 
 ## 与计划的偏差
 
-- 没有时写"None"。
+- 如果没有，写 "None"。
 
 ## 阻塞项
 
-- 没有时写"None"。
+- 如果没有，写 "None"。
 
-## 交接至 code review
+## 交接至代码审查
 
-- 变更的行为及值得重点关注的风险。
+- 变更的行为以及值得重点关注的风险。

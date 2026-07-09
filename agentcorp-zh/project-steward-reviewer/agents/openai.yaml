@@ -1,4 +1,4 @@
 interface:
-  display_name: "Project Steward Reviewer"
-  short_description: "Protect long-term project health"
-  default_prompt: "Use $project-steward-reviewer to review whether a change belongs in the project long term."
+  display_name: "项目管家评审员"
+  short_description: "保护项目长期健康"
+  default_prompt: "使用 $project-steward-reviewer 来评审某项变更是否适合长期留在项目中。"

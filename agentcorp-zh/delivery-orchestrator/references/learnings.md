@@ -1,45 +1,45 @@
-# 经验沉淀
+# 经验教训
 
-每一次交付都应该让下一次更轻松。第一次解决某个问题需要研究成本；一旦沉淀下来，下次再遇到同类问题，翻出来看几分钟就够了。pipeline 产出的其他 artifacts（delivery report、research、walkthrough）都只服务于**当前这一个任务**；而 `teamspace/learnings/` 是唯一能够跨任务存活下来的层——没有它，每个任务都得从零开始，同一个坑反复踩。
+每项完成的工作都应让下一项更容易。第一次解决问题需要研究成本；一旦捕获，同类的下一个问题只需几分钟查阅。流水线的其他制品（交付报告、研究、讲解）都服务于**当前任务**；`teamspace/learnings/` 是唯一跨任务存续的层——没有它，每个任务都从零开始，同样的坑一踩再踩。
 
-## 存储格式与结构
+## 存储和形态
 
-一条经验一个文件：`teamspace/learnings/<slug>.md`，附带可 grep 的 frontmatter：
+每个教训一个文件：`teamspace/learnings/<slug>.md`，带有可 grep 的 frontmatter：
 
 ```yaml
 ---
-slug: <hyphenated-english>
+slug: <连字符分隔的英文>
 date: <YYYY-MM-DD>
-task_id: <source task>
+task_id: <来源任务>
 type: repo-trap | root-cause | process | convention
-applies_when: <one line: in what situation should this come to mind>
-tags: [module-name, error-keyword, domain-word]
+applies_when: <一行：在什么情况下应该想到这个>
+tags: [模块名, 错误关键词, 领域词]
 ---
 ```
 
-正文最多四段：触发场景 → 根因或事实 → 该怎么做 → 下次怎么更快。短到一屏能读完；需要展开的证据，引用源任务的 artifact 路径，不要在这里复述。Workspace 和 Location 的同步规则与其他 `teamspace/` artifacts 一致。
+正文最多四段：触发情境 → 根因或事实 → 该怎么做 → 下次如何更快。简短到一屏可读；需要展开的证据引用来源任务的制品路径，而非重述。Workspace 和 Location 的同步规则与其他 `teamspace/` 制品相同。
 
-## 什么值得记录（门槛）
+## 什么值得捕获（标准线）
 
-- 这次让你感到意外或反直觉的事实（看起来是 X，根因其实是 Y）。
-- 反复修复失败后才定位到的根因；诊断过程中暴露出的非显而易见的机制。
-- repo 或系统特有的陷阱 / 约定，而 repo 文档和 CLAUDE.md 里都没写。
-- 流程层面的教训：某个 phase 的 artifact 形状不够用、某类 reviewer 的系统性误报模式、某个 gate 错误放行的原因。哪怕是指向 skill 自身文本的教训，也作为 `process` 类型记录，并在交付时点名给 sponsor——skill 的修改权始终归人类。
+- 本次出乎意料或反直觉的事实（看起来像 X，根因实际是 Y）。
+- 只有在反复修复失败后才找到的根因；诊断揭示的非显而易见的机制。
+- 既不在仓库文档也不在 CLAUDE.md 中记录的仓库/系统特定陷阱或惯例。
+- 流程教训：某阶段的制品形态不够充分、某评审类型的系统性误报模式、某门禁放行错误的原因。指向技能自身文本的教训仍作为 `process` 条目捕获，在交付时向发起人说明——修改技能的权利归人类。
 
-不要记录：一次性 trivia；repo 文档、CLAUDE.md 或 git history 里已有的内容；只对当前任务有意义的细节。唯一判断标准：**换了一个 agent，在做下一个不同的任务时读到这条，能不能避免走错路**——如果不能，就别写；不要为了仪式感硬凑条目。
+不捕获：一次性琐碎信息；仓库文档、CLAUDE.md 或 git 历史已经记录的内容；仅对当前任务有意义的细节。唯一标准：**一个处理不同下一个任务的代理，读到这个，能否避免一次错误方向**——如果不能，不写；不要为仪式感而凑数。
 
-## 先查重，再落笔
+## 先去重，再编写
 
-动笔之前，先用 module、error message、keyword grep `teamspace/learnings/`。如果和已有条目高度重叠（同一个问题、同一个根因），**去更新旧文件**并把 `last_updated` 往后推；不要另起一篇——两份文档描述同一个问题必然 drift，而新上下文更可信，所以把它合并进旧文件。只有同一个领域换了个角度，才新建文件，并且让两篇互相引用。
+开始编写之前，按模块、错误消息和关键词 grep `teamspace/learnings/`。如果与已有条目高度重叠（相同问题、相同根因），**更新旧文件**并更新 `last_updated`；不要创建第二个——描述同一问题的两个文档必然会漂移，而由于较新的上下文更可信，将其折叠进旧文件。仅当从不同角度看同一领域时才新建文件，并让两者互相引用。
 
-## 什么时候写
+## 何时编写
 
-- **交付收尾时 review**：这一轮有没有产出够格的经验？有就写，没有就明确决定不写。
-- **任务中间也可以写**：在 fresh-start restart 之前（教训最容易丢的时刻——别让它们随着旧会话一起消失）、review-research 推翻了一批 false positive 之后、非显而易见的根因被诊断出来之后。趁热写，别等到交付时细节已经忘光。
-- 这不是 human gate：记录是 orchestrator 的 housekeeping，三种模式下静默完成，会话里提一句就行；如果 sponsor 明确表示不需要，尊重他的决定。
+- **在交付收尾时回顾**：本轮是否产生了任何合格教训？如果有，写下来；如果没有，明确决定不写。
+- **也在任务中途编写**：在全新启动重启之前（此时教训最容易丢失——不要让它们随旧对话消失）、在评审研究推翻一批误报之后、在诊断出非显而易见的根因之后。趁上下文新鲜时写，不要等到交付时细节已被遗忘。
+- 这不是人工门禁：捕获是编排器的内务操作，在所有三种模式下静默完成，对话中提及一行即可；当发起人明确表示不需要时尊重其意愿。
 
-## 什么时候查（回流）
+## 何时搜索（回流）
 
-- **intake / validate-requirements 开始时**，按 task keyword（module、error message、domain word）grep `teamspace/learnings/`；命中了先读 frontmatter 判断相关性，相关再读正文。
-- 把相关条目以 **path + 一行摘要** 的形式写进下游 task 的 upstream context 里——`architecture`、`diagnose`、`implementation-plan` 和 `review-research` 最受益。对 owner 来说，经验是线索，不是指令；是否采纳由 owner 根据当前代码判断（条目反映的是写它那个时刻的事实，代码可能已经变了）。
-- 修 bug 的时候，尤其优先搜 `root-cause` / `repo-trap` 类型——同类问题可能早就已经被解决过一次了。
+- **在 intake / validate-requirements 开始时**，按任务关键词（模块、错误消息、领域词）grep `teamspace/learnings/`；命中时先读 frontmatter 判断相关性，相关时才读正文。
+- 将相关条目以**路径 + 一行摘要**写入下游分配的上游上下文中——`architecture`、`diagnose`、`implementation-plan` 和 `review-research` 受益最大。对负责人来说，教训是线索而非指令；是否采纳由负责人根据当前代码判断（条目反映其编写时的事实，代码可能已变化）。
+- 修复 bug 时，尤其优先搜索 `root-cause` / `repo-trap` 类型——同类问题可能已经被解决过一次。

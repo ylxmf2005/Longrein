@@ -1,4 +1,4 @@
 interface:
-  display_name: "Plan Review Lead"
-  short_description: "Review implementation plans"
-  default_prompt: "Use $plan-review-lead to perform the AgentCorp Plan Review Lead role."
+  display_name: "计划评审负责人"
+  short_description: "评审实现计划"
+  default_prompt: "使用 $plan-review-lead 执行 AgentCorp 计划评审负责人角色。"

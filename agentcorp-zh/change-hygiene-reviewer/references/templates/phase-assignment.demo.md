@@ -9,20 +9,20 @@ task_root: teamspace/tasks/20260611-120000-example-task
 output_path: review/specialist-findings/change-hygiene-reviewer.md
 ---
 
-# Assignment
+# 任务分配
 
-## Goal
+## 目标
 
-Review 这个 MR/PR 的 diff 是否干净、可追溯、且确实属于本次变更；需要覆盖 diff noise 和 scope residue 两方面。
+审查此 MR/PR 差异是否干净、可追溯，且属于本次变更；覆盖差异噪音和范围残留两方面。
 
-## Input
+## 输入
 
-- Diff:
-- Task/Story Spec/requirements:
-- API contract / diagnosis / review finding:
-- Local formatter/linter results:
+- 差异：
+- 任务/Story Spec/需求：
+- API 契约 / 诊断 / 审查发现：
+- 本地格式化/ linter 结果：
 
-## Constraints
+## 约束
 
-- 只 review change hygiene，不涉及 correctness/security/performance/reliability。
-- 每条 finding 都必须给出可落地的建议：revert、split、keep-with-explanation，或者找 originator 确认。
+- 仅审查变更卫生；不审查正确性/安全性/性能/可靠性。
+- 每条发现都必须给出可操作的推荐：回退、拆分、保留并解释，或请求发起人确认。

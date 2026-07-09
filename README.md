@@ -25,7 +25,7 @@ AgentCorp exists to break that loop. It is a
 [loop engineering](https://addyosmani.com/blog/loop-engineering/) system for
 software delivery: it turns agent work from an uncontrollable, unreadable,
 untraceable black-box chain into a **controllable, understandable, verifiable**
-delivery loop. It includes **36 skills** drawn from enterprise-grade software
+delivery loop. It includes **35 skills** drawn from enterprise-grade software
 delivery practice, covering the full delivery loop and the supporting practices
 needed to run it in real projects. It works with both **Claude Code** and
 **Codex**.
@@ -100,7 +100,7 @@ traces every decision.
 
 ## Skills
 
-The 36 skills are grouped by delivery phase below (within a phase, planners, reviewers, and implementers sit together). Each skill's behavior is defined in
+The 35 skills are grouped by delivery phase below (within a phase, planners, reviewers, and implementers sit together). Each skill's behavior is defined in
 `agentcorp/<skill>/SKILL.md` and appears in the Claude Code and Codex skill
 pickers. Together, they cover the delivery loop and the supporting behaviors
 needed to run it in real projects.
@@ -127,7 +127,7 @@ needed to run it in real projects.
   - `taste-reviewer` — judges whether a change is built in the right shape — hack vs root-cause form, wrong abstraction, conceptual misnaming, API feel, proportionality — against the pipeline's pull toward the smallest diff
   - `change-hygiene-reviewer` — checks that every hunk in the diff traces to an approved requirement, blocking out-of-scope changes, history residue, and formatting noise
   - `standards-reviewer` — verifies code and artifacts follow the project's own conventions — frontmatter, naming, formatting, reference style — not generic best practices
-  - `comment-reviewer` — judges whether the comments a change adds carry their weight: cuts what restates the code or reads as AI boilerplate, and flags the missing why/boundary/history a maintainer needs
+  - `comment-optimizer` — optimizes comments directly: rewrites, deletes, or adds concise why/boundary/history notes instead of routing through a review-then-fix loop
   - `project-steward-reviewer` — judges whether a change is worth admitting into the project's long-term history: maintenance cost, module boundaries, public surface, direction
   - `api-contract-reviewer` — keeps API boundaries — schemas, routes, types, status codes, error semantics — backward-compatible so consumers don't break without a migration path
   - `review-researcher` — independently verifies each review finding to ground truth before any fix lands, then proposes the correct, elegant fix
@@ -139,7 +139,6 @@ needed to run it in real projects.
   - `regression-tester` — confirms behavior that used to work still works after a change, catching regressions that fail silently
 - **Acceptance and delivery**
   - `acceptance-review-lead` — guards the final gate before delivery, judging whether the complete evidence proves every requirement met and the risks acceptable
-  - `change-detailed-walker` — mirrors a change into a PR on a local forge and walks it function-by-function with "why this change" comments reviewers read natively
 - **Support**
   - `probe` — investigates unfamiliar territory before work starts and teaches the sponsor the terrain: the corrections to their map, the surprises, what "good" looks like locally, and a living unknowns ledger
   - `brainstorm` — turns an unclear request into sponsor-approved, testable requirements by pressure-testing intent, scope, and viability one question at a time
@@ -217,7 +216,7 @@ teamspace/
     │   │   ├── taste-reviewer.md
     │   │   ├── change-hygiene-reviewer.md
     │   │   ├── standards-reviewer.md
-    │   │   ├── comment-reviewer.md
+    │   │   ├── comment-optimizer.md
     │   │   ├── project-steward-reviewer.md
     │   │   ├── api-contract-reviewer.md
     │   │   ├── adversarial-reviewer.md

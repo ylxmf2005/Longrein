@@ -8,22 +8,22 @@ parent: test/test-plan.md
 
 # API 测试手册：示例标题
 
-每个检查项都要写成可直接执行的形式：给出具体请求/SQL、预期结果、留存证据，以及失败时的处理策略。
+编写每项检查使其可直接执行：字面请求/SQL、期望结果、证据，以及失败时的处理方式。
 
 ## API-1 (P0): 检查名称
 
-- Purpose: 需验证的契约行为，对应到 FR-x / AC-y。
-- Environment and preconditions: 执行环境及前置条件，包括在哪跑、需要什么数据。
-- Execution:
+- 目的：需要证明的契约行为，映射到 FR-x / AC-y。
+- 环境与前置条件：在哪里运行、需要什么数据。
+- 执行：
 
   ```bash
-  curl -sS -X POST 'https://example.local/api/items' -H 'Content-Type: application/json' -d '{\"name\": \"demo\"}'
+  curl -sS -X POST 'https://example.local/api/items' -H 'Content-Type: application/json' -d '{"name": "demo"}'
   ```
 
-- Expected: 状态码、响应结构、关键断言。
-- Evidence: 需保留的内容（请求/响应摘要、日志位置、artifact 路径）。
-- Failure handling: 停止 / 标记阻塞 / 继续执行并记录。
+- 期望结果：状态码、响应结构、关键断言。
+- 证据：需要保留的内容（请求/响应摘要、日志位置、制品路径）。
+- 失败处理：停止 / 标记为阻塞 / 继续并记录。
 
 ## 数据与迁移检查
 
-- DATA-1 (P0): 具体的验证 SQL、前后对比、回滚或可重入标准，以及证据。
+- DATA-1 (P0): 字面验证 SQL、前后对比、回滚或可重入标准，以及证据。

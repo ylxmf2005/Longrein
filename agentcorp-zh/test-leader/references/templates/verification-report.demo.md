@@ -7,32 +7,32 @@ source_artifacts:
   - verification/test-results/e2e-tester.md
 ---
 
-# Verification Report 示例
+# 验证报告示例
 
-## Decision
+## 决定
 
 approve | request_changes | needs_more_evidence | blocked
 
-## What This Verification Proved
+## 本次验证证明了什么
 
-- 已获得直接证据的结论，每条按路径引用其结果文件。
+- 现在有直接证据的声明，每条都引用其结果文件路径。
 
-## Failures and Blocked Checks
+## 失败和被阻塞的检查
 
-- 无则写 "None"。
+- 没有时写“None”。
 
-## Result File Index
+## 结果文件索引
 
-- `verification/test-results/<tester-slug>.md` — 每个被指派者一行：状态加最有力的证据句柄。列出的每个文件都存在于其路径上、被打开过、且其句柄能解析；其背后的每份 assignment 都设置了 `task_root`、`output_path`，以及（TestPlan 有的话）它的 playbook 路径。
+- `verification/test-results/<tester-slug>.md` —— 每个被指派者一行：状态加上最强证据 handle。列出的每个文件都存在于其路径，已被打开，其 handle 可解析；每个背后的指派都设置了 `task_root`、`output_path`，以及（当测试计划有时）其执行手册路径。
 
-## Evidence Gaps and Unverified Areas
+## 证据缺口和未验证区域
 
-- 标为 `status=unverified` 的检查（缺环境、凭证、服务或数据）以及从未被执行过的区域；无则写 "None"。
+- 标记为 `status=unverified` 的检查（缺少环境、凭证、服务或数据）以及从未被演练的区域；没有时写“None”。
 
-## Residual Risk
+## 残余风险
 
-- 已接受的风险（如有）。
+- 已接受的风险，如有。
 
-## Next Owner
+## 下一个所有者
 
-- 负责下一步动作的 agent 或人员。
+- 负责下一步行动的智能体或人。

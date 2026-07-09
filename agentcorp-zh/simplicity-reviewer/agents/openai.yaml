@@ -1,4 +1,4 @@
 interface:
   display_name: "Simplicity Reviewer"
-  short_description: "Find complexity that does not pay for itself"
-  default_prompt: "Use $simplicity-reviewer to review a diff or plan for complexity that does not pay for itself."
+  short_description: "发现不值其价的复杂度"
+  default_prompt: "使用 $simplicity-reviewer 审查 diff 或方案中不值其价的复杂度。"

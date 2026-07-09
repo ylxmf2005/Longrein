@@ -1,27 +1,27 @@
-# Contract testing reference
+# 契约测试参考
 
-在对 API、JSON-RPC、A2A、CLI、SDK 或其他外部 interface surface 做 contract verification 时使用。
+在对 API、JSON-RPC、A2A、CLI、SDK 或其他外部接口表面执行契约验证时使用。
 
-## 每种 interface surface 要检查的 contract 要素
+## 每类接口表面需检查的契约要素
 
-- **HTTP routes**：method、path、status code、headers、request body、response body、auth。
-- **JSON-RPC / A2A**：method name、params、result/error shape、streaming behavior、protocol extensions。
-- **CLI**：flags、arguments、exit codes、stdout/stderr shape、machine-readable output。
-- **SDK / exported types**：function signatures、schemas、backward-compatible optional fields。
-- **error contract**：status/code、body shape、retriability、user-visible message。
+- **HTTP 路由**：方法、路径、状态码、请求头、请求体、响应体、认证。
+- **JSON-RPC / A2A**：方法名、参数、结果/错误形状、流式行为、协议扩展。
+- **CLI**：标志、参数、退出码、stdout/stderr 形状、机器可读输出。
+- **SDK / 导出类型**：函数签名、schema、向后兼容的可选字段。
+- **错误契约**：状态码/代码、主体形状、可重试性、面向用户的消息。
 
-## 每种 surface 值得跑的负向探测
+## 每类接口表面值得执行的负向探针
 
-- **HTTP routes**：无凭证、过期或越权 token；缺失必填字段；错误的字段类型；对合法 path 使用不支持的 method；超大 body；格式错误的 JSON。
-- **JSON-RPC / A2A**：未知 method；params 缺失或格式错误；成功和出错时的 `id` 回显；失败时的 error object shape；stream 在响应中途被打断时的行为。
-- **CLI**：未知 flag；缺失必填参数；格式错误的 stdin；每类失败对应的 exit code；出错时 machine-readable output 是否仍可解析。
-- **SDK / exported types**：省略可选字段的调用；已有调用方仍会发送的变更前形状的 payload；对返回对象做 schema 校验。
+- **HTTP 路由**：无凭据、过期或越权 token；缺失必填字段；错误字段类型；有效路径上的不支持方法；超大请求体；格式错误的 JSON。
+- **JSON-RPC / A2A**：未知方法；格式错误或缺失的参数；成功和错误时的 `id` 回显；失败时的错误对象形状；流在响应中途中断时的行为。
+- **CLI**：未知标志；缺失必填参数；格式错误的 stdin；每种失败类的退出码；机器可读输出在错误时是否保持可解析。
+- **SDK / 导出类型**：省略可选字段的调用；现有调用方仍会发送的变更前形状的载荷；返回对象的 schema 验证。
 
-## 每次检查要留的证据
+## 每项检查需留下的证据
 
-- interface surface 及其版本（如有）。
-- 实际发出的 request 或执行的 command。
-- 预期的 status / shape / output。
-- 实际的 status / shape / output。
-- pass / fail。
-- 如有必要，附上 artifact path 或脱敏后的 inline sample。
+- 接口表面及版本（如有）。
+- 使用的请求或命令。
+- 预期的状态码/形状/输出。
+- 实际的状态码/形状/输出。
+- 通过/失败。
+- 必要时提供工件路径，或内联脱敏样本。

@@ -1,49 +1,49 @@
 ---
 name: authenticated-browser-session
-description: "当任务需要真实的已登录浏览器状态时使用：建立独立的 Chrome/Chromium profile 并开启 DevTools Protocol，请用户登录一次，然后在页面上下文运行 JavaScript/fetch，让 cookie、SSO、CSRF 和同源行为都保持真实。用于 debugging、API probe、E2E 或 regression 验证、内部 Web 应用、authenticated smoke test——任何本来会诱使 agent 去索要 token 或读取 cookie 的检查。"
+description: "当任务需要真实的已登录浏览器状态时使用：设置一个专用的 Chrome/Chromium 配置文件，通过 DevTools Protocol 运行，让用户登录一次，然后在页面上下文中运行 JavaScript/fetch，使 cookie、SSO、CSRF 和同源行为保持真实。适用于调试、API 探针、E2E 或回归验证、内部 Web 应用、认证冒烟测试——任何若不使用此技能就会诱使 Agent 索要 token 或读取 cookie 的检查。"
 ---
 
 # Authenticated Browser Session
 
-这是一个可复用的 AgentCorp action surface，不是 tester 角色：任何角色——E2E、API contract、regression、debugging、incident triage、exploratory verification——在任务需要真实登录态浏览器状态时都会加载它，而拥有它的 plan 或 task 会写明页面 URL、账号/环境、允许的写操作和证据要求。
+这是一个可复用的 AgentCorp 操作面，而非测试员角色：任何角色——E2E、API 契约、回归、调试、事件排查、探索性验证——在任务需要真实已登录浏览器状态时均可加载，且所属计划或任务应指定页面 URL、账户/环境、允许的写操作和证据要求。
 
-你存在是因为一种失败模式：agent 撞上登录墙后，要么伸手去拿凭证本身，要么悄悄降级成一个未登录的 probe，却把结果当成真实结论呈现。两者都以用户看不见的方式破坏信任。第三条路就是这个 skill：在专用浏览器 profile 里的真实页面内部操作，让浏览器自然携带凭证，于是证据保持真实，而凭证从不经过你的手。
+你的存在源于一种失败模式：Agent 遇到登录墙后，要么试图获取凭据本身，要么悄悄降级为未经认证的探针并声称这就是真实结果。两者都以用户无法察觉的方式破坏了信任。第三条路就是本技能：在专用浏览器配置文件的页面内操作，让浏览器自然地附加凭据，从而确保证据保持真实，而凭据永远不会经过你手。
 
 ## 铁律
 
 ```
-凭证留在浏览器里——使用会话，绝不从会话中提取。
+凭据留在浏览器内——使用会话，绝不要从中提取。
 ```
 
-这条铁律禁止两个方向的泄漏。绝不读取磁盘上的凭证 artifact：cookie database、password store、local storage dump、session file。也绝不通过活的会话导出凭证：不 dump `document.cookie`，不用 CDP 的 cookie/storage API（`Network.getCookies` 及同类），不把 session token、cookie 或 auth header 从 page-context 响应里复制出来给 curl 或任何其他 client 复用。如果一个检查看起来需要原始凭证，那是检查本身错了——把它改造成在页面内部运行。
+该禁令双向生效。绝不读取磁盘上的凭据工件：cookie 数据库、密码存储、local storage 转储、会话文件。也绝不要通过实时会话导出凭据：禁止 `document.cookie` 转储、禁止 CDP cookie/storage API（`Network.getCookies` 及其同类）、禁止从页面上下文响应中复制会话 token、cookie 或认证头以在 curl 或其他客户端中复用。如果某个检查似乎需要原始凭据，那检查本身就是错的——将其重塑为在页面内运行的形式。
 
 ## 这能证明什么
 
-- Page-context `fetch` 证明来自该会话的同源 authenticated request 行为。
-- DOM inspection 或 screenshot 证明加载的页面渲染了什么。
-- Console/network observation 在 DevTools 语义重要时辅助 debugging。
+- 页面上下文中的 `fetch` 证明了该会话的同源认证请求行为。
+- DOM 检查或截图证明了加载页面的实际渲染结果。
+- 控制台/网络观察在 DevTools 语义重要时支持调试。
 
-只要边界相关就说明它：纯 API 的 page-context check 不能证明 UI layout、完整用户交互或外部通知，除非这些被单独观察到了。当 page-context request 成功、但用户可见的结果落在浏览器之外（邮件、聊天、push）时，暂停并索要缺失的观察，而不是推断成功。
+在必要时说明限制：仅 API 的页面上下文检查不能证明 UI 布局、完整用户交互或外部通知，除非这些被单独观察。当页面上下文请求成功但用户可见结果在浏览器之外（邮件、聊天、推送）时，暂停并索要缺失的观察，而非推断成功。
 
-## Setup
+## 设置
 
-使用与用户日常浏览器分开的专用 profile。profile 会跨任务持久化，所以用户通常每台机器/每个账号只需登录一次。
+使用一个专用配置文件，与用户的日常浏览器隔离。该配置在任务间持久化，因此用户通常只需每台机器/账户登录一次。
 
 ```bash
 ./scripts/browser-session.sh 'https://example.com'
 ```
 
-在其他目录下时，用本 skill 目录的绝对路径调用这些脚本（`browser-session.sh`，下文的 `page-js.mjs` 同理）。
+从其他目录调用脚本（`browser-session.sh`，以及下面的 `page-js.mjs`）时，请使用本技能文件夹的绝对路径。
 
-脚本只有在验证过监听端口的浏览器进程确实以专用 profile 启动（`--user-data-dir=$HOME/.agentcorp/browser-session-profile`）之后，才会采用一个已在监听的 CDP endpoint；如果端口属于别的浏览器——包括用户带着 `--remote-debugging-port` 启动的日常 Chrome——它会拒绝，并提示你用 `AGENTCORP_BROWSER_PORT` 换一个新端口。你手动 probe CDP 时也要遵守同一条规则：绝不对未验证过 profile 的 endpoint 运行页面 JS（见 Troubleshooting）。
+该脚本仅在验证拥有浏览器进程确实使用专用配置文件启动（`--user-data-dir=$HOME/.agentcorp/browser-session-profile`）后，才会采用已监听的 CDP 端点；如果另一个浏览器占用了该端口——包括用户日常启动的带 `--remote-debugging-port` 的 Chrome——它会拒绝并提示你通过 `AGENTCORP_BROWSER_PORT` 换一个端口。在手动探测 CDP 时，你也应遵守同样的规则：绝不要对配置文件未经核实的端点运行页面 JS（见故障排查）。
 
-如果站点出现登录页，直白地解释：
+如果网站显示登录页面，请清晰地解释：
 
-> 我打开了一个单独的 agent 专用浏览器 profile。请在那里登录；我不会读取你的 cookie 或密码。你确认页面已登录后，我就可以运行使用该浏览器会话的页面本地检查。
+> 我已打开一个用于 Agent 工作的独立浏览器配置文件。请在那里登录；我不会读取你的 cookie 或密码。在你确认页面已登录后，我可以运行使用浏览器会话的页面内检查。
 
-用户确认登录后再继续。
+仅在用户确认登录后继续。
 
-配置项（换一个端口：`AGENTCORP_BROWSER_PORT=9333 ./scripts/browser-session.sh ...`；旧的 `CHROME_COOKIE_JS_PROFILE/HOST/PORT` 变量仍作为较旧本地环境的回退保留）：
+配置参数（不同端口：`AGENTCORP_BROWSER_PORT=9333 ./scripts/browser-session.sh ...`；旧版 `CHROME_COOKIE_JS_PROFILE/HOST/PORT` 变量仍可作为旧本地设置的回退）：
 
 ```bash
 AGENTCORP_BROWSER_PROFILE="$HOME/.agentcorp/browser-session-profile"
@@ -56,10 +56,10 @@ AGENTCORP_BROWSER_BIN="/Applications/Google Chrome.app"
 
 ```bash
 node ./scripts/page-js.mjs --url 'https://example.com/app' --eval 'document.title'
-node ./scripts/page-js.mjs --url 'https://example.com/app' --file /tmp/auth-check.js   # larger checks: task-local script
+node ./scripts/page-js.mjs --url 'https://example.com/app' --file /tmp/auth-check.js   # 较大检查：任务本地脚本
 ```
 
-请求 probe 使用 async IIFE：
+对请求探针使用异步 IIFE：
 
 ```js
 (async () => {
@@ -78,39 +78,39 @@ node ./scripts/page-js.mjs --url 'https://example.com/app' --file /tmp/auth-chec
 
 ## 安全协议
 
-优先先做只读 probe（`--eval 'location.href'`）。在任何会写数据、触发流程、发送通知、启动任务或改变远端状态的 page JS 之前，先说明：目标环境和 URL；具体 endpoint 或 action；具体 payload 或人可读 diff；预期结果和证据；恢复/清理方案（或为什么不需要）。除非用户在当前任务里已明确授权这类操作，否则不要执行写操作。
+优先使用只读探针（`--eval 'location.href'`）。在任何会写入数据、触发工作流、发送通知、启动任务或修改远程状态的页面 JS 之前，声明：目标环境和 URL；确切的端点或操作；确切的载荷或人类可读 diff；预期结果和证据；恢复/清理计划（或为什么不需要）。除非用户在当前任务中明确授权此类操作，否则不要继续。
 
-绝不打印 secrets。保存证据前 redact URL auth 参数、token、临时凭证、cookie 和敏感响应字段。
+绝不要打印秘密。在保存证据前，对 URL 认证参数、token、临时凭据、cookie 和敏感响应字段进行脱敏。
 
-## 证据形态
+## 证据格式
 
-记录足以复现的内容：页面 URL、title、environment、按引用给出的账号；command 或 script path；request method/path/body（secrets 已 redact）；response status/content-type/body 摘要；可用时的 timestamp 和 trace/request ID；会话不能直接观察到什么，以及人工观察点（邮件/聊天/push）。
+记录足够用于重放的信息：页面 URL、标题、环境、账户（引用方式）；命令或脚本路径；请求方法/路径/主体（脱敏后的秘密）；响应状态码/内容类型/主体摘要；时间戳和追踪/请求 ID（如有）；会话无法直接观察的内容，以及手动观察点（邮件/聊天/推送）。
 
-交付证据前自查：会话是专用 profile——经过验证，而非假设；任何保存的 artifact 里都没有凭证材料；每一次写操作都先经过说明和授权；这份证据能证明什么的边界，就写在结论旁边。
+在呈示证据前自查：会话属于专用配置文件——已验证，非假设；任何保存的工件中不存在凭据材料；每次写入均已声明并授权；证据所能证明的范围与声明并列。
 
-## Red flags——一旦发现自己这样想就停下
+## 红旗——当你察觉自己这样想时立即停下
 
-| 念头 | 现实 |
+| 想法 | 现实 |
 | --- | --- |
-| “这个端口上已经有 CDP endpoint 了——attach 省一次启动。” | 那可能是用户的日常 Chrome。先验证进程用的是专用 profile，否则换一个新端口。 |
-| “`document.cookie` 又不是 cookie database，规则管不到它。” | 铁律禁止的是提取，不只是磁盘上的文件。通过会话读凭证是同一种违约，只是步骤更少。 |
-| “把 token 复制进 curl 用一次，比 page-js 快多了。” | token 离开浏览器的那一刻，承诺就破了——而且结果不再证明 browser-session 行为。 |
-| “fetch 返回 200，功能就是好的。” | 200 只证明请求链路。UI 渲染、通知和下游任务各需要自己的观察。 |
-| “只是往测试 endpoint 发个小 POST，还要先声明太啰嗦。” | 每一次远端变更都要先声明再授权。打错环境的“小”写操作正是事故的开端。 |
-| “用户现在肯定已经登录完了。” | 只有得到明确确认才能继续。半登录的会话产出的是以安静方式出错的证据。 |
+| "这个端口上已有 CDP 端点——附加过去能省一次启动。" | 它可能是用户的日常 Chrome。先验证进程是否运行专用配置文件，或换一个端口。 |
+| "`document.cookie` 不是 cookie 数据库，所以规则不适用。" | 该禁令禁止的是提取，不只是磁盘文件。通过会话读取凭据是同样性质的违规，只是步骤更少。 |
+| "把 token 复制到 curl 里会更快。" | 一旦 token 离开浏览器，承诺即告破裂——而且结果也不再证明浏览器会话行为。 |
+| "fetch 返回了 200，所以功能正常。" | 200 只证明请求路径。UI 渲染、通知和下游任务需要各自的观察。 |
+| "只是一个测试端点的小 POST；声明是多余的。" | 每一次远程变更都需要声明和授权。针对错误环境的小写入正是事故的开端。 |
+| "用户肯定已经登录完了。" | 仅在用户明确确认后继续。半登录会话会以安静的方式产生错误的证据。 |
 
-## Troubleshooting
+## 故障排查
 
-用你实际启动时的 host/port 检查 CDP 是否可用：
+对你实际启动时使用的主机/端口检查 CDP 可用性：
 
 ```bash
 curl -sS --max-time 3 "http://${AGENTCORP_BROWSER_HOST:-127.0.0.1}:${AGENTCORP_BROWSER_PORT:-9222}/json/version"
 curl -sS --max-time 3 "http://${AGENTCORP_BROWSER_HOST:-127.0.0.1}:${AGENTCORP_BROWSER_PORT:-9222}/json/list"
 ```
 
-- `/json/version` 失败：用 `browser-session.sh` 启动专用 profile。
-- CDP 已可用：运行任何页面 JS 之前，确认 endpoint 属于专用 profile——浏览器进程命令行必须包含 `--user-data-dir=$HOME/.agentcorp/browser-session-profile`（`ps ax | grep -- "--remote-debugging-port=9222"`，把端口换成你实际用的）。如果端口属于别的浏览器，换端口而不是 attach。
-- 端口有监听但不是 Chrome CDP：换一个端口。
-- 出现登录跳转或 SSO：请用户在专用 profile 完成登录。
-- Hash-routed SPA：传入包含 `#/route` 的完整 URL。
-- 出现 browser warning：记录它，但除非它阻断目标行为，否则以被请求的行为判断成败。
+- `/json/version` 失败：使用 `browser-session.sh` 启动专用配置文件。
+- CDP 已可用：在运行任何页面 JS 前确认端点属于专用配置文件——浏览器进程命令行必须包含 `--user-data-dir=$HOME/.agentcorp/browser-session-profile`（`ps ax | grep -- "--remote-debugging-port=9222"`，替换为你的端口）。如果另一个浏览器占用了该端口，请换端口而非附加。
+- 端口在监听但不是 Chrome CDP：换一个端口。
+- 登录重定向或 SSO 出现：请用户在专用配置文件中完成登录。
+- 哈希路由 SPA：传递包含 `#/route` 的完整 URL。
+- 浏览器警告：捕获它们，但除非警告阻止了请求行为，否则从请求行为判断成功与否。

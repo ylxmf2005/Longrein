@@ -17,23 +17,23 @@ bugfix/hypothesis-driven | enhancement/delta-design | addition/simple | dev/arch
 
 P0 | P1 | P2 | P3
 
-## 优先级依据
+## 优先级理由
 
-- 一句话说明为什么定这个优先级。
+- 一句话理由。
 
-## 来源 Issue ID
+## 来源问题 ID
 
 - issue-id-or-link
 
 ## 描述
 
-- 报告者观察到的现象以及对用户的影响。
+- 报告者的观察与用户影响。
 
 ## 验收标准
 
-- 可观测的完成条件。
+- 可观察的完成条件。
 
-## 可能相关的文件或 Surface
+## 可能相关的文件或面
 
 - path/or/surface
 
@@ -41,6 +41,6 @@ P0 | P1 | P2 | P3
 
 - 无。
 
-## 升级备注
+## 升级说明
 
 - 无。

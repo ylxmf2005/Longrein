@@ -7,33 +7,33 @@ source_artifacts:
   - path/to/source.md
 ---
 
-# Review 结论
+# 审查决定
 
-## 结论
+## 决定
 
 approve | request_changes | needs_more_evidence | blocked
 
 ## 必须修复
 
-- 每条 must-fix 都带上它的 failure path、file:line 和为什么重要；重复项合并到证据最强的那条之下。没有就写 "none"。
+- 每条必须修复项都附带失败路径、file:line 位置以及为什么重要；重复项以最强证据合并。若无则写“无”。
 
 ## 建议修复
 
-- 没有就写 "none"。
+- 若无则写“无”。
 
-## Specialist reviews
+## 专家审查
 
-- 每条召集过的 lane 一行：名称 + finding-set 路径（例如 Correctness Reviewer — review/specialist-findings/correctness-reviewer.md）。
-- 每条被跳过的 always-on lane：跳过原因，作为已接受的 residual risk 记录下来。
+- 每 convened 车道一行：名称 + 发现集路径（如 正确性审查者 — review/specialist-findings/correctness-reviewer.md）。
+- 对跳过的 always-on 车道：记录原因，作为已接受的残留风险。
 
-## 证据不足
+## 证据缺口
 
-- 没有就写 "none"。
+- 若无则写“无”。
 
 ## 残留风险
 
-- 没有就写 "none"。
+- 若无则写“无”。
 
 ## 下一负责人
 
-- 负责下一步行动的 agent 或真人。
+- 负责下一步行动的代理或人员。

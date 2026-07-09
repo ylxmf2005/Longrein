@@ -8,42 +8,42 @@ source_artifacts:
   - design/impact-analysis.md
 ---
 
-# Implementation Story: 示例标题
+# 实现故事：示例标题
 
-## Implementation Story
+## 实现故事
 
 作为用户或系统角色，
-我希望已批准的变更完成，
-以便达成所需结果。
+我希望批准的变更得以完成，
+以满足所需的结果。
 
-## Source Context
+## 来源上下文
 
-- Requirements: requirements/validated-requirements.md
-- TestPlan/Test Strategy: test/test-plan.md
-- Design artifacts: design/impact-analysis.md
-- Plan Review status: pending
-- 实现开始前需要了解的关键事实：
-  - 只列出工程师当下就需要知道的事实。
+- 需求：requirements/validated-requirements.md
+- 测试计划/测试策略：test/test-plan.md
+- 设计制品：design/impact-analysis.md
+- 计划评审状态：待处理
+- 实现需要预先了解的关键事实：
+  - 仅陈述工程师立即需要的事实。
 
-## Acceptance Criteria
+## 验收标准
 
-1. 可追溯到需求的、可观测的验收条件。
+1. 可追溯到需求的可观察验收条件。
 
-## Tasks / Subtasks
+## 任务 / 子任务
 
-- [ ] T1: 任务标题 (AC: 1, target: module/file)
+- [ ] T1: 任务标题 (AC: 1, 目标: module/file)
   - [ ] T1.1 具体子任务。
 
-## Implementation Constraints
+## 实现约束
 
-- Module 边界、模式、契约、数据流、必须保留的行为，以及禁区。
+- 模块边界、模式、契约、数据流、必须保留的行为，以及禁区。
 
-## Verification Expectations
+## 验证期望
 
-- TestPlan/诊断验收标准：路径与章节。
-- 工程师负责的 checks：针对性测试或命令。
-- 外部 verification：由 Test Leader/测试人员后续负责。
+- 测试计划/诊断验收标准：路径和章节。
+- 工程师负责的检查：专项测试或命令。
+- 外部验证：测试负责人/测试员后续负责的检查。
 
-## Review Focus
+## 评审重点
 
-- Plan Review Lead 应重点审查的具体区域。
+- 计划评审负责人应重点审查的特定领域。

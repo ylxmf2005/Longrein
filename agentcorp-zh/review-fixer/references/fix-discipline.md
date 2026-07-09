@@ -1,24 +1,24 @@
-# Single-group landing: 逐项步骤顺序与返回契约
+# 单组落地：逐条步骤顺序与返回契约
 
-本文档是 `review-fixer` 的本地参考：分配给你的**单个**组里每个 item 的步骤顺序，以及你交回什么的契约。边界规则和落地纪律本身在 SKILL.md 里 —— 本文档不复述它们。Slicing、parallelism、merge check 以及 cross-group rollup 属于 Delivery Orchestrator。
+本文件是 `review-fixer` 的本地参考：你负责的**一个组**内每条修复项的步骤顺序，以及你交回的内容契约。边界规则与落地纪律本身在 SKILL.md 中——本文件不重复叙述。切片、并行性、合并检查与跨组汇总属于交付编排器的职责。
 
-## 每个 item 的步骤
+## 每条修复项的步骤
 
-1. **Drift check** —— 见 SKILL.md"落地纪律"。技术性 mismatch（代码变了、suggestion 不再适用）→ `needs-research`；需要 re-research 无法敲定的产品或优先级决策 → `needs-human`；匹配 → 实施。
-2. **忠实落地** —— 按 research 的 fix approach 修改 root cause（partial item 用 **corrected** approach）；不降级，不加没人要求的东西。
-3. **回归检查** —— "修复前失败、修复后通过"，放在 `OWNED_FILES` 内的测试文件里，或者放在一个只有你这组会创建的新测试文件里；编辑 `OWNED_FILES` 之外的已有测试文件是一次 spill-over —— 上报。
-4. **Focused validation** —— 只跑 assignment 指定的内容；纯 documentation/comment item 可以跳过；永远不跑 full suite。
-5. 将组内 item 串行处理，然后 rollup 为该组的记录。
+1. **漂移检查**——见 SKILL.md "落地纪律"。技术不匹配（代码已变、建议不再适用）→ `needs-research`；产品或优先级决策，重新研究无法裁定 → `needs-human`；匹配 → 执行。
+2. **忠实落地**——按研究的修复方案（部分条目的**修正后**方案）在根因处修改；不降级、不添加额外内容。
+3. **回归检查**——"修复前失败、修复后通过"，放在 `OWNED_FILES` 内的测试文件中，或仅由你的组新建的测试文件中；编辑 `OWNED_FILES` 外的现有测试文件属于溢出——升级处理。
+4. **聚焦验证**——仅运行任务分配中指定的内容；纯文档/注释条目可跳过；绝不运行完整套件。
+5. 串行处理该组所有条目，然后汇总为组的记录。
 
-## Return contract
+## 返回契约
 
-写入 `review/fix-records/<group-slug>.md`，逐 item 记录。对每个 item：
+撰写 `review/fix-records/<group-slug>.md`，逐条记录。每条包含：
 
-- `verdict`: `fixed-as-suggested`（按照 research 的 fix approach 忠实落地） | `needs-research`（suggestion 与当前代码不匹配，请重新检查） | `needs-human`（spill 出 `OWNED_FILES` / 需要决策 / 三次尝试后仍无法修复） | `not-applicable`（误分配的 false positive 或 pending human confirmation 的 item）
-- `fix_item_id`, `severity`
-- `files_changed`: 该 item 修改的文件（全部应在 `OWNED_FILES` 内，外加任何只有你这组会创建的新测试文件）
-- `regression_check`: 你添加的"修复前失败"的检查是什么（如果没有，说明原因）
-- `notes`: drift-check 结论 + 遵循了哪个 suggestion + 任何偏离及原因
-- `escalation`: 仅用于 needs-research / needs-human —— 说明 mismatch 在哪里，或者谁需要决定什么
+- `verdict`：`fixed-as-suggested`（按研究修复方案忠实落地） | `needs-research`（建议与当前代码不匹配，请重新检查） | `needs-human`（溢出 `OWNED_FILES` / 需要决策 / 三次尝试仍无法修复） | `not-applicable`（误分配的误报或待人工确认项）
+- `fix_item_id`、`severity`
+- `files_changed`：此项变更的文件（均应在 `OWNED_FILES` 内，加上仅由你的组新建的任何测试文件）
+- `regression_check`：你添加的"修复前失败"检查是什么（如没有，说明原因）
+- `notes`：漂移检查结论 + 遵循了哪条建议 + 任何偏差及原因
+- `escalation`：仅用于 needs-research / needs-human —— 说明不匹配之处，或需要谁决策什么
 
-将此记录交回 Orchestrator；待其收集所有组后，运行 merge check 并 rollup 为 `review/fix-result.md`。
+将此记录交回编排器；待其收集所有组后，运行合并检查并汇总为 `review/fix-result.md`。

@@ -1,105 +1,105 @@
-# Error Handling
+# 错误处理
 
-## Description
+## 描述
 
-错误处理是软件系统复杂度的主要来源之一。这个 review 维度考察代码如何应对异常情况——即打断正常程序流程的场景。糟糕的错误处理会导致 exception 泛滥，error-checking 代码散落在系统各处，往往在实际业务逻辑之上还要成倍增加体量和复杂度。
+错误处理是软件系统中复杂度的主要来源。这个维度检查代码如何处理异常条件——那些打断正常程序流程的情况。糟糕的错误处理导致异常泛滥，错误检查代码在系统中四处散射，常常在体积与复杂度上超过实际业务逻辑。
 
-目标是**减少必须处理 exception 的地方**，而不是捕获每一个可能的错误。Exception handling 代码写起来、测起来、维护起来都比正常路径代码更难。它在生产环境很少执行，导致 bug 很难被发现。Exception handling 还会制造更多 exception 的机会（比如恢复代码本身又挂了）。
+目标是**减少必须处理异常的位置数量**，而不是捕获每一个可能的错误。异常处理代码天生比普通 case 代码更难写、更难测、更难维护。它很少在生产中执行，导致 bug 难以检测。异常处理会创造更多异常的机会（例如，恢复代码本身失败）。
 
-做设计时，用这个维度来判断：你正在提出的错误处理究竟在增加还是降低整体系统复杂度。最好的设计要么通过精心的 API 设计把错误条件彻底消灭，要么在关键的战略位置统一处理 exception。
+设计时，使用此维度评判你提出的错误处理是增加还是降低整体系统复杂度。最好的设计要么通过精心的 API 设计完全消除错误条件，要么在可集中管理的战略点处理异常。
 
-## Core Principles
+## 核心原则
 
-### 1. Define Errors Out of Existence
+### 1. 把错误设计掉
 
-重新设计 API，让异常条件变成拥有明确行为的正常情况。一旦语义调整到位，就没什么"异常"可报了。
+重新设计 API，让异常条件变成具有良好定义行为的正常 case。当语义被正确调整后，就没有什么异常需要报告了。
 
-- 所有输入都应该有自然的操作结果，而不是 arbitrary restriction
-- "Ensure state X" 往往比 "change to state X or fail" 更好
-- 当 postcondition 已经满足时，允许操作 trivially succeed
+- 操作应对所有输入都有自然结果，而非任意限制
+- "确保状态 X" 通常比 "更改为状态 X 否则失败" 更好
+- 当后置条件已经满足时，允许操作 trivially 成功
 
-### 2. Mask Exceptions at Low Levels
+### 2. 在低层掩盖异常
 
-在异常发生的地方就地处理，防止其向上传播。低层代码如果能完全解决某个 exception，就该自己解决，让上层完全感知不到问题。
+在异常发生的位置处理它，防止其向上传播。低层代码能完全解决的异常应当自己处理，让更高层 unaware。
 
-- Retry mechanism、redundant copy、自动恢复可以隐藏 transient failure
-- Deep module 通过内部消化 exception 来吸收复杂度
-- Exception masking 把复杂度往下拉，压进可复用的基础设施里
+- 重试机制、冗余副本与自动恢复隐藏瞬态失败
+- 深层模块通过内部处理异常来吸收复杂度
+- 异常掩盖把复杂度向下拉入可复用的基础设施
 
-### 3. Aggregate Exception Handling
+### 3. 聚合异常处理
 
-当 exception 必须向上传播时，在一个高层统一捕获多种不同的 exception，而不是把 handler 撒得满代码都是。
+当异常必须传播时，在单个高层位置捕获多种不同异常，而不是在代码中四处散布 handler。
 
-- 让 exception 冒泡到能够统一处理的层级
-- 基于 exception 内容做分发的 generic handler 可以减少重复
-- Top-level request handler 可以一个地方捕获所有 request-scoped exception
+- 让异常冒泡到可统一处理它们的层级
+- 基于异常内容分派的通用 handler 减少重复
+- 顶层请求 handler 可以在一个地方捕获所有请求级异常
 
-### 4. Crash on Unrecoverable Errors
+### 4. 对不可恢复错误直接崩溃
 
-对于那些不可能或不值得处理的错误，直接 fast fail 并给出清晰的诊断信息，别去写一套大概率也用不上的复杂恢复逻辑。
+对不可能或不实际处理的错误，以清晰诊断快速失败，而不是添加可能根本不起作用的复杂恢复逻辑。
 
-- Out-of-memory、corrupted data structure、catastrophic failure 通常根本修不好
-- 试图从严重错误中恢复只会引入未经测试的代码，而这代码大概率跑不通
-- 对于极少发生且确实没有现实恢复路径的错误，应用层直接 crash 是可以接受的
+- 内存耗尽、数据结构损坏与灾难性失败通常无法修复
+- 尝试从严重错误恢复会增加可能不工作的未测试代码
+- 对罕见且没有现实恢复路径的错误，应用级崩溃是可接受的
 
-### 5. Avoid Defensive Over-Detection
+### 5. 避免防御性过度检测
 
-别为那些其实根本不是问题的条件去报 exception。很多所谓的"错误"不过是人为施加的限制，把 API 搞得复杂却毫无价值。
+不要为实际上不是问题的条件报告异常。许多"错误"是人为限制，不带来价值却让 API 更复杂。
 
-- 区分"阻止操作完成的条件"和"仅仅是出乎意料的条件"
-- Exception 是接口的一部分；exception 越多，module 就越 shallow、越复杂
-- Throw exception 很容易，但 handle 很难——别把负担转嫁给 caller
+- 区分阻止操作完成的条件与仅仅出乎意料的条件
+- 异常是接口的一部分；更多异常意味着更浅、更复杂的模块
+- 抛出异常容易，处理异常困难——不要不必要地 burden 调用者
 
-### 6. Design Away Special Cases
+### 6. 通过设计消除特殊 Case
 
-除了 exception 之外，还要消灭其他 special-case 逻辑：让通用路径自然覆盖边缘条件。
+除异常之外，通过让通用 case 自然处理边缘条件来消除其他特殊 case 逻辑。
 
-- Empty collection、zero-length range、null selection 都应该能无缝适配标准操作
-- 内部表示不必镜像 UI 可见的概念（比如 "no selection" vs. empty selection）
-- 代码里到处是对 special case 的 `if` 检查，说明设计还可以进一步简化
+- 空集合、零长度范围与空选择应与标准操作无缝工作
+- 内部表示不需要镜像 UI 可见概念（例如，"no selection" vs empty selection）
+- 充满 `if` 检查特殊 case 的代码暗示可以通过简化设计来消除它们
 
-## Red Flags
+## 危险信号
 
-### Exception Proliferation
+### 异常泛滥
 
-- **每个调用都配一个单独的 exception handler**：把每个有风险的操作都包进自己的 try-catch，制造视觉噪音和代码重复。
-- **API throw 大量 exception type**：声明了多种不同 exception 的类，其接口复杂且 shallow。
-- **Exception cascade**：Exception handler 自己还能 throw exception，形成多层 error handling 链。
-- **重复的 exception handling 逻辑**：相同的错误处理模式在多个 call site 反复出现。
+- **每个调用都配独立异常 handler**：把每个有风险操作包在各自的 try-catch 中，制造视觉 clutter 与代码重复。
+- **API 抛出大量异常类型**：声明许多不同异常的类拥有复杂、浅薄的接口。
+- **异常级联**：异常 handler 本身可以抛出异常，制造多级错误处理链。
+- **重复异常处理逻辑**：相同错误处理模式在多个调用点重复。
 
-### Poor Exception Placement
+### 异常放置不当
 
-- **把 exception 原样往上抛，不补充任何 context**：低层代码对不会处理的异常直接 throw，迫使每个 caller 都要面对。
-- **通过 exception 暴露实现细节**：Exception 泄漏了内部结构（比如 API response 里出现 database-specific error）。
-- **为不需要报告的条件 throw exception**：操作已经达成目标时仍然报错，或者把无害的边缘情况当成错误。
+- **把异常向上抛而不增加上下文**：低层代码对不知如何处理的状况抛出异常，迫使每个调用者应对它们。
+- **通过异常暴露实现细节**：异常泄露内部结构（例如，API 响应中的数据库特定错误）。
+- **为不需要报告的条件抛出异常**：操作已达成目标时，或"错误"只是无害边缘条件时抛出错误。
 
-### Artificial Error Conditions
+### 人为错误条件
 
-- **过于严格的前置条件**：操作明明可以轻松处理某些输入却选择失败（比如删除一个不存在的 item、substring 时传入 out-of-range index）。
-- **暴露设计欠考虑的 exception**："我不知道这里该怎么处理，那就 throw 个 exception，把锅甩给 caller。"
-- **为已经满足的后置条件报错**：把"目标状态已经达成"当成 failure 来报告。
+- **过于严格的前置条件**：操作对它们本可轻松处理的输入失败（例如，删除不存在的项、索引越界的子字符串）。
+- **暴露缺失设计思考的异常**："我不知道这里该做什么，所以抛个异常让调用者处理。"
+- **为已满足的后置条件报告错误**：当期望终态已经达成时把成功当作失败。
 
-### Untestable Error Handling
+### 不可测试的错误处理
 
-- **很难触发的异常路径**：为罕见条件写的 error handling 代码（I/O failure、network timeout）没有被测试覆盖到。
-- **被注释掉或空的 catch block**：说明遇到过 exception，但从未真正解决。
-- **Exception 来源不明确**：一个很长的 try block，根本看不出哪一行会 throw 哪个 exception。
+- **难以触发的异常路径**：罕见条件（I/O 失败、网络超时）的错误处理代码未被测试覆盖。
+- **被注释掉或空的 catch 块**：表明异常曾被遇到但从未被妥善处理。
+- **异常来源不清晰**：长 try 块中不清楚哪一行可能抛出哪种异常。
 
-### Special-Case Proliferation
+### 特殊 Case 泛滥
 
-- **用状态变量追踪是否存在 special case**：显式的 flag 来表示 "no selection"、"empty list" 等，导致代码里到处都是检查。
-- **用 if-else chain 处理同一操作的变体**：本来可以共享一个通用实现的细微差异场景，却各自走独立的逻辑路径。
-- **正常路径和边缘路径走完全不同的代码分支**：边缘情况用完全独立的逻辑处理，而不是自然落入通用路径。
+- **追踪是否存在特殊 case 的状态变量**：显式标志表示"无选择"、"空列表"等，导致检查遍布代码。
+- **处理同一操作变体的 if-else 链**：为微妙不同场景设立独立逻辑路径，而它们本可共享一个通用实现。
+- **正常与边缘 case 的不同代码路径**：边缘 case 用完全独立的逻辑处理，而不是自然落入通用 case。
 
 ## Issue Tags
 
-在设计产物中标记错误处理问题时使用以下 tag：
+在设计产出中标记错误处理问题时使用以下标签：
 
-- **[Exception Proliferation]**：Exception handler 或 exception type 过多，增加了接口复杂度
-- **[Error Definition]**：操作对其实可以定义为正常行为的条件 throw exception
-- **[Exception Masking Opportunity]**：低层 exception 本可以在内部消化，却被暴露了出来
-- **[Exception Aggregation]**：多个相似的 handler 应该合并到更高层级
-- **[Unrecoverable Error Handling]**：对 crash 更简单更安全的错误写了复杂的恢复逻辑
-- **[Defensive Over-Detection]**：对其实根本不是问题的条件报告错误
-- **[Special Case Complexity]**：显式处理本可被通用逻辑吸收的 case
-- **[Information Leakage via Exception]**：Exception 向 caller 暴露了内部实现细节
+- **[Exception Proliferation]**：过多异常 handler 或异常类型，增加接口复杂度
+- **[Error Definition]**：操作对可定义为正常行为的条件抛出异常
+- **[Exception Masking Opportunity]**：低层异常本可内部处理却被暴露
+- **[Exception Aggregation]**：多个相似 handler 应合并到更高层
+- **[Unrecoverable Error Handling]**：对崩溃会更简单安全的错误采用复杂恢复逻辑
+- **[Defensive Over-Detection]**：为实际上不是问题的条件报告错误
+- **[Special Case Complexity]**：显式处理可被通用逻辑吸收的场景
+- **[Information Leakage via Exception]**：异常向调用者暴露内部实现细节

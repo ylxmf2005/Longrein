@@ -1,4 +1,4 @@
 interface:
   display_name: "Review Fixer"
-  short_description: "Apply one group of verified fixes"
-  default_prompt: "Use $review-fixer to perform the AgentCorp Review Fixer role."
+  short_description: "应用一组已验证的修复"
+  default_prompt: "使用 $review-fixer 执行 AgentCorp Review Fixer 角色。"

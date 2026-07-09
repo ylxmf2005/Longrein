@@ -5,45 +5,45 @@ maintained_by: test-planner
 updated: 2026-06-03
 ---
 
-# Example Project 测试上下文
+# 示例项目测试上下文
 
-## 入口与访问方式
+## 入口与访问
 
-- pre 环境: `https://example.local/app`；登录方式: 已登录的 Chrome session（只记录凭证引用，绝不记录 secret 本身）。
+- pre 环境：`https://example.local/app`；登录方式：已登录的 Chrome 会话（仅记录凭据引用，绝不记录密钥本身）。
 
 ## 页面地图
 
-- Task list 页面 `/app/tasks` —— 产品的主入口；核心操作: 创建 task、搜索、打开详情。
-  - Task list 页面 --点击 \"New\"--> 创建对话框
-  - Task list 页面 --点击 task 行--> task detail 页面 `/app/tasks/<id>`
-- Task detail 页面 —— 查看执行状态和 artifact；核心操作: 下载 artifact、重新运行。
+- 任务列表页 `/app/tasks` — 产品的主入口；核心操作：创建任务、搜索、打开详情。
+  - 任务列表页 --点击"新建"--> 创建对话框
+  - 任务列表页 --点击任务行--> 任务详情页 `/app/tasks/<id>`
+- 任务详情页 — 查看执行状态和制品；核心操作：下载制品、重新运行。
 
 ## 核心用户流程
 
-- FLOW: 从零创建一个 task 并获取其 artifact（`walked`，2026-06-03）
-  - Precondition: 已登录；不需要预先存在的数据。
-  - Steps: 在 task list 页面点击 \"New\" → 在对话框中输入 prompt → 提交并跳转到 detail 页面 → 等待状态变为 success → 下载 artifact。
-  - Gotcha: prompt 为空时 submit 按钮会被禁用，因此自动化必须先 assert 它是可点击的。
+- 流程：从零创建任务并获取其制品（`walked`，2026-06-03）
+  - 前置条件：已登录；无需预存数据。
+  - 步骤：在任务列表页点击"新建" → 在对话框中输入提示词 → 提交并跳转到详情页 → 等待状态变为成功 → 下载制品。
+  - 注意事项：提示词为空时提交按钮被禁用，因此自动化必须先断言其可点击。
 
-## 可观测面
+## 可观察面
 
-- API: `/api/tasks` 系列接口；响应统一使用 BaseResponse（trace_id/code/message/data）。
-- DB: MDB 只读；通过 task_id 查询 `tasks` 表。
-- Logs: 通过 trace_id 在 CLS 中检索日志。
+- API：`/api/tasks` 系列；响应共享统一的 BaseResponse（trace_id/code/message/data）。
+- DB：MDB 只读；通过 task_id 查询 `tasks` 表。
+- 日志：通过 trace_id 搜索 CLS。
 
 ## 测试数据约定
 
-- 当 <需要创建一个测试 task> → 用 `e2e-` 前缀作为标题创建 → 因为清理脚本按该前缀回收。
-- 绝对不要碰: demo 账号 demo@example 下的数据。
+- 当<需要创建测试任务>时 → 使用标题前缀 `e2e-` 创建 → 因为清理脚本按该前缀回收。
+- 禁止触碰：demo 账户 demo@example 下的数据。
 
 ## 已知限制
 
-- 当 test-pool 路由尚未切换时，执行链证据只能到达 Manager 层。
+- 当测试池路由未切换时，执行链证据仅到达 Manager 层。
 
-## 待补齐的空白
+## 待填充缺口
 
-- settings 页面尚未探索（上一轮被 permission wall 挡住）。
+- 设置页未被探索（上一轮被权限墙阻塞）。
 
 ## 已废弃
 
--（将过期的条目移到这里，注明废弃原因和日期，不要直接删除。）
+- （将过期条目移至此处，注明废弃原因和日期，而非直接删除。）

@@ -17,7 +17,7 @@ function parseArgs(argv) {
     const arg = argv[i];
     const next = () => {
       i += 1;
-      if (i >= argv.length) throw new Error(`${arg} requires a value`);
+      if (i >= argv.length) throw new Error(`${arg} 需要一个值`);
       return argv[i];
     };
 
@@ -29,39 +29,39 @@ function parseArgs(argv) {
     else if (arg === "--timeout-ms") args.timeoutMs = Number(next());
     else if (arg === "--no-await") args.awaitPromise = false;
     else if (arg === "--help" || arg === "-h") args.help = true;
-    else throw new Error(`Unknown argument: ${arg}`);
+    else throw new Error(`未知参数：${arg}`);
   }
 
   return args;
 }
 
 function usage() {
-  return `Usage:
+  return `用法：
   node scripts/page-js.mjs --url <url> --eval '<js>'
   node scripts/page-js.mjs --url <url> --file ./script.js
 
-Options:
-  --host <host>          Browser debug host, default from AGENTCORP_BROWSER_HOST or 127.0.0.1
-  --port <port>          Browser debug port, default from AGENTCORP_BROWSER_PORT or 9222
-  --timeout-ms <ms>      Wait timeout, default 30000
-  --no-await             Do not await Promise results from the expression
+选项：
+  --host <host>          浏览器调试主机，默认来自 AGENTCORP_BROWSER_HOST 或 127.0.0.1
+  --port <port>          浏览器调试端口，默认来自 AGENTCORP_BROWSER_PORT 或 9222
+  --timeout-ms <ms>      等待超时，默认 30000
+  --no-await             不等待表达式的 Promise 结果
 `;
 }
 
 async function readExpression(args) {
-  if (args.expression && args.file) throw new Error("Use only one of --eval or --file");
+  if (args.expression && args.file) throw new Error("只能使用 --eval 或 --file 中的一个");
   if (args.expression) return args.expression;
   if (args.file) {
     const fs = await import("node:fs/promises");
     return fs.readFile(args.file, "utf8");
   }
-  throw new Error("Missing --eval or --file");
+  throw new Error("缺少 --eval 或 --file");
 }
 
 async function jsonFetch(url, options) {
   const response = await fetch(url, options);
   if (!response.ok) {
-    throw new Error(`${options?.method || "GET"} ${url} failed: ${response.status} ${response.statusText}`);
+    throw new Error(`${options?.method || "GET"} ${url} 失败：${response.status} ${response.statusText}`);
   }
   return response.json();
 }
@@ -72,7 +72,7 @@ async function findOrCreatePage(baseUrl, url) {
   if (existing?.webSocketDebuggerUrl) return existing;
 
   const created = await jsonFetch(`${baseUrl}/json/new?${encodeURIComponent(url)}`, { method: "PUT" });
-  if (!created.webSocketDebuggerUrl) throw new Error("Browser did not return a page websocket debugger URL");
+  if (!created.webSocketDebuggerUrl) throw new Error("浏览器未返回页面 websocket 调试 URL");
   return created;
 }
 
@@ -95,7 +95,7 @@ function connectWebSocket(wsUrl) {
     if (message.id && pending.has(message.id)) {
       const { resolve, reject } = pending.get(message.id);
       pending.delete(message.id);
-      if (message.error) reject(new Error(`${message.error.message}: ${message.error.data || ""}`));
+      if (message.error) reject(new Error(`${message.error.message}：${message.error.data || ""}`));
       else resolve(message.result || {});
       return;
     }
@@ -140,7 +140,7 @@ async function waitForLoad(cdp, timeoutMs) {
     await delay(250);
   }
 
-  if (!loaded) throw new Error(`Timed out waiting for page load after ${timeoutMs}ms`);
+  if (!loaded) throw new Error(`等待页面加载超时，超过 ${timeoutMs}ms`);
 }
 
 function formatRemoteObject(remoteObject) {
@@ -158,7 +158,7 @@ async function main() {
     console.log(usage());
     return;
   }
-  if (!args.url) throw new Error("Missing --url");
+  if (!args.url) throw new Error("缺少 --url");
 
   const expression = await readExpression(args);
   const baseUrl = `http://${args.host}:${args.port}`;
@@ -197,7 +197,7 @@ async function main() {
 
   if (result.exceptionDetails) {
     const details = result.exceptionDetails;
-    throw new Error(details.exception?.description || details.text || "Evaluation failed");
+    throw new Error(details.exception?.description || details.text || "求值失败");
   }
 
   console.log(formatRemoteObject(result.result));

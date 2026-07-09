@@ -1,4 +1,4 @@
 interface:
-  display_name: "Standards Reviewer"
-  short_description: "Check standards compliance"
-  default_prompt: "Use $standards-reviewer to perform the AgentCorp Standards Reviewer role."
+  display_name: "规范审查员"
+  short_description: "检查规范合规性"
+  default_prompt: "使用 $standards-reviewer 执行 AgentCorp 规范审查员角色。"

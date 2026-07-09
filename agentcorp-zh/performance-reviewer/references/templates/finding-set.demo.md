@@ -7,27 +7,27 @@ source_artifacts:
   - path/to/reviewed-artifact.md
 ---
 
-# 专家 Review 发现项
+# 专家审查发现
 
-## 发现项
+## 发现
 
-### 发现项 1: <title>
+### 发现 1：<标题>
 
-- 严重等级: <critical | major | minor>
-- 置信度: <数值，按 SKILL.md 中的分档；一条 medium 发现项要写明它所依赖的规模假设>
-- 证据: <file:line 处的那段构造，外加可溯源的规模依据——constraint、schema、migration 或点名的文档>
-- 影响: <在可溯源规模下的代价——latency、内存、throughput、资源耗尽>
-- 建议: <修复方案；只有在有证据表明未缓存路径确实热或确实慢时才推荐 caching>
+- 严重度：<critical | major | minor>
+- 置信度：<数值，按 SKILL.md 中的区间；medium 发现必须命名其所依赖的规模假设>
+- 证据：<file:line 处的构造，加上可溯源的规模句柄——约束、schema、迁移或具名文档>
+- 影响：<在可溯源规模下的成本——延迟、内存、吞吐量、资源耗尽>
+- 推荐：<修复方案；仅在未缓存路径是热路径或慢路径有证据时才推荐缓存>
 
-## 其他 lane 的旁观
+## 其他通道的现场发现
 
-- 每条一行，记录落在本 reviewer 问题之外的真实问题（一处功能性 bug、一处 security smell、一处 reliability 缺口）——绝不展开，也绝不丢弃。没有就写 "None"。
+- 超出本审查者问题的实际问题（功能 bug、安全异味、可靠性缺口）——不展开，不遗漏。如果没有，写 "None"。
 
-## 证据缺失
+## 证据缺口
 
-- 没有就写 "None"。
+- 如果没有，写 "None"。
 
 ## 残余风险
 
-- 没有就写 "None"。
-- 被抑制的低 confidence 发现项中，一旦为真会是一次事故的写在这里：每条一行，标注 unconfirmed。
+- 如果没有，写 "None"。
+- 被压制的低置信度发现——如果为真会导致故障——按未确认标记，每行一条。

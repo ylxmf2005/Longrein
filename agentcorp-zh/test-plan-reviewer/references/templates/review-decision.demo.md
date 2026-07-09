@@ -8,28 +8,28 @@ source_artifacts:
   - requirements/validated-requirements.md
 ---
 
-# 评审结论
+# 审查决定
 
-## 结论
+## 决定
 
 approve | request_changes | needs_more_evidence | blocked
 
 ## 必须修复
 
-- 如果没有就写 "none"。
+- 没有时写“none”。
 
 ## 建议修复
 
-- 如果没有就写 "none"。
+- 没有时写“none”。
 
 ## 证据缺口
 
-- 如果没有就写 "none"。
+- 没有时写“none”。
 
 ## 残余风险
 
-- 如果没有就写 "none"。
+- 没有时写“none”。
 
-## 下一步负责人
+## 下一个所有者
 
-- 负责下一步行动的 agent 或人。
+- 负责下一步行动的智能体或人。

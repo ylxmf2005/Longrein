@@ -7,60 +7,60 @@ source_artifacts:
   - path/to/reviewed-diff.md
 ---
 
-# Change Hygiene Review 发现
+# 变更卫生审查发现
 
 ## 结论
 
-- Verdict: clean | minor_noise | needs_cleanup | needs_human_intent
-- 概述：
+- 裁定：clean | minor_noise | needs_cleanup | needs_human_intent
+- 摘要：
 
-## Review 范围
+## 审查范围
 
-- Diff:
-- Source artifacts:
-- Reference loaded: diff-noise.md | scope-residue.md | neither loaded（说明原因）
+- 差异：
+- 源制品：
+- 已加载参考：diff-noise.md | scope-residue.md | 均未加载（说明原因）
 
-## Mechanical scan
+## 机械扫描
 
-- Command:
-- Verdict:
-- Noise ratio:
-- Categories:
-- 未加载 `diff-noise.md` 时写 "not run" 并说明原因。
+- 命令：
+- 裁定：
+- 噪音比例：
+- 类别：
+- 当未加载 `diff-noise.md` 时，写“未运行”并说明原因。
 
-## Intent trace
+## 意图追溯
 
-| Change | Source artifact | Necessity | Compatibility impact | Verdict |
+| 变更 | 源制品 | 必要性 | 兼容性影响 | 裁定 |
 | --- | --- | --- | --- | --- |
-| path/to/file:line | requirements / story / contract / diagnosis / review finding / test failure / user instruction / tool-required / none | required / optional / unknown | none / changed / unknown | keep / remove / split / ask-human |
+| path/to/file:line | 需求 / story / 契约 / 诊断 / 审查发现 / 测试失败 / 用户指令 / 工具要求 / 无 | 必需 / 可选 / 未知 | 无 / 已变更 / 未知 | 保留 / 移除 / 拆分 / 请求人工 |
 
 ## 发现
 
-### Finding 1: <title>
+### 发现 1：<标题>
 
-- Severity:
-- Confidence:
-- Category: diff-noise | scope-residue | intent-trace-gap | contract-drift | mixed
-- Evidence:
-- Impact:
-- Recommendation:
+- 严重度：
+- 置信度：
+- 类别：diff-noise | scope-residue | intent-trace-gap | contract-drift | mixed
+- 证据：
+- 影响：
+- 推荐：
 
-## 给其它 lane 的旁见
+## 其他车道目击
 
-- 落在本 reviewer 问题之外的每一个真实问题各写一行（一个疑似 bug、一处 security 苗头、一个 perf 风险）——永不展开、也永不丢弃。没有则写 none。
+- 本审查者问题之外的真实问题（疑似缺陷、安全气味、性能风险）——永不展开，永不遗漏。若无则写“无”。
 
-## 值得保留的 Mechanical changes
+## 值得保留的机械变更
 
-- 没有则写 none。
+- 若无则写“无”。
 
-## 需要原作者确认的 Intent
+## 需要发起人确认的意图
 
-- 没有则写 none。
+- 若无则写“无”。
 
-## Evidence gaps
+## 证据缺口
 
-- 没有则写 none。
+- 若无则写“无”。
 
-## Residual risk
+## 残留风险
 
-- 没有则写 none。
+- 若无则写“无”。

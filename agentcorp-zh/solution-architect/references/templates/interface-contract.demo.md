@@ -7,27 +7,27 @@ source_artifacts:
   - design/architecture.md
 ---
 
-# Interface Contract: 示例标题
+# 接口契约：示例标题
 
 ## 范围
 
-- Contract surface:
-- 范围内:
-- 范围外:
+- 契约表面：
+- 在范围内：
+- 在范围外：
 
-## 参考来源
+## 源参考
 
-- 上游设计或需求:
+- 上游设计或需求：
 
-## Contract 清单
+## 契约清单
 
 | Contract | Type | Owner | Callers | Compatibility |
 | --- | --- | --- | --- | --- |
-| 示例 endpoint 或 interface | HTTP/RPC/SDK/schema/event | 所属模块 | 调用方模块或 client | compatible/new/breaking |
+| 示例端点或接口 | HTTP/RPC/SDK/schema/event | 所属模块 | 调用模块或客户端 | compatible/new/breaking |
 
-## Contract 详情
+## 详细契约
 
-### Contract Name
+### 契约名称
 
 - Owner:
 - Callers:
@@ -36,29 +36,29 @@ source_artifacts:
 - Validation:
 - Auth/permission:
 - Error semantics:
-- Compatibility/默认行为:
-- 迁移说明:
+- Compatibility/default behavior:
+- Migration notes:
 
 ## 共享 Schema
 
 - Schema/type name:
-- 字段:
+- Fields:
 - Ownership:
-- 复用位置:
+- Reuse sites:
 
-## 调用方影响
+## 调用者影响
 
-- 未受影响的调用方:
-- 受影响的调用方:
-- 迁移/默认值:
+- Preserved callers:
+- Changed callers:
+- Migration/defaults:
 
-## 验证 Hooks
+## 验证 Hook
 
-- 接口契约检查:
-- 负面/error 场景:
-- Auth/permission 检查:
-- Compatibility 检查:
+- interface contract checks:
+- Negative/error cases:
+- Auth/permission checks:
+- Compatibility checks:
 
-## 待解决问题
+## 开放问题
 
-- Q-1: 没有就写 "None"。
+- Q-1: 没有时写"None"。

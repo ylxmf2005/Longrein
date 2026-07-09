@@ -7,33 +7,33 @@ source_artifacts:
   - path/to/source.md
 ---
 
-# Review Decision
+# 审查决定
 
-## Decision
+## 决定
 
 accept | reject | needs_more_evidence | blocked
 
-## Basis
+## 依据
 
-- 支撑本决策的直接证据——你打开过的文件，每个都附上它可检验的 handle（命令加输出、log 路径、截图）。每个 Must Have 都出现在这里或 Evidence Gaps 下，没有一条被无声略过。
-- 对缺陷类任务：记录原始失败输入被重跑过，以及它产出了什么。
+- 支撑本决定的直接证据——你打开过的文件，每份都带有可核查的凭据（命令+输出、日志路径、截图）。每个 Must Have 必须在此或 Evidence Gaps 中体现，不得沉默遗漏。
+- 对于缺陷类任务：记录原始失败输入已被重跑，以及其结果。
 
 ## Must Fix
 
-- 没有就写 "None"。
+- 没有时填写“无”。
 
 ## Should Fix
 
-- 没有就写 "None"。
+- 没有时填写“无”。
 
 ## Evidence Gaps
 
-- 没有就写 "None"。
+- 没有时填写“无”。
 
-## Residual Risk
+## 剩余风险
 
-- 没有就写 "None"。
+- 没有时填写“无”。
 
-## Next Owner
+## 下一责任人
 
-- 负责下一步行动的 agent 或真人。
+- 负责下一步行动的 Agent 或人员。

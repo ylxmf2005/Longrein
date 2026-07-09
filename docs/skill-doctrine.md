@@ -133,7 +133,7 @@ Executors/testers (~60–90): same pattern; recipes for artifacts.
 - Other roles: audit shows tight fits; widen only where the name genuinely promises
   more (check remaining batches).
 
-## 8b. Audit integration (all 36 skills audited; key deltas)
+## 8b. Audit integration (all 35 skills audited; key deltas)
 
 - Functional-vs-decorative confirmed corpus-wide: outside orchestrator/leads (whose
   rosters are functional), nearly every sibling mention is decorative. Keep only:
@@ -141,7 +141,7 @@ Executors/testers (~60–90): same pattern; recipes for artifacts.
   (e.g. api-contract-reviewer ← api-contract-tester evidence), genuine redirects
   (explain→walkthrough, probe→parallel-researcher, brainstorm→probe,
   api-contract-tester→api-contract-reviewer for schema-diff verdicts,
-  comment-reviewer→standards-reviewer referral), and skill-evolution/orchestrator lanes.
+  comment-optimizer→standards-reviewer referral), and skill-evolution/orchestrator lanes.
 - Good existing patterns to keep/propagate: probe's non-exhaustive skeleton clause;
   brainstorm's pick-what-fits lens framing; steward's routing enum (template-enforceable);
   standards' template-enforced iron-law fields; explain's "shape optional" framing.
@@ -154,7 +154,7 @@ Executors/testers (~60–90): same pattern; recipes for artifacts.
   testing-context stewardship; skill-evolution description = landing end only.
 - Inline↔reference inversions to fix per audit: walkthrough/probe section lists
   duplicated with their templates (thin to pointer); review-researcher responsibilities
-  vs research-doc-template (dedupe); comment-reviewer 43-line examples → reference;
+  vs research-doc-template (dedupe); comment-optimizer examples → reference;
   code-review-lead/plan-review-lead convene catalogs → mostly to reference;
   explain output-mode mechanics compress; regression blast-radius duplicated verbatim
   SKILL↔regression.md (keep one); e2e "trustworthy handoff" restates user-flow-testing.
@@ -176,7 +176,7 @@ Executors/testers (~60–90): same pattern; recipes for artifacts.
 - F6 testers: test-planner, api-contract-tester, e2e-tester, regression-tester
 - F7 capabilities: probe, brainstorm, explain, walkthrough,
   authenticated-browser-session
-- F8 support: change-detailed-walker, precommit-setup, parallel-researcher,
+- F8 support: precommit-setup, parallel-researcher,
   skill-evolution, delivery-orchestrator (SKILL.md only + targeted ref fixes)
 - Exemplar (by main session): taste-reviewer.
 Each fork: rewrite SKILL.md per doctrine + exemplar; update its templates (add

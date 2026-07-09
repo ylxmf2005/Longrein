@@ -5,8 +5,8 @@ author_agent: delivery-orchestrator
 status: active
 ---
 
-# 任务清单
+# 清单
 
-| Phase | Owner | Status | Human Gate | Quality Gate | Assignment | Artifact | Receipt |
+| 阶段 | 负责人 | 状态 | 人工关卡 | 质量关卡 | 分配 | 制品 | 回执 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | validate-requirements | delivery-orchestrator | completed | approved | passed | - | requirements/validated-requirements.md | - |

@@ -1,4 +1,4 @@
 interface:
   display_name: "Adversarial Reviewer"
-  short_description: "Assume it is already broken and construct the failure"
+  short_description: "假设它已损坏，构建失败场景"
   default_prompt: "Use $adversarial-reviewer to perform the AgentCorp Adversarial Reviewer role."

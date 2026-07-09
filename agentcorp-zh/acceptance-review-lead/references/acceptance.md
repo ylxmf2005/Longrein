@@ -1,33 +1,33 @@
-# Local Acceptance Reference
+# 本地验收参考
 
-在 verification 跑完、但还没 delivery 之前用这个。它把 SKILL.md 中的判断维度细化为通过/不通过的确认项；它不替代 SKILL.md。
+在验证执行完成后、交付前使用。它将 SKILL.md 中的判断维度细化为 pass/fail 确认；不替代 SKILL.md。
 
-## 你手里有哪些证据
+## 你拥有的证据
 
-acceptance 的结论得靠一整套证据撑起来：Delivery Orchestrator 给的 acceptance package、经过验证的 requirements、TestPlan、implementation notes 和 changed-file list、Code Review Lead 的决策，再加上 verification 过程中留下的 commands、requests、flows、screenshots、logs、artifacts，以及已知的 failures、untested areas 和 residual risks。这些东西合在一起，才是你做判断的底子——证据越直接、越可追溯，你的结论就越站得住。
+验收判断建立在全套证据之上：Delivery Orchestrator 交付的验收包、已确认的需求、测试计划、实现说明和变更文件列表、Code Review Lead 的决定，以及验证阶段留下的命令、请求、流程、截图、日志和工件，外加已知失败、未测试区域和剩余风险。这些共同构成你判断的基础——证据越直接、越可追溯，你的结论越站得住脚。
 
-## 什么算证据
+## 什么算作证据
 
-- 可检验的 handle：跑过的命令加上它的输出、log 路径、截图、`verification/test-results/` 下的结果文件。一个没有 handle 的 status 词（`passed`、`fixed`、`done`）是声明，不是证据。
-- 直接优于间接：一次真正演练了所需行为的运行，胜过对旁边某个 helper 的测试；TestPlan 要求真实 endpoint 的地方，真实的胜过 mock。
-- 可追溯：你能从 Must Have 沿着 handle 一路走到 artifact，中间不需要靠推断补任何一步。
+- 可核查的凭据：运行的命令及其输出、日志路径、截图、`verification/test-results/` 下的结果文件。一个没有凭据支撑的状态词（`passed`、`fixed`、`done`）是声明，不是证据。
+- 直接优于间接：实际执行了所需行为的运行优于对周边辅助代码的测试；在测试计划要求使用真实环境时，真实端点优于 Mock。
+- 可追溯：你能从 Must Have 沿凭据追踪到工件，无需推断任何中间步骤。
 
-## 你必须确认什么
+## 你必须确认的内容
 
-核心问题只有一个：这些证据能不能真正证明这次 delivery 满足了 requirements。要回答“能”，逐条确认：
+核心问题只有一个：证据是否真正证明本次交付满足了需求。回答 yes 前，请确认以下各项：
 
-- 每一条 Must Have 都有直接证据——一个你亲自打开过的 handle，而不是路径旁边的一个勾。
-- 在需要分层验证的地方，capability、integration/API、E2E 按要求的顺序跑过；后面一层通过，不能豁免 TestPlan 要求、却被跳过的前面一层。
-- TestPlan 要求真实 endpoint、command 或用户可见环境的地方，证据表明确实用了真的——去输出里找真实的 URL、host 或环境标记，而不是找“真实”这个词。
-- scope 内的 risk，contract、data、security、performance、reliability 方面的证据到位。
-- failures 被复现并修复，或者被诚实接受为 residual risk；对缺陷类任务，修复针对原始失败输入重跑过并产出正确结果——只有代理样本不能关闭一个缺陷。
-- 没有任何结论是建立在隐式 fallback、mock-only 的成功、或者纯靠源码推断之上的。
+- 每个 Must Have 都有直接证据——一个你打开过的凭据，而非路径旁的复选框。
+- 在要求分层验证的场景下，能力层、集成/API 层和 E2E 层均按要求的顺序执行；后一层通过不豁免测试计划要求的前一层被跳过。
+- 在测试计划要求使用真实端点、命令或面向用户环境的地方，证据中必须体现实际使用的是真实环境——在输出中查找实际的 URL、主机名或环境标记，而非仅出现"real"这个词。
+- 对于范围内的风险，契约、数据、安全、性能或可靠性证据已就位。
+- 失败已被复现并修复，或诚实地接受为剩余风险；对于缺陷类任务，修复已针对原始失败输入重跑并产生正确输出——仅凭代理样本不足以关闭缺陷。
+- 没有任何结论依赖于隐式降级、仅 Mock 的成功、或纯粹从源码推导。
 
 ## 结论
 
-- `accept`: 证据支持 delivery，且 residual risk 可接受。
-- `reject`: 所需行为失败，或 risk 不可接受。
-- `needs_more_evidence`: 活儿本身可能是对的，但证据缺失、间接或不完整——指出缺的那个 handle。
-- `blocked`: 过于模糊、无法诚实判断；确切指出缺什么，而不是把它编出来。
+- `accept`：证据支撑该交付，且剩余风险可接受。
+- `reject`：所需行为失败，或风险不可接受。
+- `needs_more_evidence`：工作本身可能正确，但证据缺失、间接或不完整——指明缺失的凭据。
+- `blocked`：模糊到无法诚实判断；精确指出缺少什么，而非凭空捏造。
 
-高风险发布另外遵循 SKILL.md 中的跨家族二次意见规则。
+高风险发布额外遵循 SKILL.md 中的跨模型族第二意见规则。

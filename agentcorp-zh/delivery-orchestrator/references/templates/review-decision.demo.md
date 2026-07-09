@@ -7,7 +7,7 @@ source_artifacts:
   - path/to/source.md
 ---
 
-# Review 决策
+# 评审决策
 
 ## 决策
 
@@ -15,20 +15,20 @@ approve | request_changes | needs_more_evidence | blocked
 
 ## 必须修复
 
-- 如果没有，写 "None"。
+- 如果没有，写"无"。
 
 ## 建议修复
 
-- 如果没有，写 "None"。
+- 如果没有，写"无"。
 
 ## 证据缺口
 
-- 如果没有，写 "None"。
+- 如果没有，写"无"。
 
 ## 残余风险
 
-- 如果没有，写 "None"。
+- 如果没有，写"无"。
 
-## 下一步 Owner
+## 下一责任人
 
-- 负责下一步动作的 agent 或人。
+- 负责下一步操作的智能体或人员。

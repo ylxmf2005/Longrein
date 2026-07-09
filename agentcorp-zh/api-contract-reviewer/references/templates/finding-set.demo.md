@@ -7,26 +7,26 @@ source_artifacts:
   - path/to/reviewed-artifact.md
 ---
 
-# 专家 Review 发现项
+# 专业审查发现
 
-## 发现项
+## 发现
 
-### 发现项 1: <title>
+### 发现 1：<标题>
 
-- 严重等级: <critical | major | minor>
-- 置信度: <数值，按 SKILL.md 中的分档>
-- 证据: <变化的 caller 可见承诺，锚定到 file:line，以及你对其 caller 核实过什么>
-- 影响: <哪些 consumer 会破坏，以及破坏得有多悄无声息>
-- 建议: <缺失的迁移路径，或需要敲定的 shape/语义>
+- Severity: <critical | major | minor>
+- Confidence: <数值，按 SKILL.md 中的置信度区间>
+- Evidence: <发生变化的调用方可感知的承诺，位于 file:line，以及你对其调用方所做的检查>
+- Impact: <哪些消费者会崩溃，以及崩溃的隐蔽性>
+- Recommendation: <缺失的迁移路径，或需要固定的形状/语义>
 
-## 其他 lane 的旁观
+## 其他车道目击
 
-- 每条一行，记录落在本 reviewer 问题之外的真实问题（边界背后的一处实现 bug、一处 security smell、一处 perf 风险）——绝不展开，也绝不丢弃。没有就写 "None"。
+- 每条本审查范围之外的真实问题一行（边界后的实现 bug、安全味道、性能风险）——绝不展开，绝不遗漏。没有时填写“无”。
 
-## 证据缺失
+## 证据缺口
 
-- 逐一写明你无法核实的一切（外部 caller、serialization 映射、缺失的 tester 证据）。当某个缺口阻断兼容性判断时，receipt status 为 `needs_more_evidence`。没有就写 "None"。
+- 你未能验证的所有内容，逐项列名（外部调用方、序列化映射、缺失的测试员证据）。当缺口阻碍兼容性判断时，回执状态为 `needs_more_evidence`。没有时填写“无”。
 
-## 残余风险
+## 剩余风险
 
-- 没有就写 "None"。
+- 没有时填写“无”。

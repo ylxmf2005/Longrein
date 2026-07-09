@@ -7,19 +7,19 @@ current_phase: validate-requirements
 workflow_mode: partial-delegation
 ---
 
-# Task: Example Task
+# 任务：示例任务
 
-## 需求方请求
+## 请求者需求
 
-- 原始需求或 issue 链接。
+- 原始请求或问题链接。
 
 ## 成功标准
 
-- 可观测的完成条件。
+- 可观察的完成条件。
 
-## 不在范围内
+## 范围外
 
-- 明确排除的目标。
+- 明确的非目标。
 
 ## 选定范式
 
@@ -27,16 +27,16 @@ workflow_mode: partial-delegation
 
 ## 工作流模式
 
-- partial-delegation（在以下选项中选择: direct | partial-delegation | full-delegation）
+- partial-delegation（从以下选项中选一：direct | partial-delegation | full-delegation）
 
-## Phase 序列
+## 阶段序列
 
 - validate-requirements -> test-plan -> test-plan-review -> impact-analysis -> implementation-plan -> plan-review -> implement -> code-review -> review-research -> fix -> verify -> acceptance-review -> deliver
 
-## Gate 历史
+## 关卡历史
 
-- Requirements gate: approved | skipped | revised | blocked
+- 需求关卡：approved | skipped | revised | blocked
 
-## 决策记录
+## 决策日志
 
-- 关键 orchestration 决策及其理由。
+- 关键编排决策及其理由。

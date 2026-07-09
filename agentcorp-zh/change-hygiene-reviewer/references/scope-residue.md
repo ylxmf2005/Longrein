@@ -1,63 +1,63 @@
-# 范围残留 Review
+# 范围残留审查
 
-仅在以下场景加载：多 commit 的 feature branch、中途发生变更的需求、用户怀疑早期实现有误、public/shared contract 被顺带修改、compatibility entry point 被废弃、fallback 行为发生变化，或者某个 hunk“虽然有解释，但看起来不是当前需求所必需的”。
+仅在以下场景加载：多次提交的功能分支、需求中途转向、用户怀疑早期实现有误、公共/共享契约被顺带修改、兼容入口被弃用、回退行为改变，或某个 hunk "有解释但看起来不是本需求所要求的"。
 
 ## 核心原则
 
-当前 branch 的历史不能证明用户的真实意图。早期的 commit 可能源于模糊的需求、错误的假设或探索性的补丁；如果一次 review 只顺着历史记录去解释，很容易把残留代码当成既定事实。
+当前分支历史不是用户意图的证据。早期提交可能来自模糊的需求、错误的假设或探索性补丁；后续审查如果只是追随历史解释，很容易把残留误当作既成事实。
 
-默认要问自己：**如果今天从零开始，只基于当前已批准的需求 / Story Spec / contracts 来实现，你还会改这里吗？**
+默认提问：**如果你今天从零开始，仅依据当前已批准的需求 / Story Spec / 契约来构建，你是否仍然会做这个变更？**
 
-如果答案不是明确的“yes”，就不要默默放过：
+当答案不是明确的"是"时，不要默默放过：
 
-- 如果你能证明某部分不是当前需求所必需的，报 `scope-residue`。
-- 如果某部分看似合理，但缺少 source artifact 支撑，报 `intent-trace-gap`；当判断完全取决于发起方的意图时，再在该 finding 的 Confidence 字段标记 `needs_human_intent`——`needs_human_intent` 是 verdict/confidence 标记，绝不是 Category。
-- 如果某部分修改了 public/shared contract、compatibility entry point、error semantics，或者 caching/persistence key，报 `contract-drift`，除非该 contract 已明确授权。
+- 对于你能证明本需求不需要的内容，报告 `scope-residue`。
+- 对于可能合理但缺乏来源产物支撑的内容，报告 `intent-trace-gap`；当判断完全取决于发起人的意图时，在发现的 Confidence 字段额外标记 `needs_human_intent`——`needs_human_intent` 是结论/置信度标记，绝不是 Category。
+- 对于修改了公共/共享契约、兼容入口、错误语义或缓存/持久化键的内容，报告 `contract-drift`，除非契约明确授权了它。
 
-## 确定 Review 范围
+## 确定审查内容
 
-先列出 diff 中的语义变更，而不是只列文件：
+首先列出 diff 中的语义变更，而不仅仅是文件：
 
-- public/shared API、request/response schema、字段是否为 required/deprecated、error code 或 error-message semantics。
-- cache key、persistence key、lookup priority、fallback、default value。
-- permission/admin check 位于哪一层、何时触发。
-- handler/service/model 边界变动。
-- 新增的 compatibility shim、dual entry point、deprecation warning、旧 entry point 的迁移或移除。
-- 与当前需求无关、但被一并改动的 behavior branch。
+- 公共/共享 API、请求/响应 schema、字段是否必需/已弃用、错误码或错误消息语义。
+- 缓存键、持久化键、查找优先级、回退、默认值。
+- 权限/管理员检查所在的层级以及调用时机。
+- handler/service/model 边界变更。
+- 新的兼容垫片、双入口、弃用警告、旧入口的迁移或移除。
+- 与本需求无关但被一起修改的行为分支。
 
-为每个语义变更建立一条单行追溯：
+为每个语义变更构建单行溯源：
 
-`change -> source artifact -> why required -> compatibility impact -> action`
+`变更 -> 来源产物 -> 为何必要 -> 兼容性影响 -> 处理`
 
-这里的 source artifact 可以是需求文档、Story Spec、interface-contract、诊断结论、review finding、test failure，或明确的用户指令。找不到 source artifact 不是小事；这正是该角色要捕捉的缺口。
+这里来源产物可以是需求、Story Spec、接口契约、诊断、审查发现、测试失败或用户明确指令。无法找到来源产物不是小事；这正是本角色所追查的缺口。
 
 ## 判断问题
 
-对每一项追问：
+对每项提问：
 
-- **当前需求真的需要它吗？** 不是“能不能解释得通”，而是它是否能从已批准的 source artifact 中自然推导出来。
-- **从零开始还会这么做吗？** 如果从干净的基线实现这个需求根本碰不到它，那它就更像残留。
-- **删掉或 revert 它会破坏验收标准吗？** 如果不会，那更倾向于 revert 或拆出去。
-- **它改动了已有的 caller contract 吗？** 未经明确授权就修改 public/shared contract，默认是 blocking 的。
-- **它只是为了掩盖历史错误的 compatibility patch 吗？** 如果 compatibility 只是为了迁就早期的错误改动，那应该 revert 那个错误，而不是留着 compatibility 层。
-- **它应该单独提一个 MR 吗？** 合理但不是当前需求必须的清理、分层整理或迁移，都应该拆出去。
+- **当前需求是否要求它？** 不是"能否解释"，而是它是否从已批准的来源产物自然推导出来。
+- **从零开始是否会这样做？** 如果从干净基线实现本需求不会触及它，则倾向于残留。
+- **删除/回退它是否会破坏验收标准？** 如果不会，则倾向于回退或拆分出去。
+- **它是否改变了现有调用方契约？** 未经明确授权修改公共/共享契约默认为阻塞性问题。
+- **它仅仅是历史错误的兼容补丁吗？** 如果兼容仅服务于早期的错误变更，应回退错误变更而非保留兼容层。
+- **它是否应该作为单独的 MR？** 合理但本需求不要求的清理、分层整理或迁移应拆分出去。
 
 ## 常见发现
 
-- **早期假设残留**：某个早期 commit 针对某个 model/field/flow 做了修改，后来方向变了，但后续实现一直在迁就它。
-- **范围外的 contract drift**：某个 field 被 deprecated、某个 entry point 被移除、fallback 顺序被调整，或者 error semantics 被修改，但当前需求根本没要求这些。
-- **在历史错误上打补丁**：为了避免 revert 早期错误，不断新增 compatibility、warning 或 dual path，导致 branch 一直背着这个错误。
-- **顺手的架构整理混入了行为变更**：分层调整本身合理，但偷偷带进了 calling-contract 的变动。
-- **Review 可追溯性不足**：实现结果或 diff 描述没有列明 behavior change 的来源，让 reviewer 自己去脑补。
+- **早期假设残留**：早期提交为后来被推翻的模型/字段/流程做了变更，后续实现一直在迁就它。
+- **超出范围的契约漂移**：字段被弃用、入口被移除、回退顺序改变或错误语义改变，但当前需求未要求这些。
+- **历史错误的补丁**：为避免回退早期错误，添加了新的兼容、警告或双路径，使分支持续携带错误。
+- **随手架构整理混合行为变更**：分层调整本身合理但偷渡了调用契约变更。
+- **审查溯源不足**：实现结果或 diff 描述未列出行为变更的来源，需要审查者自行填补缺口。
 
 ## 输出要求
 
-每条发现需包含：
+每个发现包含：
 
-- Severity：破坏 compatibility 或修改 public/shared contract 通常是 P1/P2；纯建议拆出的通常是 P3。
-- Confidence：high/medium/low；如果取决于用户意图，标记为 `needs_human_intent`。
-- Evidence：文件/行号或 hunk、你查阅的 source artifact、缺失的追溯链。
-- Impact：为什么它会污染当前 MR、误导 reviewer，或降低后续成功的概率。
-- Recommendation：revert、delete、拆分 MR/commit、保留但补充明确授权，或让原作者决定。
+- 严重程度：破坏兼容性或修改公共/共享契约通常为 P1/P2；纯拆分建议通常为 P3。
+- 置信度：高/中/低；当取决于用户意图时标记 `needs_human_intent`。
+- 证据：文件/行号或 hunk、你阅读的来源产物、缺失的溯源。
+- 影响：为什么它污染本 MR、误导审查者或降低下游成功概率。
+- 建议：回退、删除、拆分 MR/提交、保留但需添加明确授权，或交由发起人决定。
 
-不要仅仅因为某处改动“看起来合理”就放过它。合理但无法追溯到当前需求的变更，依然是一个 change hygiene 问题。
+不要因为某个变更"看起来合理"就放过它。合理但无法追溯到本需求的仍然是变更卫生问题。

@@ -1,72 +1,66 @@
 ---
 id: validate-requirements
-name: Validated Requirements
-inputs: [sponsor request, issue, requirement draft]
-outputs: [validated requirements artifact]
+name: 已验证需求
+inputs: [发起人请求, issue, 需求草案]
+outputs: [已验证需求制品]
 optional: false
 ---
 
-# Validated Requirements
+# 已验证需求
 
-这是 pipeline 的第一个 phase，也是 Delivery Orchestrator 亲自负责、绝不 delegate 的 phase——这里不存在 Requirements Analyst 这个角色。你的工作不是把 sponsor 的话原样抄成文档，而是把一份原始 request **validate** 成 downstream 能够据此进行 design、test 和 implement 的 requirements：intent 是什么、解决的是谁的问题、怎样算 success、以及哪些明确 out of scope。趁现在还没有代码、改动成本还低的时候，把这些敲定。
+这是流水线的第一个阶段，也是交付编排器亲自负责且绝不委派的阶段——不存在需求分析师角色。你的工作不是将发起人的话转录为文档，而是将原始请求**验证**为下游可以据此设计、测试和实现的需求：意图是什么、解决谁的问题、什么算成功、什么明确不在范围内。在还没有代码、变更还很廉价的时候确定这些。
 
-动笔之前，先按 task keyword（module、error message、domain word）去翻一下 `teamspace/learnings/`——同类问题可能已经被踩过，而相关的 entry 会直接影响 scope 和 risk 的判断（见 `references/learnings.md`）。
+在开始编写之前，按任务关键词（模块、错误消息、领域词）查看 `teamspace/learnings/`——同类问题可能已经遇到过，相关条目直接影响范围和风险判断（参见 `references/learnings.md`）。
 
-当原始 request 还不够清楚，无法诚实 validate 时，先加载 `brainstorm` 能力，再写 artifact。Brainstorm 不是单独 phase；它是把需求推到 MEDIUM/HIGH confidence 的互动界面。
+当原始请求尚不清晰到可以验证时，在编写制品之前加载 `brainstorm` 能力。Brainstorm 不是一个独立阶段；它是用来将需求推到 MEDIUM/HIGH 信心水平的交互界面。
 
-当不清楚的是*地形*本身——工作落在 sponsor（或你）不了解的 module、codebase 或领域上——先加载 `probe` 再做 brainstorm：访谈只能问出 sponsor 已经知道的东西，而建立在未勘察土地上的需求，会把盲区洗白成 scope。之后，probe 报告为 brainstorm、scope 判断和 risk 评估提供根基。
+当不清楚的是*实地*——工作落在发起人（或你）不了解的模块、代码库或领域——在 brainstorm 之前加载 `probe`：访谈只能浮现发起人已知的内容，而在未侦察的地形上构建需求会将盲区洗白为范围。侦察报告随后为 brainstorm、范围判断和风险评估奠基。
 
 使用两种模式之一：
 
-- **逐个追问** —— 当方向大体清楚，但某个缺失事实会阻塞 confidence 时使用。每次只问一个高杠杆问题，然后把答案折回需求图景。只有当下一个答案会改变 scope、success criteria、risk acceptance 或 user journey 时，才继续问。
-- **多方案提案** —— 当多个方案形状都可能满足 sponsor 目标时使用。加载 `brainstorm/references/proposal-paths.md`，并使用 AgentCorp proposal lenses 提出 2-4 个完整路径。每个路径都必须完整到 sponsor 可以选择、修改或拒绝。给出你的推荐，然后请 sponsor 选择或修改其中一个。
+- **逐问模式** — 当方向基本清晰但缺失某个事实阻碍了信心时使用。每次问一个高杠杆问题，然后将答案折叠到需求全景中。只有当下一个答案会改变范围、成功标准、风险接受或用户旅程时才继续。
+- **多路径提案** — 当有多种解决方案形态可以满足发起人的目标时使用。加载 `brainstorm/references/proposal-paths.md`，使用 AgentCorp 提案视角展示 2-4 条完整路径。每条路径必须完整到足以让发起人选择、细化或拒绝。给出推荐，然后请发起人选择或修改其中一条。
 
-如果你提出了多个路径，在 sponsor 选择方向或明确授权混合方案前，不要写 validated requirements。未被选择路径里只是暗示出来的内容，不能偷偷进入范围。
+如果你提出了多条路径，在发起人选择方向或明确授权混合方案之前不要编写已验证需求。未被选择路径仅隐含的任何内容都不在范围内。
 
-## 你要对抗什么
+## 你面对的挑战
 
-四种最常见的失真；validation 就是为了挡住它们：
+四种最常见的扭曲；验证的存在就是为了阻挡它们：
 
-- **把 sponsor 的措辞直接当成 requirement。** Sponsor 说的只是他们想要东西的 *surface*；背后的 *intent* 往往还需要多问一句。保留重要的原始措辞，但要深挖到"他们真正想解决的问题"，而不是停在字面意思上。
+- **将发起人的措辞当作需求。** 发起人说的是他们想要的*表面*；背后的*意图*往往还需要一个问题。保留重要的原始措辞，但深挖到"他们真正要解决的问题"，而不是停留在字面意思。
+- **将实现决策偷渡进需求。** 需求陈述"什么必须被可观察地达成"，而非"用哪个表、哪个接口或哪个算法来做"。一旦实现倾向被写入，你就替下游的架构师和工程师做了决定——那不是你的职责。
+- **编写无法测试的验收标准。** "更好的体验"、"更快"、"更稳定"无法被证伪。每个需求最终都必须归结为可观察的条件，以便测试规划者知道用什么来证明。
+- **将未被请求的内容写成事实。** 任何发起人没有说、仓库无法确认的内容都是开放问题或假设，而非结论。凭空填充一个缺失事实是代价最高的扭曲——它会被一路当真直到下游。
+- **将你自己的发明当作已决定的落地。** 一个你发明的概念、名称或形态——一个新字段、一个显示层对象、一个术语——不会因为被写下就成为需求文本。在落入制品之前或同时在对话中呈现它，一行说明是什么和为什么；在发起人做出反应之前，它在假设下，而非在需求正文中。违反此规则的标志：发起人后来对你自己的制品中已确定的内容问"X 是什么？"
 
-- **把 implementation decision 偷偷塞进 requirements。** Requirements 说的是"必须能被观察到地达成什么"，而不是"用哪张表、哪个 interface、哪个 algorithm 去做"。一旦把 implementation 的倾向写进去，你就替 downstream 的 architect 和 engineer 做了决定——这不是你该干的活。
+## 当发起人修改已记录决策时
 
-- **写无法 test 的 acceptance criteria。** "更好的体验"、"更快"、"更稳定"这些没法证伪。每个 requirement 最终都得落到一个可观察的条件上，这样 Test Planner 才知道拿什么去证明它。
+一条与已记录内容矛盾的新指令——发起人自己早先的选择，或你的一个他们曾回应过的设计——绝非自动覆盖。大声说出冲突（"这替代了 X，X 被选择的原因是 Y"），然后给出你的判断：同意所述理由，或**反驳一次**，具体地，用代价衡量权衡——然后发起人决定，制品记录旧方案 → 新方案 → 原因。如果你认为新方案更差，说出来一次是责任而非选项：默默遵从是把一个已知错误写入范围，而发起人可能只差一句话就能自己发现。
 
-- **把没被问到的东西写成既定事实。** Sponsor 没说过、repo 也确认不了的任何事情，都是 open question 或 assumption，而不是 conclusion。凭空脑补缺失的事实是最贵的失真——它会被一路 downstream 当成真的。
+## 本制品必须达成的目标
 
-- **把你自己的发明当成既定的东西落地。** 你发明的一个概念、名字或形状——一个新字段、一个展示层对象、一个术语——不会因为被写下来就变成 requirement 文本。在它落地之前或落地的同时，在对话里把它摊开，一句话说清 what 和 why；在 sponsor 对它作出反应之前，它归在 Assumptions 下，而不在 requirement 正文里。这条规则被打破的标志：sponsor 后来对你自己的 artifact 里写成既定的东西发问"X 是什么？"。
+读者（发起人自身、测试规划者、解决方案架构师）必须能够信任这些需求并直接在其上构建。因此它必须阐明发起人的意图、要解决的问题、目标用户及其工作、可观察的用户旅程、带有可验证验收标准的功能需求、非目标和 MVP 边界、约束、成功标准、假设和开放问题；当需要时绘制图表使前后行为或范围更清晰。每个部分的完整形态（包括用户旅程图和图表验证清单）由 `references/templates/validated-requirements.demo.md` 规定，门禁标准由 workflow.md 的阶段目录规定；本文件不重述字段。
 
-## 当 Sponsor 修订一个已记录的决策
+在"意图/问题/成功标准"和"实现"之间画清界线：需求侧回答"做什么"和"为什么"；只有设计侧回答"怎么做"。
 
-一个与已记录的东西相矛盾的新指令——sponsor 自己更早的选择，或你的某个设计（他们对它作出过反应）——绝不是自动覆盖。把冲突大声点名（"这会替换 X，而 X 当初是因为 Y 才被选中的"），然后给出你的 judgment：认同所陈述的理由，或者具体地、把 trade-off 定价后，推回**一次**——然后由 sponsor 决定，artifact 记录 old → new → why。如果你认为新形状更糟，说出来一次是义务，而不是选项：静默服从会把一个已知的错误写进 scope，而 sponsor 也许只差一句话就能自己发现它。
+## 如何设定信心水平
 
-## 这个 Artifact 必须达成什么
+制品 frontmatter 的 `confidence` 不是装饰；它直接决定门禁是否可以通过：
 
-读者（sponsor 本人、Test Planner、Solution Architect）必须能够信任这些 requirements，并直接在其上继续构建。因此它必须明确阐明 sponsor 的 intent、要解决的问题、目标用户及其工作、可观察的 user journeys、带有可验证 acceptance criteria 的 functional requirements、non-goals 和 MVP boundary、constraints、success criteria、assumptions 和 open questions；如果需要，就画一张 diagram 来把 before/after 的行为或 scope 讲清楚。每个 section 的完整形态（包括 user-journey diagram 和 diagram validation checklist）由 `references/templates/validated-requirements.demo.md` 规定，gate bar 由 workflow.md 的 Phase Catalog 规定；本文档不再重复这些字段。
+- **HIGH** — 意图清晰，成功标准可观察，没有会改变方向的歧义。可以安全进入下一阶段。
+- **MEDIUM** — 主旨清晰且可以向前推进，但有一些假设需要下游确认，或非阻塞性开放问题。在"假设"和"开放问题"下明确列出；不要隐藏。
+- **LOW** — 太模糊无法诚实地设计：意图不清、成功标准说不出口、关键约束未知。**不要强行写成需求**；按下方规则阻塞。
 
-在 "intent/problem/success criteria" 和 "implementation" 之间划清界限：requirements 这边回答 what 和 why；只有 design 那边才回答 how。
+门禁要求 MEDIUM 或 HIGH。LOW 不得用措辞包装成"看起来像 MEDIUM"。
 
-## 如何设定 Confidence
+## 何时阻塞
 
-Artifact frontmatter 里的 `confidence` 不是装饰；它直接决定 gate 能不能过：
+当需求信心为 LOW，或成功标准无法清晰陈述，或优先级/范围/风险接受不清晰时，首先使用 `brainstorm`（如果缺失的清晰度可以通过发起人交互达成）。如果发起人无法或不愿解决缺失点，停止并返回 `blocked`，准确说明你缺少哪条信息以便发起人提供——而非猜一个并填上。诚实地标记 LOW 或开放问题好过用自信措辞掩盖真实的不确定性。这不是拖延；而是在最便宜的阶段阻止最昂贵的返工。
 
-- **HIGH** — intent 清楚，success criteria 可观察，不存在会改变方向的 ambiguity。可以安全进入下一个 phase。
+## 谁裁决此门禁
 
-- **MEDIUM** — 主线清楚，可以继续推进，但存在一些需要 downstream 确认的 assumptions，或不阻塞的 open questions。在 "Assumptions" 和 "Open Questions" 下面明确列出来；别藏着。
-
-- **LOW** — 太模糊，根本没法诚实地面向它做 design：intent 不清、success criteria 你说不出口、关键 constraints 未知。**别硬塞进 requirements**；按下面的方式 block。
-
-Gate 要求 MEDIUM 或 HIGH。LOW 绝不能用措辞包装成"看起来像 MEDIUM"。
-
-## 何时 Block
-
-当 requirements 的 confidence 为 LOW、或者 success criteria 说不清楚、或者 priority/scope/risk-acceptance 不明确时，如果缺失清晰度可以通过 sponsor 互动补齐，先使用 `brainstorm`。如果 sponsor 不能或没有解决这个缺口，再停下来返回 `blocked`，并明确指出你缺的是哪块信息，让 sponsor 来补——而不是自己猜一个填进去。诚实标成 LOW 或 open question，也好过用看似自信的措辞掩盖真正的不确定性。这不是在拖；这是在成本最低的环节挡住最贵的返工。
-
-## 谁来裁决这个 Gate
-
-这就是 author/reviewer separation 在这个 phase 的体现：你（Orchestrator）写 artifact，但这个 gate 的 reviewer 是**人类 sponsor 本人**——没有独立的 Requirements Analyst 再来审一遍，所以 sponsor 确认 requirements 写得对，就是这个 gate 的独立 judgment。因此这个 human gate 尤其不能被悄悄跳过：如果 sponsor 还没确认，requirements 就不算 validated。
+这是作者/评审者分离在此阶段的体现：你（编排器）编写制品，但**此门禁的评审者是人类发起人自身**——没有独立的需求分析师来再次评审，因此发起人确认需求正确就是此门禁的独立判断。所以此人工门禁尤其不能被默默跳过：如果发起人未确认，需求就未被验证。
 
 ## 输出
 
-写到 `requirements/validated-requirements.md`，按 demo 的格式来写。如果里面包含 Mermaid，对照 demo 末尾的 "Mermaid validation" checklist 逐条检查 syntax 和 readability。只有当 intent 和 implementation 被严格区分、acceptance criteria 可观察、confidence 诚实、并且 sponsor 已确认时，这些 requirements 才算完整。
+写入 `requirements/validated-requirements.md`，遵循示例的形态。当其中包含 Mermaid 时，按示例末尾的"Mermaid 验证"清单逐项检查语法和可读性。这些需求只有在意图和实现保持区分、验收标准可观察、信心水平诚实、且发起人已确认时才算完整。

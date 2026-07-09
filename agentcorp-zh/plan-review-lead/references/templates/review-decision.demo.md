@@ -8,37 +8,37 @@ source_artifacts:
   - design/impact-analysis.md
 ---
 
-# Review 结论
+# 评审决策
 
-## 结论
+## 决策
 
 approve | request_changes | needs_more_evidence | blocked
 
 ## 必须修复
 
-- 没有则填 "none"。
+- 无则写 "none"。
 
 ## 建议修复
 
-- 没有则填 "none"。
+- 无则写 "none"。
 
-## Constraints for implementation
+## 实现约束
 
-- 当结论为 approve 时必填：面向 Implementation Engineer 的 implementation constraints 与 release scope（即 story 的 in-scope / out-of-scope 边界）。否则填 "none"。
+- 当决策为 approve 时必填：实现约束及发布范围（故事的范围内/范围外边界），面向实现工程师。其他情况写 "none"。
 
-## Specialist reviews
+## 专家评审
 
-- 每个已召集的 reviewer 一行：名称 + finding-set 路径（例如 Correctness Reviewer — review/specialist-findings/correctness-reviewer.md）。
-- 每个未召集的"始终考虑" reviewer：写明理由，记录为 residual risk。
+- 每召集一位评审员一行：名称 + 发现集合路径（例如 正确性评审员 — review/specialist-findings/correctness-reviewer.md）。
+- 对每位始终需考虑但未召集的评审员：记录原因，作为残余风险。
 
 ## 证据缺口
 
-- 没有则填 "none"。
+- 无则写 "none"。
 
-## 遗留风险
+## 残余风险
 
-- 没有则填 "none"。
+- 无则写 "none"。
 
 ## 下一步负责人
 
-- 负责下一步行动的 agent 或人。
+- 负责下一步行动的代理或人员。

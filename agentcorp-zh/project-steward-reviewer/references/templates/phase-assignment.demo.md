@@ -9,34 +9,34 @@ status: assigned
 output_path: review/specialist-findings/project-steward-reviewer.md
 ---
 
-# Assignment: code-review
+# 任务分配：code-review
 
-## Goal
+## 目标
 
-以项目 steward / maintainer 的视角，review 这个 plan、design 或 diff 是否值得被纳入项目的长期历史。
+从项目管家 / 维护者视角，评审这项计划、设计或 diff 是否值得被纳入项目的长期历史。
 
-## Inputs
+## 输入
 
 - implementation/implementation-story.md
 - implementation/implementation-result.md
 - review/code-review.md
 - git diff 或变更文件列表
 
-## Source artifacts
+## 源工件
 
 - requirements/validated-requirements.md
 
-## Constraints
+## 约束
 
-- 供人阅读的输出使用 zh-CN。
-- 只报告对长期维护有影响、可定位且可执行的问题。
-- 不要把个人风格偏好包装成 blocker。
+- 人类可读输出使用 zh-CN。
+- 仅报告具有长期维护影响、可定位且可执行的问题。
+- 不要将个人风格偏好伪装成阻塞项。
 
-## Required outputs
+## 所需输出
 
-- 将 phase artifact 写入 `output_path`。
-- 返回一份与 `templates/phase-receipt.demo.md` 匹配的 receipt。
+- 在 `output_path` 写入阶段工件。
+- 返回与 `templates/phase-receipt.demo.md` 匹配的回执。
 
-## Stop conditions
+## 停止条件
 
-- 所需输入缺失、目标不明确，或 review 范围无法确定。
+- 必需输入缺失、目标不明确，或评审范围无法确定。

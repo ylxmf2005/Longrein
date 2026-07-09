@@ -1,14 +1,14 @@
-<!-- 用于填充 testing-context 的探索工作笔记——刻意不带 YAML frontmatter；永远不会被 receipt 指名，因此 validate-handoff.py 永远不会看到它们。 -->
-# Charter 台账
+<!-- 用于填充 testing-context 的探索工作笔记 — 故意不含 YAML frontmatter；不会被回执引用，因此 validate-handoff.py 不会处理它们。 -->
+# 章程台账
 
-## C-1 (done)
+## C-1 (已完成)
 
-使用已登录的 Chrome session，探索任务列表页，确定入口路径、列表页上可见的 actions，以及如何进入 detail 页。
+探索任务列表页，使用已登录的 Chrome 会话，确定入口路径、列表页上可见的操作，以及如何导航到详情页。
 
-## C-2 (in-progress)
+## C-2 (进行中)
 
-使用已登录的 session 和 `e2e-` 前缀的测试数据，探索"从零创建一个 task 并获取 artifact"这一用户目标，确定核心 flow 的每一步以及完成 criteria。
+探索"从零创建任务并获取制品"的用户目标，使用已登录会话和 `e2e-` 前缀的测试数据，确定核心流程的每个步骤和完成标准。
 
-## C-3 (pending, incidental finding)
+## C-3 (待处理，偶发发现)
 
-Task detail 页上有一个行为不明的 "Share" 入口——需要确定它通向哪里，以及是否会产生外部可见的数据。
+任务详情页有一个"分享"入口，行为未知 — 确定它指向何处以及是否会产生外部可见数据。

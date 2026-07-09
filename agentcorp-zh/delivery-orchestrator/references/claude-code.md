@@ -1,10 +1,10 @@
-# Claude Code Landing
+# Claude Code 适配
 
-当 host 是 Claude Code 时，使用它的原生机制来落地编排语义。协议本身（assignment/receipt、artifact shape、gate semantics）不因 host 而变，变的只是承载它的方式。
+当宿主是 Claude Code 时，使用其原生机制来落地编排语义。协议本身（分配/回执、制品形态、门禁语义）不会随宿主改变；改变的只是落地方式。
 
-- **Delegation = the Agent tool。** 每个 assignment 对应一次 Agent 调用。subagent 看不到你的对话上下文，所以 prompt 必须自包含：review 类型（独立）的 handoff 只交接 artifact 路径和评审标准；coupled handoff 则把上游完整决策贴进 prompt，而不只是路径。要求 subagent 把 artifact 写到 assignment 的 `output_path`，并回写一份 receipt。
-- **Parallelism = multiple Agent calls in one message。** 互相独立的 worker（fix groups、review-research cluster、specialist reviewers）全部在同一个消息里一次性发出。把并发上限当成 backpressure：排队等空位，不要当成失败。
-- **Human gate = AskUserQuestion。** 在 gate 处，用 AskUserQuestion 询问 sponsor，选项就是 gate 的几种结果：`approved` / `skipped` / `revised` / `blocked`。绝不允许用"未回复即视为通过"之类的措辞跳过暂停。无人值守时（比如 automation 触发、sponsor 不在场），AskUserQuestion 根本找不到人回答——按 workflow.md 里的 unattended 条款处理：如果 gate 没有预先 approved，就停下来并结束本轮；不要替 sponsor 回答。
-- **Phase tracking = TaskCreate/TaskUpdate（或 TodoWrite）。** 公布 phase 顺序时，每个 phase 建一个 task；进入时设为 in_progress，gate 通过后设为 completed，这样 sponsor 随时都能看到 pipeline 已经跑到了哪一格。这只是对话内的进度跟踪，不能替代 `manifest.md` 账本。
-- **Long-running execution = run in background。** 把耗时的 verification 和 build 放进 run_in_background，等完成通知，不要轮询。
-- **Codex execution layer = the Codex channel。** 如果 host 里存在 Codex plugin/CLI，按照 workflow.md 里的 runtime routing，把 execution-layer 的角色转发给它；如果不存在，则降级为同一个 skill 的 Agent-tool 调用，protocol 保持不变。
+- **委派 = Agent 工具。** 每个分配映射到一次 Agent 调用。子代理看不到你的对话，因此 prompt 必须自包含：评审类（独立）交接传递制品路径和判断纪律；耦合交接将完整的上游决策粘贴到 prompt 中，而非仅传路径。要求子代理将其制品写到分配的 `output_path`，并写回一个回执。
+- **并行 = 同一消息中多个 Agent 调用。** 相互独立的工作者（修复组、评审研究集群、专项评审者）在同一消息中同时派发。将并发限制视为背压：排队等待空闲槽位，不要视其为失败。
+- **人工门禁 = AskUserQuestion。** 在门禁处，使用 AskUserQuestion 向发起人提问，选项为门禁结果：`approved` / `skipped` / `revised` / `blocked`。绝不用"无回复默认为批准"的措辞来绕过暂停。当无人值守时（自动化触发、发起人不在），AskUserQuestion 无人应答——遵循 workflow.md 中的无人值守条款：在未预批准的门禁处，停止并结束本轮；不要代替发起人作答。
+- **阶段跟踪 = TaskCreate/TaskUpdate（或 TodoWrite）。** 在宣布阶段序列时，为每个阶段创建一个 task；进入时设为 in_progress，门禁通过后设为 completed，这样发起人随时可以看到流水线到达了哪个位置。这是对话内进度跟踪；它不替代 `manifest.md` 台账。
+- **长时间运行执行 = 后台运行。** 将长时间运行的验证和构建放在 run_in_background 中，等待完成通知，不要轮询。
+- **Codex 执行层 = Codex 通道。** 当宿主中存在 Codex 插件/CLI 时，按照 workflow.md 的运行时路由将执行层角色路由到它；当不存在时，降级为同一技能的 Agent 工具调用，协议不变。

@@ -1,4 +1,4 @@
 interface:
   display_name: "Solution Architect"
-  short_description: "Design architecture and contracts"
-  default_prompt: "Use $solution-architect to perform the AgentCorp Solution Architect role."
+  short_description: "设计架构与契约"
+  default_prompt: "使用 $solution-architect 执行 AgentCorp Solution Architect 角色。"

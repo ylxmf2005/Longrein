@@ -3,32 +3,32 @@ id: impact-analysis
 name: Impact Analysis (Delta Design)
 inputs: [validated requirements, existing codebase]
 outputs: [impact analysis design artifact]
-optional: true  # produced only when the task calls for this artifact type — selection is governed by SKILL.md "Your outputs"
+optional: true  # 仅在任务需要此产出类型时生成——选择由 SKILL.md "Your outputs" 控制
 ---
 
-# Impact Analysis (Delta Design)
+# 影响分析（增量设计）
 
-对现有代码变更的精确记录。不是重写 architecture，只聚焦 delta：现在代码长什么样、要改什么、哪些绝对不能搞坏、还有哪些风险残留。
+对现有代码变更的精确记录。它不是架构的重写——只覆盖增量：现状是什么、将变成什么、什么绝不能坏，以及哪些风险仍然存在。
 
-## What you do
+## 你做什么
 
-先通读受影响的 module、interface 和 data flow，让 delta 的设计基于代码"实际怎么跑"，而不是你"假设它怎么跑"。然后像做 architecture design 一样来设计变更：把改动范围收拢，interface 不要扩得比需求还大，新代码该归哪个 module 就放哪个 module。边界或封装决策拿不准的时候，去翻 `principles/`。
+先阅读受影响的模块、接口与数据流，让增量基于代码"实际如何运行"来设计，而不是基于你"假设它如何运行"。然后以与架构设计相同的目标设计变更：本地化变更，不要把接口扩得比变更所需更宽，把新代码放进它本来就属于的模块。当边界或隐藏决策不明确时，查阅 `principles/`。
 
-## What this artifact must achieve
+## 这份产出必须达成什么
 
-读完之后，读者应该清楚：当前行为是什么、目标行为是什么、改动具体落在哪里、哪些东西必须保留、哪里可能炸。必须明确写出：
+阅读后，读者应理解：当前行为是什么、目标行为是什么、变更精确落在哪里、什么必须保留、以及哪里可能断裂。它必须清楚说明：
 
-- 改了什么、为什么改，用一段实在的 overview 概括；
-- 受影响的 module 和文件（真实路径；只在能消除歧义时才标行号）；
-- interface 和 data 的变更，逐条列清楚——写 `none` 也是一个完全合理且有用的答案；
-- 新代码与旧代码的 integration points；
-- 必须继续跑通的现有行为；
-- 风险：什么可能炸，以及暴露面有多大。
+- 一个诚实的概述段落：什么变了、为什么变；
+- 受影响的模块与文件（真实路径；仅在消除歧义时标注行号）；
+- 接口与数据变更，逐条列出——`none` 是一个有效且有用的答案；
+- 新代码与现有代码交汇的集成点；
+- 必须继续工作的现有行为；
+- 风险：什么可能断裂，以及暴露程度。
 
-只有当图比文字更容易让人理清"当前路径、目标路径或必须保留的行为"时，才画图。图必须实在、具体——用真实的 module 和结果，不要画占位框。
+仅在视图比文字更清楚地表达"当前路径、目标路径或保留行为"时绘制图表。图表必须诚实且具体——真实模块与结果，不是占位方框。
 
-如果变更波及很多 module，或者涉及结构性的 interface 调整，别硬把 impact analysis 撑成百科全书：结构性决策写进 `architecture.md`，public/shared 或跨 module 的边界写进 `interface-contract.md`，impact analysis 只盯紧 delta 和那些必须保住的现有行为。
+如果变更 ripple 到多个模块或带来结构性接口变更，不要让影响分析强行覆盖一切：把结构性决策放进 `architecture.md`，把公共/共享或跨模块边界放进 `interface-contract.md`，保持影响分析聚焦在增量与必须保留的行为上。
 
-## Output
+## 产出
 
-把 artifact 写到 assignment 的 `output_path`（通常是 `design/impact-analysis.md`），遵循 `design-artifact` 的 demo template。
+将产出写到任务分配的 `output_path`（通常是 `design/impact-analysis.md`），遵循 `design-artifact` demo 模板。

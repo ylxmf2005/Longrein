@@ -9,35 +9,35 @@ status: assigned
 output_path: review/research/
 ---
 
-# 任务派发: review-research
+# 任务分配：review-research
 
 ## 目标
 
-本轮 code review 的每个 finding 都要追根究底：验证是否属实，给出 confirmed/false-positive/partial/needs-human 的 verdict；对成立的给出优雅的 fix 建议；为每个 issue 写出完整可读的说明，并建立索引。
+将本轮代码审查的每条发现研究到底：验证是否属实，给出 confirmed/false-positive/partial/needs-human 裁决，对成立的给出优雅的修复建议，并写出人类可完全理解的逐 issue 解释 + 索引。
 
 ## 输入
 
 - review/code-review.md（必需）
 - review/specialist-findings/（如有）
-- 实际 diff / 变更文件列表（如有）
-- 已文档化的设计原则（CLAUDE.md / auto memory / design memory）（如有）
+- 真实 diff / 变更文件列表（如有）
+- 已记录的设计原则（CLAUDE.md / auto memory / design memory）（如有）
 
-## 源文件
+## 源产出
 
 - review/code-review.md
 
 ## 约束
 
-- 简体中文，写给不熟悉这段代码的人；涉及代码时，贴出关键 snippet 并加以解释。
-- Verdict 必须锚定在真实代码上，且有证据支撑；只有当 verdict 取决于 repo 里没有的上下文（外部系统 / 运行时配置 / 产品意图）时才标 needs-human。代码读得不够意味着继续读，而不是 needs-human——同时也不强下结论。
-- 只给出 fix 建议；不修改产品代码，也不做 acceptance 判定。
-- Research / 说明文档为 *.md，且永远不会进入 commit。
+- zh-CN，写给不熟悉这段代码的人；涉及代码时，粘贴关键片段并解释。
+- 裁决必须落在真实代码上并有证据支撑；仅当裁决依赖于仓库外的上下文（外部系统 / 运行时配置 / 产品意图）时标记 needs-human。阅读不足意味着继续阅读，而不是 needs-human——也不要强行下结论。
+- 只给修复建议；不要修改产品代码，也不要做验收判断。
+- 研究/解释文档是 *.md，从不纳入提交。
 
 ## 必需产出
 
-- 在 `output_path` 目录下，写入 `00-index.md`（包含所有 verdict）以及每个 issue 一份 research 文件。
-- 返回一份符合 `templates/phase-receipt.demo.md` 格式的 receipt，`artifact_path` 指向 `00-index.md`。
+- 在 `output_path` 文件夹下撰写 `00-index.md`（包含所有裁决）以及每 issue 一份研究文件。
+- 返回与 `templates/phase-receipt.demo.md` 匹配的回执，`artifact_path` 指向 `00-index.md`。
 
 ## 终止条件
 
-- Code review findings 缺失，或关键代码 / diff 无法读取，导致无法进行诚实的 verification。
+- 代码审查发现缺失，或关键代码/diff 无法读取，导致无法进行诚实的验证。

@@ -8,16 +8,16 @@ URL="${1:-about:blank}"
 
 usage() {
   cat <<EOF
-Usage:
+用法：
   $0 [url]
 
-Environment:
-  AGENTCORP_BROWSER_PROFILE   Profile dir, default \$HOME/.agentcorp/browser-session-profile
-  AGENTCORP_BROWSER_HOST      Debug host, default 127.0.0.1
-  AGENTCORP_BROWSER_PORT      Debug port, default 9222
-  AGENTCORP_BROWSER_BIN       Browser binary/app override
+环境变量：
+  AGENTCORP_BROWSER_PROFILE   配置文件目录，默认 \$HOME/.agentcorp/browser-session-profile
+  AGENTCORP_BROWSER_HOST      调试主机，默认 127.0.0.1
+  AGENTCORP_BROWSER_PORT      调试端口，默认 9222
+  AGENTCORP_BROWSER_BIN       覆盖浏览器可执行文件/应用
 
-Legacy fallback variables CHROME_COOKIE_JS_PROFILE/HOST/PORT are also accepted.
+旧版兼容变量 CHROME_COOKIE_JS_PROFILE/HOST/PORT 同样被接受。
 EOF
 }
 
@@ -28,18 +28,18 @@ fi
 
 if command -v curl >/dev/null 2>&1 && curl -fsS --max-time 2 "http://$HOST:$PORT/json/version" >/dev/null 2>&1; then
   if ps ax -o command= 2>/dev/null | grep -v grep | grep -F -- "--remote-debugging-port=$PORT" | grep -qF -- "--user-data-dir=$PROFILE_DIR"; then
-    echo "Browser CDP is already available at http://$HOST:$PORT (dedicated profile: $PROFILE_DIR)"
+    echo "Browser CDP 已在 http://$HOST:$PORT 可用（专用配置：$PROFILE_DIR）"
     exit 0
   fi
-  echo "A CDP endpoint is already listening at http://$HOST:$PORT, but it is not the dedicated profile ($PROFILE_DIR)." >&2
-  echo "Refusing to attach to another browser session (it may be the user's daily browser)." >&2
-  echo "Choose a fresh port with AGENTCORP_BROWSER_PORT instead." >&2
+  echo "http://$HOST:$PORT 上已有一个 CDP 端点正在监听，但它不是专用配置（$PROFILE_DIR）。" >&2
+  echo "拒绝附加到另一个浏览器会话（可能是用户的日常浏览器）。" >&2
+  echo "请改用 AGENTCORP_BROWSER_PORT 换一个端口。" >&2
   exit 1
 fi
 
 if command -v lsof >/dev/null 2>&1 && lsof -nP -iTCP:"$PORT" -sTCP:LISTEN >/dev/null 2>&1; then
-  echo "Port $PORT is listening but does not expose Chrome CDP /json/version." >&2
-  echo "Choose another port with AGENTCORP_BROWSER_PORT or stop the conflicting process." >&2
+  echo "端口 $PORT 正在监听，但未暴露 Chrome CDP /json/version。" >&2
+  echo "请使用 AGENTCORP_BROWSER_PORT 换一个端口，或停止冲突进程。" >&2
   exit 1
 fi
 
@@ -57,7 +57,7 @@ start_macos() {
       return
     fi
   done
-  echo "No supported Chrome/Chromium browser app found. Set AGENTCORP_BROWSER_BIN." >&2
+  echo "未找到支持的 Chrome/Chromium 浏览器应用。请设置 AGENTCORP_BROWSER_BIN。" >&2
   exit 1
 }
 
@@ -73,7 +73,7 @@ start_posix() {
       return
     fi
   done
-  echo "No supported Chrome/Chromium browser binary found. Set AGENTCORP_BROWSER_BIN." >&2
+  echo "未找到支持的 Chrome/Chromium 浏览器二进制文件。请设置 AGENTCORP_BROWSER_BIN。" >&2
   exit 1
 }
 
@@ -93,12 +93,12 @@ esac
 
 for _ in $(seq 1 30); do
   if command -v curl >/dev/null 2>&1 && curl -fsS --max-time 1 "http://$HOST:$PORT/json/version" >/dev/null 2>&1; then
-    echo "Browser CDP ready at http://$HOST:$PORT"
-    echo "Profile: $PROFILE_DIR"
+    echo "浏览器 CDP 已就绪，地址 http://$HOST:$PORT"
+    echo "配置目录：$PROFILE_DIR"
     exit 0
   fi
   sleep 0.5
 done
 
-echo "Browser started, but CDP did not become ready at http://$HOST:$PORT" >&2
+echo "浏览器已启动，但 CDP 未在 http://$HOST:$PORT 就绪" >&2
 exit 1

@@ -1,4 +1,4 @@
 interface:
-  display_name: "Regression Tester"
-  short_description: "Catch behavioral regressions"
-  default_prompt: "Use $regression-tester to perform the AgentCorp Regression Tester role."
+  display_name: "回归测试员"
+  short_description: "捕获行为回归"
+  default_prompt: "使用 $regression-tester 执行 AgentCorp 回归测试员角色。"

@@ -13,60 +13,60 @@ plan_files:
 confidence: HIGH
 ---
 
-# Test Plan: 示例标题
+# 测试计划：示例标题
 
-## 需求覆盖范围
+## 覆盖的需求
 
-- FR-1 / AC-1: 由下方 check 覆盖。
+- FR-1 / AC-1：由以下检查覆盖。
 
-## Must-Have Check
+## 必须检查
 
-- MH-1 (P0): 需验证的行为、verification level 与证据。
+- MH-1 (P0)：要证明的行为、验证级别和证据。
 
-## 禁区
+## 禁止区域
 
-- 绝不可改动的区域。
+- 绝不可变更的区域。
 
-## 风险分级与执行顺序
+## 风险排名和执行顺序
 
-- 哪个 P0 作为 gate，一旦失败会立即 block 哪些 check；check 的执行顺序。
+- 哪个 P0 是关卡、它失败时哪些检查立即被阻塞、检查运行的顺序。
 
-## Capability Check
+## 能力检查
 
-- CAP-1 (P1): 场景、执行命令与预期结果。
+- CAP-1 (P1)：场景、运行命令、预期结果。
 
-## 失败与边界场景
+## 失败和边缘用例
 
-- EDGE-1: 跨越多份手册的 failure mode，以及对应的判定规则。
+- EDGE-1：跨手册的失败模式及其决策规则。
 
-## 审计与日志
+## 审计和日志
 
-- 必需的 logging/audit 信号，以及绝不可输出的敏感信息。
+- 必需的日志/审计信号，以及绝不可发出的敏感信息。
 
-## 安全与 Token 约束
+## 安全和令牌约束
 
-- Auth、permission、sandbox、token 或 rate-limit 相关的 check。
+- 认证、权限、沙箱、令牌或速率限制检查。
 
 ## 覆盖摘要
 
-- requirement/capability：check id、verification level、所在 plan file 以及 E2E target（当面向用户的 capability 没有 E2E target 时，须在本列说明遗漏原因）。
+- 需求/能力：检查 ID、验证级别、所在计划文件、E2E 目标（当面向用户的能力没有 E2E 目标时，在此列说明省略原因）。
 
-## 环境说明
+## 环境备注
 
-- 环境类型、workdir、commands、URL、port、credential 引用及 blockers。
+- 环境类型、工作目录、命令、URL、端口、凭证引用和阻塞项。
 
 ## 测试上下文
 
-- 所依赖的 `teamspace/testing-context.md` 状态（日期/版本）；本 plan 对其补充的内容；以及遗漏任何执行手册的原因。
+- 它所依赖的 `teamspace/testing-context.md` 状态（日期/版本）；此计划为其添加了什么；以及省略任何执行手册的原因。
 
-## 推荐 Tester 与分工
+## 推荐测试员和指派
 
-- API Contract Tester → `test/api-test-plan.md`；E2E Tester → `test/e2e-test-plan.md`；Regression Tester → `test/regression-test-plan.md`；按需补充 specialist 角色。
+- API 契约测试员 → `test/api-test-plan.md`；E2E 测试员 → `test/e2e-test-plan.md`；回归测试员 → `test/regression-test-plan.md`；按需添加专业角色。
 
 ## 残余风险
 
-- 若无则写 "None"。
+- 没有时写“None”。
 
-## 遗留问题
+## 开放问题
 
-- 若无则写 "None"。
+- 没有时写“None”。

@@ -1,10 +1,10 @@
-<!-- 用于填充 testing-context 的探索工作笔记——刻意不带 YAML frontmatter；永远不会被 receipt 指名，因此 validate-handoff.py 永远不会看到它们。 -->
-# Exploration Journal
+<!-- 用于填充 testing-context 的探索工作笔记 — 故意不含 YAML frontmatter；不会被回执引用，因此 validate-handoff.py 不会处理它们。 -->
+# 探索日志
 
-## Round 1（C-1：任务列表页）
+## 第 1 轮 (C-1: 任务列表页)
 
-1. 打开 `/app/tasks` → 看到任务列表和 \"New\" 按钮 → `shots/01-task-list.png`
-2. 点击 \"New\" → 弹出创建对话框，里面有个 prompt 输入框和提交按钮 → `shots/02-create-dialog.png`
-3. Observation：prompt 为空时提交按钮置灰（记为 gotcha）。
+1. 打开 `/app/tasks` → 看到任务列表和"新建"按钮 → `shots/01-task-list.png`
+2. 点击"新建" → 创建对话框打开，有提示词输入框和提交按钮 → `shots/02-create-dialog.png`
+3. 观察：提示词为空时提交按钮为灰色（已记录为注意事项）。
 
-向 frontier 新增了一个 entry point：左侧导航栏里有个 \"Settings\" 项。
+新增入口添加到前沿：左侧导航中有"设置"项。

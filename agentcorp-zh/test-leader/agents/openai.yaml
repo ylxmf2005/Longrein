@@ -1,4 +1,4 @@
 interface:
-  display_name: "Test Leader"
-  short_description: "Coordinate verification evidence"
-  default_prompt: "Use $test-leader to perform the AgentCorp Test Leader role."
+  display_name: "测试负责人"
+  short_description: "协调验证证据"
+  default_prompt: "使用 $test-leader 执行 AgentCorp 测试负责人角色。"

@@ -13,25 +13,25 @@ output_path: review/example-output.md
 
 ## 目标
 
-说明本 phase 的目标。
+说明本阶段的目标。
 
 ## 输入
 
-- 所需的输入 artifact 或证据。
+- 所需的输入工件或证据。
 
-## 源 artifact
+## 源工件
 
 - requirements/validated-requirements.md
 
 ## 约束
 
-- 语言、范围、环境和风险方面的约束。
+- 语言、范围、环境和风险约束。
 
-## 必需输出
+## 所需输出
 
-- 在 `output_path` 处编写 phase artifact。
-- 返回一份与 `templates/phase-receipt.demo.md` 匹配的 receipt。
+- 在 `output_path` 写入阶段工件。
+- 返回与 `templates/phase-receipt.demo.md` 匹配的回执。
 
 ## 停止条件
 
-- 缺少必需的输入、目标不明确、环境不可用或风险不安全。
+- 必需输入缺失、目标不明确、环境不可用或风险不安全。

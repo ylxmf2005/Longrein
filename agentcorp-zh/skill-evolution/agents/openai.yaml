@@ -1,4 +1,4 @@
 interface:
   display_name: "Skill Evolution"
-  short_description: "把已捕获的 skill 改进提案落地为一次经人审的真实改动"
-  default_prompt: "用 $skill-evolution 把一条已捕获的技能改进提案，变成经人审、真正落地的项目 skill 改动。"
+  short_description: "落地已捕获的技能改进提案"
+  default_prompt: "使用 $skill-evolution 将已捕获的技能改进提案转化为经过审查、已落地的项目技能变更。"

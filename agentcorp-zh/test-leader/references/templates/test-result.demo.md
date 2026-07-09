@@ -13,27 +13,27 @@ source_artifacts:
 
 passed | failed | blocked | partial
 
-## 执行的检查
+## 已运行的检查
 
-- 场景与结果。
+- 场景和结果。
 
-## 执行的命令
+## 已运行的命令
 
-- 命令、环境及结果。
+- 命令、环境和结果。
 
 ## 证据
 
-- 示例句柄（替换为真实值）：运行日志 `verification/test-results/run.log`，或下方的代码块输出片段。
-- 日志、截图、请求/响应片段或 artifact 路径。
+- 示例 handle（替换为真实的）：`verification/test-results/run.log` 处的运行日志，或下方的围栏输出摘录。
+- 日志、截图、请求/响应摘录或产物路径。
 
-## 失败项
+## 失败
 
-- 无则填 "None"。
+- 没有时写“None”。
 
-## 阻塞的检查
+## 被阻塞的检查
 
-- 无则填 "None"。
+- 没有时写“None”。
 
 ## 残余风险
 
-- 无则填 "None"。
+- 没有时写“None”。

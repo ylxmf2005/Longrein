@@ -7,28 +7,28 @@ source_artifacts:
   - path/to/reviewed-artifact.md
 ---
 
-# Project Steward Review 发现
+# 项目管家评审发现
 
 ## 发现
 
-### 发现 1: <title>
+### 发现 1：<标题>
 
-- 严重程度: <P0 | P1 | P2 | P3>
-- 置信度: <high | medium —— low confidence 的顾虑按住、不写进来>
-- Rubric 维度: <据以判断的 stewardship-rubric 维度>
-- 长期健康度影响: <未来由谁承担什么成本>
-- 证据: <涉及代码处给 file:line；仓库级否定断言贴上检索命令及其结果>
-- 建议:
-- 路由: <review-fixer | implementation-planner | solution-architect | release owner | human owner>
+- 严重程度：<P0 | P1 | P2 | P3>
+- 置信度：<high | medium —— 低置信度顾虑应保留，不写入>
+- 维度：<本发现所依据的 stewardship-rubric 维度>
+- 长期健康影响：<谁承担什么未来成本>
+- 证据：<涉及代码时 file:line；仓库范围负面主张时粘贴搜索命令及结果>
+- 建议：
+- 路由：<review-fixer | implementation-planner | solution-architect | release owner | human owner>
 
-## 给其它 lane 的旁见
+## 其他通道的观察
 
-- 落在本 reviewer 问题之外的每一个真实问题各写一行（一个疑似 bug、一处 security 苗头、一个 perf 风险）——永不展开、也永不丢弃。没有时写 "None"。
+- 本评审员问题之外的真实问题（疑似 bug、安全气味、性能风险）每行一条——绝不展开，绝不丢弃。无则写 "None"。
 
 ## 证据缺口
 
-- 没有时写 "None"。
+- 无则写 "None"。
 
 ## 残余风险
 
-- 没有时写 "None"。
+- 无则写 "None"。

@@ -7,27 +7,27 @@ source_artifacts:
   - path/to/reviewed-artifact.md
 ---
 
-# 专家 Review 发现
+# 专项审查发现
 
 ## 发现
 
-### 发现 1: <title>
+### 发现 1：<标题>
 
-- 严重程度: <critical | major | minor>
-- 置信度: <数值，按 SKILL.md 中的分档>
-- 证据: <那个 hack 构造的文件与行号，以及你 grep 类型/调用点/schema 看到了什么>
-- 影响: <留着这个 hack 长期要付的代价>
-- 建议: <诚实的形态和它的价>
+- 严重度：<critical | major | minor>
+- 置信度：<数值，按 SKILL.md 中的区间>
+- 证据：<file:line 处的 hack 构造，以及你对类型 / 调用点 / schema 的 grep 结果>
+- 影响：<保留该 hack 的长期代价>
+- 建议：<诚实的正确形态及其代价>
 
-## 给其它 lane 的旁见
+## 其他车道 sighting
 
-- 落在本 reviewer 问题之外的每一个真实问题各写一行（一个疑似 bug、一处 security 苗头、一个 perf 风险）——永不展开、也永不丢弃。没有时写 "None"。
+- 每条一行，写本审查员问题之外的真实问题（疑似 bug、安全异味、性能风险）——绝不展开，绝不省略。没有时写“None”。
 
 ## 证据缺口
 
-- 没有时写 "None"。
+- 没有时写“None”。
 
 ## 残余风险
 
-- 没有时写 "None"。
-- 被按住的 low confidence 疑虑中，一旦为真会是 critical 级的写在这里：每条一行，标注 unconfirmed。对「该不该存在」的疑虑（这个功能到底该不该存在）也写在这里，每条一行。
+- 没有时写“None”。
+- 低置信度但如为真则属 critical 的担忧，每条一行，标记 unconfirmed。存在性担忧（“这个功能是否该存在”）也放在这里，每条一行。

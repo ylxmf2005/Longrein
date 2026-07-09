@@ -7,30 +7,30 @@ source_artifacts:
   - path/to/source.md
 ---
 
-<!-- ExampleDecision 是占位符: 请把 artifact_type 设为该 phase 的 decision 类型，例如 AcceptanceDecision -->
+<!-- ExampleDecision 是占位符：请将 artifact_type 设置为该阶段的决策类型，例如 AcceptanceDecision -->
 
-# Decision Artifact 示例
+# 决策制品示例
 
-## Decision
+## 决策
 
 approve | request_changes | needs_more_evidence | blocked
 
 ## 依据
 
-- 支持本 decision 的直接证据。
+- 支持此决策的直接证据。
 
-## Must Fix
+## 必须修复
 
-- 若无阻塞性问题，写 \"None\"。
+- 如果没有阻塞性问题，写"无"。
 
 ## 证据缺口
 
-- 若无实质性缺口，写 \"None\"。
+- 如果没有实质性缺口，写"无"。
 
 ## 残余风险
 
 - 已接受的风险（如有）。
 
-## Next Owner
+## 下一责任人
 
-- 负责下一步 action 的 agent 或人。
+- 负责下一步操作的智能体或人员。

@@ -8,6 +8,7 @@ status: assigned
 task_root: teamspace/tasks/20260611-120000-example-task
 output_path: review/specialist-findings/change-hygiene-reviewer.md
 output_language: zh-CN
+rigor: standard
 ---
 
 # 任务分配

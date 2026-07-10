@@ -9,6 +9,7 @@ status: assigned
 group_slug: <本组的短英文标识>
 output_path: review/fix-records/<group-slug>.md
 output_language: zh-CN
+rigor: standard
 ---
 
 # 任务分配：修复（单组）

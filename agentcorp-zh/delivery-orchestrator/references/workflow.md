@@ -364,7 +364,7 @@ teamspace/tasks/<task_id>/
 
 对于委派阶段，交付编排者会在阶段开始之前写入分配文件。每个委托分配都带有一个“task_root”（相对于“workdir”的“teamspace/tasks/<task_id>/”）和一个相对于该任务根的“output_path”；当位置和工作空间不同时，相同的任务根也必须存在于`<code_worktree>/teamspace/tasks/<task_id>/`中。委托所有者将阶段工件写入分配的“output_path”，并写回指定工件路径和状态的 Markdown 收据。
 
-派发前，在 assignment 的 Action Context 中填入具体值：source of truth；Owner 动手前必须读取的每个 context file；允许编辑的根目录；只读上下文；输出路径；`output_language`（记录在 `task.md` 中的发起人语言）；行为约束。Context file 必须是实际存在的具体路径，不能是未解析 glob 或按惯例猜出的文件名。约束用于指导 Owner，不能原样抄进输出交付物。修订让 assignment 过期时，先替换它再重新派发，不要在旧 assignment 后面追加互相矛盾的指令。
+派发前，在 assignment 的 Action Context 中填入具体值：source of truth；Owner 动手前必须读取的每个 context file；允许编辑的根目录；只读上下文；输出路径；`output_language`（记录在 `task.md` 中的发起人语言）；行为约束。Context file 必须是实际存在的具体路径，不能是未解析 glob 或按惯例猜出的文件名。约束用于指导 Owner，不能原样抄进输出交付物。修订让 assignment 过期时，先替换它再重新派发，不要在旧 assignment 后面追加互相矛盾的指令。预先写好的 assignment，对门禁结果只能引用台账指针（比如"见 task.md Gate History 第 N 行"），绝不能当成形容词式的既定事实来写（比如"那份已批准的 TestPlan"）——一份点名了某个门禁前置条件的 assignment，在 Gate History 里真正记上那个门禁结果之前，不能派发出去。收到回执后，把它点名的每一项延后交接事项（上游回写、门禁记账、后续跟进）都转录进 `task.md` 的 Execution Progress 并标上负责人——没记账的延后事项，正是同一个 P2 被反复验证三次的原因。
 
 对于收到的每张收据，交付编排者首先运行机械验证，然后进行质量判断 - 两者是分开的：
 
@@ -400,7 +400,7 @@ teamspace/tasks/<task_id>/
 
 并行实现是“实现”阶段内的协议，而不是单独的阶段。仅当满足以下所有条件时才进行并行化：复杂度为 M/L/XL；至少可以独立构建两个子模块；子模块共享接口但不共享实现；架构或影响文档已经存在；当涉及公共/共享 API、模式、协议或跨模块合约时，“接口合约”是完整的；实施故事规范按合同划分任务，并仅保留每个子模块所需的集成上下文；每个子模块的 TestPlan 范围为 Must Haves、Need Haves、Failure/Edge Cases 和 Forbidden Zones。
 
-任何并行或批量派发前，先形成一份汇总图：每个单元的硬依赖、required/provided contract、会触及的文件或表面、允许编辑的根目录。缺失硬依赖只阻塞依赖它的单元；重叠是必须通过合组、排序或互斥文件所有权解决的 warning，不会自动生成依赖。需要人工选择时，只展示一次汇总状态并获取一次确认。逐单元记录 success、skipped、blocked、failed；一个单元孤立失败后，其余独立单元继续。
+任何并行或批量派发前，先形成一份汇总图：每个单元的硬依赖、required/provided contract、会触及的文件或表面、允许编辑的根目录——包括每个单元**自己的交付物**（它自己新写的测试和文件，要算进它自己的清单里；一份笼统的 FORBIDDEN_ZONE 绝不能把某个单元自己被分配的产出也禁掉）。缺失硬依赖只阻塞依赖它的单元；重叠是必须通过合组、排序或互斥文件所有权解决的 warning，不会自动生成依赖。需要人工选择时，只展示一次汇总状态并获取一次确认。逐单元记录 success、skipped、blocked、failed；一个单元孤立失败后，其余独立单元继续。
 
 每个并行实施会话均接收以下输入：
 
@@ -429,7 +429,7 @@ teamspace/tasks/<task_id>/
 
 “fix”也是由 交付编排者 编排的并行协议，而不是单独阶段之外的特殊情况。前提：`review-research`产生了`review/research/`，其中有判断为**confirmed/partial**的修正项。Orchestrator 执行以下操作：
 
-1. **获取要修复的项目**：从`review/research/`中获取所有 confirmed/partial 的项目及其修复建议（覆盖人工评论；误报和 `needs-human` 的项目未修复）。如果找不到`review/research/`，请先停止并运行`review-research`。
+1. **获取要修复的项目**：从`review/research/`中获取**落在本任务请求范围内**的 confirmed/partial 项目及其修复建议（覆盖人工评论；误报、`needs-human` 项目，以及"已确认但超出范围"的项目都不修——后者会变成发起人在交付时看到的后续跟进项）。如果找不到`review/research/`，请先停止并运行`review-research`。
 2. **按文件所有权划分为互不重叠的组**：列出要更改的每个项目的主文件（以及可预见的溢出文件）；**接触同一文件的项目进入同一组**，由同一工作人员串行处理。两个组的文件占用集必须是不相交的。
 3. **并行调度`review-fixer`单个工作人员**：每组一项分配，准确给出这些输入 - `GROUP_SLUG`、`FIX_ITEMS`（该组 confirmed/partial 的项目和研究修复建议）、`OWNED_FILES`（该组有权编辑的文件集，其他组不会触及）、`REPO_CONVENTIONS`、`FOCUSED_VALIDATION`（重点关注的项目）检查该组应该运行），“OUTPUT_PATH”（“review/fix-records/<group-slug>.md”）。遵守线束并发限制：超过限制时排队并在插槽空闲时填充；如果线束不支持并行性，则转为串行，协议不变。
 4. **收集+合并验证**：每个工作人员写入其组的“fix-records/<group>.md”并返回收据。全部返回后，Orchestrator 对合并的更改（语法/导入/类型/相关测试）运行一次完整存储库验证，以捕获跨组交互。发生在更改的文件上的故障→将相关组送回重做或升级；仅发生在无人更改的文件上的故障 → 将其记录为预先存在的故障。

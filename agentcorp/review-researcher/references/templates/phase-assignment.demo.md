@@ -8,6 +8,7 @@ phase: review-research
 status: assigned
 output_path: review/research/
 output_language: zh-CN
+rigor: standard
 ---
 
 # Assignment: review-research

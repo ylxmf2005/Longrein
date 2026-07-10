@@ -8,6 +8,7 @@ phase: example-phase
 status: assigned
 output_path: review/example-output.md
 output_language: zh-CN
+rigor: standard
 ---
 
 # 分配：example-phase

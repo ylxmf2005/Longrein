@@ -27,6 +27,21 @@ Cadence is independent of workflow mode: mode decides **who executes and adjudic
 
 Both cadences keep the same quality gates, author separation, stop conditions, and artifact set. `guided` is not a slower workflow mode, and `continuous` is not blanket pre-approval.
 
+## Rigor
+
+The third orthogonal knob: mode decides **who executes**, cadence decides **how much advances between checkpoints**, rigor decides **how much redundancy and optional coverage the task buys**. `rigor:light|balanced|standard|strict` — default `standard` — is chosen at intake (sponsor's word "赶时间/尽快" suggests light or balanced; "从严/别出错" suggests strict; say which you picked and why), recorded in `task.md`, and threaded into every assignment as `rigor`. This table is the single mapping; consumers read their row here rather than re-deriving it:
+
+| Dial | `light` (赶时间) | `balanced` | `standard` (default) | `strict` |
+| --- | --- | --- | --- | --- |
+| Review rounds | one round, `depth:core` (lead alone); afterwards scoped amendments only | one full round; afterwards scoped amendments only | one full round + scoped amendments; a second full round needs a recorded reason | up to two full rounds, `depth:full`, then escalate to the sponsor |
+| review-research | must-fix items only | must-fix items only | items the lead routed | must-fix + suggested items |
+| verify | focused checks + regression on the changed surface | focused checks + regression; higher layers only where the TestPlan marks risk | the Verification Hierarchy as applicable | full hierarchy; environment requirements taken strictly |
+| Optional phases (impact-analysis / interface-contract / test-plan where optional) | skipped unless a shared/public contract is touched | produced only when their trigger condition clearly holds | per their documented conditions | produced whenever plausibly useful |
+| Human gates | propose skipping all skippable gates once, up front | propose skipping the low-risk gates | per the Human Gate Policy | no skip proposals |
+| Cross-family second opinion | high-stakes rule still applies | high-stakes rule still applies | high-stakes rule (offered) | offered on high-stakes, lean toward taking it |
+
+**Hard floors — no tier may cross these.** Rigor trades redundancy and optional coverage, never honesty: (1) evidence is never fabricated and `unverified` never passes a gate; (2) author/reviewer separation holds — under `light` the sponsor personally adjudicates what independent reviewers would have; (3) a defect's done still means the original failing input re-run; (4) **high-stakes surfaces auto-upgrade**: a security/permission boundary, public/shared contract, or data-loss/irreversible change runs its affected phases at `strict` regardless of the task's tier, and the upgrade is said out loud, not silently applied. A tier is a budget, not a quality waiver — when a tier and a floor collide, the floor wins and the sponsor hears about the cost.
+
 ### Sponsor Work-Path Menu
 
 Mode is an internal ledger term; lead with the work path the sponsor needs, state interaction cadence separately, then map the path to a mode:

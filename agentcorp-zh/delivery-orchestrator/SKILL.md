@@ -1,7 +1,7 @@
 ---
 name: delivery-orchestrator
 description: "担任 AgentCorp 交付总控：交付流程的 Owner 与守门人。当用户提到 AgentCorp、交付总控、交付工作流、分阶段交付物、质量关卡、交接、分配/回执、工作流模式、任务根目录或清单，或者要求驱动任务走完交付流程，或询问某事该由哪个 AgentCorp 角色处理时使用。"
-argument-hint: "[mode:direct|partial|full] [effort:low|medium|high|max] [lang:<language>]"
+argument-hint: "[mode:direct|partial|full] [pace:continuous|guided] [effort:low|medium|high|max] [lang:<language>]"
 ---
 # delivery-orchestrator
 
@@ -94,7 +94,7 @@ argument-hint: "[mode:direct|partial|full] [effort:low|medium|high|max] [lang:<l
 
 ## 参数
 
-`mode:direct|partial|full` 对应三种工作流模式；发起人显式给出的值即其模式选择——采纳它、复述其后果，并跳过菜单式推荐。`effort:low|medium|high|max`（默认 `high`）决定这个任务能买到多少冗余和可选覆盖——映射表和它的硬底线都在 `references/workflow.md`（Effort）里；它会贯穿写入每个分配，遇到高风险面时会大声地自动升到更高一档，而不是悄悄套用。`lang:<language>` 为本任务产出的每份面向人类的交付物设定发起人语言（默认：发起人书写所用的语言）；记录进 `task.md`，并作为 `output_language` 贯穿写入每个分配。
+`mode:direct|partial|full` 对应三种工作流模式；发起人显式给出的值即其模式选择——采纳它、复述其后果，并跳过菜单式推荐。`pace:continuous|guided` 独立于工作流模式控制与发起人的互动节奏：`continuous` 会在关键检查点之间持续推进已就绪工作，`guided` 则在每项有意义的交付物或动作后暂停。`effort:low|medium|high|max`（默认 `high`）决定这个任务能买到多少冗余和可选覆盖——映射表和它的硬底线都在 `references/workflow.md`（Effort）里；它会贯穿写入每个分配，遇到高风险面时会大声地自动升到更高一档，而不是悄悄套用。`lang:<language>` 为本任务产出的每份面向人类的交付物设定发起人语言（默认：发起人书写所用的语言）；记录进 `task.md`，并作为 `output_language` 贯穿写入每个分配。
 
 ## 工作流模式
 

@@ -69,16 +69,23 @@ next session start sweeps sessions idle for 30+ minutes into the analyzer.
 
 The main entry point is the Delivery Orchestrator. Hand it a task and it drives
 the full pipeline — classifying the work, routing each phase to the right role,
-and gating on evidence:
+and gating on evidence. Parameters can be combined to fit the task:
 
-```
-/agentcorp:delivery-orchestrator add rate limiting to the public API and verify it under load
+```text
+/agentcorp:delivery-orchestrator mode:direct pace:guided effort:low fix the null check in config.py and explain each step
+/agentcorp:delivery-orchestrator mode:partial pace:continuous effort:high add rate limiting to the public API and verify it under load
+/agentcorp:delivery-orchestrator mode:full pace:continuous effort:max lang:en-US redesign payment webhooks across three services and verify the migration
 ```
 
-You can also call any single skill directly when you only need that one step:
+Omit a parameter when you want the orchestrator to recommend it. You can also
+call any single skill directly when you only need that one capability:
 
-```
-/agentcorp:code-review-lead run a code review on the current diff before I merge
+```text
+/agentcorp:code-review-lead depth:full review the current diff before I merge
+/agentcorp:parallel-researcher scope:both depth:source-verified compare the leading durable-workflow engines for this repository
+/agentcorp:probe output:inline map the authentication module before we decide what to change
+/agentcorp:walkthrough format:html quiz:on teach me this branch before I approve the merge
+/agentcorp:replay session:last focus:friction output:inline show where the previous session kept getting stuck
 ```
 
 ### First Use

@@ -52,6 +52,8 @@ command -v claude >/dev/null 2>&1 || exit 0
 
 PROMPT_FILE="${SCRIPT_DIR}/skill-evolution-analyze.md"
 [ -f "$PROMPT_FILE" ] || exit 0
+REDACTOR="${SCRIPT_DIR}/redact-skill-evolution.py"
+[ -f "$REDACTOR" ] || exit 0
 OUT_DIR="${AGENTCORP_EVOLUTION_DIR:-${PLUGIN_ROOT}/teamspace/skill-evolution/pending}"
 LOG_DIR="${PLUGIN_ROOT}/teamspace/skill-evolution/.logs"
 mkdir -p "$OUT_DIR" "$LOG_DIR" 2>/dev/null || exit 0
@@ -64,9 +66,10 @@ SESSION_ID: ${SESSION_ID}
 TRANSCRIPT_PATH: ${TRANSCRIPT}
 END_REASON: ${REASON}"
   result="$(AGENTCORP_EVOLUTION_CAPTURE=1 claude -p "$prompt" 2>"${LOG_DIR}/${SESSION_ID}.err")"
-  if [ -n "$result" ] && ! printf '%s' "$result" | grep -q "NO_PROPOSALS"; then
+  redacted="$(printf '%s' "$result" | python3 "$REDACTOR")" || exit 0
+  if [ -n "$redacted" ] && ! printf '%s' "$redacted" | grep -q "NO_PROPOSALS"; then
     ts="$(date -u +%Y%m%dT%H%M%SZ 2>/dev/null || date +%s)"
-    printf '%s\n' "$result" > "${OUT_DIR}/${ts}-${SESSION_ID}.md"
+    printf '%s\n' "$redacted" > "${OUT_DIR}/${ts}-${SESSION_ID}.md"
   fi
 ) </dev/null >/dev/null 2>&1 &
 disown 2>/dev/null || true

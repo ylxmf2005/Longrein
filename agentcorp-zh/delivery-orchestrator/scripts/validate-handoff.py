@@ -63,7 +63,7 @@ KNOWN_AGENTS = {
     "adversarial-reviewer", "api-contract-reviewer", "comment-optimizer",
     "review-researcher", "review-fixer", "test-leader", "api-contract-tester",
     "e2e-tester", "regression-tester", "acceptance-review-lead", "parallel-researcher",
-    "probe", "brainstorm", "explain", "walkthrough", "grill",
+    "probe", "brainstorm", "explain", "walkthrough", "grill", "retrospect",
     "authenticated-browser-session", "precommit-setup", "skill-evolution",
 }
 KNOWN_PHASES = {
@@ -80,7 +80,7 @@ KNOWN_ARTIFACT_TYPES = {
     "SpecialistReviewFindingSet", "SpecialistResearchReport", "ReviewResearchNote",
     "FixRecord", "FixResult", "TestExecutionResult", "VerificationReport",
     "AcceptanceDecision", "CompoundResult", "DeliveryReport", "ProbeReport",
-    "ChangeWalkthrough", "ResearchPackage", "ExplanationSet",
+    "ChangeWalkthrough", "ResearchPackage", "ExplanationSet", "RetrospectiveReport",
 }
 # Timestamp-first task ids browse in time order; the convention is load-bearing for
 # directory listings, so a violation warns loudly.

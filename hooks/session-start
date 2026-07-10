@@ -18,6 +18,19 @@ escape_for_json() {
     printf '%s' "$s"
 }
 
+# Codex has no SessionEnd: sweep stale Stop-hook state files (see hooks/codex-stop-capture).
+# A session whose last turn is >30 min old is over — run its capture analysis now, detached.
+codex_state_dir="${PLUGIN_ROOT}/teamspace/skill-evolution/.codex-sessions"
+if [ -d "$codex_state_dir" ]; then
+    find "$codex_state_dir" -maxdepth 1 -type f -mmin +30 2>/dev/null | while IFS= read -r state_file; do
+        stale_transcript="$(sed -n '1p' "$state_file" 2>/dev/null)"
+        stale_session="$(basename "$state_file")"
+        rm -f "$state_file" 2>/dev/null || true
+        [ -n "$stale_transcript" ] && [ -f "$stale_transcript" ] || continue
+        "${SCRIPT_DIR}/run-capture-analysis" "$stale_session" "$stale_transcript" "codex-stale-sweep" || true
+    done
+fi
+
 # Skill-evolution: surface any pending improvement proposals so the human knows (人类可知).
 pending_dir="${AGENTCORP_EVOLUTION_DIR:-${PLUGIN_ROOT}/teamspace/skill-evolution/pending}"
 combined_content="$router_content"

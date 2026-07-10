@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Codex `Stop` hook for the AgentCorp plugin — skill-evolution capture, Codex variant.
+#
+# Codex has no SessionEnd event, so capture cannot run "when the session ends". Instead:
+# every turn's Stop event records a tiny state file (no LLM, no cost), and the next
+# SessionStart (hooks/session-start) sweeps state files that have gone stale — a session
+# whose last turn is old enough is over, and only then does the analysis run, via
+# hooks/run-capture-analysis. Same proposals, same human gate, shifted trigger.
+#
+# Opt out with AGENTCORP_EVOLUTION_DISABLE=1.
+
+set -uo pipefail
+
+[ -n "${AGENTCORP_EVOLUTION_CAPTURE:-}" ] && exit 0
+[ "${AGENTCORP_EVOLUTION_DISABLE:-}" = "1" ] && exit 0
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+PAYLOAD="$(cat)"
+PARSED="$(printf '%s' "$PAYLOAD" | python3 -c '
+import sys, json
+try:
+    d = json.load(sys.stdin)
+except Exception:
+    d = {}
+for k in ("transcript_path", "session_id", "cwd"):
+    print(d.get(k, "") or "")
+' 2>/dev/null)" || exit 0
+
+TRANSCRIPT="$(printf '%s\n' "$PARSED" | sed -n '1p')"
+SESSION_ID="$(printf '%s\n' "$PARSED" | sed -n '2p')"
+
+[ -n "$TRANSCRIPT" ] && [ -f "$TRANSCRIPT" ] || exit 0
+[ -n "$SESSION_ID" ] || exit 0
+SESSION_ID="${SESSION_ID//[^A-Za-z0-9_-]/-}"
+
+# Same relevance gate as the Claude-side capture: only AgentCorp-active sessions.
+grep -q "AGENTCORP_SESSION_CONTEXT" "$TRANSCRIPT" 2>/dev/null || exit 0
+
+STATE_DIR="${PLUGIN_ROOT}/teamspace/skill-evolution/.codex-sessions"
+mkdir -p "$STATE_DIR" 2>/dev/null || exit 0
+
+# Overwrite on every turn: the file's mtime is the session's "last seen alive" clock.
+printf '%s\n%s\n' "$TRANSCRIPT" "codex-stale-sweep" > "${STATE_DIR}/${SESSION_ID}" 2>/dev/null || true
+
+exit 0

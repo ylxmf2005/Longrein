@@ -47,28 +47,6 @@ SESSION_ID="${SESSION_ID//[^A-Za-z0-9_-]/-}"
 # keeps cost and noise off unrelated sessions.
 grep -q "AGENTCORP_SESSION_CONTEXT" "$TRANSCRIPT" 2>/dev/null || exit 0
 
-# The CLI must exist to run the analysis; degrade silently if not.
-command -v claude >/dev/null 2>&1 || exit 0
-
-PROMPT_FILE="${SCRIPT_DIR}/skill-evolution-analyze.md"
-[ -f "$PROMPT_FILE" ] || exit 0
-OUT_DIR="${AGENTCORP_EVOLUTION_DIR:-${PLUGIN_ROOT}/teamspace/skill-evolution/pending}"
-LOG_DIR="${PLUGIN_ROOT}/teamspace/skill-evolution/.logs"
-mkdir -p "$OUT_DIR" "$LOG_DIR" 2>/dev/null || exit 0
-
-# Fire-and-forget so SessionEnd returns instantly; the analysis runs detached.
-(
-  prompt="$(cat "$PROMPT_FILE")
-
-SESSION_ID: ${SESSION_ID}
-TRANSCRIPT_PATH: ${TRANSCRIPT}
-END_REASON: ${REASON}"
-  result="$(AGENTCORP_EVOLUTION_CAPTURE=1 claude -p "$prompt" 2>"${LOG_DIR}/${SESSION_ID}.err")"
-  if [ -n "$result" ] && ! printf '%s' "$result" | grep -q "NO_PROPOSALS"; then
-    ts="$(date -u +%Y%m%dT%H%M%SZ 2>/dev/null || date +%s)"
-    printf '%s\n' "$result" > "${OUT_DIR}/${ts}-${SESSION_ID}.md"
-  fi
-) </dev/null >/dev/null 2>&1 &
-disown 2>/dev/null || true
-
-exit 0
+# The shared runner spawns the detached analysis (claude, falling back to codex) and
+# returns instantly; it degrades silently when no CLI or prompt file is present.
+exec "${SCRIPT_DIR}/run-capture-analysis" "$SESSION_ID" "$TRANSCRIPT" "$REASON"

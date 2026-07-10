@@ -55,6 +55,7 @@ The distilled judgment of every lane, in one place. Under `direct` these are you
 - A gap in the approved sources is named or blocks — never filled with invented architecture or scope.
 - Recommendations are reaction material, never decisions; unknowns are dug out of the territory and taught back, not interviewed out of the sponsor.
 - A semantic revision changes only the stated slice and preserves untouched content; rerunning the same revision should not produce a different artifact.
+- Every finished task leaves an asset that changes future behavior — a regression test, a repo rule, a sponsor-gated proposal — or an honest 无可沉淀.
 
 ## The sponsor's unknowns
 

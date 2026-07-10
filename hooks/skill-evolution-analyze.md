@@ -30,6 +30,7 @@ status: pending
 - **target**: <existing skill name, e.g. `delivery-orchestrator`> OR `NEW: <topic>`
 - **trigger**: user-noticed | agent-trial-and-error | external-research
 - **signal**: <1-3 privacy-minimized sentences of concrete evidence from the transcript — what actually happened; quote only the smallest useful redacted fragment>
+- **failing trajectory**: <which phase/gate the breakdown sits at, and whether the fault is trigger wording (description/router), a SKILL.md body rule, or a cross-skill contract; omit the proposal entirely if the session shows no concrete failure moment>
 - **proposed change**: <concrete: what to edit and how, or what to research; prefer enforcement/structure over adding prose that will be ignored>
 - **blast radius**: wording | behavior | structural | new-skill
 - **suggested lane**: fast | full

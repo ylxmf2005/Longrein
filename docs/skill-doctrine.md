@@ -199,17 +199,58 @@ exactly; run nothing destructive. Return per-skill rewrite notes.
   A skill may name another only when the mention changes runtime behavior (consumed
   input path, genuine redirect, roster row, escalation lane). If skill A claims "role
   B uses me before handoff", role B's own text must say so — otherwise the claim is
-  decorative and gets deleted or wired. Current wired pairs: probe↔parallel-researcher,
-  brainstorm→probe/parallel-researcher, explain↔walkthrough, solution-architect→
-  parallel-researcher, review-researcher→parallel-researcher (needs-human research
-  lane), implementation-engineer/review-fixer→comment-optimizer, testers→
-  authenticated-browser-session, api-contract-tester↔api-contract-reviewer.
+  decorative and gets deleted or wired. One-way arrows are honest bookkeeping: they
+  mean the target consumes assignments without needing to know the caller. Current
+  wired pairs: probe→parallel-researcher, brainstorm→probe/parallel-researcher,
+  brainstorm↔grill, grill→adversarial-reviewer↔grill (live interrogation vs written
+  finding set), explain↔walkthrough, solution-architect→parallel-researcher,
+  solution-architect↔api-contract-reviewer/api-contract-tester (interface-contract is
+  a named required input on both ends), review-researcher→parallel-researcher
+  (needs-human research lane), implementation-engineer/review-fixer→comment-optimizer,
+  testers→authenticated-browser-session.
 - **The orchestrator's "How this organization thinks" is a maintained mirror.** When
   a lane's iron law changes, or a lane is added/renamed/removed, that maxim list (and
-  the leads' rosters, workflow.md's Runtime Routing lists, router, READMEs) updates in
-  the same landing — a stale roster name is a routing bug, not cosmetics.
+  the leads' rosters, workflow.md's Runtime Routing lists, router, READMEs, and the
+  KNOWN_AGENTS/KNOWN_PHASES/KNOWN_ARTIFACT_TYPES ledgers in
+  `agentcorp/delivery-orchestrator/scripts/validate-handoff.py`) updates in the same
+  landing — a stale roster name is a routing bug, not cosmetics.
 
-## 10. Process for the rewrite
+## 10. Evolution rules (added 2026-07-09; govern how the corpus improves)
+
+Distilled from the optimization research (GEPA/ACE/skill-creator/superpowers) and the
+first behavioral-simulation round; the full playbook lives with the sponsor's records.
+
+- **No failing trajectory, no edit.** Every behavior-changing proposal cites a concrete
+  failed run (simulated or real usage), the gate/phase where it broke, and whether the
+  fault is trigger wording (description/router), a SKILL.md body rule, or a cross-skill
+  contract — the attribution decides which file changes. Wording polish with no
+  trajectory is rejected; it spends review bandwidth and buys no behavior.
+- **Local deltas only; never whole-file rewrites.** A rewrite-shaped edit (diff larger
+  than ~30% of the target file) is split or redesigned; wholesale regeneration loses
+  the hard boundary details (enums, floors, filename contracts) that carry the value.
+  The dual-tree variant of this trap: rewriting one tree and "translating" to the
+  other is a lossy rewrite of the mirror.
+- **Deterministic checks precede judged checks.** Contract-layer defects (paths, enums,
+  types, one-way references) are fixed mechanically and guarded by
+  `tools/test-validate-handoff.py` + the validators; simulation budget is spent only on
+  behavior questions no script can answer.
+- **Trigger changes are global routing changes.** Descriptions and router rows compete;
+  any change reruns `scenarios/routing-probes.md` against the whole table — a row
+  sharpened in isolation steals or loses its neighbors' traffic.
+- **Golden scenarios guard landings.** `scenarios/` holds the replayable set; an edit
+  claims its target scenario turns green AND the edited skill's wired partners (per the
+  pairs list above) stay green. S3/S6 (must stay light) and S8 (must stay heavy) are
+  the weight-calibration pair — never optimize one direction only.
+- **Parameters follow one convention.** `key:value` tokens parsed by the skill body +
+  natural-language synonyms + one-question fallback when a load-bearing value is
+  missing; booleans become binary enums; defaults sit at the maximum-effort end;
+  argument-hint (Claude) and openai.yaml default_prompt (Codex) are the two hint
+  surfaces and update together.
+- **Human-facing language follows the sponsor.** The orchestrator records the sponsor's
+  working language at intake and threads it as the assignment's `output_language`;
+  skills never hardcode an output language (zh-CN is only the unstated-default).
+
+## 11. Process for the rewrite
 
 - Fable writes EN. Exemplars first (taste-reviewer, correctness-reviewer as specialist
   pattern; probe as capability pattern), then Fable forks fan out by family with

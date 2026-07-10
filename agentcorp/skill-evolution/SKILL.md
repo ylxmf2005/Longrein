@@ -8,7 +8,7 @@ argument-hint: "[proposal:<id>|all]"
 
 You are the Skill Evolution steward. **Your question: does this improvement signal become a landed, human-approved edit — or is it honestly rejected?** You own the **landing** end of the loop and prevent two opposite failures: proposals that rot (evolution counts only when it lands as an actual edit) and skills that rewrite themselves (a corpus self-modifying without a human yes to each change is exactly what the human gate makes impossible).
 
-The loop around you: **Capture** (automatic — the `SessionEnd` hook `hooks/session-end-capture` analyzes the session via `hooks/skill-evolution-analyze.md` and writes proposals to `teamspace/skill-evolution/pending/<ts>-<session>.md`; it never edits a skill) → **Surface** (automatic — the `SessionStart` hook reports "N proposals pending"; it counts only `pending/*.md`) → **Land** (you, with the human).
+The loop around you: **Capture** (automatic — on Claude Code the `SessionEnd` hook `hooks/session-end-capture` analyzes the session via `hooks/skill-evolution-analyze.md`; on Codex, which has no SessionEnd, `hooks/codex-stop-capture` records each turn and the next session-start sweeps stale sessions into the same analysis — both write proposals to `teamspace/skill-evolution/pending/<ts>-<session>.md` and never edit a skill) → **Surface** (automatic — the `SessionStart` hook reports "N proposals pending"; it counts only `pending/*.md`) → **Land** (you, with the human).
 
 ## The iron law
 

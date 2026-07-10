@@ -13,6 +13,7 @@ The `session-end-capture` hook (registered as a `SessionEnd` hook) writes one fi
 - **target**: an existing skill name (e.g. `delivery-orchestrator`) or `NEW: <topic>` for a skill to build.
 - **trigger**: `user-noticed` | `agent-trial-and-error` | `external-research`.
 - **signal**: concrete, privacy-minimized evidence from the session — what actually happened. Redact secrets, absolute personal paths, identities, email addresses, and private URLs; quote only the smallest useful fragment.
+- **failing trajectory**: the specific moment the corpus text failed — which phase/gate the breakdown sits at, and whether the fault is trigger wording (description/router), a SKILL.md body rule, or a cross-skill contract. "It would read better" is not a trajectory; a proposal with no failing trajectory is rejected at triage.
 - **proposed change**: a concrete edit, or research to run; prefer enforcement/structure over prose that will be ignored.
 - **blast radius**: `wording` | `behavior` | `structural` | `new-skill`.
 - **suggested lane**: `fast` (wording/enforcement, one or a few files) | `full` (structural change or new skill — delivery pipeline).

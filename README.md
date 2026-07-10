@@ -25,7 +25,7 @@ AgentCorp exists to break that loop. It is a
 [loop engineering](https://addyosmani.com/blog/loop-engineering/) system for
 software delivery: it turns agent work from an uncontrollable, unreadable,
 untraceable black-box chain into a **controllable, understandable, verifiable**
-delivery loop. It includes **35 skills** drawn from enterprise-grade software
+delivery loop. It includes **36 skills** drawn from enterprise-grade software
 delivery practice, covering the full delivery loop and the supporting practices
 needed to run it in real projects. It works with both **Claude Code** and
 **Codex**.
@@ -100,7 +100,7 @@ traces every decision.
 
 ## Skills
 
-The 35 skills are grouped by delivery phase below (within a phase, planners, reviewers, and implementers sit together). Each skill's behavior is defined in
+The 36 skills are grouped by delivery phase below (within a phase, planners, reviewers, and implementers sit together). Each skill's behavior is defined in
 `agentcorp/<skill>/SKILL.md` and appears in the Claude Code and Codex skill
 pickers. Together, they cover the delivery loop and the supporting behaviors
 needed to run it in real projects.
@@ -142,6 +142,7 @@ needed to run it in real projects.
 - **Support**
   - `probe` — investigates unfamiliar territory before work starts and teaches the sponsor the terrain: the corrections to their map, the surprises, what "good" looks like locally, and a living unknowns ledger
   - `brainstorm` — turns an unclear request into sponsor-approved, testable requirements by pressure-testing intent, scope, and viability one question at a time
+  - `grill` — pressure-tests an existing plan, design, or argument through a relentless one-question-at-a-time interview with its owner, ending in an honest readiness verdict (`ready`/`needs-evidence`/`needs-redesign`/`blocked`)
   - `authenticated-browser-session` — holds a real logged-in browser session to verify authenticated flows without reading cookies or asking the user for tokens
   - `explain` — explains bugs, test progress, review findings, and delivery status at the reader's level — zero-context sponsor by default — with every conclusion carrying its status and evidence
   - `walkthrough` — turns a change into a teaching artifact — background first, intuition before code, the change as a story rather than a file list — ending in a quiz the sponsor must pass before merge

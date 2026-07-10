@@ -47,6 +47,45 @@ KNOWN_STATUS = {
 # inspectable evidence handle in its body — not just a green/red status word.
 TEST_STATUS_NEEDS_EVIDENCE = {"passed", "failed", "partial", "completed"}
 
+# A receipt is the owner reporting back; these statuses mean the work never concluded,
+# so a receipt carrying one is an error (fuzz case: receipt-status-assigned passed silently).
+RECEIPT_NOT_CONCLUDED = {"assigned", "in_progress", "active"}
+
+# Known ledgers (soft: unknown values warn, keeping drift visible without breaking runs).
+# Update on any skill add/rename or phase/artifact-type change — the skill-evolution
+# landing checklist and doctrine §9 name this file for exactly that reason.
+KNOWN_AGENTS = {
+    "delivery-orchestrator", "test-planner", "test-plan-reviewer", "solution-architect",
+    "implementation-planner", "plan-review-lead", "implementation-engineer",
+    "code-review-lead", "correctness-reviewer", "security-reviewer", "performance-reviewer",
+    "reliability-reviewer", "simplicity-reviewer", "change-hygiene-reviewer",
+    "standards-reviewer", "project-steward-reviewer", "taste-reviewer",
+    "adversarial-reviewer", "api-contract-reviewer", "comment-optimizer",
+    "review-researcher", "review-fixer", "test-leader", "api-contract-tester",
+    "e2e-tester", "regression-tester", "acceptance-review-lead", "parallel-researcher",
+    "probe", "brainstorm", "explain", "walkthrough", "grill",
+    "authenticated-browser-session", "precommit-setup", "skill-evolution",
+}
+KNOWN_PHASES = {
+    "validate-requirements", "test-plan", "test-plan-review", "architecture",
+    "impact-analysis", "diagnose", "interface-contract", "implementation-plan",
+    "plan-review", "implement", "code-review", "review-research", "fix", "verify",
+    "acceptance-review", "compound", "deliver",
+}
+KNOWN_ARTIFACT_TYPES = {
+    "TaskRecord", "TaskManifest", "PhaseAssignment", "PhaseReceipt", "AcceptancePackage",
+    "ValidatedRequirements", "TestPlan", "TestPlanReview", "ArchitectureDesign",
+    "ImpactAnalysis", "Diagnosis", "InterfaceContract", "ImplementationStorySpec",
+    "PlanReviewDecision", "ImplementationResult", "CodeReviewDecision",
+    "SpecialistReviewFindingSet", "SpecialistResearchReport", "ReviewResearchNote",
+    "FixRecord", "FixResult", "TestExecutionResult", "VerificationReport",
+    "AcceptanceDecision", "CompoundResult", "DeliveryReport", "ProbeReport",
+    "ChangeWalkthrough", "ResearchPackage", "ExplanationSet",
+}
+# Timestamp-first task ids browse in time order; the convention is load-bearing for
+# directory listings, so a violation warns loudly.
+TASK_ID_SHAPE = re.compile(r"^\d{8}-\d{6}-[a-z0-9][a-z0-9-]*$")
+
 _KV = re.compile(r"^([A-Za-z_][\w-]*):\s*(.*)$")
 
 
@@ -114,7 +153,42 @@ def check_shape(path, errors, warnings):
     status = scalars.get("status", "")
     if status and status not in KNOWN_STATUS:
         warnings.append(f"{path}: status '{status}' not in known set (typo? or update KNOWN_STATUS)")
+    if atype == "PhaseReceipt" and status in RECEIPT_NOT_CONCLUDED:
+        errors.append(f"{path}: a receipt with status '{status}' reports work that never concluded "
+                      f"(receipts carry an outcome, not a start marker)")
+    if atype and atype not in ENVELOPE_REQUIRED and atype not in KNOWN_ARTIFACT_TYPES:
+        warnings.append(f"{path}: artifact_type '{atype}' not in known ledger (typo? or update KNOWN_ARTIFACT_TYPES)")
+    phase = scalars.get("phase", "")
+    if phase and phase not in KNOWN_PHASES:
+        warnings.append(f"{path}: phase '{phase}' not in known set (typo? or update KNOWN_PHASES)")
+    for agent_key in ("from_agent", "to_agent", "author_agent"):
+        val = scalars.get(agent_key, "")
+        if val and val not in KNOWN_AGENTS:
+            warnings.append(f"{path}: {agent_key} '{val}' not a known skill (typo? or update KNOWN_AGENTS)")
+    tid = scalars.get("task_id", "")
+    if tid and not TASK_ID_SHAPE.match(tid):
+        warnings.append(f"{path}: task_id '{tid}' is not timestamp-first <YYYYMMDD-HHMMSS>-<slug> "
+                        f"(directory listings stop browsing in time order)")
     return scalars
+
+
+def check_nonempty_body(path, errors):
+    """A claimed primary artifact whose body is empty is a shell, not a deliverable."""
+    try:
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+    except OSError:
+        return
+    lines = text.splitlines()
+    body = text
+    if lines and lines[0].strip() == "---":
+        for i in range(1, len(lines)):
+            if lines[i].strip() == "---":
+                body = "\n".join(lines[i + 1:])
+                break
+    if len(body.strip()) < 20:
+        errors.append(f"{path}: artifact body is empty or near-empty (a receipt claimed this "
+                      f"as the phase deliverable)")
 
 
 def check_pair(assignment_path, receipt_path, task_root, errors, warnings):
@@ -132,13 +206,13 @@ def check_pair(assignment_path, receipt_path, task_root, errors, warnings):
     # the receipt's artifact_path should match the assignment's output_path
     out, art = a.get("output_path", ""), r.get("artifact_path", "")
     if out and art:
-        ok = art == out or (out.endswith("/") and art.startswith(out))
+        ok = art == out or (out.endswith("/") and art.startswith(out)) or art.startswith(out + "/")
         if not ok:
             errors.append(f"{receipt_path}: artifact_path '{art}' does not match assignment output_path '{out}'")
-    check_artifact_exists(receipt_path, r, task_root, errors)
+    check_artifact_exists(receipt_path, r, task_root, errors, warnings)
 
 
-def check_artifact_exists(receipt_path, receipt, task_root, errors):
+def check_artifact_exists(receipt_path, receipt, task_root, errors, warnings=None):
     art = receipt.get("artifact_path", "")
     if not art:
         return
@@ -149,9 +223,14 @@ def check_artifact_exists(receipt_path, receipt, task_root, errors):
                       f"(receipt says done, artifact missing)")
         return
     if os.path.isfile(resolved):
+        check_nonempty_body(resolved, errors)
         scalars, err = parse_frontmatter(resolved)
         if err:
             return  # artifact may legitimately have no frontmatter (e.g. an index) — don't fail on that
+        atype = scalars.get("artifact_type", "")
+        if warnings is not None and atype and atype not in ENVELOPE_REQUIRED and atype not in KNOWN_ARTIFACT_TYPES:
+            warnings.append(f"{resolved}: artifact_type '{atype}' not in known ledger "
+                            f"(typo? or update KNOWN_ARTIFACT_TYPES)")
         if scalars.get("task_id") and receipt.get("task_id") and scalars["task_id"] != receipt["task_id"]:
             errors.append(f"{resolved}: task_id '{scalars['task_id']}' != receipt task_id '{receipt['task_id']}'")
         author = scalars.get("author_agent", "")
@@ -208,7 +287,7 @@ def sweep(task_root, errors, warnings):
             warnings.append(f"{receipt_path}: no matching assignment '{os.path.basename(assignment_path)}'")
             r = check_shape(receipt_path, errors, warnings)
             if r:
-                check_artifact_exists(receipt_path, r, task_root, errors)
+                check_artifact_exists(receipt_path, r, task_root, errors, warnings)
 
 
 def main(argv):

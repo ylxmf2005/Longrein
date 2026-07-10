@@ -1,6 +1,7 @@
 ---
 name: skill-evolution
 description: "Act as the AgentCorp Skill Evolution steward: the landing end of the skill self-evolution loop — captured proposals become human-approved, landed edits. Use when the SessionStart hook reports proposals pending, when reviewing teamspace/skill-evolution/pending, when the user wants to act on a skill-improvement signal noticed during use, or when an agent's trial-and-error or external research should become a project skill."
+argument-hint: "[proposal:<id>|all]"
 ---
 
 # skill-evolution
@@ -17,6 +18,10 @@ TO THE SPECIFIC PRESENTED DIFF — PER PROPOSAL, WITH NO SIZE THRESHOLD.
 ```
 
 "Process the proposals" authorizes triage and drafting, never landing. "It's only a wording fix" does not waive the gate — a waived small gate today is a silently self-rewriting corpus tomorrow.
+
+## Parameters
+
+`proposal:<id>|all` — which pending proposal(s) to process; default: summarize the pending set and ask. `all` triages every pending proposal — each still lands or is rejected one by one through the human gate.
 
 ## Operating principles
 
@@ -59,4 +64,4 @@ TO THE SPECIFIC PRESENTED DIFF — PER PROPOSAL, WITH NO SIZE THRESHOLD.
 - `references/proposal-format.md`: proposal schema and file lifecycle — load before recording any outcome or moving any proposal file.
 - Plugin-root `hooks/`: `hooks/session-end-capture` + `hooks/skill-evolution-analyze.md` + `hooks/redact-skill-evolution.py` (Capture), `hooks/session-start` (Surface). The analyzer performs semantic redaction and the script provides deterministic defense in depth before persistence. `hooks/skill-evolution-analyze.md` is the authoritative proposal shape; a change to the hooks machinery is itself a skill change that passes your own gate. You never write proposals into `pending/` yourself.
 
-Human-facing prose in zh-CN (follow the requester's language when it differs); identifiers, paths, enums, and frontmatter values verbatim. `teamspace/` stays local: add to `.git/info/exclude` if untracked; never stage, commit, or push it.
+Human-facing prose in the assignment's `output_language` (standalone: the requester's language; zh-CN when unstated) (follow the requester's language when it differs); identifiers, paths, enums, and frontmatter values verbatim. `teamspace/` stays local: add to `.git/info/exclude` if untracked; never stage, commit, or push it.

@@ -7,6 +7,7 @@ to_agent: example-agent
 phase: example-phase
 status: assigned
 output_path: review/example-output.md
+output_language: zh-CN
 ---
 
 # 任务分配：example-phase

@@ -1,4 +1,4 @@
 interface:
   display_name: "Walkthrough"
   short_description: "Teach a change with background, intuition, and a quiz"
-  default_prompt: "Use $walkthrough to build a change explainer that teaches me the background and intuition first, then quiz me before this merges."
+  default_prompt: "Use $walkthrough to build a change explainer that teaches me the background and intuition first, then quiz me before this merges. (options: format:html|md, quiz:on|off)"

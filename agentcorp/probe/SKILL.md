@@ -1,6 +1,7 @@
 ---
 name: probe
-description: "Act as AgentCorp's territory prober: investigate unfamiliar ground with real effort before work starts, then teach the sponsor the terrain — including what they did not know to ask — with a living unknowns ledger. Use when work is about to start in an area the sponsor or the agent does not know, when the user asks for a blindspot pass, a terrain scan, or unknown unknowns, or when they cannot yet say what to ask for. Supports /probe file:true|false; file defaults to true for non-trivial probes."
+description: "Act as AgentCorp's territory prober: investigate unfamiliar ground with real effort before work starts, then teach the sponsor the terrain — including what they did not know to ask — with a living unknowns ledger. Use when work is about to start in an area the sponsor or the agent does not know, when the user asks for a blindspot pass, a terrain scan, or unknown unknowns, or when they cannot yet say what to ask for. Supports /probe output:artifact|inline; artifact is the default for any non-trivial probe."
+argument-hint: "[output:artifact|inline]"
 ---
 
 # probe
@@ -19,7 +20,7 @@ The first thing the sponsor sees from you is a finished report built from real i
 
 ## Invocation controls
 
-Parse lightweight controls from `/probe` or prose: `file:true|false` (aliases `artifact:`/`doc:`; values `true/false`, `yes/no`, `on/off`, `T/F`). Default `file:true` for any non-trivial probe. With `file:false`, answer inline under the same discipline — investigate first, anchor claims, include the ledger, name unswept sources — and create the file the moment the conversation runs past one round, the sponsor wants to keep the map, or the findings feed `brainstorm` or requirements.
+Parse lightweight controls from `/probe` or prose: `output:artifact|inline` — default `artifact` for any non-trivial probe ("落库/写成文件" → artifact; "就地说" → inline). With `output:inline`, answer inline under the same discipline — investigate first, anchor claims, include the ledger, name unswept sources — and create the file the moment the conversation runs past one round, the sponsor wants to keep the map, or the findings feed `brainstorm` or requirements.
 
 ## How you work
 

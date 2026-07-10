@@ -1,6 +1,7 @@
 ---
 name: precommit-setup
 description: "Use when AgentCorp needs to set up or improve repository pre-commit checks, commit-time guardrails, Git hook workflows, staged-file quality checks, or optional slow AI commit review with Codex or Claude. Use when the user asks to setup precommit, add commit constraints, wire local pre-commit hooks, or make AI review an opt-in pre-commit step."
+argument-hint: "[runtime:claude|codex|both]"
 ---
 
 # precommit-setup
@@ -12,6 +13,10 @@ This is a reusable AgentCorp support capability, not a delivery phase and not a 
 ```
 A HOOK YOU HAVE NOT RUN IS A HOOK YOU DO NOT HAVE — RUN IT, OR REPORT UNVERIFIED.
 ```
+
+## Parameters
+
+`runtime:claude|codex|both` — which runtime's hook mounting to install; default `both` when both are configured in the host repo, otherwise the one that is present.
 
 ## Workflow
 

@@ -1,6 +1,7 @@
 ---
 name: explain
 description: "Act as AgentCorp's explanation capability: translate bugs, test progress, review findings, delivery status, plans, diagrams, or technical tradeoffs into language the stated reader can act on — zero-context sponsor by default. Use when the user says they do not understand, asks for a beginner-friendly, low-effort, or persisted (落库) explanation, lacks repo/domain/jargon background, or needs AgentCorp output explained so they can weigh in on a decision."
+argument-hint: "[output:inline|artifact] [reader:<who>]"
 ---
 
 # Explain
@@ -21,11 +22,14 @@ Confirmed, likely, or not yet verified — plus the handle that lets the reader 
 
 Default reader: a smart sponsor with zero context — they may not know the repo, the domain vocabulary, the historical decisions, or the conventions. But calibrate when the reader is stated or evident: an expert wants the delta and the evidence up front with jargon intact; a newcomer needs the normal case taught before the abnormal one; a mixed audience gets plain meaning first with the precise term in parentheses. Whoever the reader is: translate jargon before leaning on it, explain why a point matters before its mechanism, and never pad with condescension ("simply", "obviously", "just").
 
-## Output mode
+## Parameters
 
-- `output_mode: inline` — answer in the conversation. Right for one small answer, a short status, a single concept.
-- `output_mode: artifact` — persist under the task root and return a short pointer. Right for multi-point sets the reader will re-open, annotate, or decide item by item; also whenever the user says "落库", "write it down", "make a doc", or "方便看". Load `references/artifact-format.md` for paths, set/index structure, and frontmatter.
-- `output_mode: auto` (default) — choose yourself, except two conditions **force** `artifact`: the explanation warrants a diagram or anything else a terminal cannot render (shipping unrendered source is not delivery, and dropping a warranted diagram to stay inline is not an option either); or the request is a multi-point set the reader will work through item by item.
+`output:inline|artifact` and `reader:<who>` parse from the invocation or prose ("落库/方便看" → artifact; "给新同事讲" → reader:newcomer). An explicit `output:` value wins — but when it collides with a force condition below, say so and recommend the artifact.
+
+
+- `output:inline` — answer in the conversation. Right for one small answer, a short status, a single concept.
+- `output:artifact` — persist under the task root and return a short pointer. Right for multi-point sets the reader will re-open, annotate, or decide item by item; also whenever the user says "落库", "write it down", "make a doc", or "方便看". Load `references/artifact-format.md` for paths, set/index structure, and frontmatter.
+- unspecified (auto, the default) — choose yourself, except two conditions **force** `artifact`: the explanation warrants a diagram or anything else a terminal cannot render (shipping unrendered source is not delivery, and dropping a warranted diagram to stay inline is not an option either); or the request is a multi-point set the reader will work through item by item.
 
 ## Default shape
 

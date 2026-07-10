@@ -7,6 +7,7 @@ to_agent: project-steward-reviewer
 phase: code-review
 status: assigned
 output_path: review/specialist-findings/project-steward-reviewer.md
+output_language: zh-CN
 ---
 
 # 任务分配：code-review

@@ -1,6 +1,7 @@
 ---
 name: brainstorm
 description: "Act as AgentCorp's requirement-shaping and open-thinking capability: explore an idea without forcing a conclusion, or turn an unclear request into sponsor-approved, observable requirements through focused questions or genuinely divergent proposal paths. Use when the user wants to think something through, brainstorm, compare directions, clarify or pressure-test requirements, or when sponsor intent, success criteria, scope, user journeys, or solution direction is unclear — especially during Delivery Orchestrator validate-requirements."
+argument-hint: "[mode:questions|proposals]"
 ---
 
 # Brainstorm
@@ -30,6 +31,10 @@ Both modes require a computed recommended default — it exists so the sponsor h
 - **Make the sponsor react, not compose.** Every question ships with 2–4 concrete candidate answers, their trade-offs, and your recommended default; every direction ships as a path complete enough to choose, refine, or reject.
 - **Ground factual claims.** When the answer depends on repo behavior, docs, or prior tasks, inspect the evidence first — the probe report when one exists, local standards (`AGENTS.md`, `README*`), prior `teamspace/` artifacts, related code — and carry the handle (`file:line`, command + output, doc path) into the decision record. Clone external references to a scratch location and read them as evidence; run nothing from them without explicit authorization. External evidence a quick read cannot settle — SOTA, prior art, a dependency's real capability — is a `parallel-researcher` lane, not brainstorm homework.
 - **Keep requirement vs implementation clean.** Brainstorm product behavior, journeys, success criteria, and scope; leave tables, modules, APIs, and algorithms to design unless the brainstorm is explicitly about a technical choice.
+
+## Parameters
+
+`mode:questions|proposals` parses from the invocation or prose; default: choose by the gap type (known unknowns → questions; unclear direction → proposals) and say which you chose. An explicit value overrides. The open-exploration stance below takes no mode — it is the no-conclusion-yet posture.
 
 ## Open exploration stance
 

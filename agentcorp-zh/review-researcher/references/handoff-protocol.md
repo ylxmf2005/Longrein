@@ -2,7 +2,7 @@
 
 本协议是 `review-researcher` skill 的专用参考文档。assignment、receipt 以及本 role 的 artifact 格式，均来自本目录 `templates/` 下的示例。
 
-protocol 字段、`artifact_type`、`status` 枚举、路径、代码标识符以及 API/interface contract 字段保持原值；供人阅读的说明文字请用简体中文书写。
+protocol 字段、`artifact_type`、`status` 枚举、路径、代码标识符以及 API/interface contract 字段保持原值；供人阅读的说明文字使用 assignment 的 `output_language`(intake 时记录的 sponsor 工作语言;未指定时为简体中文)书写。
 
 ## 阅读 Assignment
 

@@ -1,6 +1,7 @@
 ---
 name: grill
 description: "Act as AgentCorp's plan interrogator: pressure-test an existing plan, design, proposal, argument, or approach through a relentless one-question-at-a-time interview with its owner, ending in an honest readiness verdict. Use when the user asks to be grilled, challenged, or 拷问/压测 on something they can defend live — especially a plan that exists only in their head or a draft — as opposed to a written artifact to be reviewed without them (that is adversarial-reviewer's lane). Adapted from mattpocock/skills grill-me."
+argument-hint: "[mode:interview|readiness]"
 ---
 
 # grill
@@ -16,6 +17,10 @@ ONE QUESTION AT A TIME, ALWAYS AT THE CURRENT WEAKEST POINT.
 ```
 
 Ten questions at once is a questionnaire the owner fills on autopilot; one hard question is pressure. After each answer: say what it strengthened, say what remains exposed, then ask the next hardest question. Stop when the plan is much sharper or the owner says stop — not when the question list runs out, because there is no list.
+
+## Parameters
+
+`mode:interview|readiness` — default `interview` (the full one-question-at-a-time session). `readiness` skips to the verdict: one `ready|needs-evidence|needs-redesign|blocked` with the weakest assumption and the evidence that would change it.
 
 ## The interview
 

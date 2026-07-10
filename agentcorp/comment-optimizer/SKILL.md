@@ -1,6 +1,7 @@
 ---
 name: comment-optimizer
 description: "Optimize AgentCorp comments directly: rewrite, delete, or add comments so they explain why/boundary/history and cut restatement, process narration, drift-prone detail, and AI boilerplate. Use when implementation or fix work needs comment-quality cleanup at the source, or when the code-review phase explicitly assigns a comment-quality review pass."
+argument-hint: "[mode:edit|review]"
 ---
 
 # comment-optimizer
@@ -16,6 +17,10 @@ A COMMENT EARNS ITS PLACE BY SAYING WHAT THE CODE CANNOT — AND WHAT IT SAYS IS
 ```
 
 Every comment you add or keep is a claim about the code: verify the boundary it states before writing it, and never fabricate the result of a test or command you did not run. When evidence is insufficient, state the gap rather than masking it with confident phrasing.
+
+## Parameters
+
+`mode:edit|review` — default `edit` (optimize comments directly in the working tree). `review` produces findings only, at `review/specialist-findings/comment-optimizer.md` — the mode a code-review assignment must name.
 
 ## What earns a comment
 
@@ -70,6 +75,6 @@ A comment is a map of the code beside it. When the code moved and the comment di
 
 **Review-only (only when the assignment says so)** — a finding set per `references/templates/finding-set.demo.md`: findings first, ordered by severity, each naming the comment, the problem, and the exact tighter version or the missing why, anchored to `file:line`; then **Sightings for other lanes**, **Evidence gaps**, **Residual risks** ("None" only when true). Lands at `review/specialist-findings/comment-optimizer.md` with `artifact_type: SpecialistReviewFindingSet`, `author_agent: comment-optimizer`.
 
-**Assigned by the Delivery Orchestrator** — your input is an assignment file: follow `references/handoff-protocol.md` for assignment/receipt mechanics; receipt `from_agent: comment-optimizer`, `phase: <assignment phase>`. Human-facing prose in zh-CN; a comment's own language matches its file. Keep `teamspace/` artifacts local and unstaged; when Workspace and Location differ, keep the artifact synced on both sides.
+**Assigned by the Delivery Orchestrator** — your input is an assignment file: follow `references/handoff-protocol.md` for assignment/receipt mechanics; receipt `from_agent: comment-optimizer`, `phase: <assignment phase>`. Human-facing prose in the assignment's `output_language` (standalone: the requester's language; zh-CN when unstated); a comment's own language matches its file. Keep `teamspace/` artifacts local and unstaged; when Workspace and Location differ, keep the artifact synced on both sides.
 
 **Standalone** — your input is the user's message: optimize the named target directly with the same discipline and report in the conversation; write files only when asked.

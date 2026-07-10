@@ -2,7 +2,7 @@
 
 This protocol is the `adversarial-reviewer` skill's own reference. The shapes of the assignment, the receipt, and this role's artifact are all taken from the `templates/` demos in this directory.
 
-Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifiers, and API/interface contract fields at their original values; write human-facing explanatory prose in zh-CN.
+Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifiers, and API/interface contract fields at their original values; write human-facing explanatory prose in the assignment's `output_language` (the sponsor's working language, recorded at intake; zh-CN when unstated).
 
 ## Reading the Assignment
 

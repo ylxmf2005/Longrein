@@ -8,9 +8,9 @@
 codex plugin marketplace add ylxmf2005/AgentCorp
 ```
 
-启动 Codex，在 `/plugins` 菜单启用 **AgentCorp** 并重启。
+启动 Codex，在 `/plugins` 菜单里启用 **AgentCorp**，然后重启。
 
-单独安装某个技能（不装整个插件）：
+若只想装单个技能、而不是整个插件：
 
 ```
 use skill-installer to install the skill at repo ylxmf2005/AgentCorp path agentcorp/delivery-orchestrator
@@ -18,6 +18,6 @@ use skill-installer to install the skill at repo ylxmf2005/AgentCorp path agentc
 
 ## 生命周期 hook
 
-Codex 没有 `SessionEnd` 事件，插件的生命周期 hook 在 Codex 侧挂载方式不同：把 `hooks/codex-hooks.json` 拷贝或合并进 `<repo>/.codex/hooks.json`（或 `~/.codex/hooks.json`），并把 `AGENTCORP_PLUGIN_ROOT` 改成本仓库路径。
+Codex 没有 `SessionEnd` 事件，所以插件的生命周期 hook 在这里的挂载方式不同：把 `hooks/codex-hooks.json` 拷贝或合并进 `<repo>/.codex/hooks.json`（或 `~/.codex/hooks.json`），并把其中的 `AGENTCORP_PLUGIN_ROOT` 改成你这份检出的路径。
 
-两个运行时共用同一批脚本。在 Codex 上，skill-evolution 的 capture 通过 `Stop` hook 逐 turn 记录状态，下次会话启动时把闲置 30 分钟以上的会话扫进分析器。
+两个运行时共用同一批脚本。在 Codex 上，skill-evolution 的 capture 通过 `Stop` hook 逐轮记录，而下次会话启动时，会把闲置 30 分钟以上的会话扫进分析器。

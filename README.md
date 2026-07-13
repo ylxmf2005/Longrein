@@ -15,7 +15,7 @@ and an acceptance gate — plain-markdown Agent Skills that run on both
 
 English · [简体中文](README_CN.md)
 
-[Quick Start](#quick-start) · [How a Delivery Runs](#how-a-delivery-runs) · [Trust Architecture](#the-trust-architecture) · [Skills](#the-37-skills) · [Limitations](#honest-limitations)
+[Quick Start](#quick-start) · [How a Delivery Runs](#how-a-delivery-runs) · [Trust Architecture](#the-trust-architecture) · [Skills](#the-38-skills) · [Limitations](#honest-limitations)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/pipeline-dark.svg">
@@ -118,7 +118,7 @@ Four orthogonal knobs tune the collaboration per task:
 fabricate evidence, approve its own work, or skip re-running the original
 failing input, and a security/permission/data-loss surface auto-upgrades its
 phases to max, out loud. Individual skills take parameters the same way:
-`/agentcorp:probe output:inline`, `/agentcorp:explain reader:newcomer`.
+`/agentcorp:probe output:inline`, `/agentcorp:explain reader:newcomer`. The full catalog — every skill's parameters and what each effort tier buys — lives in [docs/parameters.md](docs/parameters.md).
 
 Be honest about the bill: a delegated multi-reviewer pipeline costs real tokens
 and wall-clock. That is exactly what `effort` prices — `low` approaches a

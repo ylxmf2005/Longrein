@@ -2,6 +2,8 @@
 
 [← back to README](../README.md) · [简体中文](skills_CN.md)
 
+Parameters for every skill are cataloged in [parameters.md](parameters.md).
+
 Skills are grouped by delivery phase (within a phase, planners, reviewers, and
 implementers sit together). Each skill's behavior is defined in
 `agentcorp/<skill>/SKILL.md` and appears in the Claude Code and Codex skill

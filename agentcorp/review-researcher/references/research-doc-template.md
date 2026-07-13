@@ -6,27 +6,30 @@ These files are the **human gate**: a person reads only this one file and then d
 
 Verdict values: **confirmed / false-positive / partial / needs-human**.
 
+Disposition values (confirmed/partial only, orthogonal to the verdict): **fix-now / defer**. `fix-now` (the default) goes to `review-fixer` after the human gate; `defer` means the problem is real but its fix lands outside this task — outside the requested scope per the requirements' Non-Goals, or the root-cause fix exceeds what this task's acceptance depends on. A `defer` always names the follow-up shape (its own MR/branch, a refactor task); the human gate may override the disposition in either direction.
+
 Severity values: **P0** (data loss/corruption, security exposure, or a mainline path broken for real users) / **P1** (wrong behavior a real caller will hit, but bounded or with a workaround) / **P2** (edge case, quality, or hygiene). Reviewers grade on their own scale; translate before comparing (critical→P0, major→P1, minor→P2 — steward's P3 folds into P2). When your verdict corrects the reviewer's severity, use the corrected value everywhere — the frontmatter, the title tag, and the index row.
 
 ---
 
 ## Index: `00-index.md`
 
-Fixed row order: those to fix first (confirmed, partial, ordered P0→P1→P2), needs-human next, **false positives at the bottom**. Leave the "human decision" column empty for a person to fill. The index carries no artifact frontmatter — it starts at the title, exactly as below.
+Fixed row order: those to fix first (confirmed, partial, ordered P0→P1→P2; within them, `fix-now` rows before `defer` rows), needs-human next, **false positives at the bottom**. Leave the "human decision" column empty for a person to fill. The index carries no artifact frontmatter — it starts at the title, exactly as below.
 
 ```markdown
 # Review Research Index
 
 This round has N issues in total. The verdict column tells you which need fixing and which are noise; click a link for the full research on a single problem; please fill in the "human decision" column after reading.
 
-| ID | Severity | One sentence | Verdict | Suggested fix | Human decision | Details |
-| --- | --- | --- | --- | --- | --- | --- |
-| F-01 | P0 | <one sentence stating clearly what this problem is> | Confirmed | <one-sentence fix> | | [details](F-01-confirmed-<slug>.md) |
-| F-04 | P2 | <one sentence> | Partial | <corrected one-sentence fix> | | [details](F-04-partial-<slug>.md) |
-| F-05 | P1 | <one sentence> | Needs-human | needs <who> to decide <what> | | [details](F-05-needs-human-<slug>.md) |
-| F-03 | P1 | <one sentence> | **False positive · no fix needed** | —— | | [details](F-03-false-positive-<slug>.md) |
+| ID | Severity | One sentence | Verdict | Disposition | Suggested fix | Human decision | Details |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| F-01 | P0 | <one sentence stating clearly what this problem is> | Confirmed | fix-now | <one-sentence fix> | | [details](F-01-confirmed-<slug>.md) |
+| F-04 | P2 | <one sentence> | Partial | fix-now | <corrected one-sentence fix> | | [details](F-04-partial-<slug>.md) |
+| F-02 | P1 | <one sentence> | Confirmed | **defer** → <follow-up shape> | <one-sentence root-cause fix> | | [details](F-02-confirmed-<slug>.md) |
+| F-05 | P1 | <one sentence> | Needs-human | —— | needs <who> to decide <what> | | [details](F-05-needs-human-<slug>.md) |
+| F-03 | P1 | <one sentence> | **False positive · no fix needed** | —— | —— | | [details](F-03-false-positive-<slug>.md) |
 
-Summary: X confirmed, Y partial (these two categories go to review-fixer to land after the human decision), W needs-human, Z false positives.
+Summary: X confirmed, Y partial (of these, the `fix-now` items go to review-fixer to land after the human decision; the `defer` items become follow-ups the sponsor sees at deliver), W needs-human, Z false positives.
 ```
 
 ---
@@ -43,6 +46,7 @@ author_agent: review-researcher
 finding_id: <id>
 verdict: <confirmed/false-positive/partial/needs-human>
 severity: <P0/P1/P2>
+disposition: <fix-now/defer — confirmed/partial only; omit the key otherwise>
 status: completed
 ---
 
@@ -90,6 +94,7 @@ Paste and explain code snippets for key evidence — the reader has no repo at h
 ## Suggested fix (when confirmed / partial)
 <A root-cause-level, minimal, elegant fix that conforms to existing layering and conventions. Give the direction and the key change points (paste a before/after snippet when needed).
 If the fix suggested by the original finding is an ugly patch or fails to cure the root cause, state clearly where it is ugly and why this version is cleaner.
+State the disposition here too: `fix-now` — this is what review-fixer lands; `defer` — name the follow-up shape (its own MR/branch, a refactor task), the evidence (the Non-Goals clause it falls outside, or the dependency this task's acceptance does not have on it), and why a scope-shrunk version landed now would be worse than deferring.
 This is a suggestion for review-fixer to land; this role does not touch product code.>
 
 ## Prevention / recurrence check
@@ -111,4 +116,5 @@ Run this over every file before delivery; if it hits any item, go back and rewri
 - the verdict does not appear in all three of the file name, title, and first sentence;
 - the "Human decision" block is missing, or content was checked/filled in for the human;
 - a confirmed or partial verdict whose "My verification and verdict" section does not walk the concrete failure path in the current code (this input → this branch → lands on this line → this wrong result), or names no caller/gate you read beyond the lines the finding cited;
-- a false positive / partial does not state clearly "why this is not (or not entirely) a problem to change."
+- a false positive / partial does not state clearly "why this is not (or not entirely) a problem to change";
+- a confirmed or partial file with no `disposition` in the frontmatter and index row, or a `defer` that names no follow-up shape or cites no evidence (the Non-Goals clause, or the dependency this task's acceptance does not have on it).

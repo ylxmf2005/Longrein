@@ -45,6 +45,12 @@ KNOWN_STATUS = {
 
 KNOWN_EFFORT = {"low", "medium", "high", "max"}
 
+# ReviewResearchNote vocabulary: verdict is the truth axis, disposition the landing axis
+# (fix-now lands in this task's fix phase; defer becomes a sponsor-visible follow-up).
+# Scope never bends the verdict — a real-but-deferred problem stays confirmed + defer.
+KNOWN_VERDICTS = {"confirmed", "false-positive", "partial", "needs-human"}
+KNOWN_DISPOSITION = {"fix-now", "defer"}
+
 # A TestExecutionResult with one of these statuses actually ran, so it must carry an
 # inspectable evidence handle in its body — not just a green/red status word.
 TEST_STATUS_NEEDS_EVIDENCE = {"passed", "failed", "partial", "completed"}
@@ -166,6 +172,7 @@ def check_shape(path, errors, warnings):
     phase = scalars.get("phase", "")
     if phase and phase not in KNOWN_PHASES:
         warnings.append(f"{path}: phase '{phase}' not in known set (typo? or update KNOWN_PHASES)")
+    check_research_vocab(path, scalars, warnings)
     for agent_key in ("from_agent", "to_agent", "author_agent"):
         val = scalars.get(agent_key, "")
         if val and val not in KNOWN_AGENTS:
@@ -175,6 +182,22 @@ def check_shape(path, errors, warnings):
         warnings.append(f"{path}: task_id '{tid}' is not timestamp-first <YYYYMMDD-HHMMSS>-<slug> "
                         f"(directory listings stop browsing in time order)")
     return scalars
+
+
+def check_research_vocab(path, scalars, warnings):
+    """ReviewResearchNote only: verdict (truth axis) and disposition (landing axis)."""
+    if scalars.get("artifact_type", "") != "ReviewResearchNote":
+        return
+    verdict = scalars.get("verdict", "")
+    disposition = scalars.get("disposition", "")
+    if verdict and verdict not in KNOWN_VERDICTS:
+        warnings.append(f"{path}: verdict '{verdict}' not in known set "
+                        f"confirmed|false-positive|partial|needs-human")
+    if disposition and disposition not in KNOWN_DISPOSITION:
+        warnings.append(f"{path}: disposition '{disposition}' not in known set fix-now|defer")
+    if verdict in ("confirmed", "partial") and not disposition:
+        warnings.append(f"{path}: {verdict} ReviewResearchNote carries no disposition "
+                        f"(fix-now|defer — the landing decision lives here, never bent into the verdict)")
 
 
 def check_nonempty_body(path, errors):
@@ -236,6 +259,8 @@ def check_artifact_exists(receipt_path, receipt, task_root, errors, warnings=Non
         if warnings is not None and atype and atype not in ENVELOPE_REQUIRED and atype not in KNOWN_ARTIFACT_TYPES:
             warnings.append(f"{resolved}: artifact_type '{atype}' not in known ledger "
                             f"(typo? or update KNOWN_ARTIFACT_TYPES)")
+        if warnings is not None:
+            check_research_vocab(resolved, scalars, warnings)
         if scalars.get("task_id") and receipt.get("task_id") and scalars["task_id"] != receipt["task_id"]:
             errors.append(f"{resolved}: task_id '{scalars['task_id']}' != receipt task_id '{receipt['task_id']}'")
         author = scalars.get("author_agent", "")

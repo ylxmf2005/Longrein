@@ -23,6 +23,13 @@ effort: high
 
 - 明确的非目标。
 
+## Baseline
+
+- Base 分支：origin/main（本次交付要合入哪里——intake 时确认的发起人意图，绝不从当前检出推断）
+- 工作分支：feat/example-task
+- Merge-base commit：<核实 baseline 时记录的 sha>
+- Stacked on：无。（或：<task_id> / <branch>——本任务只在父任务合入后才落地）
+
 ## 选定范式
 
 - enhancement/delta-design

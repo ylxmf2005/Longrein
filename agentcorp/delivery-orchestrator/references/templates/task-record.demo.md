@@ -23,6 +23,13 @@ effort: high
 
 - Explicit non-goals.
 
+## Baseline
+
+- Base branch: origin/main (what this delivery merges into — sponsor intent confirmed at intake, never inferred from the current checkout)
+- Working branch: feat/example-task
+- Merge-base commit: <sha recorded when the baseline was verified>
+- Stacked on: None. (or: <task_id> / <branch> — this task lands only after its parent merges)
+
 ## Selected Paradigm
 
 - enhancement/delta-design

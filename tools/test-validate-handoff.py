@@ -95,8 +95,34 @@ def compose(*ms):
     return m
 
 
+# Rewrites the GOOD triple into a review-research handoff whose artifact is a
+# ReviewResearchNote (verdict = truth axis, disposition = landing axis).
+RESEARCH_NOTE = compose(
+    sub("assignment", "to_agent: implementation-engineer", "to_agent: review-researcher"),
+    sub("assignment", "phase: implement", "phase: review-research"),
+    sub("receipt", "from_agent: implementation-engineer", "from_agent: review-researcher"),
+    sub("receipt", "phase: implement", "phase: review-research"),
+    sub("artifact", "artifact_type: ImplementationResult", "artifact_type: ReviewResearchNote"),
+    sub("artifact", "author_agent: implementation-engineer", "author_agent: review-researcher"),
+    sub("artifact", "status: implemented",
+        "status: completed\nverdict: confirmed\nseverity: P1\ndisposition: fix-now"),
+)
+
+
 CASES = [
     ("baseline stays clean", "CLEAN", lambda files: None),
+    ("research note confirmed + fix-now stays clean", "CLEAN", RESEARCH_NOTE),
+    ("research note confirmed + defer stays clean", "CLEAN",
+     compose(RESEARCH_NOTE, sub("artifact", "disposition: fix-now", "disposition: defer"))),
+    ("research note confirmed without disposition", "WARNED",
+     compose(RESEARCH_NOTE, sub("artifact", "\ndisposition: fix-now", ""))),
+    ("research note disposition gibberish", "WARNED",
+     compose(RESEARCH_NOTE, sub("artifact", "disposition: fix-now", "disposition: later-maybe"))),
+    ("research note verdict gibberish", "WARNED",
+     compose(RESEARCH_NOTE, sub("artifact", "verdict: confirmed", "verdict: probably-real"))),
+    ("research note needs-human without disposition stays clean", "CLEAN",
+     compose(RESEARCH_NOTE, sub("artifact", "verdict: confirmed", "verdict: needs-human"),
+             sub("artifact", "\ndisposition: fix-now", ""))),
     ("receipt status assigned (work never concluded)", "CAUGHT",
      sub("receipt", "status: completed", "status: assigned")),
     ("receipt status gibberish", "WARNED",

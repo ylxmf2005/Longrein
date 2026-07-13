@@ -10,6 +10,7 @@ Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifier
 - Resolve `output_path` relative to `task_root`; `output_path` points to this group's fix record `review/fix-records/<group-slug>.md`.
 - If the assignment has no `task_root`, derive it from the assignment file's location: find the parent `handoffs/` directory and take its parent directory as the task root.
 - Write this group's fix record at `output_path`; edit only the product code within `OWNED_FILES`; do not scatter any other artifacts beyond that.
+- Before editing, verify the checkout against the assignment's Baseline (base branch + merge-base commit from `task.md`): you are on the task's working branch and its history contains the merge-base. On mismatch, return `status: blocked` naming the drift — fixes landed on the wrong base corrupt every group's merge.
 - Return a receipt; the receipt's `artifact_path` points to this group's fix record path.
 - If a stop condition fires (missing research conclusions, an unavoidable out-of-bounds edit), return the receipt with `status: blocked` and name the blocker; per-item escalations (`needs-research` / `needs-human`) do not block the group — record them in the fix record and return `status: completed`.
 - The cross-group merge check and the `review/fix-result.md` rollup are done by the Delivery Orchestrator, not written by you.

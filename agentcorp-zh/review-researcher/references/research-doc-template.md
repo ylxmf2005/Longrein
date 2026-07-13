@@ -6,27 +6,30 @@
 
 裁决值：**confirmed / false-positive / partial / needs-human**。
 
+Disposition 值（仅 confirmed/partial 携带，与裁决正交）：**fix-now / defer**。`fix-now`（默认）在人类门控之后交给 `review-fixer` 落地；`defer` 表示问题是真的、但修复落在本任务之外——按需求的 Non-Goals 属于请求范围之外，或根因级修法超出了本任务验收所依赖的范围。`defer` 必须点名后续跟进的形态（独立 MR/分支、一项重构任务）；人类门控可以朝任一方向覆写 disposition。
+
 严重度值：**P0**（数据丢失/损坏、安全暴露、或真实用户的主流程中断） / **P1**（真实调用者会碰到的错误行为，但有边界或有 workaround） / **P2**（边界情况、质量或卫生问题）。各审查员都按自己的标度打分；比较前先做换算（critical→P0，major→P1，minor→P2——project-steward-reviewer 的 P3 并入 P2）。当你的裁决修正了审查者的严重度时，在所有地方使用修正后的值——frontmatter、标题标签、索引行。
 
 ---
 
 ## 索引：`00-index.md`
 
-固定行顺序：先排需要修复的（confirmed、partial，按 P0→P1→P2 排序），然后 needs-human，**误报放最底部**。"人类决策"列留空给人填写。索引不带 artifact frontmatter——从标题开始，完全如下所示。
+固定行顺序：先排需要修复的（confirmed、partial，按 P0→P1→P2 排序；其中 `fix-now` 行排在 `defer` 行之前），然后 needs-human，**误报放最底部**。"人类决策"列留空给人填写。索引不带 artifact frontmatter——从标题开始，完全如下所示。
 
 ```markdown
 # Review Research Index
 
 本轮共 N 个问题。裁决列告诉你哪些需要修复、哪些是噪音；点击链接查看单个问题的完整研究；请在阅读后填写"人类决策"列。
 
-| ID | Severity | One sentence | Verdict | Suggested fix | Human decision | Details |
-| --- | --- | --- | --- | --- | --- | --- |
-| F-01 | P0 | <用一句话清楚说明这个问题是什么> | Confirmed | <一句话修复方案> | | [details](F-01-confirmed-<slug>.md) |
-| F-04 | P2 | <一句话> | Partial | <修正后的一句话修复方案> | | [details](F-04-partial-<slug>.md) |
-| F-05 | P1 | <一句话> | Needs-human | 需要 <谁> 决定 <什么> | | [details](F-05-needs-human-<slug>.md) |
-| F-03 | P1 | <一句话> | **False positive · no fix needed** | —— | | [details](F-03-false-positive-<slug>.md) |
+| ID | Severity | One sentence | Verdict | Disposition | Suggested fix | Human decision | Details |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| F-01 | P0 | <用一句话清楚说明这个问题是什么> | Confirmed | fix-now | <一句话修复方案> | | [details](F-01-confirmed-<slug>.md) |
+| F-04 | P2 | <一句话> | Partial | fix-now | <修正后的一句话修复方案> | | [details](F-04-partial-<slug>.md) |
+| F-02 | P1 | <一句话> | Confirmed | **defer** → <后续跟进形态> | <一句话根因级修复方案> | | [details](F-02-confirmed-<slug>.md) |
+| F-05 | P1 | <一句话> | Needs-human | —— | 需要 <谁> 决定 <什么> | | [details](F-05-needs-human-<slug>.md) |
+| F-03 | P1 | <一句话> | **False positive · no fix needed** | —— | —— | | [details](F-03-false-positive-<slug>.md) |
 
-Summary: X confirmed, Y partial（这两类在人工决策后进入 review-fixer 落地），W needs-human, Z false positives.
+Summary: X confirmed, Y partial（其中 `fix-now` 项在人工决策后进入 review-fixer 落地；`defer` 项成为发起人在交付时看到的后续跟进项），W needs-human, Z false positives.
 ```
 
 ---
@@ -43,6 +46,7 @@ author_agent: review-researcher
 finding_id: <id>
 verdict: <confirmed/false-positive/partial/needs-human>
 severity: <P0/P1/P2>
+disposition: <fix-now/defer —— 仅 confirmed/partial 填写；其余裁决省略该键>
 status: completed
 ---
 
@@ -89,6 +93,7 @@ status: completed
 ## 建议修复（confirmed / partial 时）
 <根因级别的、最小化的、优雅的修复，符合既有分层与约定。给出方向和关键变更点（需要时粘贴 before/after 片段）。
 如果原始发现的建议修复是丑陋补丁或未能治愈根因，清楚说明它哪里丑陋以及为什么这个版本更干净。
+在这里也写明 disposition：`fix-now`——这就是 review-fixer 要落地的内容；`defer`——点名后续跟进形态（独立 MR/分支、一项重构任务）、证据（它落在哪条 Non-Goals 之外，或本任务验收对它没有的依赖），以及为什么现在落一个缩水版比延后更糟。
 这是给 review-fixer 落地的建议；本角色不触碰产品代码。>
 
 ## 预防 / 复发检查
@@ -110,4 +115,5 @@ status: completed
 - 裁决没有在文件名、标题、首句三个地方全部出现；
 - "Human decision"块缺失，或内容被代填/勾选；
 - confirmed 或 partial 裁决的 "My verification and verdict" 章节没有在当前代码中走过具体的失败路径（this input → this branch → lands on this line → this wrong result），或没有说出发现引用行之外的 caller/gate；
-- false positive / partial 没有清楚说明"为什么这（或这不完全）是一个需要改变的问题"。
+- false positive / partial 没有清楚说明"为什么这（或这不完全）是一个需要改变的问题"；
+- confirmed 或 partial 的文件在 frontmatter 和索引行里缺了 `disposition`，或一条 `defer` 没有点名后续跟进形态、没有引证据（哪条 Non-Goals，或本任务验收对它没有的依赖）。

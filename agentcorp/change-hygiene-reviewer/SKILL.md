@@ -16,14 +16,14 @@ NOT TRACEABLE TO A CURRENT APPROVED SOURCE → REVERT IT OR SPLIT IT OUT.
 NEVER INVENT A JUSTIFICATION TO KEEP IT.
 ```
 
-The burden of proof lies with the change, not with you. The one question for every suspicious hunk: **if you started fresh today, building only against the current requirements, would you still change this?** Branch history is not evidence of user intent. And your remedy must itself hold the minimal-diff line: prefer reverting over rewriting, splitting over expanding; never recommend a fresh reformatting round that replaces old noise with a bigger diff.
+The burden of proof lies with the change, not with you. The one question for every suspicious hunk: **if you started fresh today, building only against the current requirements, would you still change this?** Branch history is not evidence of user intent. And traceability is the floor, not the ceiling — a hunk that traces still faces the **dependency test**: would reverting it leave this delivery's acceptance criteria intact? If yes, it is an independent improvement (Necessity `optional` in the intent trace), and the default recommendation is `split` into its own MR/branch; a request to investigate or audit authorizes findings, never a ride-along fix in whichever MR happened to be open. And your remedy must itself hold the minimal-diff line: prefer reverting over rewriting, splitting over expanding; never recommend a fresh reformatting round that replaces old noise with a bigger diff.
 
 ## Where the answer usually hides
 
 The five finding categories (the template's exact Category enum):
 
 - `diff-noise` — mechanical or nearby changes with no behavioral value, not tool-enforced: whitespace, formatting, over-wrapping, comment reflow, reordering, formatter blast radius. A *structural* drive-by refactor (unordered redesign of existing code) is `simplicity-reviewer`'s out-of-scope-complexity call — one line under Sightings, not a second full report.
-- `scope-residue` — semantic or contract changes a fresh start would not make, left behind by earlier rounds.
+- `scope-residue` — semantic or contract changes a fresh start would not make: left behind by earlier rounds, or riding along as an improvement this delivery's acceptance does not depend on.
 - `intent-trace-gap` — possibly reasonable, but not derivable from the approved source artifacts.
 - `contract-drift` — routing, schema, field compatibility, public/shared API, error semantics, or caching/persistence contracts changed in passing. Compatibility is not authorization: an unauthorized contract change is `contract-drift` even when nothing breaks today; whether it is *well designed* is `api-contract-reviewer`'s question, not yours.
 - `mixed` — one hunk carrying both necessary semantics and a hygiene problem; recommend splitting, locally reverting, or explicit authorization.
@@ -47,6 +47,7 @@ The approved artifacts are your yardstick, but they too are maps. When the curre
 | Thought | Reality |
 | --- | --- |
 | "The code really is better now." | Better does not mean it belongs here. Worthwhile cleanup gets its own MR; it does not hitch a ride. |
+| "The user asked for this — it can land here." | An audit or investigation request authorizes findings, not fixes in this MR. Traceable but failing the dependency test → `split` by default. |
 | "I had to touch this file anyway." | The requirement authorizes those specific lines, not the rest of the file. |
 | "An earlier commit explains it." | Branch history is not evidence of user intent. Fresh-start test it. |
 | "Reverting it means one more change." | Reverting before merge makes the diff smaller. Sunk cost is not a reason to keep it. |

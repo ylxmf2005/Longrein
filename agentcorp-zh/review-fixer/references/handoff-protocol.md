@@ -10,6 +10,7 @@
 - 将 `output_path` 相对于 `task_root` 解析；`output_path` 指向本组的修复记录 `review/fix-records/<group-slug>.md`。
 - 如果任务分配没有 `task_root`，则从其文件位置推导：找到父级 `handoffs/` 目录，并取其父目录作为任务根目录。
 - 在 `output_path` 撰写本组的修复记录；仅编辑 `OWNED_FILES` 内的产品代码；不要在此之外散布其他产出。
+- 动手编辑之前，先按任务分配的 Baseline（来自 `task.md` 的 base 分支 + merge-base commit）核对检出状态：确认自己在任务的工作分支上，且其历史包含该 merge-base。对不上时，返回 `status: blocked` 并写明漂移——落在错误 base 上的修复会毁掉所有组的合并。
 - 返回一个回执；回执的 `artifact_path` 指向本组的修复记录路径。
 - 如果触发终止条件（缺失研究结论、不可避免的越界编辑），返回 `status: blocked` 的回执并注明阻塞原因；逐条升级（`needs-research` / `needs-human`）不阻塞整个组——将其记录在修复记录中并返回 `status: completed`。
 - 跨组合并检查和 `review/fix-result.md` 汇总由交付编排器完成，不由你撰写。

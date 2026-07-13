@@ -2,7 +2,7 @@
 
 # AgentCorp
 
-### 37 个 markdown 文件，装下一整个软件交付组织
+### 38 个 markdown 文件，装下一整个软件交付组织
 
 编排者、规划者、工程师、**12 条专项评审车道**、测试者、验收关卡——以纯 markdown 的
 Agent Skills 形式，同时运行在 **Claude Code** 与 **Codex** 上。没有任何角色能为自己的工作放行。
@@ -111,7 +111,7 @@ AgentCorp 把自己的技能也当作被测系统：
 
 而且这套纪律本身有回归实测：`scenarios/` 随仓发布用来演化系统的**黄金回归集**——九个埋了陷阱的交付任务，取材于真实的 agent 失败模式（一个自信地指错修复位置的 issue、一套改断言就是最省力绿灯的测试、一条藏在文档里而目标状态恰好靠违反它达成的政策、一个只有真实浏览器才能验证的缺陷），外加 24 条路由探针和 validator 的 fuzz 套件。任何技能修改都要重放它的目标场景和关联技能。
 
-## 37 项技能
+## 38 项技能
 
 | 阶段 | 技能 |
 | --- | --- |
@@ -121,7 +121,7 @@ AgentCorp 把自己的技能也当作被测系统：
 | **代码评审** | `code-review-lead` + 12 条车道：`correctness` · `security` · `performance` · `reliability` · `adversarial` · `simplicity` · `taste` · `change-hygiene` · `standards` · `comment-optimizer` · `project-steward` · `api-contract`，以及 `review-researcher`（熔断器）· `review-fixer` |
 | **验证** | `test-leader` · `e2e-tester` · `api-contract-tester` · `regression-tester` |
 | **验收** | `acceptance-review-lead` |
-| **配套** | `probe` · `brainstorm` · `grill` · `replay` · `explain` · `walkthrough` · `authenticated-browser-session` · `precommit-setup` · `skill-evolution` |
+| **配套** | `probe` · `brainstorm` · `grill` · `replay` · `explain` · `walkthrough` · `authenticated-browser-session` · `precommit-setup` · `skill-evolution` · `bilingual-document-authoring` |
 
 每个技能的一句话说明：[docs/skills_CN.md](docs/skills_CN.md)。
 

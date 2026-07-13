@@ -2,7 +2,7 @@
 
 # AgentCorp
 
-### An entire software delivery org in 37 markdown files
+### An entire software delivery org in 38 markdown files
 
 An orchestrator, planners, an engineer, **12 specialist review lanes**, testers,
 and an acceptance gate — plain-markdown Agent Skills that run on both
@@ -179,7 +179,7 @@ that the goal-state violates, a defect only a real browser can verify), plus 24
 routing probes and the validator fuzz suite. Any skill edit replays its
 scenario and its wired partners.
 
-## The 37 Skills
+## The 38 Skills
 
 | Phase | Skills |
 | --- | --- |
@@ -189,7 +189,7 @@ scenario and its wired partners.
 | **Code review** | `code-review-lead` + 12 lanes: `correctness` · `security` · `performance` · `reliability` · `adversarial` · `simplicity` · `taste` · `change-hygiene` · `standards` · `comment-optimizer` · `project-steward` · `api-contract`, then `review-researcher` (the circuit breaker) · `review-fixer` |
 | **Verification** | `test-leader` · `e2e-tester` · `api-contract-tester` · `regression-tester` |
 | **Acceptance** | `acceptance-review-lead` |
-| **Support** | `probe` · `brainstorm` · `grill` · `replay` · `explain` · `walkthrough` · `authenticated-browser-session` · `precommit-setup` · `skill-evolution` |
+| **Support** | `probe` · `brainstorm` · `grill` · `replay` · `explain` · `walkthrough` · `authenticated-browser-session` · `precommit-setup` · `skill-evolution` · `bilingual-document-authoring` |
 
 One-line description of every skill: [docs/skills.md](docs/skills.md).
 

@@ -4,7 +4,7 @@ SKILL.md covers the why; this covers the how. Load before writing the artifact.
 
 ## Form
 
-- **HTML (default):** one self-contained file — all CSS and JS inline, no network requests, no external fonts or CDNs. Long-form single page with section headers and a table of contents; do not use tabs for the top-level structure. Responsive enough to read on a phone. Code goes in `<pre>` blocks (if a styled `<div>` is used instead, it must set `white-space: pre-wrap`). Diagrams are inline HTML/SVG with example data — simplified UI mockups, system sketches, before/after pairs; never ASCII art. Use callout boxes for key concepts, definitions, and edge cases.
+- **HTML (default):** one self-contained file — all CSS and JS inline, no network requests, no external fonts or CDNs. Design and verify for a normal 1280–1440px desktop browser. Keep the decision spine in a vertical reading path; use tabs for peer modules or reference views when the large-change rules below call for them. Do not perform mobile screenshots, breakpoint tuning, touch optimization, or pixel-level responsive QA unless the sponsor explicitly requests mobile. Code goes in `<pre>` blocks (if a styled `<div>` is used instead, it must set `white-space: pre-wrap`). Diagrams are inline HTML/SVG with example data — simplified UI mockups, system sketches, before/after pairs; never ASCII art. Use callout boxes for key concepts, definitions, and edge cases.
 - **Markdown (`output_format: md`):** the same five sections; diagrams in Mermaid (validate syntax before delivery); quiz options and answers inside collapsed `<details>` blocks so answers stay hidden until opened.
 - Naming: `walkthrough/<slug>.html` under the task root, or `teamspace/walkthroughs/<YYYYMMDD>-<slug>.html` standalone. The slug names the change, not the branch.
 - **Information layering:** the main reading path is the sponsor's decision model, not a lossless source rendering. When complete source coverage matters, embed or link a clearly labeled appendix after the human narrative. The appendix preserves availability; it does not justify repeating every source section above it.
@@ -17,11 +17,24 @@ SKILL.md covers the why; this covers the how. Load before writing the artifact.
 - **Badges versus highlights:** a badge names the impact class; it is not the highlight. Use background text highlighting such as `<mark>` for the exact short phrase the reader must remember. Each consequential expanded concept should normally contain 1–3 such highlights in its body, not only in the summary.
 - **Highlight budget:** highlight only facts that change a decision, runtime result, compatibility expectation, or release action. Highlight a phrase or sentence, never an entire paragraph; color must not be the only carrier of meaning.
 
+## Navigation model for broad changes
+
+Before writing markup, make a coverage map with five buckets: **decision spine**, **peer modules/operations**, **cross-cutting flows**, **reference domains**, and **evidence**. Use that map to choose navigation:
+
+- **Vertical spine:** keep key unchanged/changed behavior, the end-to-end example, cross-module invariants, accepted rulings, risks, and the quiz in reading order. These depend on sequence and must not be hidden in tabs.
+- **Module atlas tabs:** when the change has three or more peer modules or operations, create one tab set so the reader can jump between them. Each tab should use the same compact contract where applicable: purpose, entry points/callers, authorization, state transition, emitted event/output, compatibility effect, and one decisive example. Omit irrelevant fields instead of filling boxes mechanically.
+- **Reference Desk tabs:** constants, permission matrices, state tables, schema/DDL, routes/callers, and migration conditions are lookup material. Put each substantial reference domain in its own tab instead of stacking all tables in the narrative.
+- **Depth inside tabs:** tab panels are not permission to expose everything. Use closed concept `<details>` inside a module tab, then a second evidence fold for code, SQL, or exhaustive contracts.
+- **When not to use tabs:** with one or two modules, use ordinary sections. Never split a single chronological flow, prerequisite chain, before/after explanation, or one decision across tabs.
+- **Interaction bar:** tab buttons must expose selected state, keyboard activation, and stable panel dimensions. Verify switching and deep links in one desktop viewport. Mobile behavior is out of scope unless requested.
+
+A common large architecture walkthrough therefore has: **always-visible decision surface → Module Atlas tabs → cross-cutting flows → Reference Desk tabs → rulings/risks → quiz**. This is a teaching layout, not a copy of the architecture document's section tree.
+
 ## Section contract
 
 1. **Background and stable contracts** — teach what already exists, then state the 5–8 important things that remain true after the change. Start where a newcomer needs to start, but do not retell the whole subsystem. The reader must know which public behavior, ownership boundary, workflow, or safety contract is intentionally unchanged before evaluating the delta.
 2. **Intuition** — the essence of the change before any code. State the problem the change solves and the shape of the solution in plain language, then trace **one toy example end to end**: a concrete input, what the old code did with it, what the new code does, and why the difference is the point. Prefer a small figure with example data over prose where it is clearer.
-3. **The pivotal changes, as a story** — select the few changes that alter the reader's mental model, usually 3–7. Narrate why each exists, what it enables, and what remains unchanged around it. Never file order, source-heading order, or an exhaustive field-by-field recital. For code changes, every shown hunk cites its real `path:line`; for design/plan/review walkthroughs, cite the source artifact section and show exact contracts only when they carry a decision.
+3. **The pivotal changes, as a story** — select the few changes that alter the reader's mental model, usually 3–7. Narrate why each exists, what it enables, and what remains unchanged around it. Never file order, source-heading order, or an exhaustive field-by-field recital. For broad changes, the narrative may introduce a Module Atlas whose peer topics are tabs; the cross-module story remains outside them. For code changes, every shown hunk cites its real `path:line`; for design/plan/review walkthroughs, cite the source artifact section and show exact contracts only when they carry a decision.
 4. **Behavior changes and risks** — a compact, complete account of what now behaves differently: new/changed outputs, error behavior, performance or compatibility effects, and — most valuable — interactions with pre-existing code paths the diff does not show. Write "none" for categories with none. Coverage is honest: anything in scope but not explained is listed here as explicitly not covered, with a reason.
 5. **Quiz** — 5–8 multiple-choice questions, each with 3–4 options, answers hidden until the reader commits (HTML: click to reveal; md: `<details>`). Every option's reveal explains why it is right or wrong. Difficulty: substantive enough to require genuine understanding, no gotchas, no trivia.
 
@@ -35,7 +48,18 @@ When the source is an architecture, requirements, implementation plan, or review
 4. **Why this shape** — rejected alternatives and their concrete cost.
 5. **Human rulings and risks** — accepted trade-offs, unresolved decisions, release consequences.
 
-Keep schema, full interfaces, complete migration conditions, module inventories, evidence references, and source text in progressively disclosed engineering appendices. Do not claim "same information" by duplicating the source into the main narrative.
+Translate the architecture by role, not by heading:
+
+| Architecture source | Walkthrough surface |
+| --- | --- |
+| Decision Summary + Unchanged Contracts | always-visible decision surface |
+| Target components and owned interfaces | Module Atlas tabs |
+| Changed flows and cross-component invariants | vertical cross-cutting story |
+| Schema, APIs, constants, migration conditions | Reference Desk tabs |
+| Compatibility, risks, non-goals, open questions | rulings/risks and quiz |
+| Source references and research evidence | nested evidence folds |
+
+For a cross-domain architecture, follow the decision surface with a tabbed Module Atlas and a separate tabbed Reference Desk. Keep schema, full interfaces, complete migration conditions, module inventories, evidence references, and source text in progressively disclosed reference views or engineering appendices. Do not claim "same information" by duplicating the source into the main narrative.
 
 ## Quiz mechanics
 
@@ -48,6 +72,9 @@ Keep schema, full interfaces, complete migration conditions, module inventories,
 - The first code block appears before the reader has been taught what the surrounding system does.
 - Sections 3's ordering mirrors `git diff --stat` output rather than the idea's structure.
 - The visible page mirrors the source artifact's headings, or gives every touched field/method equal prominence.
+- A change with three or more peer modules is rendered as one long stack even though readers need lateral lookup, or tabs are used to hide a single sequential story.
+- Module tabs use unrelated layouts and omit the comparable contract dimensions that let the reader contrast modules.
+- Mobile screenshots, breakpoint tuning, or touch-specific polish were performed without an explicit mobile requirement.
 - More than 5–8 knowledge units are expanded or equally prominent on initial load.
 - A closed concept summary is only a noun or title and does not state its purpose and one-sentence conclusion.
 - Code is collapsed, but the full conceptual explanation remains continuously expanded.

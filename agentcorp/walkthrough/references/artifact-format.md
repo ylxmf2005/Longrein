@@ -11,7 +11,7 @@ SKILL.md covers the why; this covers the how. Load before writing the artifact.
 
 ## Progressive disclosure and visual attention
 
-- **First viewport:** show the artifact name, one-sentence purpose, the key unchanged/changed model, one minimal diagram, and a **Surprise Map** with 3–6 links to behavior corrections, counterintuitive outcomes, compatibility changes, or release risks. Do not spend the first viewport on implementation detail.
+- **First viewport:** at a normal 1280×800 or 1440×900 desktop viewport, show the artifact name, one-sentence purpose, the key unchanged/changed model, and at least the beginning of the **Surprise Map** or next navigation surface. Keep the title to at most two visual lines and do not let typography consume the viewport. A minimal diagram may appear here when it fits; otherwise place it immediately after the Surprise Map. Do not spend the first viewport on implementation detail.
 - **Concept units:** pivotal concepts are closed `<details>` units by default. A summary must contain the concept name, what it is for, and a one-sentence conclusion or consequence; the reader should know whether to expand it without opening it. A dense artifact may expose many closed summary rows for scanning, but no more than 5–8 knowledge units may be default-open; after the overview, prefer all concept units closed.
 - **Expanded body:** opening a concept reveals the mechanism, example, trade-offs, failure modes, and affected behavior. Dense evidence inside it — code, SQL, DDL, full interfaces, exhaustive tables — belongs in a second nested `<details>` layer.
 - **Badges versus highlights:** a badge names the impact class; it is not the highlight. Use background text highlighting such as `<mark>` for the exact short phrase the reader must remember. Each consequential expanded concept should normally contain 1–3 such highlights in its body, not only in the summary.
@@ -29,6 +29,13 @@ Before writing markup, make a coverage map with five buckets: **decision spine**
 - **Interaction bar:** tab buttons must expose selected state, keyboard activation, and stable panel dimensions. Verify switching and deep links in one desktop viewport. Mobile behavior is out of scope unless requested.
 
 A common large architecture walkthrough therefore has: **always-visible decision surface → Module Atlas tabs → cross-cutting flows → Reference Desk tabs → rulings/risks → quiz**. This is a teaching layout, not a copy of the architecture document's section tree.
+
+## Source / Current / Target freshness
+
+- Put a compact revision stamp near the title: exact Source revision, exact Current revision, and Target only when an approved design remains unimplemented. Do not use a vague branch label such as "working tree based on" when a commit or dirty-state marker is available.
+- Phrase claims with an explicit lane when two lanes differ: `Source did ...`, `Current does ...`, `Target requires ...`. Never use `current` to mean both inspected code and approved architecture.
+- Before delivery, re-run the route/caller/test searches that support every `pending`, `not implemented`, compatibility bug, or public-surface claim. If Current moved, update the Surprise Map, module tabs, risks, route tables, and quiz together.
+- When Current now matches Target, collapse the two lanes and delete stale migration prose. Historical disagreement belongs in a short evidence fold, not in the present-tense decision surface.
 
 ## Section contract
 
@@ -81,6 +88,8 @@ For a cross-domain architecture, follow the decision surface with a tabbed Modul
 - Important expanded concepts contain no precise text highlight, or highlights appear only in badges/summaries.
 - Highlighting covers whole paragraphs or is so dense that the reader cannot tell what changes a decision or outcome.
 - The first viewport does not make both key unchanged and key changed behavior obvious.
+- At 1280×800 or 1440×900, oversized title/meta content pushes the Surprise Map and next navigation surface entirely below the first viewport.
+- Source, Current, and Target claims are mixed, use vague revisions, or retain `pending`/`current bug` statements that were not rechecked after the branch moved.
 - A dense appendix exists, but the main narrative still repeats most of it instead of teaching the decision.
 - A shown hunk has no `path:line` anchor, or an anchor was estimated rather than taken from the diff.
 - A behavior change you know about appears in neither section 4 nor the not-covered list.

@@ -47,7 +47,7 @@ the review depth from the diff and its risk:
 
 ```text
 /agentcorp:delivery-orchestrator <your prompt>
-/agentcorp:code-review-lead <your diff or review request>
+/agentcorp:code-review-lead <your prompt>
 ```
 
 Parameters remain available when you need explicit control; otherwise the skill

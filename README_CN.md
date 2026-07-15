@@ -45,7 +45,7 @@ codex plugin add agentcorp@agentcorp
 
 ```text
 /agentcorp:delivery-orchestrator <your prompt>
-/agentcorp:code-review-lead <your diff or review request>
+/agentcorp:code-review-lead <your prompt>
 ```
 
 只有在你需要明确控制时才要写参数；默认让技能根据任务、仓库与风险面自行判断。

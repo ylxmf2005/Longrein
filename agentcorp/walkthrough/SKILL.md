@@ -1,7 +1,6 @@
 ---
 name: walkthrough
 description: "Act as AgentCorp's walkthrough teacher: turn a diff, branch, MR, architecture, plan, review, or delivered task into a self-contained human teaching artifact gated by a comprehension quiz. Use when the sponsor should genuinely understand a change or dense technical artifact, asks for a walkthrough/change explainer/architecture explainer, wants the key unchanged and changed behavior, or asks for a comprehension quiz, understanding gate, 讲懂这次改动, or 考考我."
-argument-hint: "[format:html|md] [quiz:on|off]"
 ---
 
 # walkthrough

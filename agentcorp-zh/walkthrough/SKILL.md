@@ -1,7 +1,6 @@
 ---
 name: walkthrough
-description: "担任 AgentCorp 的变更讲解教师：把一段 diff、一个分支、一个 MR 或一项已交付的任务，做成一份自包含的教学产物，并用一场理解测验把关——发起人必须先通过，才能合并。当发起人应当真正弄懂一项自己缺背景的变更（而不只是裁决它），或者用户要求讲解、变更解释、理解测验、理解关卡，又或说"讲懂这次改动 / 考考我"时使用。"
-argument-hint: "[format:html|md] [quiz:on|off]"
+description: '担任 AgentCorp 的变更讲解教师：把 diff、分支、MR、Architecture、Plan、Review 或已交付任务做成自包含教学产物，并用理解测验把关。当发起人需要真正弄懂一项缺少背景的变更，或要求 walkthrough、变更讲解、Architecture 讲解、理解测验、理解关卡、讲懂这次改动、考考我时使用。'
 ---
 
 # walkthrough

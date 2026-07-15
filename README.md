@@ -2,12 +2,15 @@
 
 # AgentCorp
 
-### Make coding agents prove their work.
+### Turn coding agents into a software delivery organization.
 
-**A software-delivery system for Claude Code and Codex.**
+**Different roles explore, plan, build, challenge, and verify—while the decisions
+that matter stay with you.**
 
-AgentCorp organizes a task as a planned, independently reviewed, and verified
-delivery, with evidence you can inspect before you accept the result.
+Give AgentCorp one software task. It coordinates Claude Code and Codex around
+explicit ownership, independent judgment, human gates, and reusable context,
+then leaves code, review decisions, verification evidence, and a delivery record
+you can inspect and steer.
 
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-d97757)](#claude-code) [![Codex](https://img.shields.io/badge/Codex-plugin-1f2328)](#codex) [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-open%20standard-6366f1)](docs/skills.md)
 
@@ -64,14 +67,15 @@ AgentCorp separates those responsibilities and makes the handoffs inspectable:
 | Typical agent loop | AgentCorp |
 | --- | --- |
 | The agent writes the change and judges it | The workflow separates authors from approvers |
+| The human sees only the final answer | The sponsor shapes intent, can revise the route at recorded gates, and owns scope and residual risk |
 | A review finding immediately becomes a fix | The workflow requires `review-researcher` to re-prove it as a possible false positive |
 | "Tests pass" is the end of the story | Claims point to a path, log, response, or screenshot you can open |
 | A null check and a migration get the same process | Mode and effort scale the organization to the risk |
 | Lessons disappear with the session | `compound` turns them into tests, repo rules, or reviewer proposals |
 
-The result is not another prompt pack. It is an organization with contracts:
-who produces each artifact, who may approve it, and what evidence must exist
-before the work moves forward.
+AgentCorp is not a coding model, agent runtime, or prompt pack. It is a delivery
+organization with contracts: who produces each artifact, who may approve it,
+and what evidence must exist before the work moves forward.
 
 ## What You Get
 
@@ -165,34 +169,46 @@ handoffs are checked mechanically before their claims are trusted. See the
 
 [![AgentCorp delivery workflow](docs/assets/delivery-workflow.png)](docs/assets/delivery-workflow.excalidraw)
 
-AgentCorp follows the loop philosophy described in
-[Judgment Is Not a Moat, but a Water Source](https://efgli.com/posts/source-not-the-moat/):
-when AI makes prediction and action cheap, the scarce assets are accumulated
-context, practiced judgment, and a human willing to own the outcome. The goal
-is not a longer process. It is a loop that increases feedback density and leaves
-the human better able to participate in the next decision.
+AgentCorp does not send your prompt straight to a coder. The Delivery
+Orchestrator selects a risk-matched work path, assigns owners, and records the
+baseline, artifacts, and human gates in `task.md` and `manifest.md`.
+`interaction:auto` lets ready, reversible work continue between required
+decisions; `interaction:gate` pauses at every human gate.
 
-The main threat is the **unknown unknown**: the constraint nobody stated, the
-coupling outside the diff, the tacit preference that appears only after seeing
-the wrong design, or the confident review finding that is not actually true.
-AgentCorp reduces that uncertainty in five moves:
+1. **Shape the task with you.** The orchestrator records success criteria and
+   non-goals before implementation. On unfamiliar ground, `probe` investigates
+   code, tests, configuration, history, and prior lessons, then brings back a
+   terrain report and an unknowns ledger. When direction is unclear, `brainstorm`
+   offers complete alternatives; only the path you choose becomes a requirement.
+   An existing proposal can be pressure-tested live with `grill`.
+2. **Plan the proof before the code.** The Test Planner turns risk into executable
+   API, E2E, and regression playbooks. The Solution Architect produces the
+   diagnosis, impact analysis, architecture, or interface contract the task
+   needs. Independent reviewers decide whether the test plan and implementation
+   story are ready before an engineer builds from them.
+3. **Give every role a contract—and a separate approver.** A delegated role receives
+   an assignment naming its source files, baseline, edit boundary, and output
+   path, then returns a receipt that AgentCorp checks against the artifact on
+   disk. The Implementation Engineer cannot approve its own work; the Code
+   Review Lead convenes only the specialist lanes the actual risk calls for.
+4. **Research findings before fixing them.** A routed review finding enters
+   `review/research/` as a hypothesis, not a fact. The Review Researcher traces it
+   independently and records `confirmed`, `false-positive`, `partial`, or
+   `needs-human`, plus whether it should be fixed now or deferred. The Review
+   Fixer receives only verified items that are approved to land in this task.
+5. **Prove the delivery against the original intent.** The Test Leader assigns
+   API, E2E, regression, and risk-specific testers, then opens their logs,
+   responses, screenshots, or command output before issuing a verification
+   decision. The Acceptance Review Lead independently maps that evidence back to
+   every Must Have and reports any unverified behavior or residual risk.
 
-1. **Discover blind spots.** Probe the territory, expose assumptions, and turn
-   unknown unknowns into questions before they harden into implementation.
-2. **Make judgment explicit.** Requirements, tests, design decisions, boundaries,
-   and trade-offs become inspectable contracts instead of temporary chat context.
-3. **Challenge the smooth answer.** Independent reviewers look from different
-   failure angles, and review findings are re-researched before fixes land.
-4. **Adjudicate evidence.** Verification, acceptance, explanations, and
-   walkthroughs keep the human capable of understanding and intervening, not
-   merely clicking approve.
-5. **Compound the consequences.** Deviations, failed assumptions, and accepted
-   judgments become tests, repository rules, research memory, and better future
-   constraints.
-
-Human gates stop the flow at decisions that belong to you. Their outcomes are
-recorded rather than silently inferred, so context and judgment can accumulate
-across tasks instead of disappearing with the session.
+Human participation is not a final approval button. At recorded gates you can
+revise requirements or design, change a finding from `fix-now` to `defer`, request
+more evidence, or accept a stated residual risk. If the decision arrives without
+enough understanding, `explain` or `walkthrough` rebuilds the missing context
+before the gate is asked again. After delivery, `compound` turns useful lessons
+into tests, repository rules, or human-approved proposals for improving the
+organization itself.
 
 ## Scale the Process to the Risk
 

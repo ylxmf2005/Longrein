@@ -2,12 +2,13 @@
 
 # AgentCorp
 
-### 让编程 Agent 为自己的工作拿出证据。
+### 把编程 Agent 组织成一支软件交付团队。
 
-**一套运行于 Claude Code 与 Codex 的软件交付系统。**
+**不同角色负责探查、规划、实现、质疑与验证；真正重要的决定回到你手里。**
 
-AgentCorp 把一个任务组织成经过规划、独立评审和验证的交付，让你在接受结果之前，
-就能亲自打开证据判断它是否可靠。
+给 AgentCorp 一个软件任务。它会在 Claude Code 与 Codex 上编排职责明确、相互制衡的角色，
+并用人工门禁和可复用上下文串起全过程，最后留下代码、评审结论、验证证据，以及一份你能检查、
+能改道的交付记录。
 
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-d97757)](#claude-code) [![Codex](https://img.shields.io/badge/Codex-plugin-1f2328)](#codex) [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-open%20standard-6366f1)](docs/skills_CN.md)
 
@@ -60,13 +61,14 @@ AgentCorp 拆开这些职责，并让交接过程可以检查：
 | 常见的 Agent 工作方式 | AgentCorp |
 | --- | --- |
 | Agent 写完改动，再评价自己的工作 | 工作流把作者与批准者分开 |
+| 人只在最后看到一份答案 | 发起人参与塑造意图、可在已记录门禁改道，并保留范围与残余风险的决定权 |
 | 一条评审发现直接变成修复 | 工作流要求 `review-researcher` 先把它当作可能的误报重新证实 |
 | 「测试通过」就是故事的结尾 | 每个结论都指向可打开的路径、日志、响应或截图 |
 | 空值检查与系统迁移走同一套流程 | mode 与 effort 按风险伸缩整个组织 |
 | 会话结束，教训也随之消失 | `compound` 把教训变成测试、仓库规则或 reviewer 提案 |
 
-因此它不是另一套提示词合集，而是一套带契约的组织：谁产出每份材料、谁有权批准，
-以及工作继续推进前必须先存在哪些证据。
+AgentCorp 不是新的 coding model、Agent runtime 或提示词合集，而是一套带契约的交付组织：
+谁产出每份材料、谁有权批准，以及工作继续推进前必须先存在哪些证据。
 
 ## 最终会留下什么
 
@@ -159,24 +161,34 @@ frontmatter；委派交接的声明在进入审计记录前先经过机械校验
 
 [![AgentCorp 交付流程](docs/assets/delivery-workflow.png)](docs/assets/delivery-workflow.excalidraw)
 
-AgentCorp 延续了
-[《判断力不是护城河，而是水源》](https://efgli.com/zh/posts/source-not-the-moat/)
-里的循环哲学：当 AI 让预测和执行都变得便宜，稀缺的是不断积累的上下文、持续练习的
-判断力，以及愿意为结果负责的人。目标不是把流程做得更长，而是提高反馈密度，让人参与
-完这一轮后，更有能力参与下一次决策。
+AgentCorp 不会把你的 prompt 直接丢给一个 coding agent。Delivery Orchestrator 会按任务
+与风险选择工作路线、分配 owner，并在 `task.md` 与 `manifest.md` 中记录代码基线、
+阶段产物和人工门禁。`interaction:auto` 会在必须由人决定的位置之间继续推进已就绪、
+可逆的工作；`interaction:gate` 则会在每道人工门禁停下。
 
-真正危险的是 **unknown unknown**：没人写下的约束、diff 外的耦合、只有看到错误方案后
-才显现的隐性偏好，或者一条听起来很自信、实际上并不成立的评审发现。AgentCorp 用五个
-动作降低这类不确定性：
+1. **和你一起把任务定义清楚。** 编排器会在实现前记录成功标准与非目标。遇到陌生领域时，
+   `probe` 会调查代码、测试、配置、历史和过往经验，再带回一份领域报告与未知项台账。
+   方向不清晰时，`brainstorm` 会提供完整的候选路径；只有你选中的方向才会成为需求。
+   已经存在的方案还可以用 `grill` 现场压测。
+2. **写代码前，先设计怎样证明它。** Test Planner 把风险写成可直接执行的 API、E2E 和回归测试手册。
+   Solution Architect 按任务需要产出故障诊断、影响分析、架构或接口契约。独立 reviewer 会在
+   工程师开始实现前，判断测试计划和 Implementation Story 是否真的已经就绪。
+3. **每个角色都拿到明确契约，也有不同的批准者。** 被委派的角色会收到一份 assignment，列明来源文件、
+   代码基线、可编辑边界与输出路径；完成后返回 receipt，AgentCorp 再根据实际落盘产物进行检查。
+   Implementation Engineer 不能批准自己的工作；Code Review Lead 只会根据实际风险召集必要的
+   专项 reviewer。
+4. **评审发现经过重新研究，才能进入修复。** 被路由处理的 finding 进入 `review/research/` 时只是一个
+   待证假设，而不是事实。Review Researcher 会独立追踪它，并记录 `confirmed`、`false-positive`、
+   `partial` 或 `needs-human`，以及它应当现在修复还是延后。Review Fixer 只会收到经过验证、
+   并已决定在本任务落地的项目。
+5. **按最初的意图证明这次交付。** Test Leader 分派 API、E2E、回归和风险专项 tester，打开它们的日志、
+   响应、截图或命令输出后，才能给出验证结论。Acceptance Review Lead 再独立把这些证据对应回
+   每条 Must Have，并报告任何尚未验证的行为或残余风险。
 
-1. **先发现盲区。** 在实现前探查领域、暴露假设，把 unknown unknowns 变成可以回答的问题。
-2. **把判断写出来。** 需求、测试、设计决策、边界和取舍不再只是临时对话，而是可检查的契约。
-3. **挑战顺滑答案。** 独立 reviewer 从不同失败角度发难；评审发现经过重新研究，才进入修复。
-4. **裁定证据。** 验证、验收、解释和 walkthrough 让人保持理解与干预能力，而不只是点一下批准。
-5. **沉淀后果。** 偏差、失败假设和人的裁定变成测试、仓库规则、研究记忆和下一轮更好的约束。
-
-属于人的决策会停在人工门禁前，结果会被记录而不是静默推断。这样，上下文与判断力才能
-跨任务积累，而不是随着会话结束一起消失。
+人的参与不是最后点一下批准。在已记录的人工门禁，你可以修改需求或设计，把 finding 从 `fix-now`
+改为 `defer`，要求补充证据，或接受一项已明示的残余风险。如果你尚不具备做决定所需的理解，
+`explain` 或 `walkthrough` 会先补回缺失的上下文，再重新发起门禁。交付后，`compound` 会把值得保留的经验
+变成测试、仓库规则，或必须经人批准才能落地的组织改进提案。
 
 ## 按风险调节流程
 

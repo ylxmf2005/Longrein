@@ -185,7 +185,7 @@ AgentCorp 延续了
 | 旋钮 | 取值 | 控制什么 |
 | --- | --- | --- |
 | `mode:` | `direct` \| `partial` \| `full` | 谁执行各阶段、谁负责评审 |
-| `pace:` | `continuous` \| `guided` | 到检查点再汇报，还是一次一份产物、边做边讲 |
+| `interaction:` | `auto` \| `gate` | 跳过可选人工暂停，或在每道人工门禁停下 |
 | `effort:` | `low` \| `medium` \| `high` \| `max` | 召集多少独立覆盖与冗余 |
 | `lang:` | 任意语言 | 所有面向人的产物使用什么语言 |
 

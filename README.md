@@ -201,7 +201,7 @@ Four independent knobs tune a delivery:
 | Knob | Values | Controls |
 | --- | --- | --- |
 | `mode:` | `direct` \| `partial` \| `full` | who executes the phases and who reviews them |
-| `pace:` | `continuous` \| `guided` | checkpoint reporting or one-artifact-at-a-time teaching |
+| `interaction:` | `auto` \| `gate` | skip optional sponsor pauses or stop at every human gate |
 | `effort:` | `low` \| `medium` \| `high` \| `max` | how much independent coverage and redundancy to convene |
 | `lang:` | any language | the language of every human-facing artifact |
 

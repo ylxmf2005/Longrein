@@ -167,21 +167,34 @@ handoffs are checked mechanically before their claims are trusted. See the
 
 [![AgentCorp delivery workflow](docs/assets/delivery-workflow.png)](docs/assets/delivery-workflow.excalidraw)
 
-Give AgentCorp a task, and the Delivery Orchestrator selects the roles and work
-path that fit its scope and risk.
+Give AgentCorp a task, and the Delivery Orchestrator does not immediately hand
+it to a coding agent. It first establishes what the task should solve, what
+counts as done, and where it is most likely to fail. On unfamiliar ground,
+`probe` investigates the actual code, tests, and existing constraints to uncover
+blind spots; when the direction is still open, `brainstorm` offers concrete paths
+for you to compare and choose.
 
-1. **Define the task before writing code.** When the territory is unfamiliar,
-   `probe` investigates it first; when the direction is open, `brainstorm` gives
-   you concrete paths to choose from. The workflow then settles the success
-   criteria, test approach, and design.
-2. **Separate implementation from judgment.** Different roles plan, build,
-   independently review, and recheck review findings. Authors do not approve
-   their own work, and an unverified finding does not go straight into a fix.
-3. **Finish with evidence and a record.** The checks the task requires—including
-   API, E2E, or regression testing when applicable—go through verification and
-   acceptance. At human gates you can revise the direction, request an explanation
-   or walkthrough, or decide how to handle stated risk; reusable lessons can be
-   routed through `compound`.
+Once the direction is settled, the Test Planner, Solution Architect, and
+Implementation Engineer move the test strategy, design, and implementation
+forward. After implementation, the Code Review Lead convenes the specialist
+reviewers required by the risks in the change instead of leaving authors to
+judge their own work.
+
+Review findings do not become fix tasks automatically. The Review Researcher
+re-investigates each finding and distinguishes confirmed defects, partial issues,
+false positives, and questions that need human judgment. Only confirmed items
+approved for the current task go to the Review Fixer, and fixes are reviewed
+again rather than treated as proof that the issue is resolved.
+
+Finally, the Test Leader organizes the API, E2E, regression, or other verification
+the task requires, and the Acceptance Review Lead maps the evidence back to the
+original goals. Along the way, you can decide requirements, design trade-offs,
+disputed findings, and residual risks, using `explain` or `walkthrough` when you
+need to understand the change before deciding.
+
+When the task ends, AgentCorp preserves its goals, key decisions, phase owners,
+review conclusions, checks actually run, and unresolved issues, so the result can
+be inspected, traced, and continued by someone else.
 
 ## Scale the Process to the Risk
 

@@ -159,15 +159,25 @@ frontmatter；委派交接的声明在进入审计记录前先经过机械校验
 
 [![AgentCorp 交付流程](docs/assets/delivery-workflow.png)](docs/assets/delivery-workflow.excalidraw)
 
-给 AgentCorp 一个任务，Delivery Orchestrator 会按它的范围与风险选择合适的角色和工作路线。
+给 AgentCorp 一个任务后，Delivery Orchestrator 不会立即把它交给 coding agent，而是先确认
+要解决什么、怎样算完成，以及哪里最容易出错。面对陌生领域，`probe` 会调查真实代码、
+测试和已有约束，找出尚未暴露的盲区；方向还没有确定时，`brainstorm` 会提出几条具体路径，
+由你比较和选择。
 
-1. **写代码前先把任务定义清楚。** 遇到陌生领域时，`probe` 先做调查；方向尚未确定时，
-   `brainstorm` 给出可以选择的具体方案。然后工作流再确定成功标准、测试方式和实施方案。
-2. **把实现与判断分开。** 不同角色负责规划、实现、独立评审和评审发现复核。作者不能批准
-   自己的工作，尚未证实的评审发现也不会直接进入修复。
-3. **用证据和记录完成交付。** 任务需要的 API、E2E 或回归检查会经过验证与验收。
-   在人工门禁，你可以修改方向、要求解释或 walkthrough，或决定如何处理已明示的风险；
-   值得保留的经验可以进入 `compound`。
+方向确定后，Test Planner、Solution Architect 和 Implementation Engineer 分别推进测试规划、
+设计与实现。实现完成后，Code Review Lead 会根据改动涉及的风险召集相应的专项 reviewer，
+而不是让实现者评价自己的工作。
+
+评审发现也不会直接变成修复任务。Review Researcher 会重新检查每项发现，区分真实缺陷、
+部分成立、误报和需要人判断的问题；只有经过确认并决定在当前任务处理的项目，才会交给
+Review Fixer。修复完成后还要重新评审，避免“修复了评审意见”被直接等同于“问题已经解决”。
+
+最后，Test Leader 根据任务风险组织 API、E2E、回归或其他必要验证，Acceptance Review Lead 再把
+实际证据对应回最初目标。整个过程中，你可以在需求方向、设计取舍、评审争议和剩余风险等节点
+参与决定，也可以通过 `explain` 或 `walkthrough` 先理解改动再作判断。
+
+任务结束后，AgentCorp 会保留任务目标、关键决定、阶段负责人、评审结论、实际检查和未解决的问题，
+让最终结果不仅可以使用，也能被检查、追溯和继续接手。
 
 ## 按风险调节流程
 

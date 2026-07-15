@@ -9,7 +9,7 @@ status: assigned
 group_slug: <this group's short English slug>
 output_path: review/fix-records/<group-slug>.md
 output_language: zh-CN
-effort: high
+workflow: expanded
 ---
 
 # Assignment: fix (single group)

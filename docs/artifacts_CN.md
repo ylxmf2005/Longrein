@@ -22,6 +22,9 @@ teamspace/
     ├── probe/                            # 可选：需求前的地形报告，附持续更新的未知项台账
     │   └── 00-probe.md
     │
+    ├── scope-challenge/                  # 实质改道前的独立只读检查
+    │   └── 001-permission-model.md       # ScopeChallengeReport：维持路线 / 呈现选择 / 要求重构问题框架
+    │
     ├── handoffs/                         # 委派阶段的分派/回执闭环
     │   ├── 001-validate-requirements.md
     │   ├── 001-validate-requirements-receipt.md
@@ -34,6 +37,8 @@ teamspace/
     │
     ├── design/                           # 按需创建；多份设计产物可并存
     │   ├── architecture.md               # 全新/子系统设计：组件、数据/状态流、接口、取舍
+    │   ├── dual-design-runs/              # Activation 后的 immutable run chain；proposal 保持非规范
+    │   │   └── <run-id>/generation-000000.md
     │   ├── impact-analysis.md            # 增量设计：受影响模块、当前与目标行为、风险、须保留的行为
     │   ├── diagnosis.md                  # Bug 诊断：复现、假设、根因、建议修法、回归标准
     │   └── interface-contract.md         # 公共/共享契约：schema、认证、错误、兼容性、验证钩子
@@ -115,3 +120,5 @@ teamspace/
     └── delivery/
         └── delivery-report.md            # 最终交付报告：状态、代码/产物位置、测试、风险、后续事项
 ```
+
+条件式双设计仍位于唯一 `architecture` phase 内。`ArchitectureProposal` 只提供 provenance（`normative: false`）；`design/architecture.md` 是唯一 implementation authority。只有 activation 后才创建 `DualDesignRun` directory；pointer 已记录但目录缺失时 fail closed。

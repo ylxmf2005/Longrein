@@ -1,4 +1,4 @@
-# The 38 Skills
+# The 39 Skills
 
 [← back to README](../README.md) · [简体中文](skills_CN.md)
 
@@ -59,6 +59,7 @@ needed to run it in real projects.
 ## Support
 
 - `probe` — investigates unfamiliar territory before work starts and teaches the sponsor the terrain: the corrections to their map, the surprises, what "good" looks like locally, and a living unknowns ledger
+- `scope-challenger` — independently tests whether evidence justifies widening scope, changing mechanism, starting a refactor, or redirecting the request before delivery changes course
 - `brainstorm` — turns an unclear request into sponsor-approved, testable requirements by pressure-testing intent, scope, and viability one question at a time
 - `grill` — pressure-tests an existing plan, design, or argument through a relentless one-question-at-a-time interview with its owner, ending in an honest readiness verdict (`ready`/`needs-evidence`/`needs-redesign`/`blocked`)
 - `compound` — owns the `compound` phase and answers standalone 沉淀/复盘 asks: turns the round's lessons into landed assets (regression tests, repo rules, sponsor-gated skill proposals) and, on request, replays the session's recorded trajectory (Claude Code JSONL / Codex rollouts) through a deterministic extractor — where time and tokens went, what kept failing, every claim anchored to its evidence source

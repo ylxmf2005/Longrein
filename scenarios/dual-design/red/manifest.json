@@ -1,0 +1,9 @@
+{
+  "format": "dual-design-red-fixtures-v1",
+  "frozen_before_green": true,
+  "files": {
+    "status-injection.json": "c28368e8e2f88b807087c4b976072be94d4a51e89416a8d6dabb720b874d2021",
+    "source-drift.json": "584b38d9364ed92422443c30025d9b433eb547c4d0e6bafadf91e7f33308ed27",
+    "readme-classification.json": "aa4a2ff14e0bd0202a7c67767220cddbc3dfc37154038e95aa98d0445c6bff5f"
+  }
+}

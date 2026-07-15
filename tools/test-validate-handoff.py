@@ -27,7 +27,7 @@ from_agent: delivery-orchestrator
 to_agent: implementation-engineer
 phase: implement
 status: assigned
-effort: high
+workflow: expanded
 output_path: review/impl.md
 ---
 Goal, inputs, constraints — enough body to be a real assignment.
@@ -127,8 +127,8 @@ CASES = [
      sub("receipt", "status: completed", "status: assigned")),
     ("receipt status gibberish", "WARNED",
      sub("receipt", "status: completed", "status: totally_fine_trust_me")),
-    ("unknown effort value", "WARNED",
-     sub("assignment", "effort: high", "effort: extreme")),
+    ("unknown workflow value", "WARNED",
+     sub("assignment", "workflow: expanded", "workflow: extreme")),
     ("unknown phase on both sides", "WARNED",
      compose(sub("assignment", "phase: implement", "phase: vibing"),
              sub("receipt", "phase: implement", "phase: vibing"))),
@@ -160,6 +160,7 @@ artifact_type: TaskRecord
 task_id: 20260709-120000-fuzz
 author_agent: delivery-orchestrator
 status: active
+execution: hybrid
 source_ref: origin/main
 target_ref: origin/main
 merge_base: 0123abcdef0123abcdef0123abcdef0123abcd
@@ -176,7 +177,9 @@ def run_single(name, expect, content):
             fh.write(content)
         proc = subprocess.run([sys.executable, VALIDATOR, path], capture_output=True, text=True)
         warned = "WARN:" in proc.stderr
-        if expect == "WARNED":
+        if expect == "CAUGHT":
+            ok = proc.returncode == 1
+        elif expect == "WARNED":
             ok = proc.returncode == 0 and warned
         else:  # CLEAN
             ok = proc.returncode == 0 and not warned
@@ -184,6 +187,29 @@ def run_single(name, expect, content):
         if not ok:
             print(textwrap.indent(proc.stderr.strip(), "      "))
         return ok
+
+
+def test_proposal_pair(mismatch=False):
+    identity = ("run_id: dual-1\nlane: bold\nattempt_id: a1\nactor_id: actor-1\n"
+                "input_sha256: " + "a" * 64 + "\n")
+    assignment = GOOD["assignment"].replace(
+        "to_agent: implementation-engineer", "to_agent: solution-architect").replace(
+        "phase: implement", "phase: architecture").replace(
+        "status: assigned\n", "status: assigned\n" + identity)
+    receipt_identity = identity.replace("actor_id: actor-1", "actor_id: actor-other") if mismatch else identity
+    receipt = GOOD["receipt"].replace(
+        "from_agent: implementation-engineer", "from_agent: solution-architect").replace(
+        "phase: implement", "phase: architecture").replace(
+        "status: completed\n", "status: completed\n" + receipt_identity)
+    artifact = GOOD["artifact"].replace(
+        "artifact_type: ImplementationResult",
+        "artifact_type: ArchitectureProposal\nnormative: false\nproposal_kind: bold\nwork_unit: bold-proposal\n" + identity.rstrip()).replace(
+        "author_agent: implementation-engineer", "author_agent: solution-architect").replace(
+        "status: implemented", "status: completed")
+    return run_case("proposal pair identity mismatch" if mismatch else "proposal pair identity matches",
+                    "CAUGHT" if mismatch else "CLEAN",
+                    lambda files: files.update({"assignment": assignment, "receipt": receipt,
+                                                "artifact": artifact}))
 
 
 def test_baseline_mismatch(mutated_ref, expect_caught):
@@ -195,7 +221,8 @@ def test_baseline_mismatch(mutated_ref, expect_caught):
         r = os.path.join(root, "handoffs", "001-x-receipt.md")
         art = os.path.join(root, "review", "impl.md")
         assignment = GOOD["assignment"].replace(
-            "effort: high", f"effort: high\nsource_ref: {mutated_ref}\ntarget_ref: origin/main")
+            "workflow: expanded",
+            f"workflow: expanded\nsource_ref: {mutated_ref}\ntarget_ref: origin/main")
         for path, content in ((a, assignment), (r, GOOD["receipt"]), (art, GOOD["artifact"]),
                               (os.path.join(root, "task.md"), TASK_RECORD)):
             with open(path, "w") as fh:
@@ -245,6 +272,24 @@ def main():
     results.append(run_single("merge_base not a sha", "WARNED",
                               TASK_RECORD.replace("merge_base: 0123abcdef0123abcdef0123abcdef0123abcd",
                                                   "merge_base: my-branch-tip")))
+    proposal = GOOD["artifact"].replace(
+        "artifact_type: ImplementationResult",
+        "artifact_type: ArchitectureProposal\nnormative: false\nproposal_kind: bold\n"
+        "work_unit: bold-proposal\nrun_id: dual-1\nlane: bold\nattempt_id: a1\n"
+        "actor_id: actor-1\ninput_sha256: " + "a" * 64).replace(
+            "author_agent: implementation-engineer", "author_agent: solution-architect").replace(
+            "status: implemented", "status: completed")
+    results.append(run_single("non-normative architecture proposal", "CLEAN", proposal))
+    results.append(run_single("normative architecture proposal rejected", "CAUGHT",
+                              proposal.replace("normative: false", "normative: true")))
+    results.append(run_single("contradictory architecture proposal rejected", "CAUGHT",
+                              proposal.replace("work_unit: bold-proposal", "work_unit: minimal-proposal")))
+    results.append(run_single("invalid proposal input hash rejected", "CAUGHT",
+                              proposal.replace("input_sha256: " + "a" * 64, "input_sha256: not-a-sha")))
+    results.append(test_proposal_pair(False))
+    results.append(test_proposal_pair(True))
+    results.append(run_single("unknown execution value", "WARNED",
+                              TASK_RECORD.replace("execution: hybrid", "execution: distributed")))
     results.append(run_single(
         "phase sequence with compound stays clean", "CLEAN",
         TASK_RECORD.replace(

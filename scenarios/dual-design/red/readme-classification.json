@@ -1,0 +1,8 @@
+{
+  "trajectory": "readme-invalidation-classification",
+  "source_handle": "teamspace/tasks/20260715-131230-dual-design-architecture/receipts/test-plan-r4.md",
+  "input": "consumer prose changes without authority/state/compatibility change",
+  "command": "node scenarios/harness/sim-dual-design.js",
+  "expected_classification": "narrow-refresh-not-hard-stale",
+  "expected_output": "authority change still forces hard re-entry"
+}

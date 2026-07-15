@@ -43,7 +43,8 @@ KNOWN_STATUS = {
     "passed", "failed", "partial",
 }
 
-KNOWN_EFFORT = {"low", "medium", "high", "max"}
+KNOWN_WORKFLOW = {"compact", "standard", "expanded", "exhaustive"}
+KNOWN_EXECUTION = {"direct", "hybrid", "delegated"}
 
 # ReviewResearchNote vocabulary: verdict is the truth axis, disposition the landing axis
 # (fix-now lands in this task's fix phase; defer becomes a sponsor-visible follow-up).
@@ -58,6 +59,7 @@ KNOWN_DISPOSITION = {"fix-now", "defer"}
 # carrying different refs is stale or drifted and must be replaced, not worked from.
 BASELINE_KEYS = ("source_ref", "target_ref", "merge_base")
 MERGE_BASE_SHAPE = re.compile(r"^[0-9a-f]{7,40}$")
+SHA256_SHAPE = re.compile(r"^[0-9a-f]{64}$")
 
 # A TestExecutionResult with one of these statuses actually ran, so it must carry an
 # inspectable evidence handle in its body — not just a green/red status word.
@@ -97,6 +99,7 @@ KNOWN_ARTIFACT_TYPES = {
     "FixRecord", "FixResult", "TestExecutionResult", "VerificationReport",
     "AcceptanceDecision", "CompoundResult", "DeliveryReport", "ProbeReport",
     "ChangeWalkthrough", "ResearchPackage", "ExplanationSet", "ReplayReport",
+    "ArchitectureProposal", "DualDesignRun", "TestPlanReviewDecision",
 }
 # Timestamp-first task ids browse in time order; the convention is load-bearing for
 # directory listings, so a violation warns loudly.
@@ -169,15 +172,36 @@ def check_shape(path, errors, warnings):
     status = scalars.get("status", "")
     if status and status not in KNOWN_STATUS:
         warnings.append(f"{path}: status '{status}' not in known set (typo? or update KNOWN_STATUS)")
-    effort = scalars.get("effort", "")
-    if effort and effort not in KNOWN_EFFORT:
-        warnings.append(f"{path}: effort '{effort}' not in known set low|medium|high|max "
-                        f"(xhigh is an intake synonym — the orchestrator normalizes it to max before threading)")
+    workflow = scalars.get("workflow", "")
+    if workflow and workflow not in KNOWN_WORKFLOW:
+        warnings.append(f"{path}: workflow '{workflow}' not in known set "
+                        f"compact|standard|expanded|exhaustive")
+    execution = scalars.get("execution", "")
+    if execution and execution not in KNOWN_EXECUTION:
+        warnings.append(f"{path}: execution '{execution}' not in known set "
+                        f"direct|hybrid|delegated")
     if atype == "PhaseReceipt" and status in RECEIPT_NOT_CONCLUDED:
         errors.append(f"{path}: a receipt with status '{status}' reports work that never concluded "
                       f"(receipts carry an outcome, not a start marker)")
     if atype and atype not in ENVELOPE_REQUIRED and atype not in KNOWN_ARTIFACT_TYPES:
         warnings.append(f"{path}: artifact_type '{atype}' not in known ledger (typo? or update KNOWN_ARTIFACT_TYPES)")
+    if atype == "ArchitectureProposal" and scalars.get("normative", "") != "false":
+        errors.append(f"{path}: ArchitectureProposal must carry normative: false")
+    if atype == "ArchitectureProposal":
+        for key in ("proposal_kind", "work_unit", "run_id", "lane", "attempt_id", "actor_id", "input_sha256"):
+            if not scalars.get(key):
+                errors.append(f"{path}: ArchitectureProposal missing required identity key '{key}'")
+        kind = scalars.get("proposal_kind", "")
+        if kind not in {"bold", "minimal"}:
+            errors.append(f"{path}: ArchitectureProposal proposal_kind must be bold|minimal")
+        if scalars.get("lane", "") != kind or scalars.get("work_unit", "") != f"{kind}-proposal":
+            errors.append(f"{path}: ArchitectureProposal kind/work_unit/lane mapping is inconsistent")
+        if scalars.get("author_agent", "") != "solution-architect":
+            errors.append(f"{path}: ArchitectureProposal author_agent must be solution-architect")
+        if scalars.get("status", "") not in {"completed", "needs_more_evidence", "blocked", "stale"}:
+            errors.append(f"{path}: ArchitectureProposal status is invalid")
+        if not SHA256_SHAPE.match(scalars.get("input_sha256", "")):
+            errors.append(f"{path}: ArchitectureProposal input_sha256 must be 64 lowercase hex chars")
     phase = scalars.get("phase", "")
     if phase and phase not in KNOWN_PHASES:
         warnings.append(f"{path}: phase '{phase}' not in known set (typo? or update KNOWN_PHASES)")
@@ -289,6 +313,16 @@ def check_pair(assignment_path, receipt_path, task_root, errors, warnings):
                                   f"(stale assignment or baseline drift — replace the assignment, "
                                   f"do not work from it)")
     check_artifact_exists(receipt_path, r, task_root, errors, warnings)
+    resolved = resolve_artifact(root, r.get("artifact_path", "")) if root and r.get("artifact_path") else None
+    if resolved and os.path.isfile(resolved):
+        artifact, artifact_error = parse_frontmatter(resolved)
+        if not artifact_error and artifact.get("artifact_type") == "ArchitectureProposal":
+            for key in ("run_id", "lane", "attempt_id", "actor_id", "input_sha256"):
+                av, rv, pv = a.get(key, ""), r.get(key, ""), artifact.get(key, "")
+                if not av or not rv:
+                    errors.append(f"{resolved}: dual proposal pair missing assignment/receipt identity key '{key}'")
+                elif av != pv or rv != pv:
+                    errors.append(f"{resolved}: {key} does not match assignment/receipt identity")
 
 
 def check_artifact_exists(receipt_path, receipt, task_root, errors, warnings=None):

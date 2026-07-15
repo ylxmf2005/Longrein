@@ -34,7 +34,7 @@ argument-hint: "[sweep:line|core|full] [session:current|last|<path>] [focus:time
 
 ## 参数
 
-- `sweep:line|core|full`——对这一轮的盘问下多大力气。`line`：一行诚实的话——"无可沉淀"加上原因是合法的，而且胜过硬凑。`core`：回归测试问题（价值最高的资产）必问。`full`（默认）：三个资产问题全问，中途便签也收拢进来。由总控派发时，这个值已经在 Action Context 里编译好送到——绝不自己从 effort 档位名往回推。
+- `sweep:line|core|full`——对这一轮的盘问下多大力气。`line`：一行诚实的话——"无可沉淀"加上原因是合法的，而且胜过硬凑。`core`：回归测试问题（价值最高的资产）必问。`full`（默认）：三个资产问题全问，中途便签也收拢进来。由总控派发时，这个值已经在 Action Context 里编译好送到——绝不自己从 workflow profile名往回推。
 - `session:current|last|<path>`——审视 session 时用哪份 transcript（默认 `current`；`scripts/extract-trajectory.py --locate --cwd .` 按新到旧列出候选，两种运行时都认）。
 - `focus:time|tokens|friction|evolution|project|collaboration|all`——默认 `all`；点名一个 focus 会把对应透镜挖深，digest 无论如何都完整产出。
 - `output:artifact|inline`——仅独立运行时有意义。默认 `artifact`：session 复盘落在 `teamspace/replays/<YYYYMMDD>-<slug>.md`（`artifact_type: ReplayReport`，有任务根目录时落在任务根下）；只有单个问题式的速览（"这轮 token 花哪了"）才用 `inline`。阶段派发时落点没得选：assignment 的 `output_path` 指定的 `compound/compound-result.md`。
@@ -45,7 +45,7 @@ argument-hint: "[sweep:line|core|full] [session:current|last|<path>] [focus:time
 
 | 想法 | 现实 |
 | --- | --- |
-| "档位是 high，跳过哪些我自己看着办。" | 你拿到的是编译好的 `sweep:` 值；信封里的 `effort` 字段是审计元数据，不是指令。 |
+| "profile 是 expanded，跳过哪些我自己看着办。" | 你拿到的是编译好的 `sweep:` 值；信封里的 `workflow` 字段是审计元数据，不是指令。 |
 | "这轮没什么大事——compound 一节凑几句，免得看着空。" | 硬凑的沉淀是演戏，演戏比沉默更糟。"无可沉淀"加上原因，诚实写。 |
 | "这条教训太显然了，不值得写。" | 唯一的标准：换一个未来任务上的 agent 读到它，能不能少走一次弯路？判断这个，不是判断显不显然。 |
 | "这次 session 我亲身经历过，凭记忆就能写复盘。" | 记忆会漏掉失败的尝试和代价。跑一遍 extractor；每条论断钉在 turn/entry 上。 |

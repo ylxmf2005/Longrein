@@ -98,7 +98,8 @@ teamspace/tasks/<task_id>/
 | 不可核验主张标记 | `status=unverified` —— 过不了任何关卡 |
 | 交付状态 | `delivered` \| `delivered-with-risk` \| `blocked` \| `rejected` |
 | 范式 | `dev/architecture-first` \| `enhancement/delta-design` \| `bugfix/hypothesis-driven` \| `addition/simple` |
-| 投入档位 | `low` \| `medium` \| `high`（默认）\| `max`（`xhigh` 归一化为 `max`） |
+| 执行策略 | `direct` \| `hybrid`（默认）\| `delegated` |
+| Workflow profile | `compact` \| `standard` \| `expanded`（默认）\| `exhaustive` |
 | 交互节奏 | `continuous`（默认）\| `guided` |
 | 全新起步证据标记 | `VERIFIED:` \| `ACCEPTED:` \| `FAILED:` \| `UNVERIFIED:` |
 | 交付物自洽状态 | `coherent` \| `needs_revision` |

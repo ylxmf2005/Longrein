@@ -20,7 +20,7 @@ A finding is graded on its walkable failure path — never on how many reviewers
 
 ## Parameters
 
-`depth:full|lean|core` — default `full`: convene the specialist lanes the change's surfaces call for, per the roster (the orchestrator compiles an assignment's `effort` into this knob and the round cap — you receive the compiled value, never re-derive it from the tier name). `lean`: one round with the Correctness lane plus only the surface lanes the diff unambiguously demands; the decision records which lanes were not convened. `core`: review alone across all perspectives — only on explicit request or when the host cannot spawn lanes; the decision records which lanes were not convened and why. At any depth, a lane not convened is a recorded absence, never a silently thinner review.
+`depth:full|lean|core` — default `full`: convene the specialist lanes the change's surfaces call for, per the roster (the orchestrator compiles an assignment's `workflow` profile into this knob and the round cap — you receive the compiled value, never re-derive it from the profile name). `lean`: one round with the Correctness lane plus only the surface lanes the diff unambiguously demands; the decision records which lanes were not convened. `core`: review alone across all perspectives — only on explicit request or when the host cannot spawn lanes; the decision records which lanes were not convened and why. At any depth, a lane not convened is a recorded absence, never a silently thinner review.
 
 Unknown keys get a one-line note and are otherwise ignored; a missing load-bearing value gets one short question, never a guess.
 

@@ -76,11 +76,11 @@
 
   <rect class="orch" x="330" y="320" width="265" height="170"/>
   <text class="box-title" x="354" y="350">Delivery Orchestrator</text>
-  <text class="small" x="354" y="378">Defines done, chooses mode,</text>
+  <text class="small" x="354" y="378">Defines done, chooses execution,</text>
   <text class="small" x="354" y="400">routes phases, and owns gates.</text>
   <text class="mono-small" x="354" y="430">direct</text>
-  <text class="mono-small" x="354" y="454">partial-delegation (default)</text>
-  <text class="mono-small" x="354" y="478">full-delegation</text>
+  <text class="mono-small" x="354" y="454">hybrid (default)</text>
+  <text class="mono-small" x="354" y="478">delegated</text>
 
   <path class="line" d="M267 405 H330"/>
 
@@ -138,7 +138,7 @@
   <rect class="gate" x="52" y="675" width="345" height="118"/>
   <text class="box-title" x="76" y="705">Author/reviewer separation</text>
   <text class="small" x="76" y="732">The author of an artifact does not approve it.</text>
-  <text class="small" x="76" y="756">Direct mode keeps review as sponsor gate.</text>
+  <text class="small" x="76" y="756">Direct execution keeps review as sponsor gate.</text>
 
   <rect class="gate" x="430" y="675" width="345" height="118"/>
   <text class="box-title" x="454" y="705">Finding circuit breaker</text>

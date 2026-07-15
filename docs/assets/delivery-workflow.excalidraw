@@ -62,7 +62,7 @@
     },
     {
       "type": "text", "id": "knobs_text", "x": 70, "y": 292, "width": 260, "height": 45,
-      "text": "mode / pace\neffort / lang", "originalText": "mode / pace\neffort / lang",
+      "text": "execution / interaction\nworkflow / lang", "originalText": "execution / interaction\nworkflow / lang",
       "fontSize": 15, "fontFamily": 3, "textAlign": "left", "verticalAlign": "top",
       "strokeColor": "#64748b", "backgroundColor": "transparent", "fillStyle": "solid",
       "strokeWidth": 1, "strokeStyle": "solid", "roughness": 0, "opacity": 100, "angle": 0,

@@ -26,6 +26,9 @@ teamspace/
     ├── probe/                            # Optional pre-requirements terrain report with a living unknowns ledger
     │   └── 00-probe.md
     │
+    ├── scope-challenge/                  # Independent, read-only checks before a material route change
+    │   └── 001-permission-model.md       # ScopeChallengeReport: stay / surface choices / require reframing
+    │
     ├── handoffs/                         # Assignment/receipt loop for delegated phases
     │   ├── 001-validate-requirements.md
     │   ├── 001-validate-requirements-receipt.md
@@ -38,6 +41,8 @@ teamspace/
     │
     ├── design/                           # Created as needed; several design artifacts may coexist
     │   ├── architecture.md               # Greenfield/subsystem design: components, data/state flow, interfaces, trade-offs
+    │   ├── dual-design-runs/              # Post-activation immutable run chains; proposals remain non-normative
+    │   │   └── <run-id>/generation-000000.md
     │   ├── impact-analysis.md            # Delta design: affected modules, current/target behavior, risks, preserved behavior
     │   ├── diagnosis.md                  # Bugfix diagnosis: reproduction, hypotheses, root cause, proposed fix, regression criteria
     │   └── interface-contract.md         # Public/shared contracts: schemas, auth, errors, compatibility, verification hooks
@@ -119,3 +124,5 @@ teamspace/
     └── delivery/
         └── delivery-report.md            # Final delivery report: status, code/artifact locations, tests, risks, follow-ups
 ```
+
+Conditional dual design remains inside the single `architecture` phase. `ArchitectureProposal` files are provenance only (`normative: false`); `design/architecture.md` is the sole implementation authority. A `DualDesignRun` directory is created only after activation, and a recorded pointer whose directory is missing fails closed.

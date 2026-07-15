@@ -1,8 +1,8 @@
 # Compound(沉淀)
 
-每完成一件事,都应该让下一件更容易——但一条没人重读的被动笔记什么也不会变容易。`compound` 是把本轮教训变成**自己会改变未来行为的资产**的 phase:一个 bug 变成一条回归测试,一个决定变成下个 agent 动手前会读到的规则,一个被证实的评审模式变成一条待 sponsor 批准的 reviewer 提案。它位于每条 paradigm 中 `acceptance-review` 与 `deliver` 之间,由 `compound` skill 拥有,走和其它非评审 phase 一样的管线:`full-delegation` 下带 assignment/receipt 派发,`direct`/`partial-delegation` 下由 Delivery Orchestrator 按同一纪律亲自执行,任何模式都要写 `manifest.md` 条目,做没做看得见。
+每完成一件事,都应该让下一件更容易——但一条没人重读的被动笔记什么也不会变容易。`compound` 是把本轮教训变成**自己会改变未来行为的资产**的 phase:一个 bug 变成一条回归测试,一个决定变成下个 agent 动手前会读到的规则,一个被证实的评审模式变成一条待 sponsor 批准的 reviewer 提案。它位于每条 paradigm 中 `acceptance-review` 与 `deliver` 之间,由 `compound` skill 拥有,走和其它非评审 phase 一样的管线:`delegated` 下带 assignment/receipt 派发,`direct`/`hybrid` 下由 Delivery Orchestrator 按同一纪律亲自执行,任何模式都要写 `manifest.md` 条目,做没做看得见。
 
-它是**软 phase**:写进 phase 列表本身就是让它发生的机制(orchestrator 自然走到这一步,而不是靠埋在参考文件里的提醒),但 `deliver` 永远不因它被硬卡——被逼出来的沉淀是 theater,theater 比沉默更糟。跳过是可见的(delivery report 的 compound 一栏留空,且任务的阶段序列有 `deliver` 无 `compound` 时 `validate-handoff.py` 会告警),但从不被 police。对本轮盘问用多大力气由 `sweep:` 参数决定(`line|core|full`),派发时由 orchestrator 从 effort 档位编译而来——见 SKILL.md。
+它是**软 phase**:写进 phase 列表本身就是让它发生的机制(orchestrator 自然走到这一步,而不是靠埋在参考文件里的提醒),但 `deliver` 永远不因它被硬卡——被逼出来的沉淀是 theater,theater 比沉默更糟。跳过是可见的(delivery report 的 compound 一栏留空,且任务的阶段序列有 `deliver` 无 `compound` 时 `validate-handoff.py` 会告警),但从不被 police。对本轮盘问用多大力气由 `sweep:` 参数决定(`line|core|full`),派发时由 orchestrator 从 workflow profile编译而来——见 SKILL.md。
 
 ## 三种主动资产
 

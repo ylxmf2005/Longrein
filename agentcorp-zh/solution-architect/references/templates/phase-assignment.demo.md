@@ -8,7 +8,9 @@ phase: example-phase
 status: assigned
 output_path: review/example-output.md
 output_language: zh-CN
-effort: high
+workflow: expanded
+# 仅 dual：run_id、lane、attempt_id、actor_id、input_sha256、
+# expected_generation、expected_attempt、frozen_input_handle、exclusive_write_root。
 ---
 
 # 任务分配：example-phase

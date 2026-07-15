@@ -33,7 +33,7 @@
   report carries its one-line summary. The `sweep:` value arrives compiled
   (`line` — one honest line suffices; `core` — the regression-test question is
   always asked; `full` — all three asset questions plus mid-task scraps); the
-  tier name is never re-derived. Two standing touchpoints outside the phase:
+  workflow profile name is never re-derived. Two standing touchpoints outside the phase:
   search `teamspace/compound/` by keyword at intake and feed hits by path
   downstream; jot compoundable moments mid-task when they happen — the phase
   collects scraps, it does not rely on end-of-task memory.

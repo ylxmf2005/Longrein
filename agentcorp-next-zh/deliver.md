@@ -50,13 +50,13 @@
 工作继续推进。关卡进入格式：我们在哪儿 / 证据（≤4 项，路径）/ 被卡住的转换 / 仍在推进的
 / 带一句理由的建议 / 编号选项。
 
-**投入是一份编译后的预算。** 档位（`low|medium|high|max`）在进单时选定——显式参数优先，
-否则继承宿主会话，发起人的措辞再作调整。你是这个档位的唯一读者：把它编译成每份分配单
-里的具体数目与开关（召集哪些通道、深度、轮次上限、sweep 值）；没有哪个工人去解读档位
-名。任何档位都不越过的硬底线：证据绝不伪造、`unverified` 绝不过关；作者/评审隔离成立；
+**Workflow 是一份编译后的 profile。** profile（`compact|standard|expanded|exhaustive`）在
+进单时选定，并与宿主推理设置保持独立。你是 profile 的唯一读者：把它编译成每份分配单
+里的具体数目与开关（召集哪些通道、深度、轮次上限、sweep 值）；没有哪个工人去解读 profile
+名。任何 profile 都不越过的硬底线：证据绝不伪造、`unverified` 绝不过关；作者/评审隔离成立；
 一个缺陷的"做完"意味着把原始的失败输入重跑一遍；高风险面（安全/权限边界、公开/共享
-契约、数据丢失/不可逆）把它们所在的阶段自动上调到 `max`，且要出声。到 deliver 时，报告
-带上**投入台账**：档位、它承诺了什么、实际跑了什么、每一处偏差连同理由。
+契约、数据丢失/不可逆）把它们所在的阶段自动上调到 `exhaustive`，且要出声。到 deliver 时，报告
+带上 **workflow 台账**：profile、它承诺了什么、实际跑了什么、每一处偏差连同理由。
 
 **编排式并行**（一种协议，不是一个阶段）：`review-research` 把发现按代码域聚簇——产出
 仍是每条发现一个逐项文件，绝不打包；由你汇总 `00-index.md`。`fix` 把已确认/部分确认的
@@ -77,13 +77,13 @@
 
 ## 交付物契约
 
-- `task.md`（TaskRecord）：frontmatter 带 mode/pace/effort/output_language + 基线的那几个
+- `task.md`（TaskRecord）：frontmatter 带 execution/pace/workflow/output_language + 基线的那几个
   ref；正文带 Success Criteria、Out of Scope、Selected Paradigm、Phase Sequence、
   Gate History、Artifact Coherence、Execution Progress、Decision Log。它是实时台账——
   每完成、失败或阻塞一个工作单元就更新一次；已获批的 Story Spec 绝不沦为运行时状态。
 - `manifest.md`（TaskManifest）：一阶段一行——Owner、Status、Human Gate、Quality Gate、
   Assignment、Artifact、Receipt——只在机械校验通过后才填。
-- `requirements/validated-requirements.md`：任何模式下都由你亲自撰写；意图、可观察的用户
+- `requirements/validated-requirements.md`：任何 execution 策略下都由你亲自撰写；意图、可观察的用户
   旅程、带可证伪验收标准的功能需求、非目标/MVP 边界、约束、假设、开放问题。关卡门槛：
   `confidence` 为 MEDIUM/HIGH——LOW 阻塞，且绝不往上圆。需求陈述的是可观察地达成了什么，
   绝不是哪张表/哪个接口/哪个算法。
@@ -91,7 +91,7 @@
   Index、Acceptance Basis（标准 + 直接证据）、Evidence Gaps、Residual Risks。
 - `delivery/delivery-report.md`：Status（交付枚举）→ 交付了什么，连同可查证的路径（代码
   位置、验证结果、评审/MR）→ 偏差与残余风险连同负责人 → 一行沉淀结果（或 无可沉淀）
-  → 投入台账 → 一个建议的下一步 → 2–4 个可选后续。一条没有可打开路径的主张记为缺口，
+  → workflow 台账 → 一个建议的下一步 → 2–4 个可选后续。一条没有可打开路径的主张记为缺口，
   绝不说成通过。若验收没通过，建议不能是"收尾结束"。合并或推送仍归发起人，除非明确
   下令；一次被下令的推送要跑发布前 SCM 关卡（分支、HEAD、交付物都与任务相符）。
 

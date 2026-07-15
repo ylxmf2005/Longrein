@@ -4,13 +4,15 @@ task_id: 20260603-120000-example-task
 author_agent: delivery-orchestrator
 status: active
 current_phase: validate-requirements
-workflow_mode: partial-delegation
+execution: hybrid
 interaction_mode: auto
-effort: high
+workflow: expanded
 output_language: zh-CN
 source_ref: origin/main
 target_ref: origin/main
 merge_base: 0123abcdef0123abcdef0123abcdef0123abcd
+# Set only after dual activation; absence means never-dual legacy.
+# dual_design_run_path: design/dual-design-runs/<run-id>/
 ---
 
 # Task: Example Task
@@ -39,17 +41,17 @@ merge_base: 0123abcdef0123abcdef0123abcdef0123abcd
 
 - enhancement/delta-design
 
-## Workflow Mode
+## Execution Strategy
 
-- partial-delegation (choose one of: direct | partial-delegation | full-delegation)
+- hybrid (choose one of: direct | hybrid | delegated)
 
 ## Interaction Policy
 
 - auto (choose one of: auto | gate)
 
-## Effort
+## Workflow Profile
 
-- high (choose one of: low | medium | high | max)
+- expanded (choose one of: compact | standard | expanded | exhaustive)
 
 ## Phase Sequence
 
@@ -83,3 +85,4 @@ merge_base: 0123abcdef0123abcdef0123abcdef0123abcd
 ## Decision Log
 
 - Key orchestration decisions and their rationale.
+- Before dual activation, record the material signal, second full-contract candidate evidence, strongest counterfactual, and re-entry trigger. Once `dual_design_run_path` is set, missing or invalid run state is blocked rather than legacy.

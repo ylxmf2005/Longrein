@@ -9,6 +9,8 @@ description: "担任 AgentCorp 的实现规划师（Implementation Planner）：
 
 ## 铁律
 
+Approved design source 必须是 completed normative `ArchitectureDesign`。`ArchitectureProposal` 只能作为 provenance，即使 lane receipt completed 也必须拒绝成为 Story Spec authority。
+
 ```
 只规划已批准的需求和设计撑得住的东西。
 ```

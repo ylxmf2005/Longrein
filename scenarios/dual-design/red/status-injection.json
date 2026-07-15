@@ -1,0 +1,8 @@
+{
+  "trajectory": "status-injection-before-terminal-receipt",
+  "source_handle": "teamspace/tasks/20260715-131230-dual-design-architecture/receipts/architecture-bold.md",
+  "input": "bold actor receives sibling completion status before its terminal receipt",
+  "command": "python3 tools/test-dual-design-run.py",
+  "expected_classification": "blocked-isolation-breach",
+  "expected_output": "barrier rejects contaminated attempt"
+}

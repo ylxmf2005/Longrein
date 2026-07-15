@@ -240,11 +240,11 @@ first behavioral-simulation round; the full playbook lives with the sponsor's re
   sharpened in isolation steals or loses its neighbors' traffic.
 - **Golden scenarios guard landings.** `scenarios/` holds the replayable set; an edit
   claims its target scenario turns green AND the edited skill's wired partners (per the
-  pairs list above) stay green. S3/S6 (must stay low-effort) and S8 (must stay high-effort) are
+  pairs list above) stay green. S3/S6 (must stay on `workflow:compact`) and S8 (must stay on `workflow:exhaustive`) are
   the weight-calibration pair — never optimize one direction only.
 - **Parameters follow one convention.** `key:value` tokens parsed by the skill body +
   natural-language synonyms + one-question fallback when a load-bearing value is
-  missing; booleans become binary enums; defaults sit at the maximum-effort end;
+  missing; booleans become binary enums; workflow defaults preserve broad coverage;
   argument-hint (Claude) and openai.yaml default_prompt (Codex) are the two hint
   surfaces and update together.
 - **Human-facing language follows the sponsor.** The orchestrator records the sponsor's

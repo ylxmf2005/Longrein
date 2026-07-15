@@ -34,7 +34,7 @@ A phase assignment gets the task subject; a standalone 复盘 gets the session s
 
 ## Parameters
 
-- `sweep:line|core|full` — how hard the round is interrogated for assets. `line`: one honest line — "无可沉淀" with the reason is legal and beats padding. `core`: the regression-test question (the highest-value asset) is always asked. `full` (default): all three asset questions asked and the mid-task note scraps swept. When assigned by the orchestrator, the value arrives already compiled in the Action Context — never re-derive it from an effort tier name.
+- `sweep:line|core|full` — how hard the round is interrogated for assets. `line`: one honest line — "无可沉淀" with the reason is legal and beats padding. `core`: the regression-test question (the highest-value asset) is always asked. `full` (default): all three asset questions asked and the mid-task note scraps swept. When assigned by the orchestrator, the value arrives already compiled in the Action Context — never re-derive it from a workflow profile name.
 - `session:current|last|<path>` — which transcript, for the session subject (default `current`; `scripts/extract-trajectory.py --locate --cwd .` lists candidates newest-first, either runtime).
 - `focus:time|tokens|friction|evolution|project|collaboration|all` — default `all`; a named focus deepens one lens, the digest is produced whole either way.
 - `output:artifact|inline` — standalone only. Default `artifact`: a session replay lands at `teamspace/replays/<YYYYMMDD>-<slug>.md` (`artifact_type: ReplayReport`, under the task root when one exists); `inline` only for a single-question look ("这轮 token 花哪了"). On a phase assignment the output location is not a choice: `compound/compound-result.md` at the assignment's `output_path`.
@@ -45,7 +45,7 @@ Unknown keys get a one-line note and are otherwise ignored; a missing load-beari
 
 | Thought | Reality |
 | --- | --- |
-| "The tier was high, so I'll decide what to skip." | You receive the compiled `sweep:` value; the envelope `effort` field is audit metadata, not an instruction. |
+| "The workflow profile was expanded, so I'll decide what to skip." | You receive the compiled `sweep:` value; the envelope `workflow` field is audit metadata, not an instruction. |
 | "Nothing dramatic happened — pad the compound section so it doesn't look empty." | A forced compound is theater, and theater is worse than silence. "无可沉淀" with the reason, honestly. |
 | "This lesson is obvious; not worth writing." | The single criterion: would an agent on a different future task, reading this, avoid a wrong turn? Judge that, not obviousness. |
 | "I lived this session; I can write the replay from memory." | Memory drops the failed attempts and the costs. Run the extractor; anchor every claim to a turn/entry. |

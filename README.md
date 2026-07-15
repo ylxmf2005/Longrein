@@ -14,7 +14,7 @@ key decisions, phase owners, checks actually run, and unresolved issues.
 
 English · [简体中文](README_CN.md)
 
-[Quick Start](#quick-start) · [Why AgentCorp](#why-agentcorp) · [How It Works](#how-it-works) · [38 Skills](docs/skills.md)
+[Quick Start](#quick-start) · [Why AgentCorp](#why-agentcorp) · [How It Works](#how-it-works) · [39 Skills](docs/skills.md)
 
 </div>
 
@@ -77,13 +77,13 @@ and what evidence must exist before the work moves forward.
 
 ## How a Task Assembles Its Team
 
-AgentCorp includes 38 skills, but a task does not run all of them. The Delivery
+AgentCorp includes 39 skills, but a task does not run all of them. The Delivery
 Orchestrator selects the roles its scope and risk require, while human judgment
 stays involved in direction, disputed findings, and residual risk.
 
 [![How AgentCorp assembles a delivery team](docs/assets/task-delivery-team.png)](docs/assets/task-delivery-team.excalidraw)
 
-[Browse all 38 skills](docs/skills.md).
+[Browse all 39 skills](docs/skills.md).
 
 ## What You Get
 
@@ -106,6 +106,8 @@ teamspace/
     ├── manifest.md                      # phase, owner, quality gate, artifact, receipt
     ├── probe/
     │   └── 00-probe.md                  # unknowns and corrected assumptions
+    ├── scope-challenge/
+    │   └── 001-<topic>.md               # independent evidence before a material route change
     ├── handoffs/                        # delegated assignments and receipts
     │   ├── <phase>.md
     │   └── <phase>-receipt.md
@@ -113,6 +115,7 @@ teamspace/
     │   └── validated-requirements.md
     ├── design/
     │   ├── architecture.md
+    │   ├── dual-design-runs/<run-id>/    # conditional post-activation audit chain
     │   ├── impact-analysis.md
     │   ├── diagnosis.md
     │   └── interface-contract.md
@@ -212,20 +215,20 @@ Four independent knobs tune a delivery:
 
 | Knob | Values | Controls |
 | --- | --- | --- |
-| `mode:` | `direct` \| `partial` \| `full` | who executes the phases and who reviews them |
+| `execution:` | `direct` \| `hybrid` \| `delegated` | who executes the phases and who reviews them |
 | `interaction:` | `auto` \| `gate` | skip optional sponsor pauses or stop at every human gate |
-| `effort:` | `low` \| `medium` \| `high` \| `max` | how much independent coverage and redundancy to convene |
+| `workflow:` | `compact` \| `standard` \| `expanded` \| `exhaustive` | how much independent coverage and redundancy to convene |
 | `lang:` | any language | the language of every human-facing artifact |
 
-Low effort trades redundancy for speed, never evidence for convenience.
+The compact workflow trades redundancy for speed, never evidence for convenience.
 The workflow requires deeper scrutiny for security, permission, public contract,
 and data-loss surfaces. See the [parameter catalog](docs/parameters.md) for the
 exact behavior of every level and skill.
 
 ## Documentation
 
-- [All 38 skills](docs/skills.md)
-- [Parameters and effort levels](docs/parameters.md)
+- [All 39 skills](docs/skills.md)
+- [Parameters and workflow profiles](docs/parameters.md)
 - [Runtime artifacts](docs/artifacts.md)
 - [Codex setup](docs/codex-setup.md)
 

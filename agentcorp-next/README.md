@@ -46,7 +46,7 @@ decomposition, reasoning — is the model's own business.
 **deliver** owns the pipeline: it pins "done" with the sponsor (success
 criteria, must-never-break, Baseline), classifies the task into one of four
 paradigms, and walks the phase sequence — raising every human gate, compiling
-the effort budget into concrete counts, and never approving its own artifacts.
+the workflow profile into concrete counts, and never approving its own artifacts.
 Along the way it convenes the other charters:
 
 - **research** maps unknown territory before requirements harden;
@@ -75,7 +75,7 @@ review, evidence travels as openable handles, and no gate passes silently.
 | --- | --- |
 | `constitution.md` | Invariants that survive model generations — evidence, separation, consent, truth, contract, scope, record |
 | `artifacts.md` | The shared coordinate system: task layout, Baseline, frontmatter, every closed vocabulary, handoff fidelity |
-| `deliver.md` | Pipeline ownership: paradigms, gates, effort compilation, parallel orchestration, the delivery report |
+| `deliver.md` | Pipeline ownership: paradigms, gates, workflow compilation, parallel orchestration, the delivery report |
 | `review.md` `build.md` `verify.md` | The heavy phase charters |
 | `research.md` `facilitate.md` `teach.md` `compound.md` | The supporting charters |
 

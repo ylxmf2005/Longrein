@@ -4,13 +4,15 @@ task_id: 20260603-120000-example-task
 author_agent: delivery-orchestrator
 status: active
 current_phase: validate-requirements
-workflow_mode: partial-delegation
+execution: hybrid
 interaction_mode: auto
-effort: high
+workflow: expanded
 output_language: zh-CN
 source_ref: origin/main
 target_ref: origin/main
 merge_base: 0123abcdef0123abcdef0123abcdef0123abcd
+# 仅在 dual activation 后设置；缺失表示从未 dual 的 legacy task。
+# dual_design_run_path: design/dual-design-runs/<run-id>/
 ---
 
 # 任务：示例任务
@@ -39,17 +41,17 @@ merge_base: 0123abcdef0123abcdef0123abcdef0123abcd
 
 - enhancement/delta-design
 
-## 工作流模式
+## 执行策略
 
-- partial-delegation（从以下选项中选一：direct | partial-delegation | full-delegation）
+- hybrid（从以下选项中选一：direct | hybrid | delegated）
 
 ## 交互策略
 
 - auto（从以下选项中选一：auto | gate）
 
-## Effort
+## Workflow Profile
 
-- high（从以下选项中选一：low | medium | high | max）
+- expanded（从以下选项中选一：compact | standard | expanded | exhaustive）
 
 ## 阶段序列
 
@@ -83,3 +85,4 @@ merge_base: 0123abcdef0123abcdef0123abcdef0123abcd
 ## 决策日志
 
 - 关键编排决策及其理由。
+- Dual activation 前记录 material signal、第二个 full-contract candidate evidence、最强 counterfactual 与 re-entry trigger。设置 `dual_design_run_path` 后，missing/invalid run state 必须 blocked，不能按 legacy 处理。

@@ -1,0 +1,4 @@
+interface:
+  display_name: "范围挑战者"
+  short_description: "在交付改道前独立核实是否真的应当扩大范围"
+  default_prompt: "使用 $scope-challenger 独立检验证据是否真的支持改变交付范围或路线。"

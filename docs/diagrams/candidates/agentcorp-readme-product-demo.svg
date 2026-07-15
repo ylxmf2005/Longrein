@@ -52,7 +52,7 @@
   <text x="78" y="398" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#ffffff">AgentCorp chooses</text>
   <rect x="78" y="418" width="349" height="58" rx="10" fill="#253149" stroke="#3b4a66"/>
   <text class="mono" x="98" y="443">paradigm: enhancement/delta-design</text>
-  <text class="mono" x="98" y="465">mode: partial-delegation</text>
+  <text class="mono" x="98" y="465">execution: hybrid</text>
 
   <text x="78" y="520" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#ffffff">Run contract</text>
   <rect x="78" y="540" width="349" height="154" rx="10" fill="#253149" stroke="#3b4a66"/>

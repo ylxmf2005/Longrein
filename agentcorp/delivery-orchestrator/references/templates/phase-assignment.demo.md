@@ -8,7 +8,9 @@ phase: example-phase
 status: assigned
 output_path: review/example-output.md
 output_language: zh-CN
-effort: high
+workflow: expanded
+# Dual-only: run_id, lane, attempt_id, actor_id, input_sha256,
+# expected_generation, expected_attempt, frozen_input_handle, exclusive_write_root.
 source_ref: origin/main
 target_ref: origin/main
 merge_base: 0123abcdef0123abcdef0123abcdef0123abcd
@@ -36,7 +38,7 @@ State the goal of this phase.
 - Read-only context: list paths that may be read but not edited.
 - Output path: use the frontmatter `output_path`.
 - Baseline: the frontmatter `source_ref`/`target_ref`/`merge_base`, copied from `task.md` — carried whenever this phase reads, diffs, or edits code; omit all three otherwise. The assignee verifies the checkout against them before acting.
-- Tier compilation: the concrete counts the task's effort tier buys for this phase (lanes to convene, layers to run, rounds cap, item categories) written as explicit constraints — the assignee follows these and never re-derives them from the `effort` field.
+- Workflow compilation: the concrete counts the task's workflow profile provides for this phase (lanes to convene, layers to run, rounds cap, item categories) written as explicit constraints — the assignee follows these and never re-derives them from the `workflow` field.
 - Artifact rules: behavioral constraints for the assignee; do not copy them into the output artifact.
 
 ## Constraints

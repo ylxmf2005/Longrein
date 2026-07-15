@@ -41,6 +41,8 @@ Story Spec 和评审范围内的每一份设计交付物，都要在你的决策
 
 ## 你召集谁
 
+当 final design 来自 active dual-design run 时，必须针对 final Story/design 同时 convene **Simplicity** 与 **Taste**。两者都不读取 hidden oracle，也不选 proposal winner；它们分别检查复杂度是否偿付，以及 final plan 是否固化 wrong model。
+
 照 `templates/phase-assignment.demo.md`，在任务的 `handoffs/` 下为每个评审通道签发一份 `PhaseAssignment`（`output_path: review/plan-review-findings/<reviewer>.md`——专属于你自己的一个目录：`code-review` 之后会复用 `review/specialist-findings/`，这个拆分正是为了防止一个阶段悄悄覆盖另一个阶段的发现集合），指向 Story Spec 和设计交付物。它的 Action Context 要列出具体待读文件、仓库 source of truth、只读评审范围，以及唯一允许的输出根目录；不要传未解析 glob，也不要传你自己的结论。再从他们交回的发现集合里汇总。每条发现按它给出的具体失败路径或矛盾来评级，绝不看人数多寡或措辞硬软；有分歧就拿交付物去裁，裁不了就如实记下。
 
 始终要考虑——要么召集，要么把跳过记为一条明确接受的残余风险：**正确性**（规范能否满足所述行为和边界情况）·**标准**（项目指令与本地惯例）·**简洁性**（相对需求是否过度设计）·**项目管家**（方向、公共表面、长期债务——只要计划新增了核心概念、公共接口、依赖、迁移或发布职责，就必须召集）·**测试计划评审员或测试计划员**（Must-Haves 是否仍然可测）。

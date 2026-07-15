@@ -24,11 +24,17 @@ Each scenario directory holds `task-message.md` (the sponsor's message, verbatim
 
 `harness/sim-wave1.js` (S1-S7 + routing audit + seam verification) and `harness/sim-wave2.js` (S8-S9) are Claude Code Workflow scripts: each scenario gets a builder (constructs the trap repo), a driver (the real `delivery-orchestrator` doing intake and planning), one agent per planned phase (loaded with only its skill text and the contract inputs — information hiding is enforced by the harness, so handoff gaps surface as behavior), and an auditor (grades the trace against `oracle.md`, attributing every failure to skill text: trigger, body, or cross-skill contract). Adjust the `SIM` output path at the top of each script before running; scenario state (repos, teamspaces, audits) is disposable.
 
+`dual-design/` contains frozen RED trajectories and deterministic contract checks for conditional Bold/Minimal proposals, chain authority, final-only consumption, and the fail-closed runtime boundary. `harness/sim-dual-design.js` validates fixture hashes and must report `runtime_activation: false` until real host/vault evidence exists.
+
 Judging is process-first: a green final diff with a violated oracle (test edited to pass, policy silently broken, verification claimed without evidence) is a FAIL. Auditors must not report harness artifacts (auto-approved gates, batch-written assignments, sequentialized parallel workers) as pipeline defects.
 
 ## Routing probes
 
 `routing-probes.md` holds realistic user phrasings with their expected routes — the co-resident trigger audit. Rerun it after ANY description or router-row change: a description sharpened in isolation steals or loses traffic from its confusion neighbors (explain/walkthrough, probe/brainstorm, taste/simplicity/steward, the fix trigger).
+
+## Scope-challenge probes
+
+`scope-challenge-probes.md` is the paired behavioral calibration for proactive scope judgment: one case must stay local and quiet; the other must independently challenge a structurally invalid requested route before implementation. Both must pass together.
 
 ## Keeping it honest
 

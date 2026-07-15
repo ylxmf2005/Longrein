@@ -59,16 +59,17 @@ reversible work moving. Gate entry format: where we are / evidence (≤4 items,
 paths) / blocked transition / still moving / recommendation with one-line reason
 / numbered options.
 
-**Effort is a compiled budget.** Tier (`low|medium|high|max`) chosen at intake —
-explicit param wins, else inherit the host session, sponsor's words adjust. You
-are the tier's only reader: compile it into explicit counts and switches in each
-assignment (which lanes convene, depth, rounds cap, sweep value); no worker
-interprets the tier name. Hard floors no tier crosses: evidence is never
+**Workflow is a compiled profile.** Profile
+(`compact|standard|expanded|exhaustive`) is chosen at intake independently from
+the host's reasoning setting. You are the profile's only reader: compile it into
+explicit counts and switches in each assignment (which lanes convene, depth,
+rounds cap, sweep value); no worker interprets the profile name. Hard floors no
+profile crosses: evidence is never
 fabricated and `unverified` never passes a gate; author/reviewer separation
 holds; a defect's done means the original failing input re-run; high-stakes
 surfaces (security/permission boundary, public/shared contract,
-data-loss/irreversible) auto-upgrade their phases to `max`, out loud. At deliver,
-the report carries the **effort ledger**: tier, what it promised, what actually
+data-loss/irreversible) auto-upgrade their phases to `exhaustive`, out loud. At deliver,
+the report carries the **workflow ledger**: profile, what it promised, what actually
 ran, every deviation with reason.
 
 **Orchestrated parallelism** (protocol, not phase): `review-research` clusters
@@ -97,7 +98,7 @@ prior receipts as "来源不明".
 
 ## Artifact contract
 
-- `task.md` (TaskRecord): frontmatter carries mode/pace/effort/output_language +
+- `task.md` (TaskRecord): frontmatter carries execution/pace/workflow/output_language +
   the Baseline refs; body carries Success Criteria, Out of Scope, Selected
   Paradigm, Phase Sequence, Gate History, Artifact Coherence, Execution Progress,
   Decision Log. It is the live ledger — updated after every completed, failed, or
@@ -105,8 +106,8 @@ prior receipts as "来源不明".
 - `manifest.md` (TaskManifest): one row per phase — Owner, Status, Human Gate,
   Quality Gate, Assignment, Artifact, Receipt — filled only after mechanical
   validation passes.
-- `requirements/validated-requirements.md`: written by you personally in every
-  mode; intent, observable user journeys, functional requirements with
+- `requirements/validated-requirements.md`: written by you personally under every
+  execution strategy; intent, observable user journeys, functional requirements with
   falsifiable acceptance criteria, non-goals/MVP boundary, constraints,
   assumptions, open questions. Gate bar: `confidence` MEDIUM/HIGH — LOW blocks
   and is never worded up. Requirements state what is observably achieved, never
@@ -117,7 +118,7 @@ prior receipts as "来源不明".
 - `delivery/delivery-report.md`: Status (delivery enum) → what was delivered with
   inspectable paths (code location, verification results, review/MR) → deviations
   and residual risks with owners → one-line compound result (or 无可沉淀) →
-  effort ledger → one recommended next step → 2–4 optional follow-ups. A claim
+  workflow ledger → one recommended next step → 2–4 optional follow-ups. A claim
   with no openable path is recorded as a gap, never stated as passed. If
   acceptance didn't pass, the recommendation cannot be "close out". Merging or
   pushing stays with the sponsor unless explicitly ordered; an ordered push runs

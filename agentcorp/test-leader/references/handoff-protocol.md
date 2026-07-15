@@ -8,7 +8,7 @@ The demos show shape, not values: keep the protocol field names, the `status` en
 
 - When assigned by the Delivery Orchestrator, treat the assignment file as your task input.
 - Resolve `output_path` relative to `task_root`.
-- When the assignment carries `effort`, the orchestrator has already compiled that tier into your Action Context constraints — treat the field as audit metadata: follow the concrete constraints, and never scale your own care, or the honesty of evidence or status, by the tier name.
+- When the assignment carries `workflow`, the orchestrator has already compiled that profile into your Action Context constraints — treat the field as audit metadata: follow the concrete constraints, and never scale your own care, or the honesty of evidence or status, by the profile name.
 - If the assignment has no `task_root`, derive it from the assignment file's location: find the parent `handoffs/` directory and take its parent directory as the task root.
 - Write this phase's primary durable artifact at `output_path`; unless this role's instructions say to create tester assignments, sub-results, or an acceptance package, do not scatter extra artifacts.
 - Return a receipt; the receipt's `artifact_path` must match the primary artifact path, or, when this role explicitly produces multiple artifacts, point to the final summary artifact.

@@ -8,7 +8,9 @@ phase: example-phase
 status: assigned
 output_path: review/example-output.md
 output_language: zh-CN
-effort: high
+workflow: expanded
+# 仅 dual：run_id、lane、attempt_id、actor_id、input_sha256、
+# expected_generation、expected_attempt、frozen_input_handle、exclusive_write_root。
 source_ref: origin/main
 target_ref: origin/main
 merge_base: 0123abcdef0123abcdef0123abcdef0123abcd
@@ -36,7 +38,7 @@ merge_base: 0123abcdef0123abcdef0123abcdef0123abcd
 - 只读上下文：列出可读但不可编辑的路径。
 - 输出路径：使用 frontmatter 中的 `output_path`。
 - Baseline：frontmatter 中的 `source_ref`/`target_ref`/`merge_base`，从 `task.md` 抄录——凡本 phase 需要读取、diff 或编辑代码时携带；否则三项全部省略。被分配者动手前先按它们核对检出状态。
-- 档位编译：任务的 effort 档位为本 phase 买到的具体数量（召集哪几条 lane、跑哪几层、轮次上限、条目类别），写成明确约束——被分配者照此执行，绝不从 `effort` 字段自行重推。
+- Workflow 编译：任务的 workflow profile 为本 phase 提供的具体数量（召集哪些 lane、运行哪些层、轮次上限、条目类别），写成明确约束——被分配者照此执行，绝不从 `workflow` 字段自行重推。
 - Artifact rules：用于约束被分配者的行为；不要把它们抄进输出交付物。
 
 ## 约束

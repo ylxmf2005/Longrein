@@ -17,9 +17,9 @@ These non-negotiable rules hold for every AgentCorp response, regardless of whic
 
 ## Default Route
 
-Use `delivery-orchestrator` when the user mentions AgentCorp, Delivery Orchestrator, AgentCorp delivery workflow, phased artifacts, gates, handoffs, task orchestration, workflow mode, task root, assignment/receipt, manifest, or asks which AgentCorp role should handle something.
+Use `delivery-orchestrator` when the user mentions AgentCorp, Delivery Orchestrator, AgentCorp delivery workflow, phased artifacts, gates, handoffs, task orchestration, execution strategy, task root, assignment/receipt, manifest, or asks which AgentCorp role should handle something.
 
-After loading `delivery-orchestrator`, read `references/workflow.md` before choosing phases, owners, gates, workflow mode, handoff shape, or artifact paths.
+After loading `delivery-orchestrator`, read `references/workflow.md` before choosing phases, owners, gates, execution strategy, handoff shape, or artifact paths.
 
 ## Phase And Artifact Routing
 

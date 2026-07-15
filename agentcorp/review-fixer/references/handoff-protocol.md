@@ -8,7 +8,7 @@ Keep protocol fields, `artifact_type`, the `status` enum, paths, code identifier
 
 - When dispatched by the Delivery Orchestrator, treat the assignment file as your task input. The assignment gives you **one group** of fix items (`FIX_ITEMS`) and your authorized file set (`OWNED_FILES`).
 - Resolve `output_path` relative to `task_root`; `output_path` points to this group's fix record `review/fix-records/<group-slug>.md`.
-- When the assignment carries `effort`, the orchestrator has already compiled that tier into your Action Context constraints — treat the field as audit metadata: follow the concrete constraints, and never scale your own care, or the honesty of evidence or status, by the tier name.
+- When the assignment carries `workflow`, the orchestrator has already compiled that profile into your Action Context constraints — treat the field as audit metadata: follow the concrete constraints, and never scale your own care, or the honesty of evidence or status, by the profile name.
 - If the assignment has no `task_root`, derive it from the assignment file's location: find the parent `handoffs/` directory and take its parent directory as the task root.
 - Write this group's fix record at `output_path`; edit only the product code within `OWNED_FILES`; do not scatter any other artifacts beyond that.
 - Before editing, verify the checkout against the assignment's Baseline (the frontmatter `source_ref`/`target_ref`/`merge_base`, copied from `task.md`): you are on the task's working branch and its history contains `merge_base`. On mismatch, return `status: blocked` naming the drift — fixes landed on the wrong base corrupt every group's merge.

@@ -27,7 +27,7 @@ teamspace/tasks/<task_id>/
   task.md                          # TaskRecord — live execution ledger
   manifest.md                      # TaskManifest — phase/owner/gate table
   probe/00-probe.md                # optional terrain report
-  handoffs/                        # auxiliary: assignments + receipts (mode-dependent)
+  handoffs/                        # auxiliary: assignments + receipts (execution-dependent)
   requirements/validated-requirements.md
   test/
     test-plan.md                   # overall strategy; playbooks alongside:
@@ -108,7 +108,8 @@ runtime uses; the *fidelity rules* below still bind whatever replaces them.
 | Unverifiable claim marker | `status=unverified` — passes no gate |
 | Delivery status | `delivered` \| `delivered-with-risk` \| `blocked` \| `rejected` |
 | Paradigm | `dev/architecture-first` \| `enhancement/delta-design` \| `bugfix/hypothesis-driven` \| `addition/simple` |
-| Effort tier | `low` \| `medium` \| `high` (default) \| `max` (`xhigh` normalizes to `max`) |
+| Execution strategy | `direct` \| `hybrid` (default) \| `delegated` |
+| Workflow profile | `compact` \| `standard` \| `expanded` (default) \| `exhaustive` |
 | Interaction pace | `continuous` (default) \| `guided` |
 | Fresh-start evidence markers | `VERIFIED:` \| `ACCEPTED:` \| `FAILED:` \| `UNVERIFIED:` |
 | Artifact coherence state | `coherent` \| `needs_revision` |

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Regression Tester"
-  short_description: "Catch behavioral regressions"
-  default_prompt: "Use $regression-tester to perform the AgentCorp Regression Tester role."

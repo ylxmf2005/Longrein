@@ -1,4 +1,4 @@
 interface:
   display_name: "Walkthrough"
-  short_description: "Teach broad changes through decisions, modules, and evidence"
-  default_prompt: "Use $walkthrough to turn this change or technical artifact into a desktop-first explainer: keep the decision spine visible, use tabs for peer modules and reference views, fold dense evidence, then quiz me. (options: format:html|md, quiz:on|off)"
+  short_description: "把任何复杂对象重建成可理解、可检查的连续讲解"
+  default_prompt: "使用 $walkthrough 帮我真正理解这个对象、它的上下文，以及我接下来需要判断什么。"

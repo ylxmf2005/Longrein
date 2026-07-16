@@ -1,4 +1,0 @@
-interface:
-  display_name: "Test Plan Reviewer"
-  short_description: "Judge TestPlan coverage and executability before build"
-  default_prompt: "Use $test-plan-reviewer to perform the AgentCorp Test Plan Reviewer role."

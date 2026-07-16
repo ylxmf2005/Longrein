@@ -1,4 +1,0 @@
-interface:
-  display_name: "Security Reviewer"
-  short_description: "发现安全与鉴权风险"
-  default_prompt: "使用 $security-reviewer 执行 AgentCorp Security Reviewer 角色。"

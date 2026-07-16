@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dev"
+  short_description: "把明确意图变成可维护代码，并用贴近变化的证据确认"
+  default_prompt: "使用 $dev 实现这项变化或修复这个缺陷，并完成与改动相称的验证。"

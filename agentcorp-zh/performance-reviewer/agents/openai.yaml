@@ -1,4 +1,0 @@
-interface:
-  display_name: "Performance Reviewer"
-  short_description: "发现性能回归"
-  default_prompt: "使用 $performance-reviewer 来执行 AgentCorp Performance Reviewer 角色。"

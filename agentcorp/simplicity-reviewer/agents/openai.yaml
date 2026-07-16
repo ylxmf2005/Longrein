@@ -1,4 +1,0 @@
-interface:
-  display_name: "Simplicity Reviewer"
-  short_description: "Find complexity that does not pay for itself"
-  default_prompt: "Use $simplicity-reviewer to review a diff or plan for complexity that does not pay for itself."

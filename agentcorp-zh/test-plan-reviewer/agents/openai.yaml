@@ -1,4 +1,0 @@
-interface:
-  display_name: "测试计划审查员"
-  short_description: "在构建前判断测试计划的覆盖率和可执行性"
-  default_prompt: "使用 $test-plan-reviewer 执行 AgentCorp 测试计划审查员角色。"

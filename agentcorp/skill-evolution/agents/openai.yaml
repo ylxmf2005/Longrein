@@ -1,4 +1,0 @@
-interface:
-  display_name: "Skill Evolution"
-  short_description: "Land a captured skill-improvement proposal"
-  default_prompt: "Use $skill-evolution to turn a captured skill-improvement proposal into a reviewed, landed change to a project skill. (options: proposal:<id>|all)"

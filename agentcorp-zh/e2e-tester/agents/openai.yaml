@@ -1,4 +1,0 @@
-interface:
-  display_name: "E2E Tester"
-  short_description: "运行端到端用户检查"
-  default_prompt: "使用 $e2e-tester 来执行 AgentCorp E2E Tester 角色。"

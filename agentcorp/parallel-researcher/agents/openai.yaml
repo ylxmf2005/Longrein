@@ -1,4 +1,0 @@
-interface:
-  display_name: "Parallel Researcher"
-  short_description: "Establish decision-ready evidence across sources"
-  default_prompt: "Use $parallel-researcher to run multi-source research and synthesize decision-ready evidence. (options: scope:external|repo|both, depth:desk|source-verified|hands-on)"

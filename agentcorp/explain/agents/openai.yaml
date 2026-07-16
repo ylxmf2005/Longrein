@@ -1,4 +1,0 @@
-interface:
-  display_name: "Explain"
-  short_description: "Explain AgentCorp work at the reader's level, with evidence"
-  default_prompt: "Use $explain to explain this AgentCorp output in plain language for someone without project context, domain vocabulary, jargon, or technical background. Focus on what it means, why it matters, and what remains unknown; use a concrete example or Mermaid diagram when it reduces cognitive load. (options: output:inline|artifact, reader:<who>)"

@@ -1,8 +1,0 @@
-{
-  "trajectory": "barrier-final-source-drift",
-  "source_handle": "teamspace/tasks/20260715-131230-dual-design-architecture/receipts/architecture-synthesis.md",
-  "input": "outcome-relevant dependency or chain head changes after barrier",
-  "command": "python3 tools/test-dual-design-run.py",
-  "expected_classification": "stale-cas-rejected",
-  "expected_output": "no orphan normative final"
-}

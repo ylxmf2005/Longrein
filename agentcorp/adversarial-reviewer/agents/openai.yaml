@@ -1,4 +1,0 @@
-interface:
-  display_name: "Adversarial Reviewer"
-  short_description: "Assume it is already broken and construct the failure"
-  default_prompt: "Use $adversarial-reviewer to perform the AgentCorp Adversarial Reviewer role."

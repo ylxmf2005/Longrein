@@ -1,4 +1,0 @@
-interface:
-  display_name: "测试计划员"
-  short_description: "创建风险排序的测试计划"
-  default_prompt: "使用 $test-planner 执行 AgentCorp 测试计划员角色。"

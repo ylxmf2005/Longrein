@@ -1,4 +1,0 @@
-interface:
-  display_name: "可靠性评审员"
-  short_description: "发现可靠性故障模式"
-  default_prompt: "使用 $reliability-reviewer 执行 AgentCorp 可靠性评审员角色。"

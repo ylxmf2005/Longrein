@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review"
+  short_description: "完整冷读变化，验证问题并给出分级裁决"
+  default_prompt: "Use $review to inspect the complete target, verify findings through concrete paths, separate priority from evidence and resolution, and return one verdict."

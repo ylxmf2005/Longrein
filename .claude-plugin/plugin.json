@@ -1,21 +1,15 @@
 {
   "name": "agentcorp",
-  "version": "1.0.0",
-  "description": "AgentCorp: a multi-agent software-delivery pipeline as Agent Skills — task orchestration, planning, implementation, multi-reviewer code review, and layered verification.",
+  "version": "0.1.0",
+  "description": "面向强模型的通用协作 Skills：塑形、提示、回溯、设计、开发、评审、测试、讲解与持续进化。",
   "author": {
-    "name": "ylxmf2005",
-    "url": "https://github.com/ylxmf2005"
+    "name": "efgli"
   },
-  "homepage": "https://github.com/ylxmf2005/AgentCorp",
-  "repository": "https://github.com/ylxmf2005/AgentCorp",
   "keywords": [
-    "agents",
-    "orchestration",
+    "agent-skills",
+    "software-design",
     "code-review",
     "testing",
-    "verification",
-    "delivery-pipeline",
-    "multi-agent"
-  ],
-  "skills": "./agentcorp"
+    "delivery"
+  ]
 }

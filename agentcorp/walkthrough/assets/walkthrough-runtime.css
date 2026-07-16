@@ -1,0 +1,26 @@
+.walkthrough-diagram {
+  position: relative;
+}
+
+.walkthrough-diagram__fullscreen {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 0.75rem;
+  inset-inline-end: 0.75rem;
+  cursor: pointer;
+}
+
+.walkthrough-diagram:fullscreen {
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 1.5rem;
+  overflow: auto;
+  color: var(--walkthrough-fullscreen-color, #17202a);
+  background: var(--walkthrough-fullscreen-background, #ffffff);
+}
+
+.walkthrough-diagram:fullscreen .mermaid {
+  min-width: max-content;
+}

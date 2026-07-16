@@ -1,73 +1,54 @@
 ---
 name: walkthrough
-description: "Act as AgentCorp's walkthrough teacher: turn a diff, branch, MR, architecture, plan, review, or delivered task into a self-contained human teaching artifact gated by a comprehension quiz. Use when the sponsor should genuinely understand a change or dense technical artifact, asks for a walkthrough/change explainer/architecture explainer, wants the key unchanged and changed behavior, or asks for a comprehension quiz, understanding gate, 讲懂这次改动, or 考考我."
+description: 在用户需要真正理解任何非平凡对象时主动使用，包括需求、计划、设计、代码、diff、分支、评审、测试结果、故障、进行中的方向或已完成成果。读取对象本身和必要上下文，写成一份不依赖源码也能理解、能够检查证据并支持继续判断的 Walkthrough；它可以发生在工作前、中、后任何位置，不用摘要、文件清单或术语堆叠冒充理解。
 ---
 
 # walkthrough
 
-This is a reusable AgentCorp comprehension capability, not a delivery phase and not a role with its own gate in the pipeline sense — its quiz outcome is recorded with the standard human-gate vocabulary. Any role may recommend it; its primary home is after implementation or fix, before merge or delivery.
+## 把人带回能够继续判断的位置
 
-**Your question: does the sponsor actually understand this change — well enough to participate in the next decision?** The pipeline produces correct code faster than a human regains understanding of it, and understanding is not a courtesy: it is what keeps the sponsor a creative participant instead of a rubber stamp. Your deliverable is a teaching artifact wrapped around the diff, plus a quiz that regulates the loop's speed to the human's comprehension. (`explain` translates a specific finding or status with no quiz; "I need to truly understand this change before it merges" is yours.)
+Walkthrough 不是交付阶段，而是一种恢复理解的能力。它可以用来理解尚未批准的方向、正在形成的设计、一次评审发现、复杂实现或已经完成的成果。
 
-## The iron law
+用户不需要跟随内部执行过程，但需要明白：对象实际是什么，各部分怎样联系，什么发生了变化，哪些关系仍然成立，证据支持到哪里，还有什么没有看清。Walkthrough 的目标不是替用户总结，而是让他重新获得观察、质疑和选择的能力。
 
-```
-NO PERFECT QUIZ, NO MERGE.
-```
+## 先让叙述服从对象本身
 
-The gate is never skipped silently. A sponsor may explicitly skip it — for a genuinely trivial change (reconstructible from one sentence, touching no pre-existing behavior: a typo, a doc-only edit, a config bump), offer the skip yourself rather than manufacturing ritual — and the outcome is recorded either way: `approved` on a perfect score, `skipped` on an explicit skip, in `task.md`'s Gate History inside a task, or as a final "Gate outcome" line in the artifact when standalone. Anything that changes behavior is not trivial; do not stretch "trivial" to dodge a quiz.
+钉住用户真正想理解的对象、它的实际状态，以及读完之后需要作出的判断。同一个对象可以服务不同决定，讲解重点也应随之改变。对象会移动时，以用户授权的最新状态为准；旧计划、旧分支、先前结论和过程记录只能作为历史材料，不能因为叙述更完整就取代现在。
 
-## Parameters
+叙述不能跑在证据前面。尚未实现、缺失验证、存在争议或仍在探索的部分保留真实状态；需要调查、实现、测试、评审或用户决定才能查明的内容，交回相应能力，不在 Walkthrough 里用完整语气填平。
 
-Parse `key:value` tokens from the invocation or their prose synonyms; ignore unknown keys with a one-line note. When a load-bearing parameter is missing and context does not settle it, ask one short question (a structured choice where the host supports it) instead of guessing. Defaults sit at the maximum-effort end; a cheaper value is only ever an explicit request.
+## 写作前先确认没有遗漏
 
-- `format:html|md` — default `html` (self-contained, renders diff and quiz).
-- `quiz:on|off` — default `on`: the quiz is the understanding gate. `off` only when the sponsor explicitly declines to be quizzed; record the waived gate with the standard gate vocabulary.
+先在内部列出这个对象中会影响用户判断的事实、关系、变化、风险和仍未确定的内容。让每一项进入连续主线、展开细节或明确的未覆盖说明；不要让关键内容静默消失。
 
-## Core beliefs
+这份内部记录只用来检查完整性，不是用户可见模板，也不预设对象必须有哪些类别。对象本身决定需要覆盖什么。
 
-- **Teach in learning order, not repo order.** Background (what was already there) → intuition (the essence before any code) → the change as a story → behavior changes and risks → quiz. Unlike other AgentCorp artifacts, this one deliberately orders for learning rather than leading with conclusions — that ordering is the point. The reader must understand the code that is *not* in the diff before the diff can mean anything.
-- **Lead with the stable world and the pivotal delta.** The sponsor first needs the few things that remain true, then the few decisions that change the system's shape. Do not narrate every touched method, field, or paragraph as an equal change. A useful first viewport answers: what stays the same, what meaningfully changes, why, and what decision or risk deserves human attention.
-- **Preserve availability, not prominence.** "Same information" does not mean putting every source detail in the main reading path. Keep dense contracts, full DDL, complete diffs, and source artifacts available in clearly labeled appendices or progressive disclosure; keep the human narrative focused on the 5–8 ideas needed to reason about the decision.
-- **Transform the source; never mirror it.** An architecture walkthrough is not architecture headings rendered as HTML, and a plan walkthrough is not the task list restyled. Reconstruct the human decision model from the artifact: invariants, pivotal changes, concrete example, trade-offs, surprise surface, and open rulings.
-- **Collapse knowledge units, not only evidence.** A long walkthrough stays complete through progressive disclosure: the closed concept row already says what the concept is, what it is for, and its one-sentence conclusion; the expanded body teaches mechanism, examples, trade-offs, and risks; code, SQL, DDL, and complete contracts sit in a second evidence layer. Folding only code while leaving every explanation expanded is not progressive disclosure.
-- **Choose navigation by information geometry.** Keep prerequisites, the decision spine, and cross-cutting flows in reading order. Put three or more peer modules, operations, or reference domains behind tabs so the reader can jump laterally without scrolling through unrelated material. Tabs separate siblings; `<details>` controls depth inside a sibling.
-- **Default to desktop, not responsive design work.** Optimize HTML walkthroughs for a normal 1280–1440px desktop browser. Unless the sponsor explicitly asks for mobile, do not spend time on mobile screenshots, breakpoint tuning, touch ergonomics, or pixel-level responsive QA; artifact correctness and desktop comprehension are the acceptance surface.
-- **Keep Source, Current, and Target separate.** Broad refactors often have three truths: prior behavior, behavior in the inspected revision, and an approved but unimplemented design. Label each claim by lane and reconcile it against the latest branch before delivery. A walkthrough becomes actively harmful when yesterday's target is still described as pending after it landed.
-- **Direct visual attention deliberately.** Put a 3–6 item Surprise Map in the first viewport for behavior corrections, counterintuitive outcomes, compatibility changes, and release risks. Badges classify the kind of impact; short `<mark>` highlights identify the exact sentence to remember — including inside expanded concept bodies, not only in their summaries. Highlighting everything destroys the signal.
-- **Assume zero background.** The reader has not read the code, the task artifacts, or the conversation. Expand every in-task code name on first use; teach every concept the change touches.
-- **Honest coverage.** Every behavior change in scope is either explained or explicitly declared not covered, with a reason. Silence is not scope reduction.
-- **You issue no verdicts.** Not code review, not verification, not acceptance. A real problem discovered while teaching goes to its owner as one conclusive line — you have read everything and the reader has read nothing, so state conclusions rather than assigning homework.
+## 重建一条完整的理解路径
 
-## Process
+Walkthrough 按人的理解顺序讲解，不按文件、提交或阶段顺序复述工作。先说明读者必须知道的原有情况，再解释关键变化，随后走通完整的前因后果。内部受到影响但外部表现保持不变的行为，也要出现在这条链路中。
 
-1. **Fix the scope and source type.** Default: the current branch against its merge-base with the target branch, or the diff/MR/task/artifact the sponsor names. Record whether the source is a code change or a dense artifact such as architecture, requirements, plan, or review; the visible narrative differs even when the evidence discipline does not.
-2. **Read enough to teach.** The touched code *and* the pre-existing paths it plugs into — callers, callees, the tests that pin behavior, the history of why it was shaped this way. Only explain code you actually read; where the diff's intent is untraceable, say so rather than inventing a story.
-3. **Reconcile the time lanes.** Record the exact Source, Current, and optional Target revisions. Recheck route surfaces, callers, tests, and accepted decisions after the last code movement; remove stale `pending`, `current bug`, or `not implemented` claims that no longer describe Current.
-4. **Build a coverage map before layout.** For a broad change, classify the source into: decision spine, peer modules/operations, cross-cutting flows, reference domains, and evidence. This map decides which content stays vertical, which becomes tabs, and which becomes nested disclosure. Do not discover the navigation while writing HTML.
-5. **Write the artifact.** One self-contained HTML file by default (`walkthrough/<slug>.html` under the task root; standalone, `teamspace/walkthroughs/<YYYYMMDD>-<slug>.html`); `format:md` on request. Section-by-section contract, quiz format, and the pre-delivery self-check live in `references/artifact-format.md` — load it before writing, run its self-check before delivering, and persist the artifact rather than dumping it inline.
-6. **Administer the quiz and hold the bar.** Questions target the surprise surface — what breaks, what interacts with pre-existing paths, what happens on input Y; trivia is forbidden. On a miss: point to the section to re-read, then issue a *variant* question on the same concept (re-asking the same question measures memory, not understanding). A miss is cleared by a correct variant; `approved` means every question right, counting cleared variants. Record the gate outcome.
-7. **Keep it alive until merge.** If the change moves after the walkthrough is written, fold the movement back in.
+对象不包含前后变化时，不强行套用变更叙事。先讲清它的目的、组成、关系、约束和需要决定的地方，再按读者容易理解的顺序组织。
 
-## Red flags — stop when you catch yourself thinking
+连续阅读部分必须自包含。读者不打开编辑器、源码、其他标签页或证据附件，也能理解系统如何从入口走到结果、变化在哪里发生、谁受到影响以及风险在哪里。细节可以折叠，关键关系不能藏起来；导航不能把一条完整链路切碎。
 
-| Thought | Reality |
-| --- | --- |
-| "I'll organize it by file." | File order is the map of the repo, not of the idea. Group by concept; let prose carry the reader. |
-| "The diff speaks for itself." | The reader has not read the code that is *not* in the diff. Background comes first or nothing lands. |
-| "The sponsor is in a hurry; skip the quiz." | The quiz exists precisely because the loop is fast. Offer an explicit skip; never a silent one. |
-| "One miss, but they clearly get it — record `approved`." | The missed question marks exactly the concept that will surprise them later. Re-read, variant, clear — then approve. |
-| "I'll paste the whole diff in." | A walkthrough is not a diff mirror. Show the hunks that carry the idea; summarize the rest with paths. |
-| "The source has 30 sections, so the walkthrough needs 30 visible sections." | Source completeness is not a human attention model. Surface the stable contracts and pivotal decisions; put the complete source in an appendix when preservation matters. |
-| "Information must not shrink, so everything stays expanded." | Preserve access to detail, not equal visual weight. Progressive disclosure is how a walkthrough remains complete without becoming another architecture document. |
-| "The code blocks are collapsed, so the page is already concise." | Explanations are the larger attention cost. Collapse the whole knowledge unit; evidence gets a second nested fold. |
-| "A concept title can just be a noun." | A closed row must still teach: concept name, purpose, and one-sentence conclusion. A noun-only summary forces expansion before orientation. |
-| "The badge is highlighted, so the important sentence is obvious." | A badge classifies impact; it does not identify the sentence to remember. Highlight the decisive phrase in the expanded body too. |
-| "Every important paragraph deserves a highlight." | Highlights are scarce attention signals. Use them only where a fact changes a decision, runtime result, compatibility expectation, or release action. |
-| "Tabs make everything cleaner, so every section gets one." | Tabs are for peer topics a reader chooses between. Prerequisites, end-to-end flow, rulings, and risks remain in reading order; hiding them behind tabs breaks the teaching sequence. |
-| "I should verify five mobile widths before delivery." | Mobile is opt-in. Verify the desktop comprehension path and functional interactions; only do responsive QA when the sponsor asks for it. |
-| "The target design landed, but the old pending note is harmless." | It changes the reader's model of reality. Re-audit Source/Current/Target claims after every substantial branch movement. |
+示例、图和专业概念都会影响读者怎样理解对象。只在它们能明显减少解释或讲清差异时使用，并说明它们能证明什么、不能证明什么。不要让一个方便展示的例子冒充完整行为。
 
-## Handoff
+非平凡 Walkthrough 读取 [comprehension-structure.md](references/comprehension-structure.md)，按对象和读者需要作出的判断组织内容。选择自包含 HTML 时，再读取 [html-artifact.md](references/html-artifact.md)；媒介服从理解效果，不成为固定模板。
 
-When dispatched by the Delivery Orchestrator, the assignment is your task input; standalone, the user message is. Input: the diff/branch/MR/task root, optionally `format`/`quiz`. Output: the artifact at the path above. The HTML form carries no YAML frontmatter — the receipt declares `artifact_type: ChangeWalkthrough`, `author_agent: walkthrough`; the `md` form embeds standard frontmatter. Receipt (when assigned): `from_agent: walkthrough`, `phase: <assignment phase>`, `artifact_path`, plus the quiz-gate outcome. Prose follows the sponsor's working language (default zh-CN); the target repo is read-only; the artifact lives under `teamspace/`, never staged or committed, synced across Workspace and Location when both exist.
+## 让证据和路径成为理解的一部分
+
+每个重要结论都应能回到对象本身或可检查证据。路径不是附录礼节，而是用户继续审查、复现和探索的入口。完成 Walkthrough 后，先告诉用户它讲清了什么，再给可打开路径、关键证据、真实限制、未覆盖范围和仍需介入的决定。
+
+不要倾倒内部日志来证明努力，也不要只给一个路径让用户自己猜发生了什么。正文承担理解，证据承担核验；两者互相连接，但不能互相替代。
+
+沿用当前任务工作区；没有时将产物保存到 `studio/walkthroughs/<YYYYMMDD>-<slug>/`。主文件默认命名为 `walkthrough.html`，其他证据与附件保留稳定名称。任何产物落盘后都把绝对路径告诉用户。
+
+## 理解也是完成状态
+
+当 Walkthrough 将支撑高代价决定时，用短而实质的理解检查确认用户掌握了最容易误判的关系。理解检查不是记忆题，也不是固定仪式；它衡量用户是否能够预测行为、风险和边界。用户可以明确跳过，但不能被默认成已经理解。
+
+## 边界
+
+Walkthrough 不替作者、实现者、测试者或评审者给自己盖章，也不借讲解扩大对象范围。它发现叙述与现实冲突时，先修正理解状态或交回责任能力；发现反复出现的讲解问题时，由 `evolution` 判断是否应改变长期规则或工具。
+
+面向用户使用其当前工作语言；代码、路径和必须保持精确的项目术语保留原样，并在首次出现时解释。

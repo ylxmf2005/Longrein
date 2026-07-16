@@ -1,4 +1,0 @@
-interface:
-  display_name: "Scope Challenger"
-  short_description: "Challenge scope changes before delivery changes course"
-  default_prompt: "Use $scope-challenger to independently test whether changing scope or delivery direction is justified by evidence."

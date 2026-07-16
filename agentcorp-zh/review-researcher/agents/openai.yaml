@@ -1,4 +1,0 @@
-interface:
-  display_name: "Review Researcher"
-  short_description: "验证、建议修复、解释每条发现"
-  default_prompt: "使用 $review-researcher 执行 AgentCorp Review Researcher 角色。"

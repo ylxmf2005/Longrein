@@ -1,4 +1,0 @@
-interface:
-  display_name: "Comment Optimizer"
-  short_description: "Rewrite comments so they earn their place"
-  default_prompt: "Use $comment-optimizer to optimize AgentCorp comments directly. (options: mode:edit|review)"

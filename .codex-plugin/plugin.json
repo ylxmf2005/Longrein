@@ -1,29 +1,23 @@
 {
   "name": "agentcorp",
-  "version": "1.0.0",
-  "description": "AgentCorp: a multi-agent software-delivery pipeline as Agent Skills — task orchestration, planning, implementation, multi-reviewer code review, and layered verification.",
+  "version": "0.1.0",
+  "description": "面向强模型的通用协作 Skills：塑形、提示、回溯、设计、开发、评审、测试、讲解与持续进化。",
   "author": {
-    "name": "ylxmf2005",
-    "url": "https://github.com/ylxmf2005"
+    "name": "efgli"
   },
-  "homepage": "https://github.com/ylxmf2005/AgentCorp",
-  "repository": "https://github.com/ylxmf2005/AgentCorp",
   "keywords": [
-    "agents",
-    "orchestration",
+    "agent-skills",
+    "software-design",
     "code-review",
     "testing",
-    "verification",
-    "delivery-pipeline",
-    "multi-agent"
+    "delivery"
   ],
-  "skills": "./agentcorp",
-  "hooks": "./hooks.json",
+  "skills": "./skills",
   "interface": {
     "displayName": "AgentCorp",
-    "shortDescription": "Multi-agent software-delivery pipeline: orchestration, planning, implementation, review, and verification.",
-    "longDescription": "AgentCorp is a suite of specialized Agent Skills that run a full software-delivery pipeline. A Delivery Orchestrator classifies the task and routes each phase to the right role — planning, implementation, multiple independent code reviewers, and layered verification — with explicit gates and an assignment/receipt evidence trail between phases.",
-    "developerName": "ylxmf2005",
+    "shortDescription": "面向强模型的通用工程协作 Skills",
+    "longDescription": "让 Agent 先接触真实情况，再形成方向、设计、实现、评审、测试、讲解与经验进化；保留模型的判断空间，同时让权限、契约和完成证据保持清楚。",
+    "developerName": "efgli",
     "category": "Coding",
     "capabilities": [
       "Interactive",
@@ -31,10 +25,10 @@
       "Write"
     ],
     "defaultPrompt": [
-      "Use $delivery-orchestrator to deliver this task end to end",
-      "Use $code-review-lead to run an evidence-based code review"
+      "使用 $agentcorp:shape 帮我调查并形成这项工作的可靠方向。",
+      "使用 $agentcorp:design 为这个变化形成架构与实现路线。",
+      "使用 AgentCorp 完成这项工程任务并给出可检查的结果与证据。"
     ],
-    "websiteURL": "https://github.com/ylxmf2005/AgentCorp",
     "screenshots": []
   }
 }

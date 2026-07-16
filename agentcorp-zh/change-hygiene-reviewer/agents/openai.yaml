@@ -1,4 +1,0 @@
-interface:
-  display_name: "变更卫生审查者"
-  short_description: "保持 MR 差异干净且可追溯"
-  default_prompt: "使用 $change-hygiene-reviewer 审查差异中的噪音、范围残留和意图追溯缺口。"

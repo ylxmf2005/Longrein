@@ -19,11 +19,11 @@ description: 对需求、设计、计划、代码、diff、MR 或交付物做独
 
 变化审查只把本次变化引入或显著放大的问题归到当前对象。既有问题只有在用户要求整体审计，或它会使本次结论失真时才展开，并明确它不是本次变化引入的。
 
-## 建立 Review Envelope
+## 固定审查边界与类型覆盖
 
 在展开 finding 前记录审查对象、baseline、任务承诺、Task Operating Envelope，以及每个 review type 的 `reviewed | not-applicable | evidence-gap`。`not-applicable` 必须有证据；“作者说不会发生”和“普通用户一般不会这样做”不能推翻 retry、重复回调、多 worker、公共入口或运行数据。
 
-所有评审都考虑正确性、scope/change hygiene、standards、simplicity/cleanliness、taste/architecture 与 project stewardship；公共接口才深入兼容性，鉴权和不可信输入才深入安全，I/O、异步和恢复才深入可靠性，热路径与有来源规模才深入性能，高风险组合才深入 adversarial。
+所有评审都考虑正确性、scope/change hygiene、standards、simplicity/cleanliness、taste/architecture 与 project stewardship；公共接口才深入兼容性，触及信任边界、鉴权、凭据或敏感数据才深入安全，I/O、异步和恢复才深入可靠性，热路径与有来源规模才深入性能，高风险组合才深入 adversarial。
 
 使用 [review-witnesses.md](references/review-witnesses.md) 的因果见证，按三个簇组织覆盖：
 
@@ -96,12 +96,12 @@ Task Operating Envelope 中不存在的运行条件不写成 `outside-delivery-s
 
 最终结论使用：
 
-- `approve`：没有 `fix-now` 问题，关键证据足够，剩余风险已说明；
+- `approve`：没有 `fix-now` 或未决 `owner-decision`，关键证据足够，剩余风险已说明；
 - `request_changes`：至少一个已确认或核心成立的 `fix-now` 问题；
 - `needs_more_evidence`：命名明确的证据缺口可能改变是否前进的判断；
 - `blocked`：审查对象不可用或审查任务被取消。
 
-`follow-up` 和 `owner-decision` 不得静默消失；它们必须说明当前对象为何仍可前进、谁承担剩余风险以及下一负责人。缺少证据时不要用低优先级包装不确定性，也不要用高优先级包装猜测。
+`follow-up` 必须说明当前对象为何仍可前进、谁承担剩余风险以及下一负责人。未决 `owner-decision` 不能与 `approve` 并存：把需要取得的 Owner 决定或授权记录为具名缺口，使用 `needs_more_evidence`；Owner 接受后记录风险，承诺变化时先修订 Task Context，再重新裁决。缺少证据时不要用低优先级包装不确定性，也不要用高优先级包装猜测。
 
 评审可以运行窄复现来确认问题；完整 TestPlan、E2E 和覆盖结论属于 `test`。评审发现需求或方向本身错误时回到 `shape`，发现结构决定不成立时交给 `design`，不在错误框架里只修表面。
 
@@ -117,8 +117,8 @@ Task Operating Envelope 中不存在的运行条件不写成 `outside-delivery-s
 <task-workspace>/review/review.md
 ```
 
-结果依次写：审查结论；`fix-now` blocker 索引；Review Envelope 与 type coverage ledger；按 cluster/type 分组、每个 type 内按 `P0` 到 `P3` 排序的问题项；Finding Audit 中的 partial、overruled、高信号误报和重复项；Owner decisions 与 follow-ups；证据缺口与剩余风险。问题项的完整字段使用 [review-witnesses.md](references/review-witnesses.md) 中的唯一模板。
+结果依次写：审查结论；`fix-now` blocker 索引；审查边界与 type coverage ledger；按 cluster/type 分组、每个 type 内按 `P0` 到 `P3` 排序的问题项；Finding Audit 中的 partial、overruled、高信号误报和重复项；Owner decisions 与 follow-ups；证据缺口与剩余风险。问题项的完整字段使用 [review-witnesses.md](references/review-witnesses.md) 中的唯一模板。
 
-低风险小对象把 Envelope 和 coverage 压缩成一个短表或几行，只展开实际有 finding、evidence gap 或高信号 overruled 的类型；不要为显示完整而生成十几个空章节。类型没有静默消失即可，不用平均分配篇幅。
+低风险小对象把审查边界和 coverage 压缩成一个短表或几行，只展开实际有 finding、evidence gap 或高信号 overruled 的类型；不要为显示完整而生成十几个空章节。类型没有静默消失即可，不用平均分配篇幅。
 
 完成时，被审查对象、版本和持久 `context_revision` / `scope_revision`（若有）明确，完整变化面已经检查，每个 review type 都有状态，所有报告的问题都有因果见证并经过 finding audit，误报与 scope 外问题没有被包装成当前 blocker，未检查表面和证据缺口没有被静默写成 `approve`。

@@ -2,6 +2,14 @@
 
 评审时先从 Task Context 的 Task Operating Envelope 和实际改动表面选择相关见证。它们是构造证据的方法，不是固定审查角色清单；每个类型仍在 coverage ledger 中标明 `reviewed | not-applicable | evidence-gap`。
 
+## 目录
+
+1. Behavior & Boundaries
+2. Change Integrity
+3. Architecture & Stewardship
+4. 对象特定见证
+5. 问题项记录
+
 ## Behavior & Boundaries
 
 ### 正确性

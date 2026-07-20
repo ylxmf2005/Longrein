@@ -13,7 +13,7 @@ description: 对需求、设计、计划、代码、diff、MR 或交付物做独
 
 ## 锁定对象、边界和完整变化面
 
-按常驻 Context 协议固定目标、scope、non-goals、must-preserve、Task Operating Envelope 和 Git 意图。打开原始需求、设计、计划、diff、调用者和必要历史，不把摘要当作替代。代码变化记录实际 inspected commit、未提交差异、baseline、相对 target 的交付状态以及会合入的 diff；基线 unresolved 且会改变对象时，只暂停依赖它的审查路径。
+当前 Session 已宣布 Active Task 时，先读取其绝对路径对应的 `task.md`、Task Operating Envelope、Git 意图和 Artifact Map 输入。打开原始需求、设计、计划、diff、调用者和必要历史，不把摘要当作替代。代码变化记录实际 inspected commit、未提交差异、baseline、相对 target 的交付状态以及会合入的 diff；基线 unresolved 且会改变对象时，只暂停依赖它的审查路径。
 
 先列出全部可审查面，再按风险分配深度。完整覆盖不等于平均用力，但每个变化文件、关键章节或受影响消费者都应被检查、明确判定无关，或记录为证据缺口。发现第一个问题后继续看完整对象。
 
@@ -111,13 +111,15 @@ Task Operating Envelope 中不存在的运行条件不写成 `outside-delivery-s
 
 ## 产物
 
-简单评审可直接在对话给出结论。需要保存或交接时写入：
+简单评审可直接在对话给出结论。当前 Session 有 Active Task 且需要保存或交接时写入：
 
 ```text
 <task-workspace>/review/review.md
 ```
 
 结果依次写：审查结论；`fix-now` blocker 索引；审查边界与 type coverage ledger；按 cluster/type 分组、每个 type 内按 `P0` 到 `P3` 排序的问题项；Finding Audit 中的 partial、overruled、高信号误报和重复项；Owner decisions 与 follow-ups；证据缺口与剩余风险。问题项的完整字段使用 [review-witnesses.md](references/review-witnesses.md) 中的唯一模板。
+
+产物落盘后更新当前 Active Task 的 Current Work 和 Artifact Map，写明裁决后下一位应读取什么。没有 Active Task 时在对话中报告，或只写用户指定的路径。
 
 低风险小对象把审查边界和 coverage 压缩成一个短表或几行，只展开实际有 finding、evidence gap 或高信号 overruled 的类型；不要为显示完整而生成十几个空章节。类型没有静默消失即可，不用平均分配篇幅。
 

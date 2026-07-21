@@ -5,6 +5,7 @@ import { listSkills, Skill } from './core/skills.js';
 import { inspect, installSkill, pruneBrokenOwnLinks, uninstallSkill, SkillState } from './core/installer.js';
 import { blockStatus, listBlocks, removeBlocks, upsertBlocks } from './core/blocks.js';
 import { runDoctor } from './core/doctor.js';
+import { registerTaskCommands } from './task-command.js';
 import { pickSkills } from './ui/Picker.js';
 
 const program = new Command();
@@ -269,6 +270,8 @@ program
     }
     if (findings.some((f) => f.severity === 'error')) process.exitCode = 1;
   });
+
+registerTaskCommands(program);
 
 // bare `longrein` → status dashboard
 if (process.argv.length <= 2) {

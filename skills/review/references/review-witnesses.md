@@ -1,14 +1,15 @@
-# Review 因果见证
+# Review 证据构造法
 
-评审时先从 Task Context 的 Task Operating Envelope 和实际改动表面选择相关见证。它们是构造证据的方法，不是固定审查角色清单；每个类型仍在 coverage ledger 中标明 `reviewed | not-applicable | evidence-gap`。
+评审时先从 Task Context 的 Task Operating Envelope 和实际改动表面选择相关检查角度。它们是构造证据的方法，不是固定审查角色清单；每个类型仍在 coverage ledger 中标明 `reviewed | not-applicable | evidence-gap`。
 
 ## 目录
 
 1. Behavior & Boundaries
 2. Change Integrity
 3. Architecture & Stewardship
-4. 对象特定见证
-5. 问题项记录
+4. Task Coherence
+5. 对象特定见证
+6. 问题项记录
 
 ## Behavior & Boundaries
 
@@ -120,16 +121,66 @@
 
 说不清成本承担者和授权者的担忧只是个人偏好。临时方案需要退出条件、触发器和负责人。
 
+## Task Coherence
+
+Task Coherence 检查同一项变化在用户决定、代码与运行结果、当前专业产物、Task Runtime 四个表面上是否同源。它不是文案校对；问题必须说明哪一项现实、授权、模型或状态因此失真，以及正确修复应落在哪里。
+
+### 决定来源与授权
+
+```text
+用户原话或可追溯决定 → 是否明确选择了价值、范围、风险或取舍 → Task Context / UD → 下游专业决定与实现
+```
+
+Agent 报告过、用户看过或讨论过，不自动等于用户作出决定；产物里写了 `UD-*` 也不能创造授权。反过来，用户已经明确选择但 Task Context 和源产物没有同步，是模型遗漏，不需要为了补文档伪装成一次新决定。检查 `AD-*` 是否在现有用户承诺内，还是把范围、兼容、风险接受或长期责任偷渡成了专业决定。
+
+既有决定是当前变化的输入，不是默认审查对象。只有本次 diff 依赖、修改、违背它，或它的来源会改变当前授权判断时才沿引用回看；没有这些关系时不复述旧 `UD-*`、`AD-*` 或历史设计。若旧选择只隐含在代码中，先把它作为当前事实或契约调查，只有本任务需要明确保护、替换或继续依赖该专业取舍时才形成当前可审查的决定。
+
+### 代码与专业产物一致性
+
+```text
+实际 diff / 运行行为 → 新增或改变的语义与结构 → 当前 REQ / AD / 契约 / 根因 → 受影响消费者
+```
+
+完整阅读审查对象的变化面，但不默认要求逐 hunk 台账。局部机械实现可以直接由既有决定解释；能够独立变化、影响消费者、改变契约或需要后续审查的选择若只藏在代码或 Dev Report 中，应形成或拆分所属 Shape 产物中的 `AD-*`。文档更新了但代码没有实现、代码实现了但文档仍描述旧模型、不同产物各写一套当前结论，都属于 coherence finding。
+
+### 产物与 Runtime 同步
+
+```text
+当前专业产物变化 → Artifact 登记与 hash → Task / Timeline 投影 → 下一位实际读取的状态
+```
+
+`task doctor` 能发现部分文件或 hash 漂移，不能证明文档中的决定来源正确。检查应该更新的产物是否真实更新、是否登记、当前 revision 是否对应审查对象、Timeline 是否把语义变化保存为历史，以及 Runtime 是否把未同步或失效的产物继续显示为可信。
+
+### Phase 完成完整性
+
+```text
+Phase 目标与来源 → 实际变化 → 源产物修订 → 聚焦验证 → Phase Review → completed 状态
+```
+
+包含实质实现的 Phase 在完成前接受轻量 Review；极小机械工作可以和最终交付 Review 合并。若 Plan 已标 completed，但代码、决定、文档、聚焦证据、阶段 finding 或 Owner decision 仍未收口，完成状态就是失真。Review Phase 自身不递归要求再建一轮 Review。
+
+### 修复路由
+
+- 实际行为错误或越界：`implementation`；
+- 当前模型遗漏、过期或拥有位置错误：`source-artifact`；
+- Artifact、Context、Timeline 或状态没有同步：`runtime-state`；
+- 缺少用户明确选择：`owner-decision`；
+- 实现证据推翻需求、设计或契约：`re-shape`；
+- 错误前提已经持续污染多个下游：`rewind`。
+
+一项 finding 可以有多个修复落点。比如代码和设计都扩大了范围但没有用户决定，需要先 `owner-decision`；用户拒绝时再同时修 `implementation` 与 `source-artifact`。不要只写“同步文档”或“和用户确认”，让下一位重新判断完整因果链。
+
 ## 对象特定见证
 
 ### 文档、设计和计划
 
-代码之外的产物也需要可走通的失败：
+代码之外的产物也需要能走通的失败路径：
 
 - 需求：某个价值或边界不可观察，导致不同实现都能自称完成；
 - 设计：缺少 owner、接口、状态、迁移或失败语义，迫使实现者临场决定；
 - 计划：故事依赖未确定的结构，顺序无法验证，或把范围外工作静默吸收；
-- 测试报告：用例缺失、证据句柄打不开、动作与结论不对应，导致绿色状态无法复核。
+- 测试报告：用例缺失、证据路径打不开、动作与结论不对应，导致绿色状态无法复核。
+- Longrein 当前产物：代码、用户决定、requirements、design、contract、migration、Plan、专业报告与 Runtime 投影互相冲突，或内容虽然同步却没有取得正确授权。
 
 ### Skill、提示词和长期规则
 
@@ -141,23 +192,9 @@
 
 ## 问题项记录
 
-```markdown
-### [P0-P3] <简短标题>
+问题项的完整字段和它在最终报告中的位置遵循 [Review 产物 demo](templates/review.demo.md)。本文件只定义怎样构造和审核证据，不维护平行模板。
 
-- 类别：correctness | security | reliability | performance | compatibility | standards | simplicity | shape | scope | stewardship | ...
-- 证据状态：confirmed | partial | needs-more-evidence
-- Scope relation：introduced | amplified | pre-existing | outside-delivery-scope
-- 处理方式：fix-now | follow-up | owner-decision
-- 位置：文件与行、接口、测试用例或产物章节
-- 触发：具体输入、状态、调用者或扰动
-- 路径：实际经过的分支、边界或依赖
-- 结果：错误行为或长期成本
-- 证据：命令、请求、代码、日志、历史或规则原文
-- 建议：最小正确处理方向；结构问题附诚实形态与价格
-- 证据边界：仍未确认什么
-```
-
-被证据推翻的候选问题不分配优先级、scope relation 和处理方式；只有会影响审查可信度的高信号误报才进入 Finding Audit 的 `overruled` 部分。真实但不在本次落地的问题保持 confirmed/partial，并用 scope relation 与处理方式表达，不弯折 truth。
+被证据推翻的候选问题不分配优先级、scope relation 和处理方式；只有会影响审查可信度的高信号误报才进入 Finding Audit 的 `overruled` 部分。真实但不在本次落地的问题保持 confirmed/partial，并用 scope relation 与处理方式表达，不扭曲事实。
 
 复现依赖未提供的 schema、配置或外部契约时，明确写出假设。一个在自选 fixture 中通过或失败的实验不能替代真实项目契约；该契约会改变裁决时，把它留作 evidence gap。
 

@@ -1,40 +1,50 @@
+# Task Context 生成视图示例
+
+`task.md` 由 Task Runtime 从 `.runtime/state.json` 生成。下面只用于理解固定章节和信息分工，不能复制后手工维护；字段或状态变化必须通过 `longrein task` 命令完成。
+
+```markdown
 ---
 artifact_type: TaskContext
-task_id: 20260720-example-task
-status: active
+schema_version: 1
+task_id: "20260721-example-task"
+status: ready
 context_revision: 3
 scope_revision: 1
-workspace: /workspace/app/studio/tasks/20260720-example-task
-repository: /workspace/app
-source_ref: origin/main
-working_branch: fix/example-task
-target_ref: main
+latest_event: "EVT-0007"
+workspace: "/workspace/app/studio/tasks/20260721-example-task"
+repository: "/workspace/app"
+source_ref: "origin/main"
+working_branch: "fix/example-task"
+target_ref: "main"
+updated_at: "2026-07-21T08:00:00.000Z"
 ---
 
-# Task Context: Example Task
+# Task Context: 20260721-example-task
 
-新 Task 在 `status: shaping` 时可以把尚未确认的 Goal、Scope 或完成条件写成 `unresolved`，并在 Current Work 说明 Shape 正在调查什么；不要为了套用完整 demo 提前制造承诺。
+## Original Request
+
+修复示例行为，并让后续 Session 可以直接了解当前状态。
 
 ## Goal
 
-- 写出用户最终能够观察到的结果，不写实现动作。
+- [UD-001] 写出用户最终能够观察到的结果，不写实现动作。
 
 ## Scope
 
-- 列出本次任务负责的行为、对象或边界。
+- [UD-002] 列出本次任务负责的行为、对象或边界。
 
 ## Non-goals
 
-- 列出容易被顺手做掉、但本次明确不负责的内容。
+- [UD-003] 列出容易被顺手做掉、但本次明确不负责的内容。
 
 ## Completion Evidence
 
-- [ ] 每一项都是可以检查的完成证据，而不是“代码已完成”。
-- [ ] 需要评审或真实测试时，写明对应产物和通过条件。
+- [ ] [CE-001] 每一项都是可以检查的完成证据，而不是“代码已完成”。
+- [x] [CE-002] 需要评审或真实测试时，记录对应证据和通过结果 — 测试报告已通过
 
 ## Must Preserve
 
-- 写出不能破坏的现有行为、数据、接口或用户资产。
+- [UD-004] 用户明确要求保留的行为或资产。
 
 ## Task Operating Envelope
 
@@ -42,32 +52,35 @@ target_ref: main
 | --- | --- | --- | --- | --- |
 | 使用者与入口 | 已确认的正常调用者和入口 | 平台重试、多个 worker 等真实可达边界 | 没有可达路径的理论情况 | 代码、配置、运行记录或用户确认 |
 
-只保留会改变本任务判断的 dimensions；不要为了填表制造并发、规模、安全或兼容问题。
-
 ## Assumptions And Evidence Gaps
 
 - 写出会影响后续判断但尚未确认的事实，以及准备从哪里取得证据。
 
 ## Current Work
 
-- Now: 当前正在完成的工作单元。
-- Next: 下一位应读取哪些文件、完成什么判断。
-- Waiting on: none；需要决定时写明由谁决定什么。
+- Now: none
+- Next: 由 dev 实现已确认路线
+- Waiting on: none
+- Active work unit: none
+
+## Confirmed Findings
+
+- [FND-001] 当前状态由旧文件的手工约定维护，交接时可能漂移 — `shape/evidence/state-audit.md`
 
 ## Artifact Map
 
 | Artifact | Status | What it establishes | Next consumer |
 | --- | --- | --- | --- |
 | `task.md` | active | 当前任务承诺、状态和产物入口 | all |
-| `shape/shape.md` | approved | 方向、范围和用户决定 | design |
-| `design/design.md` | ready | 架构、契约和实现路线 | dev, review |
+| `timeline.md` | active | 工作单元与语义变化的任务历史 | all |
+| `plan.md` | active | 全部 Phase、Owner、依赖、当前状态、结果和证据 | shape, dev, review, test |
+| `shape/requirements.md` | ready | 可追溯的详细需求、行为边界和可观察结果 | shape, dev, review, test |
+| `shape/design.md` | ready | 当前与目标系统模型、契约和关键专业决定 | shape, dev, review |
+| `dev/report.md` | ready | 已交付行为、变化传播、源产物修订、阶段审查和聚焦验证 | review, test, owner |
 
-只列真实存在或已经确定要创建的产物。专业正文留在对应产物中，这里只记录路径、可信状态、它确定了什么和下一位读者。
+## Timeline
 
-## Context Change Ledger
+完整任务历史见 [`timeline.md`](timeline.md)。最新事件：EVT-0007。
+```
 
-| Context revision | Scope revision | Kind | Source | Change | Approval | Invalidated artifacts |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 | 1 | commitment | User request | 建立任务目标和初始边界 | explicit | none |
-| 2 | 1 | fact | Repository evidence | 修正会改变后续判断的项目事实 | not required | affected artifact paths |
-| 3 | 1 | status | Completed work unit | 更新当前工作和产物状态 | not required | none |
+新 Task 在 `status: shaping` 时，Goal、Scope 或完成条件可以显示为 `unresolved`。用户决定使用 `UD-###`；Completion Evidence 的稳定编号由 Runtime 分配为 `CE-###`；Confirmed Findings 和 Artifact Map 也由相应 Task Command 生成，不直接编辑表格。

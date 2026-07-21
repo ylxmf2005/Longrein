@@ -15,7 +15,8 @@
   "scripts": {
     "build": "node cli/build.mjs",
     "prepare": "npm run build",
-    "typecheck": "tsc -p cli/tsconfig.json --noEmit"
+    "typecheck": "tsc -p cli/tsconfig.json --noEmit",
+    "test": "npm run build && node --test cli/test/*.test.mjs"
   },
   "engines": {
     "node": ">=18"

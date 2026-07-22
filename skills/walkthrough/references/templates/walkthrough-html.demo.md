@@ -34,6 +34,11 @@
 flowchart LR
   A[入口] --> B[关键关系] --> C[结果]
       </pre>
+
+      <!-- 真实代码与机器可读内容使用显式语言；关键行按需强调。 -->
+      <pre><code class="language-java" data-highlight-lines="2">public Result handle(Request request) {
+    return service.execute(request);
+}</code></pre>
     </section>
 
     <section aria-labelledby="evidence">
@@ -49,4 +54,4 @@ flowchart LR
 </html>
 ```
 
-生成正文后运行 `python3 scripts/embed_html_runtime.py walkthrough.html` 内联 Mermaid 与全屏运行时。最终文件不得依赖 CDN、远程字体或网络脚本；外部图片或附件不能内联时，必须使用稳定本地路径并明确它不再是单文件交付。
+生成正文后运行 `python3 scripts/embed_html_runtime.py walkthrough.html` 内联全语言代码高亮、Mermaid 与全屏运行时。代码块优先写明 `language-*`；需要保留原文时使用 `nohighlight`。最终文件不得依赖 CDN、远程字体或网络脚本；外部图片或附件不能内联时，必须使用稳定本地路径并明确它不再是单文件交付。

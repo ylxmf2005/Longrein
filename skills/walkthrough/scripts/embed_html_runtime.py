@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Inline the Longrein Walkthrough Mermaid runtime into an HTML file."""
+"""Inline the Longrein Walkthrough code and Mermaid runtime into an HTML file."""
 
 from __future__ import annotations
 
@@ -21,7 +21,7 @@ def script_safe(text: str) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Inline Mermaid and the Walkthrough fullscreen runtime."
+        description="Inline Highlight.js, Mermaid, and the Walkthrough runtime."
     )
     parser.add_argument("input", type=Path, help="HTML file containing the runtime marker")
     parser.add_argument("output", type=Path, nargs="?", help="Output HTML; defaults to input")
@@ -37,10 +37,12 @@ def main() -> None:
         )
 
     css = (assets / "walkthrough-runtime.css").read_text(encoding="utf-8")
+    highlight = script_safe((assets / "highlight.min.js").read_text(encoding="utf-8"))
     mermaid = script_safe((assets / "mermaid.min.js").read_text(encoding="utf-8"))
     runtime = script_safe((assets / "walkthrough-runtime.js").read_text(encoding="utf-8"))
     bundle = (
         f'<style data-longrein-walkthrough-runtime>\n{css}\n</style>\n'
+        f'<script data-longrein-highlight>\n{highlight}\n</script>\n'
         f'<script data-longrein-mermaid>\n{mermaid}\n</script>\n'
         f'<script data-longrein-walkthrough-runtime>\n{runtime}\n</script>'
     )

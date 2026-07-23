@@ -1,4 +1,4 @@
 interface:
   display_name: "Walkthrough"
-  short_description: "把任何复杂对象重建成可理解、可检查的连续讲解"
-  default_prompt: "使用 $walkthrough 帮我真正理解这个对象、它的上下文，以及我接下来需要判断什么。"
+  short_description: "把复杂对象重建成用户能够理解、核验并继续判断的连续讲解"
+  default_prompt: "使用 $walkthrough 带我从当前认知位置理解这个对象，走通关键关系、证据边界和下一步判断。"

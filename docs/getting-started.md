@@ -3,8 +3,8 @@
 ## 前提
 
 - Node.js 18 或更高版本；
-- 至少安装了 Codex CLI 或 Claude Code 之一；
-- `longrein` 可执行文件位于 `PATH`。
+- 至少安装 Codex CLI、Claude Code 或 Pi 之一；
+- `longrein` 位于 `PATH`。
 
 ## 安装
 
@@ -13,79 +13,66 @@ npm install -g longrein
 longrein install -y
 ```
 
-默认安装到 Codex 与 Claude Code。只安装一个宿主：
+交互运行 `longrein install` 会选择宿主、Skills 和可选 Extension。非交互安装默认面向 Codex 与 Claude Code；安装到单个宿主时显式选择：
 
 ```bash
 longrein install -y --codex
 longrein install -y --claude
+longrein install -y --pi
 ```
 
-安装会完成三件事：
+安装只管理三类内容：
 
-1. 把全部 Longrein Skills 安装到宿主的 Skills 目录；
-2. 把 `job` 与 `soul` 管理块同步到宿主常驻指令文件；
-3. 注册由 `longrein mcp` 启动的 stdio MCP。
+1. 宿主 Skills 目录中的 Longrein Skills；
+2. 宿主常驻指令文件中带 `LONGREIN BLOCK` 标记的 `job` 与 `soul`；
+3. 用户明确选择的可选 Extension。
 
-Longrein 只修改自己创建的符号链接、带 `.longrein.json` 标记的副本、`LONGREIN BLOCK` 标记之间的内容，以及能够确认由 Longrein 管理的 MCP 条目。发现同名但来源不同的 Skill 或 MCP 时会停止，不会静默接管。
+遇到同名但来源不同的 Skill 时，Longrein 不会静默接管。安装完成后重新打开宿主，使新 Skills 与规则进入新会话。
 
-安装后完全退出并重新打开 Codex 或 Claude Code，使新 Skill 和 MCP 在新会话中加载。
+## 可选 Extension
+
+Extension 包含 FastCtx、CodeGraph、cass，以及提供 `coding-agent-session-search` Skill 的 `longrein-extension` 插件：
+
+```bash
+longrein install -y --extensions
+longrein install -y --extension-components codegraph cass
+longrein extension install codegraph cass --yes
+longrein extension install --dry-run
+longrein extension install --yes
+longrein extension status
+```
+
+交互式 `longrein install` 与 `longrein extension install` 都会逐项选择组件。非交互安装使用 `--extensions` 选择全部，或通过 `--extension-components` 和位置参数明确指定。Longrein 调用各项目的官方安装或升级命令，不 fork 上游工具。CodeGraph 不会自动索引仓库；用户仍需在明确选择的项目根目录运行 `codegraph init`。
 
 ## 验证
 
 ```bash
 longrein status
-longrein mcp status
+longrein list
+longrein doctor
 ```
 
-`longrein status` 应显示已安装的 Skills、两个常驻块，以及所选宿主的 MCP 为 `managed`。如果 MCP 名称被其他配置占用，会显示 `foreign`；Longrein 不会覆盖它。
+`status` 应显示七个 Skills 和两个常驻块在所选宿主中的状态。若要检查单个宿主，传入 `--codex`、`--claude` 或 `--pi`。
 
-也可以从宿主侧检查：
+## 开始使用
 
-```bash
-codex mcp get longrein --json
-claude mcp get longrein
-```
+方向、范围或关键关系还不可靠时，从 Shape 开始：
 
-## 开始第一项持久任务
+| Claude Code | Codex | Pi |
+| --- | --- | --- |
+| `/shape <你的请求>` | `$shape <你的请求>` | `/skill:shape <你的请求>` |
 
-| Claude Code | Codex |
-| --- | --- |
-| `/task <你的请求>` | `$task <你的请求>` |
-
-Task Skill 会先接触真实项目并建立可信 Task Context，然后通过 MCP 创建或更新 Runtime Task。成功后会给出 Active Task workspace 的绝对路径。
-
-不需要跨 Session 保存状态时，不必启动 Task。Longrein 的其他 Skills 仍可以按需使用。
-
-## 打开 Dashboard
-
-```bash
-longrein dashboard
-```
-
-命令会启动同一个进程内的本地 API 与前端，并默认打开浏览器。若不希望自动打开，或需要固定端口：
-
-```bash
-longrein dashboard --no-open --port 4318
-```
-
-Dashboard 只显示已经注册到当前 Longrein Home 的 Task。它不会扫描磁盘猜测哪些目录是 Task。
+Shape 会在需要交接的任务中建立 `context.md`，保存原始请求、现实坐标、当前承诺和 Current Artifacts。其他 Skills 从这里进入任务；简单且上下文清楚的工作不必为了形式创建文档。
 
 ## 更新与卸载
-
-更新已安装副本、常驻块和 MCP：
 
 ```bash
 npm install -g longrein@latest
 longrein update
-```
-
-移除 Longrein 管理的全部 Skills、常驻块与 MCP：
-
-```bash
 longrein uninstall --all
 ```
 
-这不会删除已有 Task workspace 或其中的专业产物。
+`uninstall --all` 会从所选宿主移除 Longrein 管理的 Skills、`job` / `soul` 规则块、Longrein Extension 插件与 marketplace，以及仍然存在的旧 Longrein MCP 注册；不带宿主参数时还会停止并禁用旧 Dashboard、Runtime 同步服务。它不卸载独立上游的 FastCtx、CodeGraph、cass，也不删除项目中的 `context.md`、专业产物或旧任务数据。
 
 ## 从源码使用
 
@@ -98,4 +85,4 @@ npm link
 longrein install --link -y
 ```
 
-`--link` 适合开发：宿主中的 Skill 指向当前 checkout，修改会直接生效。发布或稳定使用时采用默认复制模式。
+`--link` 适合开发 checkout；发布或稳定使用采用默认复制模式。

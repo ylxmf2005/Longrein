@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { packageRoot, Target } from './paths.js';
 import { Block, blockStatus, listBlocks, upsertBlocks } from './blocks.js';
-import { inspect } from './installer.js';
+import { inspect, retiredOwnAliases } from './installer.js';
 import { listSkills } from './skills.js';
 
 /** Hub paths of retired distribution mechanisms; leftovers get pruned by --fix. */
@@ -72,6 +72,17 @@ export function runDoctor(activeTargets: Target[]): Finding[] {
           }
         }
       }
+    }
+
+    for (const alias of retiredOwnAliases(target)) {
+      findings.push({
+        severity: 'warn',
+        message: `${target.label}: retired Longrein Skill alias ${alias.alias} -> ${alias.canonical}`,
+        fix: () => {
+          fs.rmSync(alias.path);
+          return `removed ${alias.path}`;
+        },
+      });
     }
 
     // 2) Stale copies and foreign occupants of longrein skill names.

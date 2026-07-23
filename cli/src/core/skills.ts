@@ -5,6 +5,15 @@ import { skillsRoot } from './paths.js';
 
 export const STAMP_FILE = '.longrein.json';
 
+export const RETIRED_SKILL_ALIASES: Readonly<Record<string, string>> = {
+  'shape-v2': 'shape',
+  'grill-v2': 'grill',
+  'dev-v2': 'dev',
+  'walkthrough-v2': 'walkthrough',
+  'review-v2': 'review',
+  'evolution-v2': 'evolution',
+};
+
 export interface Skill {
   name: string;
   dir: string;

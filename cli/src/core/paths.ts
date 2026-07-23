@@ -29,14 +29,7 @@ export function packageVersion(): string {
 export const skillsRoot = (): string => path.join(packageRoot(), 'skills');
 export const globalRoot = (): string => path.join(packageRoot(), 'global');
 
-export function longreinHome(): string {
-  const configured = process.env.LONGREIN_HOME?.trim();
-  return path.resolve(configured || path.join(os.homedir(), '.longrein'));
-}
-
-export const taskRegistryRoot = (): string => path.join(longreinHome(), 'registry', 'tasks');
-
-export type TargetId = 'claude' | 'codex';
+export type TargetId = 'claude' | 'codex' | 'pi';
 
 export interface Target {
   id: TargetId;
@@ -48,6 +41,12 @@ export interface Target {
 export interface TargetFilter {
   claude?: boolean;
   codex?: boolean;
+  pi?: boolean;
+}
+
+export function piAgentDir(): string {
+  const configured = process.env.PI_CODING_AGENT_DIR?.trim();
+  return path.resolve(configured || path.join(os.homedir(), '.pi', 'agent'));
 }
 
 export function targets(filter?: TargetFilter): Target[] {
@@ -65,7 +64,18 @@ export function targets(filter?: TargetFilter): Target[] {
       skillsDir: path.join(home, '.codex', 'skills'),
       instructionFile: path.join(home, '.codex', 'AGENTS.md'),
     },
+    {
+      id: 'pi',
+      label: 'Pi',
+      skillsDir: path.join(piAgentDir(), 'skills'),
+      instructionFile: path.join(piAgentDir(), 'AGENTS.md'),
+    },
   ];
-  if (!filter || (!filter.claude && !filter.codex)) return all;
-  return all.filter((t) => (t.id === 'claude' && filter.claude) || (t.id === 'codex' && filter.codex));
+  if (!filter || (!filter.claude && !filter.codex && !filter.pi)) return all;
+  return all.filter(
+    (target) =>
+      (target.id === 'claude' && filter.claude) ||
+      (target.id === 'codex' && filter.codex) ||
+      (target.id === 'pi' && filter.pi),
+  );
 }

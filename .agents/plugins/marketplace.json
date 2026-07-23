@@ -1,0 +1,20 @@
+{
+  "name": "longrein",
+  "interface": {
+    "displayName": "Longrein"
+  },
+  "plugins": [
+    {
+      "name": "longrein-extension",
+      "source": {
+        "source": "local",
+        "path": "./plugins/longrein-extension"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

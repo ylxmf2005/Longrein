@@ -1,0 +1,22 @@
+{
+  "name": "longrein-extension",
+  "version": "0.1.0",
+  "description": "Optional local agent extensions maintained by Longrein.",
+  "author": {
+    "name": "ylxmf2005",
+    "url": "https://github.com/ylxmf2005"
+  },
+  "homepage": "https://github.com/ylxmf2005/Longrein",
+  "repository": "https://github.com/ylxmf2005/Longrein",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Longrein Extension",
+    "shortDescription": "Search prior coding-agent sessions with the local cass CLI.",
+    "longDescription": "Longrein Extension provides the agent-facing cass workflow while FastCtx, CodeGraph and cass remain official upstream tools installed by the Longrein CLI.",
+    "developerName": "ylxmf2005",
+    "category": "Coding",
+    "capabilities": ["Read"],
+    "defaultPrompt": ["Search my previous coding-agent sessions for relevant context."]
+  }
+}

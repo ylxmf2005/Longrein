@@ -1,4 +1,4 @@
 interface:
   display_name: "Dev"
-  short_description: "在实现中持续同步当前模型，并把每个 Phase 交付成可审查代码"
-  default_prompt: "使用 $dev 按当前需求和设计实现变化，在实现反馈中同步 Shape 产物，完成 Phase 聚焦验证并交给轻量 Review。"
+  short_description: "让契约在真实代码中成立，并把变化收缩到根因真正需要的尺度"
+  default_prompt: "使用 $dev 从 context.md 及其中列出的当前产物进入真实代码，让用户已经同意的结果在系统中成立。"

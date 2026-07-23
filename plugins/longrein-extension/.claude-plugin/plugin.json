@@ -1,0 +1,12 @@
+{
+  "name": "longrein-extension",
+  "version": "0.1.0",
+  "description": "Optional local agent extensions maintained by Longrein.",
+  "author": {
+    "name": "ylxmf2005",
+    "url": "https://github.com/ylxmf2005"
+  },
+  "homepage": "https://github.com/ylxmf2005/Longrein",
+  "repository": "https://github.com/ylxmf2005/Longrein",
+  "skills": "./skills/"
+}

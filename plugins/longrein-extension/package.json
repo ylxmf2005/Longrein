@@ -1,0 +1,10 @@
+{
+  "name": "longrein-extension",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Optional Longrein agent resources.",
+  "keywords": ["pi-package"],
+  "pi": {
+    "skills": ["./skills"]
+  }
+}

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { packageRoot, packageVersion, Target } from './paths.js';
-import { hashSkillDir, Skill, STAMP_FILE } from './skills.js';
+import { hashSkillDir, RETIRED_SKILL_ALIASES, Skill, STAMP_FILE } from './skills.js';
 
 export type SkillState =
   | 'missing'
@@ -126,6 +126,44 @@ export function pruneBrokenOwnLinks(target: Target): string[] {
       fs.rmSync(full);
       removed.push(entry);
     }
+  }
+  return removed;
+}
+
+export interface RetiredSkillAlias {
+  alias: string;
+  canonical: string;
+  path: string;
+}
+
+/** Find retired aliases only when they still resolve to the matching current Longrein Skill. */
+export function retiredOwnAliases(target: Target): RetiredSkillAlias[] {
+  const found: RetiredSkillAlias[] = [];
+  for (const [alias, canonical] of Object.entries(RETIRED_SKILL_ALIASES)) {
+    const aliasPath = path.join(target.skillsDir, alias);
+    let stat: fs.Stats;
+    try {
+      stat = fs.lstatSync(aliasPath);
+    } catch {
+      continue;
+    }
+    if (!stat.isSymbolicLink()) continue;
+    try {
+      const actual = fs.realpathSync(aliasPath);
+      const expected = fs.realpathSync(path.join(packageRoot(), 'skills', canonical));
+      if (actual === expected) found.push({ alias, canonical, path: aliasPath });
+    } catch {
+      // Broken aliases are handled by pruneBrokenOwnLinks.
+    }
+  }
+  return found;
+}
+
+export function pruneRetiredOwnAliases(target: Target): string[] {
+  const removed: string[] = [];
+  for (const alias of retiredOwnAliases(target)) {
+    fs.rmSync(alias.path);
+    removed.push(alias.alias);
   }
   return removed;
 }

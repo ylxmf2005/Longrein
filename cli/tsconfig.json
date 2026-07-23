@@ -9,6 +9,5 @@
     "noEmit": true,
     "types": ["node"]
   },
-  "include": ["src"],
-  "exclude": ["src/dashboard"]
+  "include": ["src"]
 }

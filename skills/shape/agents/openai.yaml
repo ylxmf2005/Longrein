@@ -1,4 +1,4 @@
 interface:
   display_name: "Shape"
-  short_description: "从真实项目形成并持续维护需求、系统设计、契约与共享计划"
-  default_prompt: "使用 $shape 调查真实对象，与我共同形成可追溯需求和系统设计，并让当前模型能随实现反馈继续修订。"
+  short_description: "让任务承诺在现实中成形，并形成可继续判断与交接的专业产物"
+  default_prompt: "使用 $shape 从用户与真实对象中检验方向，在 context.md 中建立当前承诺与产物入口，并按需要形成可交接的专业产物。"

@@ -1,31 +1,47 @@
 import { Command } from 'commander';
 import pc from 'picocolors';
-import { targets, Target, TargetFilter } from './core/paths.js';
+import { targets, Target, TargetFilter, TargetId } from './core/paths.js';
 import { listSkills, Skill } from './core/skills.js';
-import { inspect, installSkill, pruneBrokenOwnLinks, uninstallSkill, SkillState } from './core/installer.js';
+import {
+  inspect,
+  installSkill,
+  pruneBrokenOwnLinks,
+  pruneRetiredOwnAliases,
+  uninstallSkill,
+  SkillState,
+} from './core/installer.js';
 import { blockStatus, listBlocks, removeBlocks, upsertBlocks } from './core/blocks.js';
 import { runDoctor } from './core/doctor.js';
+import { cleanupLongreinIntegrations } from './core/cleanup.js';
 import { LONGREIN_VERSION } from './version.js';
 import {
-  claudeMcpStatus,
-  codexMcpStatus,
-  installClaudeMcp,
-  installCodexMcp,
-  uninstallClaudeMcp,
-  uninstallCodexMcp,
-  CodexMcpStatus,
-} from './core/codex-mcp.js';
+  EXTENSION_COMPONENTS,
+  ExtensionComponent,
+  ExtensionTarget,
+  installExtension,
+  resolveExtensionComponents,
+} from './core/recommended-extension.js';
 
 const program = new Command();
 
 interface CommonOpts {
   claude?: boolean;
   codex?: boolean;
+  pi?: boolean;
 }
 
 function activeTargets(opts: CommonOpts): Target[] {
-  const filter: TargetFilter = { claude: opts.claude, codex: opts.codex };
+  if (!opts.claude && !opts.codex && !opts.pi) return targets({ claude: true, codex: true });
+  const filter: TargetFilter = { claude: opts.claude, codex: opts.codex, pi: opts.pi };
   return targets(filter);
+}
+
+function targetFilter(selected: TargetId[]): TargetFilter {
+  return {
+    claude: selected.includes('claude'),
+    codex: selected.includes('codex'),
+    pi: selected.includes('pi'),
+  };
 }
 
 function resolveSkills(names: string[]): Skill[] {
@@ -72,21 +88,6 @@ function syncBlocks(active: Target[], quiet = false): void {
   }
 }
 
-function hasCodex(active: Target[]): boolean {
-  return active.some((target) => target.id === 'codex');
-}
-
-function hasClaude(active: Target[]): boolean {
-  return active.some((target) => target.id === 'claude');
-}
-
-function mcpStateLabel(status: CodexMcpStatus): string {
-  if (status.state === 'managed') return pc.green('✓ managed');
-  if (status.state === 'missing') return pc.dim('· missing');
-  if (status.state === 'foreign') return pc.yellow('! foreign');
-  return pc.red('! unavailable');
-}
-
 function printStatus(opts: CommonOpts): void {
   const active = activeTargets(opts);
   const skills = listSkills();
@@ -123,35 +124,48 @@ function printStatus(opts: CommonOpts): void {
     console.log(`  ${target.label.padEnd(nameWidth)}${parts.join('  ')}${orphanNote}`);
     console.log(pc.dim(`  ${''.padEnd(nameWidth)}${target.instructionFile}`));
   }
-  if (hasCodex(active)) {
-    const mcp = codexMcpStatus();
-    console.log(pc.bold('\n  Codex MCP'));
-    console.log(`  ${mcpStateLabel(mcp)}  ${pc.dim(mcp.detail)}`);
-  }
-  if (hasClaude(active)) {
-    const mcp = claudeMcpStatus();
-    console.log(pc.bold('\n  Claude Code MCP'));
-    console.log(`  ${mcpStateLabel(mcp)}  ${pc.dim(mcp.detail)}`);
-  }
   console.log();
 }
 
 program
   .name('longrein')
-  .description('Install and maintain the longrein engineering skills for Claude Code and Codex.')
+  .description('Install and maintain the longrein engineering skills for Claude Code, Codex and Pi.')
   .version(LONGREIN_VERSION);
 
 program
   .command('install [skills...]')
-  .description('install skills into ~/.claude/skills and ~/.codex/skills, and sync always-on blocks')
+  .description('install skills and always-on instructions into selected agent hosts')
   .option('--link', 'symlink to this checkout instead of copying (development mode)', false)
   .option('--force', 'replace existing unmanaged dirs/links of the same name', false)
   .option('--no-blocks', 'skip syncing the always-on instruction blocks')
   .option('--claude', 'only target Claude Code')
   .option('--codex', 'only target Codex')
+  .option('--pi', 'only target Pi')
   .option('-y, --yes', 'non-interactive: install everything requested without the picker', false)
+  .option('--extensions', 'also install or update the optional Extension')
+  .option('--extension-components <components...>', 'install only selected Extension components')
+  .option('--no-extensions', 'skip the optional Extension without prompting')
   .action(async (names: string[], opts) => {
-    const active = activeTargets(opts);
+    if (opts.extensionComponents && opts.extensions !== undefined) {
+      console.error(pc.red('use either --extensions, --no-extensions or --extension-components, not more than one'));
+      process.exitCode = 1;
+      return;
+    }
+    let active = activeTargets(opts);
+    const explicitTarget = opts.claude || opts.codex || opts.pi;
+    if (!explicitTarget && !opts.yes && process.stdout.isTTY && process.stdin.isTTY) {
+      const { pickTargets } = await import('./ui/Picker.js');
+      const picked = await pickTargets(targets());
+      if (picked === null) {
+        console.log(pc.dim('cancelled'));
+        return;
+      }
+      if (picked.length === 0) {
+        console.log(pc.dim('nothing selected'));
+        return;
+      }
+      active = targets(targetFilter(picked));
+    }
     let skills = resolveSkills(names);
 
     if (names.length === 0 && !opts.yes && process.stdout.isTTY && process.stdin.isTTY) {
@@ -162,10 +176,39 @@ program
         return;
       }
       skills = resolveSkills(picked);
-      if (skills.length === 0) {
+    }
+
+    let extensionComponents: ExtensionComponent[] = [];
+    if (opts.extensionComponents) {
+      try {
+        extensionComponents = resolveExtensionComponents(opts.extensionComponents);
+      } catch (error) {
+        console.error(pc.red(error instanceof Error ? error.message : String(error)));
+        process.exitCode = 1;
+        return;
+      }
+    } else if (opts.extensions === true) {
+      extensionComponents = [...EXTENSION_COMPONENTS];
+    }
+    if (!opts.extensionComponents && opts.extensions === undefined && !opts.yes && process.stdout.isTTY && process.stdin.isTTY) {
+      const { pickExtensionComponents } = await import('./ui/Picker.js');
+      const picked = await pickExtensionComponents(false);
+      if (picked === null) {
+        console.log(pc.dim('cancelled'));
+        return;
+      }
+      extensionComponents = picked;
+    }
+
+    const extensionTargets = active.map((target) => target.id) as ExtensionTarget[];
+    if (skills.length === 0) {
+      if (extensionComponents.length === 0) {
         console.log(pc.dim('nothing selected'));
         return;
       }
+      installExtension({ components: extensionComponents, targets: extensionTargets, dryRun: false });
+      console.log(pc.green('\nExtension installation finished. Restart the selected hosts before using newly installed capabilities.\n'));
+      return;
     }
 
     console.log(pc.bold(`\ninstalling ${skills.length} skill(s) [${opts.link ? 'link' : 'copy'}]\n`));
@@ -182,22 +225,18 @@ program
       for (const removed of pruneBrokenOwnLinks(target)) {
         console.log(`    ${pc.green('✓')} ${removed.padEnd(14)} ${pc.dim('pruned broken longrein link')}`);
       }
+      for (const removed of pruneRetiredOwnAliases(target)) {
+        console.log(`    ${pc.green('✓')} ${removed.padEnd(14)} ${pc.dim('pruned retired longrein alias')}`);
+      }
     }
     if (opts.blocks !== false) {
       console.log(pc.bold('\n  always-on blocks'));
       syncBlocks(active);
     }
-    if (hasCodex(active)) {
-      console.log(pc.bold('\n  Codex MCP'));
-      const mcp = installCodexMcp();
-      console.log(`  ${mcpStateLabel(mcp)}  ${pc.dim(mcp.detail)}`);
-      if (mcp.state !== 'managed') problems++;
-    }
-    if (hasClaude(active)) {
-      console.log(pc.bold('\n  Claude Code MCP'));
-      const mcp = installClaudeMcp();
-      console.log(`  ${mcpStateLabel(mcp)}  ${pc.dim(mcp.detail)}`);
-      if (mcp.state !== 'managed') problems++;
+    if (extensionComponents.length > 0) {
+      console.log(pc.bold('\n  optional Extension'));
+      installExtension({ components: extensionComponents, targets: extensionTargets, dryRun: false });
+      console.log(pc.dim('  Restart the selected hosts before using newly installed capabilities.'));
     }
     console.log();
     if (problems > 0) {
@@ -208,16 +247,18 @@ program
 
 program
   .command('uninstall [skills...]')
-  .description('remove longrein-managed skills; --all also removes the always-on blocks')
-  .option('--all', 'remove every longrein skill and the managed instruction blocks', false)
+  .description('remove Longrein-managed skills or every Longrein-owned host integration')
+  .option('--all', 'remove all Skills, instruction blocks, plugins, marketplaces, legacy MCP and services', false)
   .option('--claude', 'only target Claude Code')
   .option('--codex', 'only target Codex')
+  .option('--pi', 'only target Pi')
   .action((names: string[], opts) => {
     if (!opts.all && names.length === 0) {
       console.error(pc.red('specify skill names or --all'));
       process.exit(1);
     }
-    const active = activeTargets(opts);
+    const explicitTarget = opts.claude || opts.codex || opts.pi;
+    const active = opts.all && !explicitTarget ? targets() : activeTargets(opts);
     const skills = resolveSkills(opts.all ? [] : names);
     console.log();
     for (const target of active) {
@@ -228,6 +269,9 @@ program
         console.log(`    ${icon} ${skill.name.padEnd(14)} ${pc.dim(result.detail)}`);
       }
       if (opts.all) {
+        for (const removed of pruneRetiredOwnAliases(target)) {
+          console.log(`    ${pc.green('✓')} ${removed.padEnd(14)} ${pc.dim('removed retired longrein alias')}`);
+        }
         const { changed } = removeBlocks(target.instructionFile);
         console.log(
           `    ${changed ? pc.green('✓') : pc.dim('·')} ${'blocks'.padEnd(14)} ${pc.dim(
@@ -236,15 +280,22 @@ program
         );
       }
     }
-    if (opts.all && hasCodex(active)) {
-      console.log(pc.bold('\n  Codex MCP'));
-      const mcp = uninstallCodexMcp();
-      console.log(`  ${mcpStateLabel(mcp)}  ${pc.dim(mcp.detail)}`);
-    }
-    if (opts.all && hasClaude(active)) {
-      console.log(pc.bold('\n  Claude Code MCP'));
-      const mcp = uninstallClaudeMcp();
-      console.log(`  ${mcpStateLabel(mcp)}  ${pc.dim(mcp.detail)}`);
+    if (opts.all) {
+      console.log(pc.bold('\n  host integrations'));
+      const selectedTargets = active.map((target) => target.id);
+      const includeLegacyServices = !explicitTarget;
+      for (const result of cleanupLongreinIntegrations(selectedTargets, includeLegacyServices)) {
+        const icon =
+          result.state === 'removed'
+            ? pc.green('✓')
+            : result.state === 'absent'
+              ? pc.dim('·')
+              : result.state === 'skipped'
+                ? pc.yellow('!')
+                : pc.red('✗');
+        console.log(`    ${icon} ${result.label} ${pc.dim(result.detail)}`);
+        if (result.state === 'failed') process.exitCode = 1;
+      }
     }
     console.log();
   });
@@ -254,6 +305,7 @@ program
   .description('refresh stale copies and re-sync the always-on blocks')
   .option('--claude', 'only target Claude Code')
   .option('--codex', 'only target Codex')
+  .option('--pi', 'only target Pi')
   .action((opts) => {
     const active = activeTargets(opts);
     const skills = listSkills();
@@ -273,22 +325,14 @@ program
         console.log(`    ${pc.green('✓')} ${removed.padEnd(14)} ${pc.dim('pruned broken longrein link')}`);
         touched++;
       }
+      for (const removed of pruneRetiredOwnAliases(target)) {
+        console.log(`    ${pc.green('✓')} ${removed.padEnd(14)} ${pc.dim('pruned retired longrein alias')}`);
+        touched++;
+      }
       if (touched === 0) console.log(pc.dim('    all installed copies up to date'));
     }
     console.log(pc.bold('\n  always-on blocks'));
     syncBlocks(active);
-    if (hasCodex(active)) {
-      console.log(pc.bold('\n  Codex MCP'));
-      const mcp = installCodexMcp();
-      console.log(`  ${mcpStateLabel(mcp)}  ${pc.dim(mcp.detail)}`);
-      if (mcp.state !== 'managed') process.exitCode = 1;
-    }
-    if (hasClaude(active)) {
-      console.log(pc.bold('\n  Claude Code MCP'));
-      const mcp = installClaudeMcp();
-      console.log(`  ${mcpStateLabel(mcp)}  ${pc.dim(mcp.detail)}`);
-      if (mcp.state !== 'managed') process.exitCode = 1;
-    }
     console.log();
   });
 
@@ -297,6 +341,7 @@ program
   .description('show install state per skill and target, plus block status')
   .option('--claude', 'only target Claude Code')
   .option('--codex', 'only target Codex')
+  .option('--pi', 'only target Pi')
   .action((opts) => printStatus(opts));
 
 program
@@ -314,6 +359,7 @@ program
   .option('--fix', 'apply safe fixes automatically', false)
   .option('--claude', 'only target Claude Code')
   .option('--codex', 'only target Codex')
+  .option('--pi', 'only target Pi')
   .action((opts) => {
     const findings = runDoctor(activeTargets(opts));
     if (findings.length === 0) {
@@ -339,11 +385,9 @@ program
     if (findings.some((f) => f.severity === 'error')) process.exitCode = 1;
   });
 
-program.command('task').description('create, register, inspect and update persistent Longrein Tasks');
-program.command('dashboard').description('open the local Longrein Task Dashboard');
-program.command('mcp').description('run or manage the Longrein stdio MCP server for Codex and Claude Code');
+program.command('extension').description('install the optional FastCtx, CodeGraph, cass and session-search Extension');
 
-// bare `longrein` → status dashboard
+// bare `longrein` shows the current installation state.
 if (process.argv.length <= 2) {
   printStatus({});
 } else {

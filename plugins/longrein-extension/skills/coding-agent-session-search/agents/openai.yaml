@@ -1,0 +1,4 @@
+interface:
+  display_name: "Coding Agent Session Search"
+  short_description: "Search prior local coding-agent sessions with cass"
+  default_prompt: "Use $coding-agent-session-search to recover relevant context from my previous coding-agent sessions."

@@ -383,7 +383,7 @@ program
     if (findings.some((f) => f.severity === 'error')) process.exitCode = 1;
   });
 
-program.command('extension').description('install the optional FastCtx, CodeGraph, cass and session-search Extension');
+program.command('extension').description('install the optional cass and session-search Extension');
 
 // bare `longrein` shows the current installation state.
 if (process.argv.length <= 2) {

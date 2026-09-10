@@ -19,7 +19,7 @@ program.name('longrein extension').description('Install optional agent extension
 
 program
   .command('install [components...]')
-  .description('install or update FastCtx, CodeGraph, cass and the coding-agent-session-search Skill')
+  .description('install or update cass and the coding-agent-session-search Skill')
   .option('--codex', 'target Codex')
   .option('--claude', 'target Claude Code')
   .option('--pi', 'target Pi')

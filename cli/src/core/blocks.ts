@@ -18,12 +18,6 @@ const ANY_BLOCK_RE =
 const LEGACY_BLOCK_RE =
   /<!-- >>> GEMBA BLOCK: (.+?) >>> -->\n[\s\S]*?<!-- <<< GEMBA BLOCK: \1 <<< -->\n?/g;
 
-// Stable judgment principles should shape the operational workflow that follows.
-const BLOCK_PRIORITY = new Map([
-  ['soul', 0],
-  ['job', 1],
-]);
-
 /** Package-owned global blocks. */
 export function listBlocks(): Block[] {
   const root = globalRoot();
@@ -31,14 +25,7 @@ export function listBlocks(): Block[] {
     ? fs
         .readdirSync(root)
         .filter((f) => f.endsWith('.md'))
-        .sort((a, b) => {
-          const aOwner = path.basename(a, '.md');
-          const bOwner = path.basename(b, '.md');
-          const priority =
-            (BLOCK_PRIORITY.get(aOwner) ?? Number.MAX_SAFE_INTEGER) -
-            (BLOCK_PRIORITY.get(bOwner) ?? Number.MAX_SAFE_INTEGER);
-          return priority || a.localeCompare(b);
-        })
+        .sort((a, b) => a.localeCompare(b))
         .map((f) => ({
           owner: path.basename(f, '.md'),
           content: fs.readFileSync(path.join(root, f), 'utf8').trim(),

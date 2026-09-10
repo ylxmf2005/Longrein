@@ -157,10 +157,8 @@ interface ExtensionPickerProps {
 }
 
 const extensionDescriptions: Record<ExtensionComponent, string> = {
-  codegraph: 'Code structure and call paths',
   cass: 'Local coding-session search CLI',
   'cass-skill': 'Agent workflow for cass',
-  fastctx: 'Structured files, search and shell',
 };
 
 function ExtensionPicker({ defaultSelected, onDone }: ExtensionPickerProps) {

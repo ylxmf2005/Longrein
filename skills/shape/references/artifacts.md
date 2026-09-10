@@ -8,7 +8,7 @@ Shape 让任务承诺在 `context.md` 中成立，并把下游需要独立引用
 
 Context 是否创建或修订由 [Shape Skill](../SKILL.md) 的入口规则决定；这里展开对应的文件语义。
 
-- 新 Task：按 [Context Demo](templates/context.demo.md) 创建根目录 `context.md`，忠实记录 Original Request 和已查明的 Reality Coordinates；尚未取得用户决定的 Goal、Scope、Non-goals 与 Acceptance Evidence 保持 `unresolved`。
+- 新 Task：按 [Context Demo](templates/context.demo.md) 创建根目录 `context.md`，忠实记录 Original Request 和已查明的 Reality Coordinates；依据用户请求与调查形成任务承诺，尚不能确定的内容保持 `unresolved`。
 - 未启动 Task 或明确只讨论、查看：不创建也不修改 Context；以后启动 Task 时重新判断，先前对话不会自动变成任务授权。
 - 已有 Task：先读取同一份 Context；事实变化可以更新 Reality Coordinates，承诺变化先取得用户决定，没有受影响内容时不写。实现结果、专业产物和对话摘要都不能反向创造授权。
 

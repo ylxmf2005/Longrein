@@ -5,7 +5,7 @@ import GithubSlugger from 'github-slugger';
 import MarkdownIt from 'markdown-it';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const expectedSkills = ['shape', 'grill', 'dev', 'test', 'review', 'walkthrough', 'evolution', 'frontend-design'];
+const expectedSkills = ['shape', 'grill', 'dev', 'test', 'review', 'walkthrough', 'teach', 'evolution', 'audience', 'frontend-design', 'comment-review'];
 const failures = [];
 const markdown = new MarkdownIt({ html: true });
 
@@ -211,6 +211,13 @@ for (const heading of [
 
 const activeSkills = expectedSkills.map((name) => read(`skills/${name}/SKILL.md`)).join('\n');
 check(!/shape\/shape\.md|studio\/evolution/.test(activeSkills), 'An active Skill references a retired or undefined artifact path');
+
+for (const skill of ['frontend-design', 'comment-review']) {
+  check(
+    read(`skills/${skill}/SKILL.md`).includes('[`audience`](../audience/SKILL.md)'),
+    `skills/${skill}/SKILL.md does not declare its audience dependency`,
+  );
+}
 
 for (const [skill, artifact, demo] of [
   ['dev', 'dev/implementation.md', 'skills/dev/references/templates/implementation.demo.md'],

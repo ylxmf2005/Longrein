@@ -10,14 +10,14 @@ description: 在方向、任务承诺或关键系统前提尚不可信，用户�
 
 能自行查明的事实先调查。价值、偏好、代价接受、范围和授权由用户裁决；证据推翻原方向时明确说明影响，不替用户悄悄改写承诺。调查可以看宽，执行范围不能随之静默扩大。
 
-实现方式只有在用户可合理预见、与当前承诺成比例，且不会显著改变成本、风险、测试面、性能、系统形态或变更规模时，才属于可以自行收敛的局部决定。某个机制即使是正确性所必需，只要越过这些边界，结论也是当前承诺需要修订；技术必要性、已经实现或验证通过都不能反向创造授权。
+实现路径在当前请求与 `AGENTS.md` 的边界内自行收敛。发现超出承诺的范围、风险或长期成本时，把事实与代价交给用户；技术必要性不能反向创造授权。
 
 ## 建立可信 Context
 
 处理 Context 前先判断这次请求是否真正启动或继续 Task：
 
 - 明确只讨论或查看时，无论是否已有 Task，都不创建也不修改 Context。宿主自动路由到 Shape、但尚未启动 Task 时同样只在对话中处理。
-- 用户显式用 Shape 启动新 Task 时，立即在任务工作区根目录创建 `context.md`。初始 Context 忠实保存 Original Request 与已查明的 Reality Coordinates；未确认的 Goal、Scope、Non-goals 和 Acceptance Evidence 写 `unresolved`。
+- 用户显式用 Shape 启动新 Task 时，在任务工作区根目录创建 `context.md`。忠实保存 Original Request 与已查明的 Reality Coordinates，依据用户请求和调查形成 Goal、Scope、Non-goals 与 Acceptance Evidence；尚不能确定的内容写 `unresolved`。
 - 对已有 Task 使用 Shape 时，先读取同一份 `context.md` 和 Current Artifacts，再只更新受影响内容。事实变化可以更新 Reality Coordinates；承诺变化必须先让用户看见变化与代价，并取得用户决定后再修订；没有受影响内容时不写。
 
 目的地或责任范围已经成为另一项工作时新建 Task，不覆盖原 Task；同一目的下由新证据推动的修正继续更新当前 Task。
@@ -35,6 +35,8 @@ Context 生命周期、Current Artifacts 权限和可选产物见 [产物与权�
 ## 收敛到下游不用猜
 
 方向成立时，关键事实和代价已经清楚，目标、边界、不能破坏的关系与验收证据足以让下一位继续。具体实现路径仍可由执行者根据现场调整；新证据推翻关键前提时，重新 Shape 受影响的承诺和专业产物。
+
+进入 Dev 前，把 Goal、Scope、Non-goals 与 Acceptance Evidence 简洁地展示给用户，使实施范围与完成标准可审阅。
 
 Shape 不停在一句建议上。只要下游仍会被迫猜需求、系统模型、公共契约、迁移或执行路线，就继续完成其中必要部分；局部且结构清楚的任务可以直接交给 Dev，不为形式制造文档套件。
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Comment Review"
+  short_description: "写出有价值的中文注释并审查注释边界"
+  default_prompt: "使用 $comment-review 审查当前变更的注释，并按真实业务意图补充必要说明。"

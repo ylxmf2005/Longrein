@@ -20,37 +20,29 @@ function run(args, expectedStatus = 0, env = {}) {
 }
 
 test('extension install refuses external installers without explicit confirmation', () => {
-  const result = run(['extension', 'install', 'fastctx'], 1);
+  const result = run(['extension', 'install', 'cass'], 1);
   assert.match(result.stderr, /without --yes/);
 });
 
-test('extension dry-run prints upstream commands and keeps FastCtx last', () => {
+test('extension dry-run prints upstream commands', () => {
   const result = run(['extension', 'install', '--dry-run']);
-  assert.match(result.stdout, /codegraph upgrade|codegraph\/main\/install/);
   assert.match(result.stdout, /dicklesworthstone\/tap\/cass|coding_agent_session_search\/main\/install/);
   assert.match(result.stdout, /longrein-extension@longrein/);
   assert.match(result.stdout, /pi install .*longrein-extension/);
-  assert.match(result.stdout, /npm install --global fastctx@latest/);
-  assert.ok(result.stdout.indexOf('\nfastctx\n') > result.stdout.indexOf('\nplugin\n'));
 });
 
-test('extension can target one host and one component', () => {
-  const result = run(['extension', 'install', 'codegraph', '--codex', '--dry-run']);
-  assert.match(result.stdout, /--target=codex/);
-  assert.doesNotMatch(result.stdout, /--target=codex,claude/);
-  assert.doesNotMatch(result.stdout, /fastctx@latest/);
+test('extension rejects an unknown component', () => {
+  const result = run(['extension', 'install', 'unknown', '--codex', '--dry-run'], 1);
+  assert.match(result.stderr, /unknown extension component/);
 });
 
 test('extension keeps canonical order when selected components are passed in another order', () => {
-  const result = run(['extension', 'install', 'fastctx', 'codegraph', '--dry-run']);
-  assert.doesNotMatch(result.stdout, /dicklesworthstone\/tap\/cass|longrein-extension@longrein/);
-  assert.ok(result.stdout.indexOf('\ncodegraph\n') < result.stdout.indexOf('\nfastctx\n'));
+  const result = run(['extension', 'install', 'cass-skill', 'cass', '--dry-run']);
+  assert.ok(result.stdout.indexOf('\ncass\n') < result.stdout.indexOf('\ncass-skill\n'));
 });
 
 test('extension status is read-only and reports all upstream CLIs', () => {
   const result = run(['extension', 'status']);
-  assert.match(result.stdout, /fastctx/);
-  assert.match(result.stdout, /codegraph/);
   assert.match(result.stdout, /cass/);
 });
 
@@ -96,7 +88,7 @@ test('ordinary non-interactive install does not opt into the Extension', (t) => 
   fs.mkdirSync(codexHome, { recursive: true });
 
   const result = run(['install', '--yes', '--codex'], 0, { HOME: home, CODEX_HOME: codexHome });
-  assert.doesNotMatch(result.stdout, /optional Extension|fastctx@latest|longrein-extension/);
+  assert.doesNotMatch(result.stdout, /optional Extension|longrein-extension/);
 });
 
 test('main install exposes component selection and rejects unknown components before installing', () => {

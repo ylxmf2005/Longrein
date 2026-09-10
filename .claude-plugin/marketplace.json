@@ -12,7 +12,7 @@
     {
       "name": "longrein-extension",
       "source": "./plugins/longrein-extension",
-      "description": "Agent-facing cass workflow plus Longrein-managed installation of official FastCtx, CodeGraph and cass releases."
+      "description": "Agent-facing cass workflow plus Longrein-managed installation of official cass releases."
     }
   ]
 }

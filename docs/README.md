@@ -18,7 +18,6 @@ README 负责产品入口；这里记录安装与 CLI；每个 Skill 的行为�
 | Agent 行为 | `skills/<name>/SKILL.md` |
 | 当前任务承诺与产物入口 | 任务的 `context.md` |
 | 专业结论 | `context.md` 中列出的对应产物 |
-| 常驻规则 | `global/job.md` 与 `global/soul.md` |
 | 研究资料的导航与适用范围 | [`references/README.md`](../references/README.md) |
 
 发生冲突时回到拥有该信息的来源，并修订引用它的文档。

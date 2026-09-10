@@ -1,14 +1,12 @@
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { packageRoot } from './paths.js';
 
-export type ExtensionComponent = 'fastctx' | 'codegraph' | 'cass' | 'cass-skill';
+export type ExtensionComponent = 'cass' | 'cass-skill';
 export type ExtensionTarget = 'codex' | 'claude' | 'pi';
 
-// FastCtx applies last because other agent installers may reserialize Codex config.toml.
-export const EXTENSION_COMPONENTS: ExtensionComponent[] = ['codegraph', 'cass', 'cass-skill', 'fastctx'];
+export const EXTENSION_COMPONENTS: ExtensionComponent[] = ['cass', 'cass-skill'];
 const EXTENSION_PLUGIN_ID = 'longrein-extension@longrein';
 const LEGACY_PLUGIN_ID = 'codex-setup@longrein';
 
@@ -60,129 +58,6 @@ function shellCommand(label: string, source: string): ExtensionCommand {
     return { label, command: 'powershell.exe', args: ['-NoProfile', '-NonInteractive', '-Command', source] };
   }
   return { label, command: 'bash', args: ['-lc', source] };
-}
-
-function installFastctx(targets: ExtensionTarget[], dryRun: boolean): void {
-  const nativeTargets = targets.filter((target) => target !== 'pi');
-  if (nativeTargets.length === 0) {
-    console.log('  skip  FastCtx requires an MCP-capable host; Pi does not expose native MCP configuration.');
-    return;
-  }
-  run(
-    {
-      label: 'Install the latest FastCtx from its official npm package',
-      command: 'npm',
-      args: ['install', '--global', 'fastctx@latest', '--registry=https://registry.npmjs.org/'],
-    },
-    dryRun,
-  );
-
-  if (nativeTargets.includes('codex')) {
-    run(
-      {
-        label: 'Apply the upstream FastCtx standard profile to Codex',
-        command: 'fastctx',
-        args: ['apply', '--tier', 'standard', '--yes'],
-      },
-      dryRun,
-    );
-  }
-
-  if (nativeTargets.includes('claude')) installClaudeFastctx(dryRun);
-  run(
-    nativeTargets.includes('codex')
-      ? { label: 'Verify the applied FastCtx configuration', command: 'fastctx', args: ['status'] }
-      : { label: 'Verify FastCtx version', command: 'fastctx', args: ['--version'] },
-    dryRun,
-  );
-}
-
-interface ClaudeConfig {
-  mcpServers?: Record<string, { type?: string; command?: string; args?: string[] }>;
-}
-
-type ClaudeMcpEntry = NonNullable<ClaudeConfig['mcpServers']>[string];
-
-function installClaudeFastctx(dryRun: boolean): void {
-  const appliedExecutable = path.join(os.homedir(), '.fastctx', 'bin', process.platform === 'win32' ? 'fastctx.exe' : 'fastctx');
-  const executable = fs.existsSync(appliedExecutable) ? fs.realpathSync(appliedExecutable) : (commandPath('fastctx') ?? 'fastctx');
-  const configFile = path.join(os.homedir(), '.claude.json');
-  let current: ClaudeMcpEntry | undefined;
-  try {
-    const config = JSON.parse(fs.readFileSync(configFile, 'utf8')) as ClaudeConfig;
-    current = config.mcpServers?.fastctx;
-  } catch {
-    current = undefined;
-  }
-
-  const argsMatch = JSON.stringify(current?.args) === JSON.stringify(['serve', '--enable-shell']);
-  const knownCommand =
-    current?.command === executable ||
-    current?.command === appliedExecutable ||
-    (current?.command ? path.basename(current.command).startsWith('fastctx') : false) ||
-    (current?.command ? current.command.includes(`${path.sep}node_modules${path.sep}fastctx${path.sep}`) : false);
-  const managed =
-    current?.type === 'stdio' &&
-    knownCommand &&
-    argsMatch;
-  if (current && !managed) {
-    throw new Error('Claude Code already has a foreign MCP server named fastctx; refusing to replace it.');
-  }
-  if (managed && current?.command === executable) {
-    console.log('  skip  Claude Code FastCtx MCP is already current');
-    return;
-  }
-  if (managed) {
-    run(
-      { label: 'Remove the previous Longrein-managed FastCtx entry from Claude Code', command: 'claude', args: ['mcp', 'remove', '--scope', 'user', 'fastctx'] },
-      dryRun,
-    );
-  }
-  run(
-    {
-      label: 'Register the official FastCtx stdio server in Claude Code',
-      command: 'claude',
-      args: ['mcp', 'add', '--scope', 'user', 'fastctx', '--', executable, 'serve', '--enable-shell'],
-    },
-    dryRun,
-  );
-}
-
-function installCodegraph(targets: ExtensionTarget[], dryRun: boolean): void {
-  if (commandPath('codegraph')) {
-    run({ label: 'Upgrade CodeGraph with its official updater', command: 'codegraph', args: ['upgrade'] }, dryRun);
-  } else if (process.platform === 'win32') {
-    run(
-      shellCommand(
-        'Install CodeGraph with its official PowerShell installer',
-        "irm https://raw.githubusercontent.com/colbymchenry/codegraph/main/install.ps1 | iex",
-      ),
-      dryRun,
-    );
-  } else {
-    run(
-      shellCommand(
-        'Install CodeGraph with its official installer',
-        'curl -fsSL https://raw.githubusercontent.com/colbymchenry/codegraph/main/install.sh | sh',
-      ),
-      dryRun,
-    );
-  }
-
-  const targetIds = targets.filter((target) => target !== 'pi').join(',');
-  if (targetIds) {
-    run(
-      {
-        label: 'Let the official CodeGraph installer configure the selected agents',
-        command: 'codegraph',
-        args: ['install', `--target=${targetIds}`, '--location=global', '--yes'],
-      },
-      dryRun,
-    );
-  } else {
-    console.log('  skip  CodeGraph has no Pi host target; the CLI remains available for explicit shell use.');
-  }
-  run({ label: 'Verify CodeGraph version', command: 'codegraph', args: ['--version'] }, dryRun);
 }
 
 function brewHasCass(): boolean {
@@ -307,17 +182,13 @@ function installPlugin(targets: ExtensionTarget[], dryRun: boolean): void {
 export function installExtension(options: ExtensionRunOptions): void {
   for (const component of options.components) {
     console.log(`\n${component}`);
-    if (component === 'fastctx') installFastctx(options.targets, options.dryRun);
-    else if (component === 'codegraph') installCodegraph(options.targets, options.dryRun);
-    else if (component === 'cass') installCass(options.dryRun);
+    if (component === 'cass') installCass(options.dryRun);
     else installPlugin(options.targets, options.dryRun);
   }
 }
 
 export function extensionStatus(): Array<{ component: string; installed: boolean; detail: string }> {
   const commands: Array<[string, string[]]> = [
-    ['fastctx', ['--version']],
-    ['codegraph', ['--version']],
     ['cass', ['--version']],
   ];
   return commands.map(([command, args]) => {

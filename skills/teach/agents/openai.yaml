@@ -1,0 +1,4 @@
+interface:
+  display_name: "Teach"
+  short_description: "在当前工作中顺手补齐概念并校准 Prompt 表达"
+  default_prompt: "使用 $teach 先回答我的当前问题，再指出其中最值得学会的概念区别或更准确的 Prompt 表达。"

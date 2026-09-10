@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const cli = path.join(root, 'cli/dist/index.js');
-const skills = ['shape', 'grill', 'dev', 'test', 'walkthrough', 'review', 'evolution', 'frontend-design'];
+const skills = ['shape', 'grill', 'dev', 'test', 'walkthrough', 'teach', 'review', 'evolution', 'audience', 'frontend-design', 'comment-review'];
 
 function run(args, env, expectedStatus = 0) {
   const result = spawnSync(process.execPath, [cli, ...args], {
@@ -47,7 +47,10 @@ test('default install, update and uninstall cover every host while preserving us
   fs.mkdirSync(codexHome, { recursive: true });
   fs.mkdirSync(path.join(home, '.claude'), { recursive: true });
   fs.mkdirSync(path.join(home, '.pi', 'agent'), { recursive: true });
-  fs.writeFileSync(path.join(codexHome, 'AGENTS.md'), 'codex user content\n');
+  const retiredBlocks = ['soul', 'job'].map((owner) =>
+    `<!-- >>> LONGREIN BLOCK: ${owner} >>> -->\nold instructions\n<!-- <<< LONGREIN BLOCK: ${owner} <<< -->\n\n`,
+  ).join('');
+  fs.writeFileSync(path.join(codexHome, 'AGENTS.md'), `${retiredBlocks}codex user content\n`);
   fs.writeFileSync(path.join(home, '.claude', 'CLAUDE.md'), 'claude user content\n');
   fs.writeFileSync(path.join(home, '.pi', 'agent', 'AGENTS.md'), 'pi user content\n');
 
@@ -57,17 +60,7 @@ test('default install, update and uninstall cover every host while preserving us
   }
 
   const codexInstructions = fs.readFileSync(path.join(codexHome, 'AGENTS.md'), 'utf8');
-  const soulBlockIndex = codexInstructions.indexOf('LONGREIN BLOCK: soul');
-  const jobBlockIndex = codexInstructions.indexOf('LONGREIN BLOCK: job');
-  const userContentIndex = codexInstructions.indexOf('codex user content');
-  assert.notEqual(soulBlockIndex, -1);
-  assert.notEqual(jobBlockIndex, -1);
-  assert.notEqual(userContentIndex, -1);
-  assert.match(codexInstructions, /^<!-- >>> LONGREIN BLOCK: soul >>> -->/);
-  assert.ok(
-    soulBlockIndex < jobBlockIndex && jobBlockIndex < userContentIndex,
-    'judgment principles and workflow should be injected before user-owned instructions',
-  );
+  assert.equal(codexInstructions, 'codex user content\n');
 
   const status = run(['status'], env);
   assert.match(status.stdout, /Claude Code/);
@@ -88,8 +81,10 @@ test('default install, update and uninstall cover every host while preserving us
   const codexDev = path.join(codexHome, 'skills', 'dev');
   const updateChangedFile = path.join(codexDev, 'local-change.txt');
   fs.writeFileSync(updateChangedFile, 'make another managed copy stale\n');
+  fs.writeFileSync(path.join(codexHome, 'AGENTS.md'), `${retiredBlocks}codex user content\n`);
   run(['update', '--codex'], env);
   assert.equal(fs.existsSync(updateChangedFile), false);
+  assert.equal(fs.readFileSync(path.join(codexHome, 'AGENTS.md'), 'utf8'), 'codex user content\n');
 
   for (const base of [path.join(codexHome, 'skills'), path.join(home, '.claude', 'skills'), path.join(home, '.pi', 'agent', 'skills')]) {
     fs.symlinkSync(path.join(root, 'skills', 'dev'), path.join(base, 'dev-v2'));

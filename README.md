@@ -71,6 +71,7 @@ Longrein 不规定固定阶段。Agent 根据当前真正缺少的能力选择 S
 | [`audience`](skills/audience/SKILL.md) | 从目标受众出发约束人类可见产物的内容边界、理解路径与真实媒介呈现 |
 | [`frontend-design`](skills/frontend-design/SKILL.md) | 从真实产品与设计上下文形成明确方向，落实可用界面并用浏览器反馈校正 |
 | [`comment-review`](skills/comment-review/SKILL.md) | 审查和补充有业务价值的中文注释与日志，保持变更范围克制 |
+| [`write-notes-like-deepseek`](skills/write-notes-like-deepseek/SKILL.md) | 记录非平凡变更的决策、备选方案与代价，并与代码同步维护 |
 
 `audience` 是具体 Skill 使用的辅助判断层，不是新的工作阶段。`comment-review` 与 `frontend-design` 都要求先读取它；默认全量安装已经包含三者，选择安装时需将 `audience` 一同选中。
 

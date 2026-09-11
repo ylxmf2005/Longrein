@@ -5,7 +5,7 @@ import GithubSlugger from 'github-slugger';
 import MarkdownIt from 'markdown-it';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const expectedSkills = ['shape', 'grill', 'dev', 'test', 'review', 'walkthrough', 'teach', 'evolution', 'audience', 'frontend-design', 'comment-review'];
+const expectedSkills = ['shape', 'grill', 'dev', 'test', 'review', 'walkthrough', 'teach', 'evolution', 'audience', 'frontend-design', 'comment-review', 'write-notes-like-deepseek'];
 const failures = [];
 const markdown = new MarkdownIt({ html: true });
 

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const cli = path.join(root, 'cli/dist/index.js');
-const skills = ['shape', 'grill', 'dev', 'test', 'walkthrough', 'teach', 'review', 'evolution', 'audience', 'frontend-design', 'comment-review'];
+const skills = ['shape', 'grill', 'dev', 'test', 'walkthrough', 'teach', 'review', 'evolution', 'audience', 'frontend-design', 'comment-review', 'write-notes-like-deepseek'];
 
 function run(args, env, expectedStatus = 0) {
   const result = spawnSync(process.execPath, [cli, ...args], {
@@ -60,7 +60,7 @@ test('default install, update and uninstall cover every host while preserving us
   }
 
   const codexInstructions = fs.readFileSync(path.join(codexHome, 'AGENTS.md'), 'utf8');
-  assert.equal(codexInstructions, 'codex user content\n');
+  assert.match(codexInstructions, /LONGREIN BLOCK: write-notes-like-deepseek/);
 
   const status = run(['status'], env);
   assert.match(status.stdout, /Claude Code/);

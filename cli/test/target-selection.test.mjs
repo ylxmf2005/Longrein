@@ -59,7 +59,7 @@ test('default install and status cover Claude Code, Codex and Pi', (t) => {
 
   for (const host of hostPaths(home)) {
     assert.equal(fs.existsSync(host.skill), true, `${host.label} Skill should be installed`);
-    assert.doesNotMatch(fs.readFileSync(host.instructions, 'utf8'), /LONGREIN BLOCK/);
+    assert.match(fs.readFileSync(host.instructions, 'utf8'), /LONGREIN BLOCK: write-notes-like-deepseek/);
   }
 
   const status = run(['status'], env);

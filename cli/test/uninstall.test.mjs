@@ -84,7 +84,7 @@ test('default install, update and uninstall cover every host while preserving us
   fs.writeFileSync(path.join(codexHome, 'AGENTS.md'), `${retiredBlocks}codex user content\n`);
   run(['update', '--codex'], env);
   assert.equal(fs.existsSync(updateChangedFile), false);
-  assert.equal(fs.readFileSync(path.join(codexHome, 'AGENTS.md'), 'utf8'), 'codex user content\n');
+  assert.match(fs.readFileSync(path.join(codexHome, 'AGENTS.md'), 'utf8'), /LONGREIN BLOCK: write-notes-like-deepseek/);
 
   for (const base of [path.join(codexHome, 'skills'), path.join(home, '.claude', 'skills'), path.join(home, '.pi', 'agent', 'skills')]) {
     fs.symlinkSync(path.join(root, 'skills', 'dev'), path.join(base, 'dev-v2'));

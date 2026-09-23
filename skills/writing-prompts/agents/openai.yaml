@@ -1,0 +1,6 @@
+interface:
+  display_name: "Writing Prompts"
+  short_description: "从上下文怎样影响生成出发，写和改 Prompt、规则与 Skill"
+  default_prompt: "使用 $writing-prompts 审查并改写这段 Prompt，重点改内容，并说明关键改动的理由。"
+policy:
+  allow_implicit_invocation: false

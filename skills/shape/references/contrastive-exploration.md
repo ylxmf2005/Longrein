@@ -2,7 +2,7 @@
 
 用户显式传入候选探索参数时，用独立视角扩大搜索空间。它们是探索通道，不是第二个决策中心；主 Shape 负责核验、综合并把需要用户裁决的前沿带回用户。
 
-这些参数只控制本轮 Shape 的候选探索，不属于用户的业务请求，也不沉淀进 Context 或其他任务产物：
+这些参数只控制本轮 Shape 的候选探索，不属于用户的业务请求，也不写进 shape.md：
 
 - 不传参数：不读取本 reference，不创建候选代理；
 - `--ponytail`：只运行最小化视角；
@@ -15,11 +15,11 @@
 
 主 Shape 先冻结一份短 brief；运行两个视角时，它们使用同一版本：
 
-- Original Request：不增加意图的用户原始请求；
-- Reality Coordinates：已核验的代码、运行、用户现场、基线与约束；
-- Stable Constraints：已经成立且不能被候选悄悄改写的关系；
-- Mechanism Hypotheses：用户或现有方案提出、但尚未成为 Scope 的机制线索；
-- Open Frontier：尚未决定、会让方向实质不同的问题。
+- 原始请求：不增加意图的用户原始请求；
+- 现状：已核验的代码、运行、用户现场、基线与约束；
+- 已定约束：已经成立且不能被候选悄悄改写的关系；
+- 机制假设：用户或现有方案提出、但尚未进入范围的机制线索；
+- 未决问题：尚未决定、会让方向实质不同的问题。
 
 不要让候选修改文件。`--contrast` 不把一个候选的答案提供给另一个候选，并优先并行运行；宿主只支持顺序委派时，为两个视角分别建立隔离上下文，后运行者仍只能看到共享 brief 和真实对象。共享输入不够支撑某项判断时，候选应标出假设或返回需要补查的事实，不能把缺口补成用户决定。
 
@@ -49,7 +49,7 @@ Bold 可以检索最新资料，但外部最佳实践只是候选证据，不能
 2. 区分共同事实、相互冲突的假设和真实价值取舍；
 3. 允许某个候选被整体否决，不为平衡强行拼接；
 4. 形成一份推荐，说明选择得到什么、付出什么、什么证据会让它改选；
-5. 把价值、范围、代价接受和新增授权留给用户确认，再更新任务承诺。
+5. 把价值、范围、代价接受和新增授权留给用户确认，再更新 shape.md 的目标、范围和验收标准。
 
 不默认追加辩论轮次。只有一个承重分歧能通过补充事实解决时，才做一次定向调查；若分歧本质是用户偏好或风险接受，直接呈现决定前沿。
 
@@ -57,4 +57,4 @@ Bold 可以检索最新资料，但外部最佳实践只是候选证据，不能
 
 ## 来源边界
 
-这套 brief 借鉴 [Agentize `bold-proposer`](https://github.com/Synthesys-Lab/agentize/blob/main/.claude-plugin/agents/bold-proposer.md) 扩大候选空间的职责，但未复制其提示词。写法依据本仓库的 [Sol 与 Codex 官方最佳实践](../../../references/sol-codex-official-best-practices.md)、[Fable 5 官方最佳实践](../../../references/fable-5-official-best-practices.md)、[Claude 5 上下文工程](../../../references/claude-5-context-engineering.md)、[AI 时代的语义地形](../../../references/ai-semantic-landscape.md)和[扩展 AI 开发](../../../references/scaling-parallel-ai-development.md)：目标与边界显式，探索路径开放；先让事实产生反馈，再独立发散；判断集中在主代理；长期规则只保留能改变行为的高纯度内容。
+这套 brief 借鉴 [Agentize `bold-proposer`](https://github.com/Synthesys-Lab/agentize/blob/main/.claude-plugin/agents/bold-proposer.md) 扩大候选空间的职责，但未复制其提示词。写法遵循 `writing-prompts` 的原则：目标与边界显式，探索路径开放；先让事实产生反馈，再独立发散；判断集中在主代理；长期规则只保留能改变行为的高纯度内容。

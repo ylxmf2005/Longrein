@@ -1,4 +1,0 @@
-interface:
-  display_name: "Write Notes Like DeepSeek"
-  short_description: "记录 Agent 决策、备选方案与工程取舍"
-  default_prompt: "使用 $write-notes-like-deepseek 为当前非平凡变更记录决策与验证依据。"

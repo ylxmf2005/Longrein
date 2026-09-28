@@ -1,4 +1,4 @@
 interface:
   display_name: "Review"
-  short_description: "从冷上下文独立走通真实对象，给出有证据、可执行的发现与裁决"
-  default_prompt: "使用 $review 冷读当前对象，独立走通真实路径并给出有证据的发现与裁决。"
+  short_description: "冷读改动，走通证据后给出问题和结论"
+  default_prompt: "使用 $review 冷读这个改动，查完影响范围，给出有证据的问题和结论。"

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Dev"
-  short_description: "把承诺所需的行为落实到真实代码，并把变化收缩到根因需要的尺度"
-  default_prompt: "使用 $dev 从当前任务承诺和真实代码进入，完成用户已经同意的实现，并用聚焦反馈校正结果。"

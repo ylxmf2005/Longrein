@@ -1,4 +1,0 @@
-interface:
-  display_name: "Audience"
-  short_description: "从目标受众出发约束内容边界、理解路径与媒介呈现"
-  default_prompt: "使用 $audience 从目标受众的真实任务出发，重构这个产物的内容边界、理解路径与最终呈现。"

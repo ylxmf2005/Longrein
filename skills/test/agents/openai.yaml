@@ -1,4 +1,4 @@
 interface:
   display_name: "Test"
-  short_description: "以 TestPlan 设计反证，以 Test Report 验证真实结果端"
-  default_prompt: "使用 $test 形成可执行 TestPlan，从真实入口走到变化真正生效或被真实消费者观察的一端，并持续更新可独立审查的 Test Report。"
+  short_description: "先写测试计划，再测到结果真正生效的地方并逐项报告"
+  default_prompt: "使用 $test 为这个变化写测试计划，执行后逐项报告能不能交付。"

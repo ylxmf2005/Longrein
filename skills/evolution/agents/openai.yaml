@@ -1,4 +1,0 @@
-interface:
-  display_name: "Evolution"
-  short_description: "让真实任务中的代价进入正确作用域，并切实改变下一轮工作行为"
-  default_prompt: "使用 $evolution 从真实轨迹判断什么值得改变未来，并把经验落到最窄有效作用域。"

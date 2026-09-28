@@ -1,0 +1,4 @@
+interface:
+  display_name: "Writing Notes"
+  short_description: "把技术决定、取舍和放弃的方案记成活的 ADR"
+  default_prompt: "使用 $writing-notes 为当前决定新建或更新 Note。"

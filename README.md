@@ -1,160 +1,44 @@
-<div align="center">
-
 # Longrein
 
-**让强模型放手工作，让人保留方向、边界与裁决。**
+给 Claude Code、Codex 等编程 Agent 用的一份常驻规则和一组 Skill。目标是让 Agent 能自己调查、实现和验证，同时把方向、范围和关键决定留给人。
 
-面向 Codex、Claude Code 和 Pi 的工程 Skills 与安装 CLI。
+这是自用配置，直接编辑、用软链接生效，没有安装命令。
 
-[快速开始](#快速开始) · [Skills](#skills) · [安装选择](#安装选择) · [文档](#文档)
-
-</div>
+## 内容
 
 ```text
-longrein install
-├── 11 个 Skills
-└── Codex · Claude Code · Pi
+AGENTS.md    常驻规则，每次会话都加载
+skills/      按需加载的 Skill
 ```
 
-## 快速开始
+**AGENTS.md** 覆盖：像 owner 一样推进任务并主动指出风险；工程取舍（第一性原理、以现有代码为基线、fail-fast、clean break）；决策记录；从工作中沉淀 Skill；subagent 的使用；工作模式（规划分 Direct / Shape，执行分 Fast / Balanced / Strict）；写注释和文档的偏好。
 
-需要 Node.js 18 或更高版本：
+**Skills**
 
-```bash
-npm install -g longrein
-longrein install -y
-longrein status
-```
-
-`longrein install -y` 会把全部 Skills安装到 Codex、Claude Code 和 Pi，并跳过可选 Extension。安装完成后重新打开宿主，让新能力进入会话。
-
-方向、范围或关键关系还不可靠时，可以直接开始：
-
-| Claude Code | Codex | Pi |
-| --- | --- | --- |
-| `/shape <你的请求>` | `$shape <你的请求>` | `/skill:shape <你的请求>` |
-
-宿主也可以根据每个 Skill 的 `description` 自动选择能力。
-
-Shape 默认由主 Agent 单路调查和收敛。可以在请求前加入一个互斥的候选探索参数：
-
-| 参数 | 行为 |
+| Skill | 什么时候用 |
 | --- | --- |
-| 不传 | 普通单路 Shape |
-| `--ponytail` | 增加最小充分路线 |
-| `--bold` | 增加有证据的扩展路线 |
-| `--contrast` | 隔离运行 Ponytail 与 Bold，再综合两条路线 |
+| `shape` | 用户要求先对齐方案时：调查现实、摆出选项和代价、逐轮问清关键决定，产出 `shape.md` |
+| `test` | 测试、E2E、回归或判断能否交付：先写计划，再测到结果真正生效的地方，逐项报告 |
+| `review` | 冷读改动或方案：查完影响范围，每个问题走通证据，给出结论 |
+| `walkthrough` | 为没读过的人讲清一段代码、变更或设计 |
+| `frontend-design` | 新建或重设计界面：从对象和数据推出结构，定视觉方向，在真实浏览器里验证 |
+| `writing-notes` | 记录技术决定和放弃的方案，作为随代码更新的 ADR |
+| `writing-prompts` | 手动调用：写和改 Prompt、AGENTS.md 与 Skill |
 
-例如：`$shape --contrast <你的请求>`。这些参数不会让候选子代理替用户决定范围、代价或授权。
+## 使用
 
-## Skills
-
-Longrein 不规定固定阶段。Agent 根据当前真正缺少的能力选择 Skill，并从真实对象与可检查证据继续工作。
-
-### 工程协作
-
-| Skill | 负责什么 |
-| --- | --- |
-| [`shape`](skills/shape/SKILL.md) | 方向、边界或关键前提还不足以承诺时，接触现实并形成可信 Context |
-| [`grill`](skills/grill/SKILL.md) | 方向已经成形时，分轮推进决策前沿，直到用户取得共同理解 |
-| [`dev`](skills/dev/SKILL.md) | 从已确认的承诺进入代码，把行为改到根因需要的尺度 |
-| [`test`](skills/test/SKILL.md) | 从真实入口走到真实结果端，以可重放证据判断承诺是否成立 |
-| [`review`](skills/review/SKILL.md) | 对需求、设计、代码或交付物做独立裁决 |
-| [`walkthrough`](skills/walkthrough/SKILL.md) | 沿承重关系讲清非平凡对象，让用户能够继续判断 |
-| [`teach`](skills/teach/SKILL.md) | 在当前工作中补齐关键概念、校准 Prompt 表达并增加可迁移理解 |
-| [`evolution`](skills/evolution/SKILL.md) | 从真实轨迹提炼值得改变未来工作的经验 |
-
-### 实用能力
-
-| Skill | 负责什么 |
-| --- | --- |
-| [`audience`](skills/audience/SKILL.md) | 从目标受众出发约束人类可见产物的内容边界、理解路径与真实媒介呈现 |
-| [`frontend-design`](skills/frontend-design/SKILL.md) | 从真实产品与设计上下文形成明确方向，落实可用界面并用浏览器反馈校正 |
-| [`comment-review`](skills/comment-review/SKILL.md) | 审查和补充有业务价值的中文注释与日志，保持变更范围克制 |
-| [`write-notes-like-deepseek`](skills/write-notes-like-deepseek/SKILL.md) | 记录非平凡变更的决策、备选方案与代价，并与代码同步维护 |
-
-`audience` 是具体 Skill 使用的辅助判断层，不是新的工作阶段。`comment-review` 与 `frontend-design` 都要求先读取它；默认全量安装已经包含三者，选择安装时需将 `audience` 一同选中。
+把规则文件和 Skill 目录链接到各个宿主，例如：
 
 ```bash
-longrein install audience comment-review frontend-design -y --codex
+ln -s "$PWD/AGENTS.md" ~/.codex/AGENTS.md
+ln -s "$PWD/AGENTS.md" ~/.claude/CLAUDE.md
+for s in skills/*/; do ln -s "$PWD/$s" ~/.claude/skills/; ln -s "$PWD/$s" ~/.codex/skills/; done
 ```
 
-## Context 与产物
+改完文件后，新会话生效。
 
-用户明确只想讨论或查看时，无论是否已有 Task 都只在对话中处理，这一边界优先于其他入口；宿主自动选择 Shape 但尚未启动 Task 时同样不落盘。除此之外，用户显式以 Shape 启动新 Task 会在任务工作区根目录创建 `context.md`；已有 Task 进入 Shape 时先读取同一份 Context，事实变化可以更新 Reality Coordinates，承诺变化只在用户决定后修订，没有受影响内容时不写。
+## 工作文件
 
-`context.md` 保存 Original Request、Reality Coordinates、Goal、Scope、Non-goals、Acceptance Evidence 和 Current Artifacts。尚不能确定的承诺保持 `unresolved`，专业结论留在拥有它的产物中；Current Artifacts 只列当前有效入口。方向清楚的轻量工作无需先调用 Shape，也不为形式创建任务文件。
+Agent 在项目里写的文件放在 `.agents/` 下：`.agents/notes/` 是决策记录，`.agents/tasks/<任务>/` 放 `shape.md`、测试计划与报告等。这些文件默认不提交。
 
-## 安装选择
-
-交互安装可以选择宿主、Skills 和 Extension 组件：
-
-```bash
-longrein install
-```
-
-未指定宿主时，安装、状态、更新、诊断和卸载指定 Skill 都面向三个宿主。脚本或自动化环境可以用宿主参数缩小范围，多个参数可以组合：
-
-```bash
-longrein install shape dev test -y --codex
-longrein install -y --claude
-longrein install -y --pi
-```
-
-默认使用复制模式；开发 checkout 可以使用 `--link`。遇到同名但不属于 Longrein 的 Skill 时，安装不会静默覆盖。
-
-### 可选 Extension
-
-Extension 编排 cass，以及提供 `coding-agent-session-search` 的 `longrein-extension` 插件：
-
-```bash
-longrein install -y --extensions
-longrein extension install cass --yes
-longrein extension status
-```
-
-Longrein 调用这些项目的官方安装渠道，不维护上游 fork。各组件与宿主的具体支持情况见 [Codex 推荐 Extension](docs/codex-recommended-extension.md)。
-
-## 维护与卸载
-
-```bash
-longrein update
-longrein doctor
-longrein doctor --fix
-longrein uninstall shape dev
-longrein uninstall --all
-```
-
-`doctor` 会把 Longrein 管理的过期 Skill 副本报告为警告；`doctor --fix` 可安全刷新这些副本并修复可自动处理的常驻指令问题，不会覆盖不属于 Longrein 的同名目录。
-
-不带 `--all` 时只移除指定 Skills。`uninstall --all` 清理 Longrein 拥有的 Skills、规则块、插件、marketplace、旧 MCP 注册与旧服务；它保留独立安装的 cass，也保留项目中的 `context.md`、专业产物和旧任务数据。
-
-完整命令与宿主选项见 [CLI 文档](docs/cli.md)。
-
-## 文档
-
-| 文档 | 内容 |
-| --- | --- |
-| [文档入口](docs/README.md) | 文档导航与权威来源 |
-| [安装与首次使用](docs/getting-started.md) | 安装、验证、更新与卸载 |
-| [CLI](docs/cli.md) | 命令、宿主与目标选择 |
-| [Codex 推荐 Extension](docs/codex-recommended-extension.md) | 可选的本地文件、终端与历史检索能力 |
-| [研究资料](references/README.md) | 模型、上下文工程、判断与工程方法的按需阅读入口 |
-
-## 从源码开发
-
-```bash
-git clone https://github.com/ylxmf2005/Longrein.git
-cd Longrein
-npm install
-npm run typecheck
-npm test
-npm link
-longrein install --link -y
-```
-
-问题与建议请提交到 [GitHub Issues](https://github.com/ylxmf2005/Longrein/issues)。
-
-## License
-
-MIT
+之前基于 CLI 安装的版本见 git 历史。
